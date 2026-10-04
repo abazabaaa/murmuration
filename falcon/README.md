@@ -43,3 +43,32 @@ uvx --with numpy --with pillow --with scipy --with scikit-image python <script>
 ```
 
 The reference images are not copied here. `refs/*manifest*.json` lists each image's URL, author and licence. The Slater Museum scans are © Slater Museum and are for reference only.
+
+## Scoring an outline table
+
+`analysis/score_outline.py` scores any outline table against the normalised photo masks. It fills the outline as `pushFalcon()` in the page does (both wings plus one body-and-tail polygon, nonzero rule, summed over the subpaths), then passes that raster through `silhouette.py` itself, so the outline is normalised by the same code as the photos. The score is `compare.py`'s whole-bird IoU. It reads both the page's table (`wingGlide`, `wingStoop`) and the newer `wing: { <pose>: [...] }` shape; a silhouette image in place of the json is scored the same way.
+
+```
+PY="uvx --with numpy --with pillow --with scipy --with scikit-image python"
+$PY analysis/score_outline.py ../blender/falcon-outline.json glide --photo-dir MASKS --set glide
+$PY analysis/score_outline.py outline/peregrine-outline.json glide --photos MASKS/03_*__norm.png [--tail-fan 0.5] [--out scores.json] [--overlay analysis/validation/x.png]
+$PY analysis/make_outline_scores.py --photo-dir MASKS      # rewrites analysis/outline_scores.json
+```
+
+`MASKS` is the directory of `*__norm.png` files that `silhouette.py --skydist` wrote from the reference photos. They are not in the repository, and an `--overlay` image contains them, so keep it in `analysis/validation/` (ignored).
+
+Results (`analysis/outline_scores.json`, raster at 1000 px per half-span):
+
+| comparison | IoU per photo | mean |
+|---|---|---|
+| page outline (`blender/falcon-outline.json`, glide) vs 4 glide photos | .724, .716, .747, .652 | .710 |
+| page outline (glide) vs 3 soaring photos | .718, .696, .725 | .713 |
+| model glide render vs 4 glide photos | .797, .802, .804, .709 | .778 |
+| model soar render vs 3 soaring photos | .828, .788, .786 | .801 |
+
+The page's stoop outline measures 0.794 half-spans wide by 0.906 long, a width/length of 0.876. The tucked range in Ponitz 2014 is 0.26–0.36, so it is about 2.4 times too wide for a full tuck.
+
+Limits of the method:
+- The page outline's wing tip tapers to a needle, and `silhouette.py` removes anything under 3 px before measuring the span. The measured half-span, and with it the score, therefore shifts with the raster size: the glide mean is .723, .715, .710 and .706 at 250, 500, 1000 and 2000 px per half-span.
+- The normalised raster covers ±1.1 half-spans, so a bird longer than 2.2 half-spans (any tucked pose) is clipped. IoU is not meaningful for stoop poses; use the width/length figure.
+- The outline is scored flat (flap angle 0) and without the page's 1 px stroke.
