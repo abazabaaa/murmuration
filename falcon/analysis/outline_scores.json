@@ -1,0 +1,197 @@
+{
+ "method": "score_outline.py: outline filled as pushFalcon() does (nonzero), normalised by silhouette.py, whole-bird IoU after best vertical shift within +-40 px of a 400 px raster (compare.py)",
+ "page_outline_glide_vs_glide_photos": {
+  "source": "falcon-outline.json",
+  "pose": "glide",
+  "tail_fan": 0.0,
+  "raster_px_per_unit": 1000,
+  "raster_size": [
+   2290,
+   1206
+  ],
+  "winding_values": [
+   0,
+   1,
+   2
+  ],
+  "raster": {
+   "width_halfspans": 1.988,
+   "length_halfspans": 0.906,
+   "width_over_length": 2.1943,
+   "half_span_units": 0.994
+  },
+  "silhouette": {
+   "half_span_units": 0.9825,
+   "span_over_length": 2.1712,
+   "symmetry_iou": 0.9902,
+   "axis_deg": -89.93,
+   "needed_flip": false,
+   "iou_vs_direct_normalisation": 0.972
+  },
+  "photos": [
+   {
+    "photo": "03_glide_ventral_q4_cape-henlopen-dsc1804",
+    "iou": 0.7239,
+    "shift": 0
+   },
+   {
+    "photo": "04_glide_ventral_q4_goleta-slough",
+    "iou": 0.7157,
+    "shift": 2
+   },
+   {
+    "photo": "06_glide_ventral_q3_riverlands",
+    "iou": 0.7471,
+    "shift": -3
+   },
+   {
+    "photo": "flight_ventral_B_juanlacruz_CC-BY-SA-3.0",
+    "iou": 0.6516,
+    "shift": 4
+   }
+  ],
+  "mean_iou": 0.7096
+ },
+ "page_outline_glide_vs_soar_photos": {
+  "source": "falcon-outline.json",
+  "pose": "glide",
+  "tail_fan": 0.0,
+  "raster_px_per_unit": 1000,
+  "raster_size": [
+   2290,
+   1206
+  ],
+  "winding_values": [
+   0,
+   1,
+   2
+  ],
+  "raster": {
+   "width_halfspans": 1.988,
+   "length_halfspans": 0.906,
+   "width_over_length": 2.1943,
+   "half_span_units": 0.994
+  },
+  "silhouette": {
+   "half_span_units": 0.9825,
+   "span_over_length": 2.1712,
+   "symmetry_iou": 0.9902,
+   "axis_deg": -89.93,
+   "needed_flip": false,
+   "iou_vs_direct_normalisation": 0.972
+  },
+  "photos": [
+   {
+    "photo": "02_soar_ventral_q4_my-first-falcon",
+    "iou": 0.7178,
+    "shift": 6
+   },
+   {
+    "photo": "flight_ventral_A_england_CC-BY-2.0",
+    "iou": 0.6961,
+    "shift": 9
+   },
+   {
+    "photo": "05_glide_ventral_q3_terminator-female",
+    "iou": 0.7254,
+    "shift": 1
+   }
+  ],
+  "mean_iou": 0.7131
+ },
+ "model_glide_render_vs_glide_photos": {
+  "source": "glide__top.png",
+  "pose": "glide",
+  "silhouette": {
+   "span_over_length": 2.085,
+   "symmetry_iou": 0.9928,
+   "axis_deg": -90.05
+  },
+  "photos": [
+   {
+    "photo": "03_glide_ventral_q4_cape-henlopen-dsc1804",
+    "iou": 0.7973,
+    "shift": 1
+   },
+   {
+    "photo": "04_glide_ventral_q4_goleta-slough",
+    "iou": 0.8024,
+    "shift": 4
+   },
+   {
+    "photo": "06_glide_ventral_q3_riverlands",
+    "iou": 0.804,
+    "shift": 1
+   },
+   {
+    "photo": "flight_ventral_B_juanlacruz_CC-BY-SA-3.0",
+    "iou": 0.7085,
+    "shift": 7
+   }
+  ],
+  "mean_iou": 0.778
+ },
+ "model_soar_render_vs_soar_photos": {
+  "source": "soar__top.png",
+  "pose": "soar",
+  "silhouette": {
+   "span_over_length": 2.1946,
+   "symmetry_iou": 0.9967,
+   "axis_deg": -90.03
+  },
+  "photos": [
+   {
+    "photo": "02_soar_ventral_q4_my-first-falcon",
+    "iou": 0.8276,
+    "shift": 3
+   },
+   {
+    "photo": "flight_ventral_A_england_CC-BY-2.0",
+    "iou": 0.7884,
+    "shift": 3
+   },
+   {
+    "photo": "05_glide_ventral_q3_terminator-female",
+    "iou": 0.7861,
+    "shift": -2
+   }
+  ],
+  "mean_iou": 0.8007
+ },
+ "page_outline_stoop": {
+  "source": "falcon-outline.json",
+  "pose": "stoop",
+  "tail_fan": 0.0,
+  "raster_px_per_unit": 1000,
+  "raster_size": [
+   1094,
+   1206
+  ],
+  "winding_values": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "raster": {
+   "width_halfspans": 0.794,
+   "length_halfspans": 0.906,
+   "width_over_length": 0.8764,
+   "half_span_units": 0.397
+  },
+  "silhouette": {
+   "half_span_units": 0.3965,
+   "span_over_length": 0.8762,
+   "symmetry_iou": 0.9986,
+   "axis_deg": 89.98,
+   "needed_flip": true,
+   "iou_vs_direct_normalisation": 0.6794
+  },
+  "ponitz_2014_tucked_width_over_length": [
+   0.26,
+   0.36
+  ],
+  "within_ponitz_range": false,
+  "ratio_over_range_top": 2.43
+ }
+}
