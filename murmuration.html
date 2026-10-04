@@ -596,30 +596,48 @@ function pushBird(path, body, x, y, z, fx, fy, fz, bk, th, s, span, len) {
   if (body) { body.moveTo(n0, n1); body.lineTo((e0 + f0) / 2, (e1 + f1) / 2); }
 }
 
-// Falcon outline traced from the top view of blender/falcon.blend (export: blender/falcon-outline.json).
-// Flat lists of [along the body, across the span] in half-spans: the right wing as one chain (leading
-// edge root → tip, trailing edge tip → root) in the glide pose and in the tucked stoop pose, vertex for
-// vertex so the two blend; the right edge of the body, nose → rump; the right edge of the tail, closed
-// and fanned. The left side is the mirror image.
+// Falcon outline read off the measured peregrine model in falcon/ (falcon/blender/export_outline.py →
+// falcon/outline/peregrine-outline.json; falcon/outline/update_page.py rewrites this table). Flat lists of
+// [along the body, across the span] in full-spread half-spans, a = 0 at the centroid of the gliding
+// silhouette. wing: the right wing as one chain (leading edge root → tip, trailing edge tip → root), one
+// list per key pose of the dive, vertex for vertex so neighbouring keys blend; body: the right edge, bill
+// tip → rump; tail: its right edge and tip, closed and fanned. The left side is the mirror image.
 const FALCON = {
-  wingGlide: [0.1,0.058,0.109,0.133,0.121,0.206,0.131,0.276,0.139,0.344,0.145,0.41,0.144,0.473,0.135,0.534,0.117,0.592,0.094,0.647,0.069,0.7,0.044,0.749,0.019,0.796,-0.006,0.839,-0.03,0.878,-0.055,0.914,-0.076,0.945,-0.09,0.97,-0.096,0.983,-0.098,0.989,-0.099,0.993,-0.1,0.995,-0.1,0.995,-0.1,0.993,-0.099,0.989,-0.098,0.983,-0.095,0.97,-0.087,0.945,-0.077,0.914,-0.066,0.878,-0.059,0.839,-0.058,0.796,-0.062,0.749,-0.07,0.7,-0.084,0.647,-0.105,0.592,-0.128,0.534,-0.16,0.473,-0.184,0.41,-0.201,0.344,-0.212,0.276,-0.22,0.206,-0.221,0.133,-0.22,0.058],
-  wingStoop: [0.1,0.058,0.097,0.136,0.035,0.208,0.007,0.212,-0,0.27,-0.017,0.334,-0.067,0.397,-0.138,0.379,-0.193,0.351,-0.244,0.319,-0.292,0.285,-0.337,0.252,-0.378,0.219,-0.417,0.187,-0.452,0.156,-0.483,0.125,-0.51,0.1,-0.533,0.081,-0.545,0.073,-0.55,0.07,-0.554,0.068,-0.556,0.067,-0.556,0.067,-0.554,0.068,-0.55,0.069,-0.545,0.071,-0.532,0.076,-0.508,0.088,-0.479,0.104,-0.446,0.121,-0.408,0.134,-0.365,0.143,-0.318,0.148,-0.268,0.149,-0.213,0.144,-0.154,0.133,-0.093,0.12,-0.123,0.161,-0.327,0.222,-0.32,0.154,-0.302,0.075,-0.222,0.021,-0.211,0.087,-0.22,0.058],
-  body: [0.282,0,0.269,0.019,0.25,0.036,0.231,0.05,0.212,0.057,0.192,0.06,0.173,0.063,0.154,0.063,0.135,0.064,0.115,0.067,0.096,0.071,0.077,0.075,0.058,0.087,0.038,0.092,0.019,0.095,-0,0.096,-0.019,0.096,-0.058,0.095,-0.077,0.093,-0.096,0.091,-0.115,0.088,-0.135,0.082,-0.154,0.078,-0.173,0.073,-0.192,0.068,-0.212,0.063,-0.231,0.059,-0.25,0.051,-0.269,0.048,-0.288,0.043,-0.308,0.04,-0.327,0.039],
-  tail: [-0.288,0.03,-0.322,0.036,-0.356,0.048,-0.389,0.054,-0.423,0.056,-0.457,0.058,-0.49,0.06,-0.524,0.062,-0.558,0.063,-0.591,0.065,-0.618,0.067,-0.622,0.048,-0.623,0.038,-0.624,0.019],
-  tailFan: [-0.288,0.03,-0.316,0.044,-0.344,0.066,-0.371,0.09,-0.399,0.106,-0.426,0.121,-0.454,0.135,-0.481,0.15,-0.509,0.164,-0.537,0.179,-0.564,0.193,-0.593,0.142,-0.605,0.115,-0.62,0.058],
+  halfSpanM: 0.5143, aOriginM: -0.08,      // metres: full-spread half-span; model y of a = 0
+  keys: ['glide', 'stoop_m', 'pullout_early', 'stoop_tuck'],
+  knots: [0,.38,.76,1],                      // the tuck at which each key is reached
+  wing: [
+    [.22,.087,.211,.114,.198,.141,.182,.168,.164,.189,.152,.205,.148,.219,.149,.232,.154,.248,.16,.265,.176,.33,.18,.353,.182,.376,.181,.398,.178,.42,.168,.462,.155,.52,.134,.593,.091,.707,.019,.863,-.01,.918,-.028,.945,-.05,.944,-.07,.939,-.071,.923,-.088,.897,-.09,.878,-.102,.844,-.097,.821,-.101,.795,-.099,.768,-.1,.753,-.113,.722,-.109,.691,-.115,.658,-.104,.439,-.108,.419,-.11,.402,-.109,.389,-.109,.378,-.12,.368,-.125,.357,-.133,.343,-.142,.324,-.155,.254,-.157,.216,-.155,.177,-.15,.146,-.141,.13,-.12,.116,-.097,.106,-.069,.087],
+    [.22,.087,.212,.113,.202,.14,.191,.166,.176,.185,.164,.196,.16,.201,.165,.204,.178,.207,.195,.214,.246,.263,.263,.287,.273,.311,.271,.336,.259,.357,.222,.389,.181,.422,.126,.461,.034,.517,-.103,.587,-.153,.609,-.181,.618,-.196,.605,-.207,.59,-.2,.578,-.197,.551,-.188,.537,-.178,.506,-.162,.493,-.151,.472,-.134,.455,-.128,.444,-.119,.415,-.1,.395,-.086,.369,.041,.222,.05,.206,.06,.213,.066,.24,.063,.278,.04,.314,.011,.343,-.026,.356,-.058,.347,-.112,.273,-.125,.242,-.134,.212,-.136,.186,-.131,.166,-.119,.13,-.096,.111,-.069,.087],
+    [.22,.087,.211,.114,.199,.141,.184,.167,.162,.185,.144,.191,.137,.19,.141,.185,.155,.18,.175,.18,.236,.22,.256,.243,.264,.266,.258,.285,.238,.298,.183,.308,.123,.31,.048,.309,-.072,.3,-.241,.279,-.301,.269,-.332,.261,-.337,.245,-.337,.229,-.322,.225,-.303,.208,-.285,.203,-.256,.188,-.233,.187,-.209,.179,-.183,.175,-.169,.171,-.143,.156,-.113,.153,-.083,.142,.129,.108,.147,.102,.162,.124,.165,.17,.148,.223,.109,.271,.056,.304,-.005,.317,-.053,.304,-.123,.23,-.136,.214,-.146,.202,-.149,.187,-.141,.169,-.121,.132,-.097,.112,-.069,.087],
+    [.22,.087,.205,.112,.174,.129,.129,.137,.075,.132,.037,.121,.024,.107,.029,.09,.05,.072,.078,.059,.151,.058,.177,.064,.192,.073,.191,.085,.176,.096,.123,.112,.065,.121,-.01,.13,-.131,.138,-.301,.142,-.362,.142,-.394,.139,-.401,.127,-.404,.115,-.39,.11,-.372,.094,-.355,.088,-.329,.072,-.306,.069,-.283,.059,-.258,.053,-.245,.048,-.221,.033,-.192,.026,-.163,.014,.042,-.04,.06,-.046,.082,-.034,.099,-.003,.099,.037,.074,.076,.028,.11,-.032,.131,-.087,.132,-.183,.105,-.197,.103,-.205,.104,-.204,.102,-.182,.103,-.13,.116,-.1,.108,-.069,.087],
+  ],
+  body: [.403,0,.402,.007,.398,.012,.393,.014,.39,.012,.387,.013,.35,.042,.34,.049,.329,.054,.274,.071,.225,.091,.207,.097,.152,.105,.114,.107,.075,.105,-.201,.072],
+  tail: [-.177,.07,-.495,.054,-.498,.047,-.5,.039,-.502,.031,-.503,.023,-.504,.016,-.505,.008,-.505,0],
+  tailFan: [-.177,.07,-.435,.202,-.453,.176,-.469,.149,-.482,.121,-.492,.092,-.499,.062,-.503,.031,-.505,0],
 };
-const FALCON_SPAN = 4.4;                       // u; about twice life size against the starlings, to stay visible
-function pushFalcon(path, x, y, z, fx, fy, fz, th, s, tuck, fan) {
+const FALCON_SPAN = 4.4;                       // u, full-spread span (the glide is .945 of it); about twice life size against the starlings, to stay visible
+// parts: three Path2Ds (right wing, left wing, body and tail), each to be filled on its own with the
+// non-zero rule. A folded wing laps over itself and over the body; within one part every loop winds the
+// same way, so the laps add up, but seen side-on with the wings raised the two wings wind opposite ways
+// on screen and would cancel each other in a shared path.
+function pushFalcon(parts, x, y, z, fx, fy, fz, th, s, tuck, fan) {
   birdFrame(x, y, z, fx, fy, fz, 0, th, s, 1, .5);                  // a and w both in half-spans
-  const G = FALCON.wingGlide, S = FALCON.wingStoop, B = FALCON.body, T = FALCON.tail, F = FALCON.tailFan;
+  const K = FALCON.knots, B = FALCON.body, T = FALCON.tail, F = FALCON.tailFan;
+  let k = 0;
+  while (k < K.length - 2 && tuck > K[k + 1]) k++;                  // tuck 0..1 runs through the keys, piecewise linear
+  const G = FALCON.wing[k], S = FALCON.wing[k + 1], n = G.length;
+  const u = Math.min(1, Math.max(0, (tuck - K[k]) / (K[k + 1] - K[k])));
   for (let side = 1; side >= -1; side -= 2) {
-    for (let i = 0; i < G.length; i += 2) {
-      const j = side > 0 ? i : G.length - 2 - i;                    // same winding on both sides, so overlaps stay filled
-      wp(G[j] + (S[j] - G[j]) * tuck, side * (G[j + 1] + (S[j + 1] - G[j + 1]) * tuck));
+    const path = parts[side > 0 ? 0 : 1];
+    for (let i = 0; i < n; i += 2) {
+      const j = side > 0 ? i : n - 2 - i;                           // the mirrored chain runs backwards: same winding as the right
+      wp(G[j] + (S[j] - G[j]) * u, side * (G[j + 1] + (S[j + 1] - G[j + 1]) * u));
       if (i) path.lineTo(_x, _y); else path.moveTo(_x, _y);
     }
     path.closePath();
   }
+  const path = parts[2];
   for (let side = 1; side >= -1; side -= 2) {                       // body and tail: down the right edge, back up the left
     for (let i = 0; i < B.length + T.length; i += 2) {
       const j = side > 0 ? i : B.length + T.length - 2 - i, t = j - B.length;
@@ -657,10 +675,10 @@ function draw() {
   if (fal.on) {
     const s = 1 / Math.hypot(fal.vx, fal.vy, fal.vz);
     const dive = clamp(-fal.vy * s * 2, 0, 1);
-    const fp = new Path2D();
+    const fp = [new Path2D(), new Path2D(), new Path2D()];           // right wing, left wing, body
     pushFalcon(fp, fal.x, fal.y, fal.z, fal.vx * s, fal.vy * s, fal.vz * s, .2 + .5 * Math.sin(fal.phase) * (1 - dive), FALCON_SPAN * sizeK, dive, fal.fan * (1 - dive));
-    ctx.fillStyle = '#170a10'; ctx.fill(fp);
-    ctx.strokeStyle = '#170a10'; ctx.lineWidth = Math.max(.8, f / 1272); ctx.lineJoin = 'round'; ctx.stroke(fp);
+    ctx.fillStyle = ctx.strokeStyle = '#170a10'; ctx.lineWidth = Math.max(.8, f / 1272); ctx.lineJoin = 'round';
+    for (const part of fp) { ctx.fill(part); ctx.stroke(part); }
   }
 
   if (showPanel) drawPanel();

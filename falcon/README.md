@@ -43,3 +43,37 @@ uvx --with numpy --with pillow --with scipy --with scikit-image python <script>
 ```
 
 The reference images are not copied here. `refs/*manifest*.json` lists each image's URL, author and licence. The Slater Museum scans are © Slater Museum and are for reference only.
+
+## Outline export for `murmuration.html`
+
+The page draws the falcon from a table of plan-view outlines read off this model. To regenerate everything, from the repository root:
+
+```
+/Applications/Blender.app/Contents/MacOS/Blender --background --factory-startup \
+    --python falcon/blender/export_outline.py -- --blend falcon/peregrine.blend
+uv run --no-project python falcon/outline/update_page.py
+uvx --with pillow --with numpy python falcon/outline/rasterise_outline.py --out /tmp/falcon-check
+node murmuration-check.js murmuration.html 30 "seed=1"
+```
+
+- `blender/export_outline.py` builds the model headless from `falcon_build.py` and `params_falcon.json`, applies every pose in `poses_falcon.json` and reads the deformed vertices with Subsurf off. It writes `outline/peregrine-outline.json`. With `--blend` it also saves `peregrine.blend` in the glide pose, with materials and cameras and no actions. `--diag DIR` writes the full-resolution chains and the rig's in-between poses; `--render DIR` renders the top silhouettes.
+- `outline/peregrine-outline.json` holds flat `[a, w]` pairs in full-spread half-spans (0.5143 m): `a` forward from `aOriginM` (the centroid of the gliding silhouette, 8 cm behind the shoulder line), `w` to the right. Only the right side is stored.
+  - `wing`: one chain per pose, leading edge root to tip and trailing edge tip to root. Every pose uses the same 52 of the mesh's 113 edge vertices (`wingChainIndex`), so point i is the same place on the wing in every pose. The 52 are chosen to keep the worst miss over all ten poses smallest: 0.0025 half-spans, 1.3 mm.
+  - `body`: the right edge from the bill tip to the rump. `tail` and `tailFan`: the tail's right edge and tip, closed and fanned, with equal counts.
+  - `keys` and `knots`: the dive sequence glide, stoop_m, pullout_early, stoop_tuck, and the tuck (0 to 1) at which the page reaches each.
+- `outline/update_page.py` rewrites the `FALCON` table in `murmuration.html` from the JSON.
+- `outline/rasterise_outline.py` runs the page's own `pushFalcon` under node, fills what it produces with the canvas non-zero rule and scores it against `renders/silhouettes/<pose>__top.png`.
+
+| key pose | tuck | IoU, page outline vs model silhouette |
+|---|---|---|
+| glide | 0 | 0.9935 |
+| stoop_m | 0.38 | 0.9936 |
+| pullout_early | 0.76 | 0.9916 |
+| stoop_tuck | 1 | 0.9929 |
+
+The remaining difference is a fringe one pixel wide (about 1 mm) along the edges.
+
+Two things the measurements settled:
+
+- **Fill rule.** Folded wings lap over themselves and over the body. The non-zero rule fills the laps; even-odd punches holes (IoU 0.73 for pullout_early). The page fills the right wing, the left wing and the body as three separate paths, because seen from the side with the wings raised the two wings wind in opposite directions on screen and cancel where they cross in a shared path.
+- **Intermediate keys.** A straight vertex blend from glide to stoop_tuck never comes closer to stoop_m than 0.062 half-spans rms (IoU 0.79) or to pullout_early than 0.084 (IoU 0.73), so the page blends through all four keys. Between neighbouring keys the blend stays within 0.030 half-spans rms (0.051 at worst) of the rig moving between the same two poses.
