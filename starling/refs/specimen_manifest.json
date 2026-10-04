@@ -1,0 +1,1214 @@
+{
+ "generated": "2026-10-03",
+ "species": "Sturnus vulgaris (European starling)",
+ "layout": {
+  "slater/": "8 Slater wing scans (reference-only)",
+  "featheratlas/": "6 USFWS Feather Atlas feather scans + starling_records.json (data-table lengths)",
+  "naturalis/": "13 Naturalis RMNH study-skin photos (CC0 via GBIF)",
+  "other/": "3 Concordia College skins (CC0 per GBIF) + 1 Rijksmuseum engraving (CC0, not a specimen)",
+  "derived/": "masks/, overlays/, planform_contours/, planform_stats.json, crosscheck.json, scripts, published_sources/, zoom/ (every zoom crop used), skin_candidates.json (subagent detail incl. landmarks), overlays_skin/"
+ },
+ "images": [
+  {
+   "file": "slater/PSM20907_male_dorsal.jpg",
+   "source_url": "https://www.jstor.org/stable/community.36061839",
+   "image_url": "https://www.jstor.org/iiif/2023/11/07/14/6474c87d-5d61-49b1-90f3-1728b2b1d0f1_deflate.tif/full/2048,/0/default.jpg",
+   "source": "Slater Museum of Natural History, University of Puget Sound, Wing and Tail Image Collection (JSTOR Shared Collections, item community.36061839)",
+   "license_or_terms": "(c) Slater Museum of Natural History-University of Puget Sound (printed on every frame). Shared on JSTOR 'Shared Collections' under JSTOR Terms & Conditions; no open licence. REFERENCE-ONLY: do not publish or redistribute.",
+   "use": "reference-only",
+   "specimen_id": "PSM 20907",
+   "jstor_title": "European Starling, 20907a, male, Oct",
+   "jstor_record_date": "2009-04-21",
+   "jstor_description": "above; male; adult",
+   "locality": "Washington (JSTOR spatial coverage; no finer locality)",
+   "sex": "male",
+   "age": "adult",
+   "view": "dorsal (JSTOR 'above')",
+   "side": "right wing (mirrored in analysis when the tip points left)",
+   "content": "single detached wing laid flat, spread, on a grey card; one 5-cm scale bar lower left, specimen label lower right",
+   "pixel_size": [
+    2048,
+    1396
+   ],
+   "scale": {
+    "px_per_cm": 123.36,
+    "px_per_cm_block_pitch": 123.66,
+    "px_per_cm_lens_model_centre": 129.3,
+    "method": "code (scale_bar.py): 49 tick edges (rising and falling fitted separately, 2 mm pitch each) along the ~5 cm black/white bar with 1-mm ticks, 1-cm blocks labelled '1 cm'; block-pitch fit agrees within 0.3 %",
+    "zoom_verified": "bar read on ORIGINAL at 3.0x and 9.9x (earlier crops) plus 3.1x/3.3x label crops this session: 5 equal 1-cm blocks, 1-mm ticks, '1 cm' label",
+    "caveat": "tick pitch is not constant along the bar (grows 6.2 % left to right, barrel-like lens distortion); the wing sits nearer the frame centre where scale is higher (lens-model centre value is 4.8 % above the bar mean; model-dependent, sensitivity only). Report both."
+   },
+   "mask": "derived/masks/PSM20907_male_dorsal_mask.png",
+   "overlay": "derived/overlays/PSM20907_male_dorsal_overlay.jpg",
+   "planform_stats_key": "PSM20907_male_dorsal",
+   "usability": "BEST: adult male, no moult notes, no moult noted in the JSTOR record (feathers look complete); used for the planform"
+  },
+  {
+   "file": "slater/PSM20907_male_b.jpg",
+   "source_url": "https://www.jstor.org/stable/community.36064393",
+   "image_url": "https://www.jstor.org/iiif/2023/11/07/14/4d8e73ea-85fb-4887-8ff9-60fa43048c41_deflate.tif/full/2048,/0/default.jpg",
+   "source": "Slater Museum of Natural History, University of Puget Sound, Wing and Tail Image Collection (JSTOR Shared Collections, item community.36064393)",
+   "license_or_terms": "(c) Slater Museum of Natural History-University of Puget Sound (printed on every frame). Shared on JSTOR 'Shared Collections' under JSTOR Terms & Conditions; no open licence. REFERENCE-ONLY: do not publish or redistribute.",
+   "use": "reference-only",
+   "specimen_id": "PSM 20907",
+   "jstor_title": "European Starling, 20907b, male, Oct",
+   "jstor_record_date": "2012-08-15",
+   "jstor_description": "male; adult; none (no moult)",
+   "locality": "Washington (JSTOR spatial coverage; no finer locality)",
+   "sex": "male",
+   "age": "adult",
+   "view": "ventral (b of the a/b pair; shows underwing)",
+   "side": "right wing (mirrored in analysis when the tip points left)",
+   "content": "single detached wing laid flat, spread, on a grey card; one 5-cm scale bar lower left, specimen label lower right",
+   "pixel_size": [
+    2048,
+    1396
+   ],
+   "scale": {
+    "px_per_cm": 119.52,
+    "px_per_cm_block_pitch": 119.83,
+    "px_per_cm_lens_model_centre": 125.8,
+    "method": "code (scale_bar.py): 49 tick edges (rising and falling fitted separately, 2 mm pitch each) along the ~5 cm black/white bar with 1-mm ticks, 1-cm blocks labelled '1 cm'; block-pitch fit agrees within 0.3 %",
+    "zoom_verified": "bar read on ORIGINAL at 3.2x: 5 equal 1-cm blocks, 1-mm ticks, '1 cm' label",
+    "caveat": "tick pitch is not constant along the bar (grows 6.5 % left to right, barrel-like lens distortion); the wing sits nearer the frame centre where scale is higher (lens-model centre value is 5.2 % above the bar mean; model-dependent, sensitivity only). Report both."
+   },
+   "mask": "derived/masks/PSM20907_male_b_mask.png",
+   "overlay": "derived/overlays/PSM20907_male_b_overlay.jpg",
+   "planform_stats_key": "PSM20907_male_b",
+   "usability": "good: same bird as 20907a, underside; root cut differs (L ~4 % longer)"
+  },
+  {
+   "file": "slater/PSM21188_male_a.jpg",
+   "source_url": "https://www.jstor.org/stable/community.36064394",
+   "image_url": "https://www.jstor.org/iiif/2023/11/07/14/a3c41d57-19d1-4374-bfd5-7696e176e6f5_deflate.tif/full/2048,/0/default.jpg",
+   "source": "Slater Museum of Natural History, University of Puget Sound, Wing and Tail Image Collection (JSTOR Shared Collections, item community.36064394)",
+   "license_or_terms": "(c) Slater Museum of Natural History-University of Puget Sound (printed on every frame). Shared on JSTOR 'Shared Collections' under JSTOR Terms & Conditions; no open licence. REFERENCE-ONLY: do not publish or redistribute.",
+   "use": "reference-only",
+   "specimen_id": "PSM 21188",
+   "jstor_title": "European Starling, 21188a, male, May",
+   "jstor_record_date": "2012-08-15",
+   "jstor_description": "male; wing: outer Ps sheathed at base; tail: sheathed at base; body: none",
+   "locality": "Washington (JSTOR spatial coverage; no finer locality)",
+   "sex": "male",
+   "age": "not stated (see description)",
+   "view": "dorsal (from image)",
+   "side": "right wing (mirrored in analysis when the tip points left)",
+   "content": "single detached wing laid flat, spread, on a grey card; one 5-cm scale bar lower left, specimen label lower right",
+   "pixel_size": [
+    2048,
+    1396
+   ],
+   "scale": {
+    "px_per_cm": 137.22,
+    "px_per_cm_block_pitch": 137.56,
+    "px_per_cm_lens_model_centre": 141.5,
+    "method": "code (scale_bar.py): 49 tick edges (rising and falling fitted separately, 2 mm pitch each) along the ~5 cm black/white bar with 1-mm ticks, 1-cm blocks labelled '1 cm'; block-pitch fit agrees within 0.3 %",
+    "zoom_verified": "bar read on ORIGINAL at 2.8x: 5 equal 1-cm blocks, 1-mm ticks, '1 cm' label",
+    "caveat": "tick pitch is not constant along the bar (grows 4.5 % left to right, barrel-like lens distortion); the wing sits nearer the frame centre where scale is higher (lens-model centre value is 3.1 % above the bar mean; model-dependent, sensitivity only). Report both."
+   },
+   "mask": "derived/masks/PSM21188_male_a_mask.png",
+   "overlay": "derived/overlays/PSM21188_male_a_overlay.jpg",
+   "planform_stats_key": "PSM21188_male_a",
+   "usability": "usable: outer primaries recently grown (sheathed at base), may be slightly short"
+  },
+  {
+   "file": "slater/PSM21188_male_b.jpg",
+   "source_url": "https://www.jstor.org/stable/community.36064396",
+   "image_url": "https://www.jstor.org/iiif/2023/11/07/14/d5a3b307-f955-48b4-87a2-822a8796aa63_deflate.tif/full/2048,/0/default.jpg",
+   "source": "Slater Museum of Natural History, University of Puget Sound, Wing and Tail Image Collection (JSTOR Shared Collections, item community.36064396)",
+   "license_or_terms": "(c) Slater Museum of Natural History-University of Puget Sound (printed on every frame). Shared on JSTOR 'Shared Collections' under JSTOR Terms & Conditions; no open licence. REFERENCE-ONLY: do not publish or redistribute.",
+   "use": "reference-only",
+   "specimen_id": "PSM 21188",
+   "jstor_title": "European Starling, 21188b, male, May",
+   "jstor_record_date": "2012-08-15",
+   "jstor_description": "male; wing: outer Ps sheathed at base; tail: sheathed at base; body: none",
+   "locality": "Washington (JSTOR spatial coverage; no finer locality)",
+   "sex": "male",
+   "age": "not stated (see description)",
+   "view": "ventral (from image)",
+   "side": "right wing (mirrored in analysis when the tip points left)",
+   "content": "single detached wing laid flat, spread, on a grey card; one 5-cm scale bar lower left, specimen label lower right",
+   "pixel_size": [
+    2048,
+    1396
+   ],
+   "scale": {
+    "px_per_cm": 137.51,
+    "px_per_cm_block_pitch": 137.87,
+    "px_per_cm_lens_model_centre": 141.6,
+    "method": "code (scale_bar.py): 49 tick edges (rising and falling fitted separately, 2 mm pitch each) along the ~5 cm black/white bar with 1-mm ticks, 1-cm blocks labelled '1 cm'; block-pitch fit agrees within 0.3 %",
+    "zoom_verified": "bar read on ORIGINAL at 2.8x: 5 equal 1-cm blocks, 1-mm ticks, '1 cm' label",
+    "caveat": "tick pitch is not constant along the bar (grows 4.4 % left to right, barrel-like lens distortion); the wing sits nearer the frame centre where scale is higher (lens-model centre value is 3.0 % above the bar mean; model-dependent, sensitivity only). Report both."
+   },
+   "mask": "derived/masks/PSM21188_male_b_mask.png",
+   "overlay": "derived/overlays/PSM21188_male_b_overlay.jpg",
+   "planform_stats_key": "PSM21188_male_b",
+   "usability": "usable; trailing-edge bay closed locally in mask (close_roi), overlay zoom-checked 3.3x"
+  },
+  {
+   "file": "slater/PSM20462_female_a.jpg",
+   "source_url": "https://www.jstor.org/stable/community.36064401",
+   "image_url": "https://www.jstor.org/iiif/2023/11/07/14/cb4838e9-c00b-4fb0-a494-7e99e638c1cc_deflate.tif/full/2048,/0/default.jpg",
+   "source": "Slater Museum of Natural History, University of Puget Sound, Wing and Tail Image Collection (JSTOR Shared Collections, item community.36064401)",
+   "license_or_terms": "(c) Slater Museum of Natural History-University of Puget Sound (printed on every frame). Shared on JSTOR 'Shared Collections' under JSTOR Terms & Conditions; no open licence. REFERENCE-ONLY: do not publish or redistribute.",
+   "use": "reference-only",
+   "specimen_id": "PSM 20462",
+   "jstor_title": "European Starling, 20462a, female, Jul",
+   "jstor_record_date": "2012-08-15",
+   "jstor_description": "female; wing: (L) P1=0.9, P6=0.8, S1=0.9, S8=sab, (R) P5=sab, P6=0.6, S1=0.8, S8=sab; tail: (LR) 1=0.7; body: heavy",
+   "locality": "Washington (JSTOR spatial coverage; no finer locality)",
+   "sex": "female",
+   "age": "not stated (see description)",
+   "view": "dorsal (from image)",
+   "side": "right wing (mirrored in analysis when the tip points left)",
+   "content": "single detached wing laid flat, spread, on a grey card; one 5-cm scale bar lower left, specimen label lower right",
+   "pixel_size": [
+    2048,
+    1396
+   ],
+   "scale": {
+    "px_per_cm": 139.27,
+    "px_per_cm_block_pitch": 139.64,
+    "px_per_cm_lens_model_centre": 144.2,
+    "method": "code (scale_bar.py): 49 tick edges (rising and falling fitted separately, 2 mm pitch each) along the ~5 cm black/white bar with 1-mm ticks, 1-cm blocks labelled '1 cm'; block-pitch fit agrees within 0.3 %",
+    "zoom_verified": "bar read on ORIGINAL at 2.8x: 5 equal 1-cm blocks, 1-mm ticks, '1 cm' label",
+    "caveat": "tick pitch is not constant along the bar (grows 5.3 % left to right, barrel-like lens distortion); the wing sits nearer the frame centre where scale is higher (lens-model centre value is 3.5 % above the bar mean; model-dependent, sensitivity only). Report both."
+   },
+   "mask": "derived/masks/PSM20462_female_a_mask.png",
+   "overlay": "derived/overlays/PSM20462_female_a_overlay.jpg",
+   "planform_stats_key": "PSM20462_female_a",
+   "usability": "moulting (growth scores in the JSTOR note: feathers not full length)"
+  },
+  {
+   "file": "slater/PSM20462_female_b.jpg",
+   "source_url": "https://www.jstor.org/stable/community.36064392",
+   "image_url": "https://www.jstor.org/iiif/2023/11/07/14/be5f8e9c-36d7-42ff-94a1-1eed58ca9380_deflate.tif/full/2048,/0/default.jpg",
+   "source": "Slater Museum of Natural History, University of Puget Sound, Wing and Tail Image Collection (JSTOR Shared Collections, item community.36064392)",
+   "license_or_terms": "(c) Slater Museum of Natural History-University of Puget Sound (printed on every frame). Shared on JSTOR 'Shared Collections' under JSTOR Terms & Conditions; no open licence. REFERENCE-ONLY: do not publish or redistribute.",
+   "use": "reference-only",
+   "specimen_id": "PSM 20462",
+   "jstor_title": "European Starling, 20462b, female, Jul",
+   "jstor_record_date": "2012-08-15",
+   "jstor_description": "same moult note as 20462a",
+   "locality": "Washington (JSTOR spatial coverage; no finer locality)",
+   "sex": "female",
+   "age": "not stated (see description)",
+   "view": "ventral (from image)",
+   "side": "right wing (mirrored in analysis when the tip points left)",
+   "content": "single detached wing laid flat, spread, on a grey card; one 5-cm scale bar lower left, specimen label lower right",
+   "pixel_size": [
+    2048,
+    1396
+   ],
+   "scale": {
+    "px_per_cm": 132.79,
+    "px_per_cm_block_pitch": 133.04,
+    "px_per_cm_lens_model_centre": 138.3,
+    "method": "code (scale_bar.py): 49 tick edges (rising and falling fitted separately, 2 mm pitch each) along the ~5 cm black/white bar with 1-mm ticks, 1-cm blocks labelled '1 cm'; block-pitch fit agrees within 0.3 %",
+    "zoom_verified": "bar read on ORIGINAL at 2.9x: 5 equal 1-cm blocks, 1-mm ticks, '1 cm' label",
+    "caveat": "tick pitch is not constant along the bar (grows 5.9 % left to right, barrel-like lens distortion); the wing sits nearer the frame centre where scale is higher (lens-model centre value is 4.1 % above the bar mean; model-dependent, sensitivity only). Report both."
+   },
+   "mask": "derived/masks/PSM20462_female_b_mask.png",
+   "overlay": "derived/overlays/PSM20462_female_b_overlay.jpg",
+   "planform_stats_key": "PSM20462_female_b",
+   "usability": "moulting, as 20462a"
+  },
+  {
+   "file": "slater/PSM23166_female_a.jpg",
+   "source_url": "https://www.jstor.org/stable/community.36064397",
+   "image_url": "https://www.jstor.org/iiif/2023/11/07/14/93efbf5e-9904-4dfb-badb-2ed90eb45ffb_deflate.tif/full/2048,/0/default.jpg",
+   "source": "Slater Museum of Natural History, University of Puget Sound, Wing and Tail Image Collection (JSTOR Shared Collections, item community.36064397)",
+   "license_or_terms": "(c) Slater Museum of Natural History-University of Puget Sound (printed on every frame). Shared on JSTOR 'Shared Collections' under JSTOR Terms & Conditions; no open licence. REFERENCE-ONLY: do not publish or redistribute.",
+   "use": "reference-only",
+   "specimen_id": "PSM 23166",
+   "jstor_title": "European Starling, 23166a, female, Jul",
+   "jstor_record_date": "2012-08-15",
+   "jstor_description": "female; wing: P4-9 still growing; tail: all .3; body: none",
+   "locality": "Washington (JSTOR spatial coverage; no finer locality)",
+   "sex": "female",
+   "age": "not stated (see description)",
+   "view": "dorsal (from image)",
+   "side": "right wing (mirrored in analysis when the tip points left)",
+   "content": "single detached wing laid flat, spread, on a grey card; one 5-cm scale bar lower left, specimen label lower right",
+   "pixel_size": [
+    2048,
+    1396
+   ],
+   "scale": {
+    "px_per_cm": 152.44,
+    "px_per_cm_block_pitch": 152.74,
+    "px_per_cm_lens_model_centre": 155.9,
+    "method": "code (scale_bar.py): 49 tick edges (rising and falling fitted separately, 2 mm pitch each) along the ~5 cm black/white bar with 1-mm ticks, 1-cm blocks labelled '1 cm'; block-pitch fit agrees within 0.3 %",
+    "zoom_verified": "bar read on ORIGINAL at 2.6x: 5 equal 1-cm blocks, 1-mm ticks, '1 cm' label",
+    "caveat": "tick pitch is not constant along the bar (grows 3.8 % left to right, barrel-like lens distortion); the wing sits nearer the frame centre where scale is higher (lens-model centre value is 2.3 % above the bar mean; model-dependent, sensitivity only). Report both."
+   },
+   "mask": "derived/masks/PSM23166_female_a_mask.png",
+   "overlay": "derived/overlays/PSM23166_female_a_overlay.jpg",
+   "planform_stats_key": "PSM23166_female_a",
+   "usability": "NOT full size: primaries P4-P9 still growing; planform too short/blunt for L and AR"
+  },
+  {
+   "file": "slater/PSM23166_female_ventral.jpg",
+   "source_url": "https://www.jstor.org/stable/community.36061840",
+   "image_url": "https://www.jstor.org/iiif/2023/11/07/14/6bdc5674-e94b-4f2a-ab09-a614c52a3ea1_deflate.tif/full/2048,/0/default.jpg",
+   "source": "Slater Museum of Natural History, University of Puget Sound, Wing and Tail Image Collection (JSTOR Shared Collections, item community.36061840)",
+   "license_or_terms": "(c) Slater Museum of Natural History-University of Puget Sound (printed on every frame). Shared on JSTOR 'Shared Collections' under JSTOR Terms & Conditions; no open licence. REFERENCE-ONLY: do not publish or redistribute.",
+   "use": "reference-only",
+   "specimen_id": "PSM 23166",
+   "jstor_title": "European Starling, 23166b, female, Jul",
+   "jstor_record_date": "2009-04-21",
+   "jstor_description": "below; female",
+   "locality": "Washington (JSTOR spatial coverage; no finer locality)",
+   "sex": "female",
+   "age": "not stated (see description)",
+   "view": "ventral (JSTOR 'below')",
+   "side": "right wing (mirrored in analysis when the tip points left)",
+   "content": "single detached wing laid flat, spread, on a grey card; one 5-cm scale bar lower left, specimen label lower right",
+   "pixel_size": [
+    2048,
+    1396
+   ],
+   "scale": {
+    "px_per_cm": 152.64,
+    "px_per_cm_block_pitch": 152.9,
+    "px_per_cm_lens_model_centre": 155.9,
+    "method": "code (scale_bar.py): 49 tick edges (rising and falling fitted separately, 2 mm pitch each) along the ~5 cm black/white bar with 1-mm ticks, 1-cm blocks labelled '1 cm'; block-pitch fit agrees within 0.3 %",
+    "zoom_verified": "bar read on ORIGINAL at 2.5x: 5 equal 1-cm blocks, 1-mm ticks, '1 cm' label",
+    "caveat": "tick pitch is not constant along the bar (grows 3.5 % left to right, barrel-like lens distortion); the wing sits nearer the frame centre where scale is higher (lens-model centre value is 2.1 % above the bar mean; model-dependent, sensitivity only). Report both."
+   },
+   "mask": "derived/masks/PSM23166_female_ventral_mask.png",
+   "overlay": "derived/overlays/PSM23166_female_ventral_overlay.jpg",
+   "planform_stats_key": "PSM23166_female_ventral",
+   "usability": "NOT full size: same bird as 23166a"
+  },
+  {
+   "file": "featheratlas/EUST_primary_adult.jpg",
+   "source_url": "https://www.fws.gov/lab/featheratlas/images/feathers/EUST_primary_adult.jpg",
+   "page_url": "https://www.fws.gov/lab/featheratlas/feather.html?Bird=EUST_primary_adult",
+   "source": "USFWS National Forensics Laboratory, Feather Atlas",
+   "license_or_terms": "Feather Atlas FAQ: 'All images and data on the website are freely available to the public; no special permission is required for their use.' Credit USFWS Forensics Lab as courtesy (wording copied from the falcon manifest, same source).",
+   "use": "publishable with attribution (credit USFWS Forensics Lab)",
+   "content": "individual feathers of the RIGHT wing/tail, dorsal view, laid out separately on black with a labelled grid (NOT a spread wing): primaries P9..P1 left to right (9 feathers, outermost = smallest/leftmost per atlas layout)",
+   "sex_age": "Female, Adult (Breeding plumage; age HY/SY)",
+   "specimen": "BRD 2881",
+   "locality": "Unknown, USA",
+   "pixel_size": [
+    800,
+    669
+   ],
+   "scale": {
+    "px_per_cm": 40.685,
+    "method": "grid-line pitch fitted by code (atlas_scale.py), n lines H/V: 12/14; axis labels read on zoom crops (3.98x): 1 grid cell = 1 cm, labels every 2 cm",
+    "caveat": "800-px web scan is the largest copy served (originals ~9600 px per the falcon notes; high-res by request to featheratlas@fws.gov). Per-feather lengths in starling_records.json come from the atlas data table (TF = total incl. calamus, VF = vane, measured along the rachis); derived/atlas_feather_dimensions.json has image-measured vane lengths/widths."
+   },
+   "notes": "Breeding plumage; age HY/SY"
+  },
+  {
+   "file": "featheratlas/EUST_primary_imm.jpg",
+   "source_url": "https://www.fws.gov/lab/featheratlas/images/feathers/EUST_primary_imm.jpg",
+   "page_url": "https://www.fws.gov/lab/featheratlas/feather.html?Bird=EUST_primary_imm",
+   "source": "USFWS National Forensics Laboratory, Feather Atlas",
+   "license_or_terms": "Feather Atlas FAQ: 'All images and data on the website are freely available to the public; no special permission is required for their use.' Credit USFWS Forensics Lab as courtesy (wording copied from the falcon manifest, same source).",
+   "use": "publishable with attribution (credit USFWS Forensics Lab)",
+   "content": "individual feathers of the RIGHT wing/tail, dorsal view, laid out separately on black with a labelled grid (NOT a spread wing): primaries (9 feathers)",
+   "sex_age": "Male, Juvenile",
+   "specimen": "BRD 2880",
+   "locality": "Outagamie Co., Wisconsin, USA",
+   "pixel_size": [
+    800,
+    616
+   ],
+   "scale": {
+    "px_per_cm": 42.408,
+    "method": "grid-line pitch fitted by code (atlas_scale.py), n lines H/V: 11/12; axis labels read on zoom crops (3.98x): 1 grid cell = 1 cm, labels every 2 cm",
+    "caveat": "800-px web scan is the largest copy served (originals ~9600 px per the falcon notes; high-res by request to featheratlas@fws.gov). Per-feather lengths in starling_records.json come from the atlas data table (TF = total incl. calamus, VF = vane, measured along the rachis); derived/atlas_feather_dimensions.json has image-measured vane lengths/widths."
+   },
+   "notes": ""
+  },
+  {
+   "file": "featheratlas/EUST_secondary_adult.jpg",
+   "source_url": "https://www.fws.gov/lab/featheratlas/images/feathers/EUST_secondary_adult.jpg",
+   "page_url": "https://www.fws.gov/lab/featheratlas/feather.html?Bird=EUST_secondary_adult",
+   "source": "USFWS National Forensics Laboratory, Feather Atlas",
+   "license_or_terms": "Feather Atlas FAQ: 'All images and data on the website are freely available to the public; no special permission is required for their use.' Credit USFWS Forensics Lab as courtesy (wording copied from the falcon manifest, same source).",
+   "use": "publishable with attribution (credit USFWS Forensics Lab)",
+   "content": "individual feathers of the RIGHT wing/tail, dorsal view, laid out separately on black with a labelled grid (NOT a spread wing): secondaries S9..S1 (9 feathers)",
+   "sex_age": "Female, Adult (Breeding plumage; age HY/SY)",
+   "specimen": "BRD 2881",
+   "locality": "Unknown, USA",
+   "pixel_size": [
+    800,
+    455
+   ],
+   "scale": {
+    "px_per_cm": 38.0,
+    "method": "horizontal grid lines read in the two side margins (feathers hide the grid), 9 lines = 8 cm; axis labels read at 3.98x",
+    "caveat": "800-px web scan is the largest copy served (originals ~9600 px per the falcon notes; high-res by request to featheratlas@fws.gov). Per-feather lengths in starling_records.json come from the atlas data table (TF = total incl. calamus, VF = vane, measured along the rachis); derived/atlas_feather_dimensions.json has image-measured vane lengths/widths."
+   },
+   "notes": "Breeding plumage; age HY/SY"
+  },
+  {
+   "file": "featheratlas/EUST_secondary_imm.jpg",
+   "source_url": "https://www.fws.gov/lab/featheratlas/images/feathers/EUST_secondary_imm.jpg",
+   "page_url": "https://www.fws.gov/lab/featheratlas/feather.html?Bird=EUST_secondary_imm",
+   "source": "USFWS National Forensics Laboratory, Feather Atlas",
+   "license_or_terms": "Feather Atlas FAQ: 'All images and data on the website are freely available to the public; no special permission is required for their use.' Credit USFWS Forensics Lab as courtesy (wording copied from the falcon manifest, same source).",
+   "use": "publishable with attribution (credit USFWS Forensics Lab)",
+   "content": "individual feathers of the RIGHT wing/tail, dorsal view, laid out separately on black with a labelled grid (NOT a spread wing): secondaries",
+   "sex_age": "Male, Juvenile",
+   "specimen": "BRD 2880",
+   "locality": "Outagamie Co., Wisconsin, USA",
+   "pixel_size": [
+    800,
+    510
+   ],
+   "scale": {
+    "px_per_cm": 42.082,
+    "method": "grid-line pitch fitted by code (atlas_scale.py), n lines H/V: 9/17; axis labels read on zoom crops (3.98x): 1 grid cell = 1 cm, labels every 2 cm",
+    "caveat": "800-px web scan is the largest copy served (originals ~9600 px per the falcon notes; high-res by request to featheratlas@fws.gov). Per-feather lengths in starling_records.json come from the atlas data table (TF = total incl. calamus, VF = vane, measured along the rachis); derived/atlas_feather_dimensions.json has image-measured vane lengths/widths."
+   },
+   "notes": ""
+  },
+  {
+   "file": "featheratlas/EUST_tail_adult.jpg",
+   "source_url": "https://www.fws.gov/lab/featheratlas/images/feathers/EUST_tail_adult.jpg",
+   "page_url": "https://www.fws.gov/lab/featheratlas/feather.html?Bird=EUST_tail_adult",
+   "source": "USFWS National Forensics Laboratory, Feather Atlas",
+   "license_or_terms": "Feather Atlas FAQ: 'All images and data on the website are freely available to the public; no special permission is required for their use.' Credit USFWS Forensics Lab as courtesy (wording copied from the falcon manifest, same source).",
+   "use": "publishable with attribution (credit USFWS Forensics Lab)",
+   "content": "individual feathers of the RIGHT wing/tail, dorsal view, laid out separately on black with a labelled grid (NOT a spread wing): rectrices R6..R1 left to right (6 feathers, right half of tail)",
+   "sex_age": "Female, Adult (Breeding plumage; age HY/SY)",
+   "specimen": "BRD 2881",
+   "locality": "Unknown, USA",
+   "pixel_size": [
+    800,
+    667
+   ],
+   "scale": {
+    "px_per_cm": 60.473,
+    "method": "grid-line pitch fitted by code (atlas_scale.py), n lines H/V: 8/10; axis labels read on zoom crops (3.98x): 1 grid cell = 1 cm, labels every 2 cm",
+    "caveat": "800-px web scan is the largest copy served (originals ~9600 px per the falcon notes; high-res by request to featheratlas@fws.gov). Per-feather lengths in starling_records.json come from the atlas data table (TF = total incl. calamus, VF = vane, measured along the rachis); derived/atlas_feather_dimensions.json has image-measured vane lengths/widths."
+   },
+   "notes": "Breeding plumage; age HY/SY"
+  },
+  {
+   "file": "featheratlas/EUST_tail_imm.jpg",
+   "source_url": "https://www.fws.gov/lab/featheratlas/images/feathers/EUST_tail_imm.jpg",
+   "page_url": "https://www.fws.gov/lab/featheratlas/feather.html?Bird=EUST_tail_imm",
+   "source": "USFWS National Forensics Laboratory, Feather Atlas",
+   "license_or_terms": "Feather Atlas FAQ: 'All images and data on the website are freely available to the public; no special permission is required for their use.' Credit USFWS Forensics Lab as courtesy (wording copied from the falcon manifest, same source).",
+   "use": "publishable with attribution (credit USFWS Forensics Lab)",
+   "content": "individual feathers of the RIGHT wing/tail, dorsal view, laid out separately on black with a labelled grid (NOT a spread wing): rectrices (6 feathers)",
+   "sex_age": "Male, Juvenile",
+   "specimen": "BRD 2880",
+   "locality": "Outagamie Co., Wisconsin, USA",
+   "pixel_size": [
+    800,
+    766
+   ],
+   "scale": {
+    "px_per_cm": 68.123,
+    "method": "grid-line pitch fitted by code (atlas_scale.py), n lines H/V: 9/10; axis labels read on zoom crops (3.98x): 1 grid cell = 1 cm, labels every 2 cm",
+    "caveat": "800-px web scan is the largest copy served (originals ~9600 px per the falcon notes; high-res by request to featheratlas@fws.gov). Per-feather lengths in starling_records.json come from the atlas data table (TF = total incl. calamus, VF = vane, measured along the rachis); derived/atlas_feather_dimensions.json has image-measured vane lengths/widths."
+   },
+   "notes": ""
+  },
+  {
+   "file": "naturalis/RMNH.AVES.259485.a_dor.jpg",
+   "source_url": "https://www.gbif.org/occurrence/3446191301",
+   "image_url": "https://medialib.naturalis.nl/file/id/RMNH.AVES.259485.a_dor/format/large",
+   "source": "Naturalis Biodiversity Center (Leiden, NL), via GBIF occurrence media (dataset 889c91a3-614f-4355-8df8-b6d0260a118c \"Naturalis Biodiversity Center (NL) - Aves\")",
+   "specimen_id": "RMNH.AVES.259485.a",
+   "view": "dorsal",
+   "label_text_read": "Sturnus vulgaris Linnaeus, 1758 / Naturalis Biodiversity Center RMNH.AVES.259485.a / male symbol / col.: Keijl, G. (Guido) / col. dat.: 1 June 2020 / loc.: The Netherlands, Noord-Holland, Castricum, Castricummerpolder Noord / don. dat.: 24 September 2020 (no subspecies on label)",
+   "label_read_zoom_magnification": "2.8x on the label crop (1200-1900 x 60-520); orientation checked at full frame only",
+   "sex_age": "male (label symbol and GBIF); age/lifeStage not stated by the source",
+   "pixel_size": [
+    1920,
+    1282
+   ],
+   "scale": {
+    "px_per_cm": 89.1,
+    "method": "TE263 chart mm ruler (0-~180 mm): tick columns peak-picked below the baseline row, integer-mm indexing, least-squares slope (101-151 ticks detected per frame, residual RMS 0.66-1.27 px); independent zoom read on 259485.a_dor gave 8.909 px/mm vs 8.9096 from the fit (zoom magnification not recorded); per-image values vary up to ~0.5%",
+    "ruler_plane_caveat": "scale is valid in the table/ruler plane; top of the skin sits ~2-3 cm above it so the body outline is magnified by an unknown few percent"
+   },
+   "use": "publishable (CC0 1.0, no attribution legally required; courtesy credit: Naturalis Biodiversity Center, RMNH.AVES.259485.a)",
+   "within_frame_proportions": {
+    "bill_tip": [
+     23,
+     636
+    ],
+    "tail_tip": [
+     1792,
+     748
+    ],
+    "axis_length_px": 1772.5,
+    "axis_length_cm": 19.89,
+    "px_per_cm_used": 89.1,
+    "wingtip": {
+     "px": [
+      1729,
+      715
+     ],
+     "frac_along_axis": 0.963,
+     "lateral_offset_cm": -0.32
+    },
+    "wing_front": null,
+    "notes": "neck extended and straight; tail tip = rightmost rectrix tip (toothpick and label excluded, manual zoom read); wingtip = tip of longest primary seen over the tail; wing bend/shoulder not distinguishable"
+   },
+   "notes": "Toothpick near the vent/tail (excluded from tail measurement). Best-scaled skin triplet of the set (TE263 mm ruler). Label read on the dorsal frame; ven/lat assumed same specimen by filename.",
+   "file_bytes": 1280245,
+   "license_or_terms": "CC0 1.0 (GBIF media + occurrence licence field: http://creativecommons.org/publicdomain/zero/1.0/legalcode; rightsHolder Naturalis Biodiversity Center)",
+   "scale_verification": "lead re-check on ORIGINAL: TE263 mm ruler, 0 mm and 180 mm ticks read at 5.0x and 5.5x -> 1604.8 px / 180 mm = 89.16 px/cm (matches 89.1); label (species, male symbol, number) read at 2.8x"
+  },
+  {
+   "file": "naturalis/RMNH.AVES.259485.a_ven.jpg",
+   "source_url": "https://www.gbif.org/occurrence/3446191301",
+   "image_url": "https://medialib.naturalis.nl/file/id/RMNH.AVES.259485.a_ven/format/large",
+   "source": "Naturalis Biodiversity Center (Leiden, NL), via GBIF occurrence media (dataset 889c91a3-614f-4355-8df8-b6d0260a118c \"Naturalis Biodiversity Center (NL) - Aves\")",
+   "specimen_id": "RMNH.AVES.259485.a",
+   "view": "ventral",
+   "label_text_read": "Sturnus vulgaris Linnaeus, 1758 / Naturalis Biodiversity Center RMNH.AVES.259485.a / male symbol / col.: Keijl, G. (Guido) / col. dat.: 1 June 2020 / loc.: The Netherlands, Noord-Holland, Castricum, Castricummerpolder Noord / don. dat.: 24 September 2020 (no subspecies on label)",
+   "label_read_zoom_magnification": "2.8x on the label crop (1200-1900 x 60-520); orientation checked at full frame only",
+   "sex_age": "male (label symbol and GBIF); age/lifeStage not stated by the source",
+   "pixel_size": [
+    1920,
+    1282
+   ],
+   "scale": {
+    "px_per_cm": 89.16,
+    "method": "TE263 chart mm ruler (0-~180 mm): tick columns peak-picked below the baseline row, integer-mm indexing, least-squares slope (101-151 ticks detected per frame, residual RMS 0.66-1.27 px); independent zoom read on 259485.a_dor gave 8.909 px/mm vs 8.9096 from the fit (zoom magnification not recorded); per-image values vary up to ~0.5%",
+    "ruler_plane_caveat": "scale is valid in the table/ruler plane; top of the skin sits ~2-3 cm above it so the body outline is magnified by an unknown few percent"
+   },
+   "use": "publishable (CC0 1.0, no attribution legally required; courtesy credit: Naturalis Biodiversity Center, RMNH.AVES.259485.a)",
+   "within_frame_proportions": {
+    "bill_tip": [
+     43,
+     399
+    ],
+    "tail_tip": [
+     1788,
+     341
+    ],
+    "axis_length_px": 1746.0,
+    "axis_length_cm": 19.58,
+    "px_per_cm_used": 89.16,
+    "wingtip": null,
+    "wing_front": null,
+    "notes": "neck extended; wingtip hidden under tail in ventral view (not recorded); wing bend not distinguishable"
+   },
+   "notes": "Toothpick near the vent/tail (excluded from tail measurement). Best-scaled skin triplet of the set (TE263 mm ruler). Label read on the dorsal frame; ven/lat assumed same specimen by filename.",
+   "file_bytes": 1236042,
+   "license_or_terms": "CC0 1.0 (GBIF media + occurrence licence field: http://creativecommons.org/publicdomain/zero/1.0/legalcode; rightsHolder Naturalis Biodiversity Center)",
+   "scale_verification": "scale measured by code (subagent); NOT individually re-verified by the lead; same-lab/same-ruler images agree within 0.5 % with the re-checked frames"
+  },
+  {
+   "file": "naturalis/RMNH.AVES.259485.a_lat.jpg",
+   "source_url": "https://www.gbif.org/occurrence/3446191301",
+   "image_url": "https://medialib.naturalis.nl/file/id/RMNH.AVES.259485.a_lat/format/large",
+   "source": "Naturalis Biodiversity Center (Leiden, NL), via GBIF occurrence media (dataset 889c91a3-614f-4355-8df8-b6d0260a118c \"Naturalis Biodiversity Center (NL) - Aves\")",
+   "specimen_id": "RMNH.AVES.259485.a",
+   "view": "lateral (bird lying on its side)",
+   "label_text_read": "Sturnus vulgaris Linnaeus, 1758 / Naturalis Biodiversity Center RMNH.AVES.259485.a / male symbol / col.: Keijl, G. (Guido) / col. dat.: 1 June 2020 / loc.: The Netherlands, Noord-Holland, Castricum, Castricummerpolder Noord / don. dat.: 24 September 2020 (no subspecies on label)",
+   "label_read_zoom_magnification": "2.8x on the label crop (1200-1900 x 60-520); orientation checked at full frame only",
+   "sex_age": "male (label symbol and GBIF); age/lifeStage not stated by the source",
+   "pixel_size": [
+    1920,
+    1282
+   ],
+   "scale": {
+    "px_per_cm": 88.74,
+    "method": "TE263 chart mm ruler (0-~180 mm): tick columns peak-picked below the baseline row, integer-mm indexing, least-squares slope (101-151 ticks detected per frame, residual RMS 0.66-1.27 px); independent zoom read on 259485.a_dor gave 8.909 px/mm vs 8.9096 from the fit (zoom magnification not recorded); per-image values vary up to ~0.5%",
+    "ruler_plane_caveat": "scale is valid in the table/ruler plane; top of the skin sits ~2-3 cm above it so the body outline is magnified by an unknown few percent"
+   },
+   "use": "publishable (CC0 1.0, no attribution legally required; courtesy credit: Naturalis Biodiversity Center, RMNH.AVES.259485.a)",
+   "within_frame_proportions": {
+    "bill_tip": [
+     52,
+     419
+    ],
+    "tail_tip": [
+     1844,
+     472
+    ],
+    "axis_length_px": 1792.8,
+    "axis_length_cm": 20.2,
+    "px_per_cm_used": 88.74,
+    "wingtip": {
+     "px": [
+      1764,
+      420
+     ],
+     "frac_along_axis": 0.955,
+     "lateral_offset_cm": -0.56
+    },
+    "wing_front": null,
+    "notes": "neck extended straight; wingtip = tip of outer primary; tail tip = rightmost rectrix; wing bend not distinguishable"
+   },
+   "notes": "Toothpick near the vent/tail (excluded from tail measurement). Best-scaled skin triplet of the set (TE263 mm ruler). Label read on the dorsal frame; ven/lat assumed same specimen by filename.",
+   "file_bytes": 1279121,
+   "license_or_terms": "CC0 1.0 (GBIF media + occurrence licence field: http://creativecommons.org/publicdomain/zero/1.0/legalcode; rightsHolder Naturalis Biodiversity Center)",
+   "scale_verification": "scale measured by code (subagent); NOT individually re-verified by the lead; same-lab/same-ruler images agree within 0.5 % with the re-checked frames"
+  },
+  {
+   "file": "naturalis/RMNH.AVES.259485.b_dor.jpg",
+   "source_url": "https://www.gbif.org/occurrence/3446193301",
+   "image_url": "https://medialib.naturalis.nl/file/id/RMNH.AVES.259485.b_dor/format/large",
+   "source": "Naturalis Biodiversity Center (Leiden, NL), via GBIF occurrence media (dataset 889c91a3-614f-4355-8df8-b6d0260a118c \"Naturalis Biodiversity Center (NL) - Aves\")",
+   "specimen_id": "RMNH.AVES.259485.b",
+   "view": "dorsal (spread wing, upperside)",
+   "label_text_read": "Sturnus vulgaris Linnaeus, 1758 / Naturalis Biodiversity Center RMNH.AVES.259485.b / male symbol / col.: Keijl, G. (Guido) / col. dat.: 1 June 2020 / loc.: The Netherlands, Noord-Holland, Castricum, Castricummerpolder Noord / don.: Keijl, G. (Guido)",
+   "label_read_zoom_magnification": "3.1x on label crop (dorsal frame)",
+   "sex_age": "male (label symbol and GBIF); age not stated; same collecting event as .a",
+   "pixel_size": [
+    1920,
+    1282
+   ],
+   "scale": {
+    "px_per_cm": 88.61,
+    "method": "TE263 chart mm ruler (0-~180 mm): tick columns peak-picked below the baseline row, integer-mm indexing, least-squares slope (101-151 ticks detected per frame, residual RMS 0.66-1.27 px); independent zoom read on 259485.a_dor gave 8.909 px/mm vs 8.9096 from the fit (zoom magnification not recorded); per-image values vary up to ~0.5%",
+    "ruler_plane_caveat": "scale is valid in the table/ruler plane; top of the skin sits ~2-3 cm above it so the body outline is magnified by an unknown few percent",
+    "used_in_planform": "TE263 ruler 0..180 mm baseline extent by code (te263_ends.py) = 88.61 px/cm, equals the tick fit"
+   },
+   "use": "publishable (CC0 1.0, no attribution legally required; courtesy credit: Naturalis Biodiversity Center, RMNH.AVES.259485.b)",
+   "within_frame_proportions": "n/a (isolated spread wing, no bill/tail)",
+   "notes": "Isolated spread wing (viewed only at a 1.24x overview); TE263 mm ruler in frame. Useful for wing planform (feather outline, primary lengths). GBIF preparation \"Wing (study skin)\" is consistent with the image. Label read on the dorsal frame; ventral assumed same specimen by filename.",
+   "gbif_preparations_field": "Wing (study skin)",
+   "file_bytes": 1514607,
+   "license_or_terms": "CC0 1.0 (GBIF media + occurrence licence field: http://creativecommons.org/publicdomain/zero/1.0/legalcode; rightsHolder Naturalis Biodiversity Center)",
+   "scale_verification": "lead re-check by code (te263_ends.py): 0..180 mm baseline extent 88.61 px/cm = the fit; ruler read at 5.0x/5.5x on the sister ventral frame",
+   "mask": "derived/masks/RMNH259485b_dorsal_mask.png",
+   "overlay": "derived/overlays/RMNH259485b_dorsal_overlay.jpg",
+   "planform_stats_key": "RMNH259485b_dorsal",
+   "usability": "USABLE spread wing, CC0, ruler in frame; overlay zoom-checked at tips/notches (5.0x-6.2x); label card hides part of the leading edge near the wrist, so area/leading edge there are under-estimated"
+  },
+  {
+   "file": "naturalis/RMNH.AVES.259485.b_ven.jpg",
+   "source_url": "https://www.gbif.org/occurrence/3446193301",
+   "image_url": "https://medialib.naturalis.nl/file/id/RMNH.AVES.259485.b_ven/format/large",
+   "source": "Naturalis Biodiversity Center (Leiden, NL), via GBIF occurrence media (dataset 889c91a3-614f-4355-8df8-b6d0260a118c \"Naturalis Biodiversity Center (NL) - Aves\")",
+   "specimen_id": "RMNH.AVES.259485.b",
+   "view": "ventral (spread wing, underside)",
+   "label_text_read": "Sturnus vulgaris Linnaeus, 1758 / Naturalis Biodiversity Center RMNH.AVES.259485.b / male symbol / col.: Keijl, G. (Guido) / col. dat.: 1 June 2020 / loc.: The Netherlands, Noord-Holland, Castricum, Castricummerpolder Noord / don.: Keijl, G. (Guido)",
+   "label_read_zoom_magnification": "3.1x on label crop (dorsal frame)",
+   "sex_age": "male (label symbol and GBIF); age not stated; same collecting event as .a",
+   "pixel_size": [
+    1920,
+    1282
+   ],
+   "scale": {
+    "px_per_cm": 88.39,
+    "method": "TE263 chart mm ruler (0-~180 mm): tick columns peak-picked below the baseline row, integer-mm indexing, least-squares slope (101-151 ticks detected per frame, residual RMS 0.66-1.27 px); independent zoom read on 259485.a_dor gave 8.909 px/mm vs 8.9096 from the fit (zoom magnification not recorded); per-image values vary up to ~0.5%",
+    "ruler_plane_caveat": "scale is valid in the table/ruler plane; top of the skin sits ~2-3 cm above it so the body outline is magnified by an unknown few percent",
+    "used_in_planform": "TE263 ruler: 0 and 180 mm brackets read at 5.0x/5.5x and baseline extent by code (te263_ends.py) = 88.39 px/cm; the subagent tick fit (89.15) was 0.9 % high and is NOT used"
+   },
+   "use": "publishable (CC0 1.0, no attribution legally required; courtesy credit: Naturalis Biodiversity Center, RMNH.AVES.259485.b)",
+   "within_frame_proportions": "n/a (isolated spread wing, no bill/tail)",
+   "notes": "Isolated spread wing (viewed only at a 1.24x overview); TE263 mm ruler in frame. Useful for wing planform (feather outline, primary lengths). GBIF preparation \"Wing (study skin)\" is consistent with the image. Label read on the dorsal frame; ventral assumed same specimen by filename.",
+   "gbif_preparations_field": "Wing (study skin)",
+   "file_bytes": 1568773,
+   "license_or_terms": "CC0 1.0 (GBIF media + occurrence licence field: http://creativecommons.org/publicdomain/zero/1.0/legalcode; rightsHolder Naturalis Biodiversity Center)",
+   "scale_verification": "lead re-check on ORIGINAL at 5.0x and 5.5x: 0 mm bracket x=171.3, 180 mm bracket x=1761.7 -> 88.36 px/cm; code baseline extent 88.39. The subagent fit (89.15) was 0.9 % high and is REPLACED by 88.39",
+   "mask": "derived/masks/RMNH259485b_ventral_mask.png",
+   "overlay": "derived/overlays/RMNH259485b_ventral_overlay.jpg",
+   "planform_stats_key": "RMNH259485b_ventral",
+   "usability": "USABLE spread wing, CC0, ruler in frame; overlay zoom-checked at tips/notches (5.0x-6.2x)"
+  },
+  {
+   "file": "naturalis/RMNH.AVES.259388.a_dor.jpg",
+   "source_url": "https://www.gbif.org/occurrence/3079336303",
+   "image_url": "https://medialib.naturalis.nl/file/id/RMNH.AVES.259388.a_dor/format/large",
+   "source": "Naturalis Biodiversity Center (Leiden, NL), via GBIF occurrence media (dataset 889c91a3-614f-4355-8df8-b6d0260a118c \"Naturalis Biodiversity Center (NL) - Aves\")",
+   "specimen_id": "RMNH.AVES.259388.a",
+   "view": "dorsal",
+   "label_text_read": "Sturnus vulgaris Linnaeus, 1758 / Naturalis Biodiversity Center RMNH.AVES.259388.a / female symbol / col.: (blank) / col. dat.: 12 April 2020 / loc.: The Netherlands, Limburg, Bergen, Petrusstraat/Keulerstraat / don.: Vogelasiel Bergen / don. dat.: 23 June 2020 (no subspecies on label)",
+   "label_read_zoom_magnification": "4.1x on the label crop (dorsal frame, label rotated 90 deg)",
+   "sex_age": "female (label + GBIF), Adult (GBIF lifeStage)",
+   "pixel_size": [
+    1920,
+    1282
+   ],
+   "scale": {
+    "px_per_cm": 69.18,
+    "method": "Naturalis cm scale bar (black blocks of 1 cm at 2 cm pitch): sub-pixel edge pairing; per-image values 69.03-69.26 px/cm (first pass that merged blocks was discarded)",
+    "ruler_plane_caveat": "valid in table plane only; skin top ~2-3 cm higher"
+   },
+   "use": "publishable (CC0 1.0, no attribution legally required; courtesy credit: Naturalis Biodiversity Center, RMNH.AVES.259388.a)",
+   "within_frame_proportions": {
+    "bill_tip": [
+     108,
+     548
+    ],
+    "tail_tip": [
+     1592,
+     507
+    ],
+    "axis_length_px": 1484.6,
+    "axis_length_cm": 21.46,
+    "px_per_cm_used": 69.18,
+    "wingtip": {
+     "px": [
+      1640,
+      476
+     ],
+     "frac_along_axis": 1.033,
+     "lateral_offset_cm": -0.43
+    },
+    "wing_front": null,
+    "notes": "tail is fanned; tail_tip (1592,507) is a midline estimate and the wingtip (1640,476) lies beyond it; neck extended; wing bend not recorded"
+   },
+   "notes": "GBIF lists preparation of .a as \"Wing (study skin)\" but the images show a WHOLE skin; and .b is listed \"skeleton (loose bones)\" but images show a spread wing -> GBIF preparation fields of .a/.b look swapped/wrong. Trust the images.",
+   "gbif_preparations_field": "Wing (study skin) [contradicted by images]",
+   "file_bytes": 1084991,
+   "license_or_terms": "CC0 1.0 (GBIF media + occurrence licence field: http://creativecommons.org/publicdomain/zero/1.0/legalcode; rightsHolder Naturalis Biodiversity Center)",
+   "scale_verification": "lead re-check on ORIGINAL at 4.6x: long ticks 1 cm apart = 69.2 px/cm, black blocks 1 cm wide at 2 cm pitch (matches 69.18); label (species, female symbol, number) read at 4.1x"
+  },
+  {
+   "file": "naturalis/RMNH.AVES.259388.a_ven.jpg",
+   "source_url": "https://www.gbif.org/occurrence/3079336303",
+   "image_url": "https://medialib.naturalis.nl/file/id/RMNH.AVES.259388.a_ven/format/large",
+   "source": "Naturalis Biodiversity Center (Leiden, NL), via GBIF occurrence media (dataset 889c91a3-614f-4355-8df8-b6d0260a118c \"Naturalis Biodiversity Center (NL) - Aves\")",
+   "specimen_id": "RMNH.AVES.259388.a",
+   "view": "ventral",
+   "label_text_read": "Sturnus vulgaris Linnaeus, 1758 / Naturalis Biodiversity Center RMNH.AVES.259388.a / female symbol / col.: (blank) / col. dat.: 12 April 2020 / loc.: The Netherlands, Limburg, Bergen, Petrusstraat/Keulerstraat / don.: Vogelasiel Bergen / don. dat.: 23 June 2020 (no subspecies on label)",
+   "label_read_zoom_magnification": "4.1x on the label crop (dorsal frame, label rotated 90 deg)",
+   "sex_age": "female (label + GBIF), Adult (GBIF lifeStage)",
+   "pixel_size": [
+    1920,
+    1282
+   ],
+   "scale": {
+    "px_per_cm": 69.17,
+    "method": "Naturalis cm scale bar (black blocks of 1 cm at 2 cm pitch): sub-pixel edge pairing; per-image values 69.03-69.26 px/cm (first pass that merged blocks was discarded)",
+    "ruler_plane_caveat": "valid in table plane only; skin top ~2-3 cm higher"
+   },
+   "use": "publishable (CC0 1.0, no attribution legally required; courtesy credit: Naturalis Biodiversity Center, RMNH.AVES.259388.a)",
+   "within_frame_proportions": {
+    "bill_tip": [
+     69,
+     643
+    ],
+    "tail_tip": [
+     1586,
+     639
+    ],
+    "axis_length_px": 1517.0,
+    "axis_length_cm": 21.93,
+    "px_per_cm_used": 69.17,
+    "wingtip": null,
+    "wing_front": null,
+    "notes": "tail tip = rightmost rectrix tip; wingtip hidden under tail in ventral frame (not recorded); neck extended"
+   },
+   "notes": "GBIF lists preparation of .a as \"Wing (study skin)\" but the images show a WHOLE skin; and .b is listed \"skeleton (loose bones)\" but images show a spread wing -> GBIF preparation fields of .a/.b look swapped/wrong. Trust the images.",
+   "gbif_preparations_field": "Wing (study skin) [contradicted by images]",
+   "file_bytes": 1050872,
+   "license_or_terms": "CC0 1.0 (GBIF media + occurrence licence field: http://creativecommons.org/publicdomain/zero/1.0/legalcode; rightsHolder Naturalis Biodiversity Center)",
+   "scale_verification": "scale measured by code (subagent); NOT individually re-verified by the lead; same-lab/same-ruler images agree within 0.5 % with the re-checked frames"
+  },
+  {
+   "file": "naturalis/RMNH.AVES.259388.a_lat_left.jpg",
+   "source_url": "https://www.gbif.org/occurrence/3079336303",
+   "image_url": "https://medialib.naturalis.nl/file/id/RMNH.AVES.259388.a_lat_left/format/large",
+   "source": "Naturalis Biodiversity Center (Leiden, NL), via GBIF occurrence media (dataset 889c91a3-614f-4355-8df8-b6d0260a118c \"Naturalis Biodiversity Center (NL) - Aves\")",
+   "specimen_id": "RMNH.AVES.259388.a",
+   "view": "lateral (left side of bird up, head to image left)",
+   "label_text_read": "Sturnus vulgaris Linnaeus, 1758 / Naturalis Biodiversity Center RMNH.AVES.259388.a / female symbol / col.: (blank) / col. dat.: 12 April 2020 / loc.: The Netherlands, Limburg, Bergen, Petrusstraat/Keulerstraat / don.: Vogelasiel Bergen / don. dat.: 23 June 2020 (no subspecies on label)",
+   "label_read_zoom_magnification": "4.1x on the label crop (dorsal frame, label rotated 90 deg)",
+   "sex_age": "female (label + GBIF), Adult (GBIF lifeStage)",
+   "pixel_size": [
+    1920,
+    1282
+   ],
+   "scale": {
+    "px_per_cm": 69.26,
+    "method": "Naturalis cm scale bar (black blocks of 1 cm at 2 cm pitch): sub-pixel edge pairing; per-image values 69.03-69.26 px/cm (first pass that merged blocks was discarded)",
+    "ruler_plane_caveat": "valid in table plane only; skin top ~2-3 cm higher"
+   },
+   "use": "publishable (CC0 1.0, no attribution legally required; courtesy credit: Naturalis Biodiversity Center, RMNH.AVES.259388.a)",
+   "within_frame_proportions": {
+    "bill_tip": [
+     117,
+     575
+    ],
+    "tail_tip": [
+     1614,
+     510
+    ],
+    "axis_length_px": 1498.4,
+    "axis_length_cm": 21.63,
+    "px_per_cm_used": 69.26,
+    "wingtip": {
+     "px": [
+      1637,
+      485
+     ],
+     "frac_along_axis": 1.016,
+     "lateral_offset_cm": -0.35
+    },
+    "wing_front": {
+     "px": [
+      764,
+      417
+     ],
+     "frac_along_axis": 0.436,
+     "lateral_offset_cm": -1.87
+    },
+    "notes": "wingtip = tip of outer primary; tail tip = rightmost rectrix; wing_front = anterior end of the covert tract (shoulder proxy; LOW confidence)"
+   },
+   "notes": "GBIF lists preparation of .a as \"Wing (study skin)\" but the images show a WHOLE skin; and .b is listed \"skeleton (loose bones)\" but images show a spread wing -> GBIF preparation fields of .a/.b look swapped/wrong. Trust the images.",
+   "gbif_preparations_field": "Wing (study skin) [contradicted by images]",
+   "file_bytes": 978711,
+   "license_or_terms": "CC0 1.0 (GBIF media + occurrence licence field: http://creativecommons.org/publicdomain/zero/1.0/legalcode; rightsHolder Naturalis Biodiversity Center)",
+   "scale_verification": "scale measured by code (subagent); NOT individually re-verified by the lead; same-lab/same-ruler images agree within 0.5 % with the re-checked frames"
+  },
+  {
+   "file": "naturalis/RMNH.AVES.259388.b_dor.jpg",
+   "source_url": "https://www.gbif.org/occurrence/3079326302",
+   "image_url": "https://medialib.naturalis.nl/file/id/RMNH.AVES.259388.b_dor/format/large",
+   "source": "Naturalis Biodiversity Center (Leiden, NL), via GBIF occurrence media (dataset 889c91a3-614f-4355-8df8-b6d0260a118c \"Naturalis Biodiversity Center (NL) - Aves\")",
+   "specimen_id": "RMNH.AVES.259388.b",
+   "view": "dorsal (spread wing, upperside)",
+   "label_text_read": "Sturnus vulgaris Linnaeus, 1758 / Naturalis Biodiversity Center RMNH.AVES.259388.b / female symbol / col. dat.: 12 April 2020 / loc.: The Netherlands, Limburg, Bergen, Petrusstraat/Keulerstraat / don.: Vogelasiel Bergen / don. dat.: 23 June 2020",
+   "label_read_zoom_magnification": "4.1x on label crop (dorsal frame)",
+   "sex_age": "female, Adult (GBIF)",
+   "pixel_size": [
+    1920,
+    1282
+   ],
+   "scale": {
+    "px_per_cm": 69.1,
+    "method": "Naturalis cm scale bar (black blocks of 1 cm at 2 cm pitch): sub-pixel edge pairing; per-image values 69.03-69.26 px/cm (first pass that merged blocks was discarded)",
+    "ruler_plane_caveat": "valid in table plane only; skin top ~2-3 cm higher",
+    "used_in_planform": "Naturalis cm bar: long ticks 1 cm apart read at 4.5x (69.06-69.17 px/cm); code fit 69.03"
+   },
+   "use": "publishable (CC0 1.0, no attribution legally required; courtesy credit: Naturalis Biodiversity Center, RMNH.AVES.259388.b)",
+   "within_frame_proportions": "n/a (isolated spread wing)",
+   "notes": "Spread wing (same collecting event as .a) with cm bar. GBIF says \"skeleton (loose bones)\" but the photographed object is a wing; no skeleton visible.",
+   "gbif_preparations_field": "skeleton (loose bones) [contradicted by images]",
+   "file_bytes": 1261451,
+   "license_or_terms": "CC0 1.0 (GBIF media + occurrence licence field: http://creativecommons.org/publicdomain/zero/1.0/legalcode; rightsHolder Naturalis Biodiversity Center)",
+   "scale_verification": "lead re-check on ORIGINAL at 4.5x (two crops): long ticks 1 cm apart = 69.06-69.17 px/cm, 1-cm black blocks (fit 69.03); label read at 2.8x on the 259485 sister frame only",
+   "mask": "derived/masks/RMNH259388b_dorsal_mask.png",
+   "overlay": "derived/overlays/RMNH259388b_dorsal_overlay.jpg",
+   "planform_stats_key": "RMNH259388b_dorsal",
+   "usability": "USABLE spread wing, CC0, ruler in frame; overlay zoom-checked at tips/notches (5.0x-6.2x)"
+  },
+  {
+   "file": "naturalis/RMNH.AVES.259388.b_ven.jpg",
+   "source_url": "https://www.gbif.org/occurrence/3079326302",
+   "image_url": "https://medialib.naturalis.nl/file/id/RMNH.AVES.259388.b_ven/format/large",
+   "source": "Naturalis Biodiversity Center (Leiden, NL), via GBIF occurrence media (dataset 889c91a3-614f-4355-8df8-b6d0260a118c \"Naturalis Biodiversity Center (NL) - Aves\")",
+   "specimen_id": "RMNH.AVES.259388.b",
+   "view": "ventral (spread wing, underside)",
+   "label_text_read": "Sturnus vulgaris Linnaeus, 1758 / Naturalis Biodiversity Center RMNH.AVES.259388.b / female symbol / col. dat.: 12 April 2020 / loc.: The Netherlands, Limburg, Bergen, Petrusstraat/Keulerstraat / don.: Vogelasiel Bergen / don. dat.: 23 June 2020",
+   "label_read_zoom_magnification": "4.1x on label crop (dorsal frame)",
+   "sex_age": "female, Adult (GBIF)",
+   "pixel_size": [
+    1920,
+    1282
+   ],
+   "scale": {
+    "px_per_cm": 69.1,
+    "method": "Naturalis cm scale bar (black blocks of 1 cm at 2 cm pitch): sub-pixel edge pairing; per-image values 69.03-69.26 px/cm (first pass that merged blocks was discarded)",
+    "ruler_plane_caveat": "valid in table plane only; skin top ~2-3 cm higher",
+    "used_in_planform": "Naturalis cm bar code fit 69.1 (same bar as the dorsal frame; not individually zoom-verified)"
+   },
+   "use": "publishable (CC0 1.0, no attribution legally required; courtesy credit: Naturalis Biodiversity Center, RMNH.AVES.259388.b)",
+   "within_frame_proportions": "n/a (isolated spread wing)",
+   "notes": "Spread wing (same collecting event as .a) with cm bar. GBIF says \"skeleton (loose bones)\" but the photographed object is a wing; no skeleton visible.",
+   "gbif_preparations_field": "skeleton (loose bones) [contradicted by images]",
+   "file_bytes": 1222746,
+   "license_or_terms": "CC0 1.0 (GBIF media + occurrence licence field: http://creativecommons.org/publicdomain/zero/1.0/legalcode; rightsHolder Naturalis Biodiversity Center)",
+   "scale_verification": "scale measured by code (subagent); NOT individually re-verified by the lead; same-lab/same-ruler images agree within 0.5 % with the re-checked frames",
+   "mask": "derived/masks/RMNH259388b_ventral_mask.png",
+   "overlay": "derived/overlays/RMNH259388b_ventral_overlay.jpg",
+   "planform_stats_key": "RMNH259388b_ventral",
+   "usability": "USABLE spread wing, CC0, ruler in frame; overlay zoom-checked at tips/notches (5.0x-6.2x)"
+  },
+  {
+   "file": "naturalis/RMNH.5070087.a_dor.jpg",
+   "source_url": "https://www.gbif.org/occurrence/2433859316",
+   "image_url": "https://medialib.naturalis.nl/file/id/RMNH.5070087.a_dor/format/large",
+   "source": "Naturalis Biodiversity Center (Leiden, NL), via GBIF occurrence media (dataset 889c91a3-614f-4355-8df8-b6d0260a118c \"Naturalis Biodiversity Center (NL) - Aves\")",
+   "specimen_id": "RMNH.5070087.a",
+   "view": "dorsal",
+   "label_text_read": "Sturnus vulgaris Linnaeus, 1758 / Naturalis Biodiversity Center RMNH.5070087.a / col.: Hoogerbrugge-Ellenbroek, R. / col. dat.: 18 januari 2013 / loc.: Nederland, Zuid-Holland, Boskoop, Zonnedauw / don.: Hoogerbrugge-Ellenbroek, R. (no sex symbol printed on label; no subspecies)",
+   "label_read_zoom_magnification": "3.6x on the label crop (dorsal frame, label rotated 90 deg)",
+   "sex_age": "female (GBIF only; no sex symbol on label); age not stated",
+   "pixel_size": [
+    1920,
+    1275
+   ],
+   "scale": {
+    "px_per_cm": 89.4,
+    "method": "cutting-mat grid pitch (peak spacing of white grid lines in specimen-free background; vertical pitch 89.27 px (13 lines), horizontal 89.50 px (14 lines))",
+    "confidence": "LOW-MEDIUM: grid size is not labelled in frame. Presumed 1 cm because (a) dorsal/lateral pitch 89.3-89.7 px is close to the 88.7-89.2 px/cm of the 2020 TE263-ruler images from the same lab (ventral frame pitch differs by ~2%) and (b) bill-tip to tail-tip then = 20.0 cm, plausible for a starling skin (1/2 or 2 cm cells would give 40 or 10 cm). Treat as unverified."
+   },
+   "use": "publishable (CC0 1.0, no attribution legally required; courtesy credit: Naturalis Biodiversity Center, RMNH.5070087.a)",
+   "within_frame_proportions": {
+    "bill_tip": [
+     25,
+     320
+    ],
+    "tail_tip": [
+     1810,
+     430
+    ],
+    "axis_length_px": 1788.4,
+    "axis_length_cm": 20.0,
+    "px_per_cm_used": 89.4,
+    "wingtip": {
+     "px": [
+      1903,
+      260
+     ],
+     "frac_along_axis": 1.046,
+     "lateral_offset_cm": -1.96
+    },
+    "wing_front": {
+     "px": [
+      1028,
+      438
+     ],
+     "frac_along_axis": 0.564,
+     "lateral_offset_cm": 0.63
+    },
+    "notes": "tail fanned so tail_tip (1810,430) is a midline estimate; wingtip (1903,260) lies 2.0 cm off the bill-tail axis (wing lies obliquely on the back); wing_front is LOW confidence"
+   },
+   "notes": "Photographed on a cutting-mat grid (no ruler); scale only presumed (see scale.confidence).",
+   "file_bytes": 2146160,
+   "license_or_terms": "CC0 1.0 (GBIF media + occurrence licence field: http://creativecommons.org/publicdomain/zero/1.0/legalcode; rightsHolder Naturalis Biodiversity Center)",
+   "scale_verification": "scale measured by code (subagent); NOT individually re-verified by the lead; same-lab/same-ruler images agree within 0.5 % with the re-checked frames"
+  },
+  {
+   "file": "naturalis/RMNH.5070087.a_ven.jpg",
+   "source_url": "https://www.gbif.org/occurrence/2433859316",
+   "image_url": "https://medialib.naturalis.nl/file/id/RMNH.5070087.a_ven/format/large",
+   "source": "Naturalis Biodiversity Center (Leiden, NL), via GBIF occurrence media (dataset 889c91a3-614f-4355-8df8-b6d0260a118c \"Naturalis Biodiversity Center (NL) - Aves\")",
+   "specimen_id": "RMNH.5070087.a",
+   "view": "ventral",
+   "label_text_read": "Sturnus vulgaris Linnaeus, 1758 / Naturalis Biodiversity Center RMNH.5070087.a / col.: Hoogerbrugge-Ellenbroek, R. / col. dat.: 18 januari 2013 / loc.: Nederland, Zuid-Holland, Boskoop, Zonnedauw / don.: Hoogerbrugge-Ellenbroek, R. (no sex symbol printed on label; no subspecies)",
+   "label_read_zoom_magnification": "3.6x on the label crop (dorsal frame, label rotated 90 deg)",
+   "sex_age": "female (GBIF only; no sex symbol on label); age not stated",
+   "pixel_size": [
+    1920,
+    1275
+   ],
+   "scale": {
+    "px_per_cm": 91.2,
+    "method": "cutting-mat grid pitch (peak spacing of white grid lines in specimen-free background; horizontal pitch 91.26 px (13 lines) used; vertical pitch only 88.74 px from 4 lines (unreliable))",
+    "confidence": "LOW-MEDIUM: grid size is not labelled in frame. Presumed 1 cm because (a) dorsal/lateral pitch 89.3-89.7 px is close to the 88.7-89.2 px/cm of the 2020 TE263-ruler images from the same lab (ventral frame pitch differs by ~2%) and (b) bill-tip to tail-tip then = 20.0 cm, plausible for a starling skin (1/2 or 2 cm cells would give 40 or 10 cm). Treat as unverified."
+   },
+   "use": "publishable (CC0 1.0, no attribution legally required; courtesy credit: Naturalis Biodiversity Center, RMNH.5070087.a)",
+   "within_frame_proportions": {
+    "bill_tip": [
+     8,
+     774
+    ],
+    "tail_tip": [
+     1836,
+     853
+    ],
+    "axis_length_px": 1829.7,
+    "axis_length_cm": 20.06,
+    "px_per_cm_used": 91.2,
+    "wingtip": null,
+    "wing_front": null,
+    "notes": "neck extended; wingtip not identifiable in the ventral frame; tail tip = rightmost rectrix tip"
+   },
+   "notes": "Photographed on a cutting-mat grid (no ruler); scale only presumed (see scale.confidence).",
+   "file_bytes": 1764667,
+   "license_or_terms": "CC0 1.0 (GBIF media + occurrence licence field: http://creativecommons.org/publicdomain/zero/1.0/legalcode; rightsHolder Naturalis Biodiversity Center)",
+   "scale_verification": "scale measured by code (subagent); NOT individually re-verified by the lead; same-lab/same-ruler images agree within 0.5 % with the re-checked frames"
+  },
+  {
+   "file": "naturalis/RMNH.5070087.a_lat.jpg",
+   "source_url": "https://www.gbif.org/occurrence/2433859316",
+   "image_url": "https://medialib.naturalis.nl/file/id/RMNH.5070087.a_lat/format/large",
+   "source": "Naturalis Biodiversity Center (Leiden, NL), via GBIF occurrence media (dataset 889c91a3-614f-4355-8df8-b6d0260a118c \"Naturalis Biodiversity Center (NL) - Aves\")",
+   "specimen_id": "RMNH.5070087.a",
+   "view": "lateral (head left, side up)",
+   "label_text_read": "Sturnus vulgaris Linnaeus, 1758 / Naturalis Biodiversity Center RMNH.5070087.a / col.: Hoogerbrugge-Ellenbroek, R. / col. dat.: 18 januari 2013 / loc.: Nederland, Zuid-Holland, Boskoop, Zonnedauw / don.: Hoogerbrugge-Ellenbroek, R. (no sex symbol printed on label; no subspecies)",
+   "label_read_zoom_magnification": "3.6x on the label crop (dorsal frame, label rotated 90 deg)",
+   "sex_age": "female (GBIF only; no sex symbol on label); age not stated",
+   "pixel_size": [
+    1920,
+    1275
+   ],
+   "scale": {
+    "px_per_cm": 89.4,
+    "method": "cutting-mat grid pitch (peak spacing of white grid lines in specimen-free background; vertical 89.27 px, horizontal 89.67 px)",
+    "confidence": "LOW-MEDIUM: grid size is not labelled in frame. Presumed 1 cm because (a) dorsal/lateral pitch 89.3-89.7 px is close to the 88.7-89.2 px/cm of the 2020 TE263-ruler images from the same lab (ventral frame pitch differs by ~2%) and (b) bill-tip to tail-tip then = 20.0 cm, plausible for a starling skin (1/2 or 2 cm cells would give 40 or 10 cm). Treat as unverified."
+   },
+   "use": "publishable (CC0 1.0, no attribution legally required; courtesy credit: Naturalis Biodiversity Center, RMNH.5070087.a)",
+   "within_frame_proportions": {
+    "bill_tip": [
+     36,
+     461
+    ],
+    "tail_tip": [
+     1828,
+     424
+    ],
+    "axis_length_px": 1792.4,
+    "axis_length_cm": 20.05,
+    "px_per_cm_used": 89.4,
+    "wingtip": {
+     "px": [
+      1725,
+      283
+     ],
+     "frac_along_axis": 0.944,
+     "lateral_offset_cm": -1.6
+    },
+    "wing_front": {
+     "px": [
+      755,
+      390
+     ],
+     "frac_along_axis": 0.402,
+     "lateral_offset_cm": -0.63
+    },
+    "notes": "wingtip = tip of outermost primary; tail tip = rightmost rectrix; wing_front (755,390) is LOW confidence"
+   },
+   "notes": "Photographed on a cutting-mat grid (no ruler); scale only presumed (see scale.confidence).",
+   "file_bytes": 2039110,
+   "license_or_terms": "CC0 1.0 (GBIF media + occurrence licence field: http://creativecommons.org/publicdomain/zero/1.0/legalcode; rightsHolder Naturalis Biodiversity Center)",
+   "scale_verification": "scale measured by code (subagent); NOT individually re-verified by the lead; same-lab/same-ruler images agree within 0.5 % with the re-checked frames"
+  },
+  {
+   "file": "other/EWOC_0396_D.jpg",
+   "source_url": "https://bellatlas.umn.edu/collections/individual/index.php?occid=3731342 (GBIF occurrence 5138164147)",
+   "image_url": "https://bellatlas-images.s3.msi.umn.edu/CONCOL/EWOC_0/EWOC_0396_D.jpg",
+   "source": "Elsie Welter Natural History Museum, Concordia College (CONCOL), via bellatlas.umn.edu and GBIF; GBIF dataset e269ce04-2c22-4de6-a8df-fb2f6f7d73dc",
+   "specimen_id": "CONCOL EWOC_0396",
+   "view": "dorsal",
+   "label_text_read": "label read at 1.9x (LS frame): \"Concordia College / Dept. of Biology\", handwritten \"396\", printed fields Coll./Loc./Meas./Date left BLANK, Sex field: female symbol. NO species name on label: species = GBIF occurrence identification \"Sturnus vulgaris Linnaeus, 1758\" (gbifID 5138164147, catalog EWOC_0396, institutionCode CONCOL, no locality/date/age in the record)",
+   "label_read_zoom_magnification": "1.9x",
+   "sex_age": "female (label symbol); age not stated; spotted winter-type plumage",
+   "pixel_size": [
+    5000,
+    3333
+   ],
+   "scale": {
+    "px_per_cm": 161.9,
+    "method": "Elsie Welter Natural History Museum 0-10 cm bar: white 1-cm separator lines located by profile analysis; 0 cm and 10 cm lines used directly (D frame x=1996.1 and 3615.5 -> 161.9 px/cm; V 161.9; LS 162.0); an earlier 4-line least-squares fit gave 161.6-161.7 (biased by an outlier line, 0.2% lower); zoom magnification of the bar check not recorded",
+    "ruler_plane_caveat": "table plane only; specimen top sits ~2 cm above"
+   },
+   "use": "CC0 per the GBIF media licence field, BUT the in-frame scale bar reads 'copyright reserved' (Elsie Welter Natural History Museum, Concordia College): treat as reference-only unless the museum confirms CC0",
+   "within_frame_proportions": {
+    "bill_tip": [
+     837,
+     1427
+    ],
+    "tail_tip": [
+     4568,
+     1265
+    ],
+    "axis_length_px": 3734.5,
+    "axis_length_cm": 23.07,
+    "px_per_cm_used": 161.9,
+    "wingtip": null,
+    "wing_front": null,
+    "notes": "tail fanned; tail_tip = central rectrix estimate (4568,1265), rightmost fan tip at (4604,1534); wingtip not identified (not recorded)"
+   },
+   "file_bytes": 1997932,
+   "license_or_terms": "CC0 1.0 (GBIF media licence http://creativecommons.org/publicdomain/zero/1.0/; rightsHolder Concordia College; note: scale bar text says \"copyright reserved\" but the data licence field is CC0)",
+   "scale_verification": "lead re-check on ORIGINAL at 5.0x (both ends): 0 cm line x=1996.5, 10 cm line x=3616.2 -> 161.97 px/cm (matches 161.9)"
+  },
+  {
+   "file": "other/EWOC_0396_V.jpg",
+   "source_url": "https://bellatlas.umn.edu/collections/individual/index.php?occid=3731342 (GBIF occurrence 5138164147)",
+   "image_url": "https://bellatlas-images.s3.msi.umn.edu/CONCOL/EWOC_0/EWOC_0396_V.jpg",
+   "source": "Elsie Welter Natural History Museum, Concordia College (CONCOL), via bellatlas.umn.edu and GBIF; GBIF dataset e269ce04-2c22-4de6-a8df-fb2f6f7d73dc",
+   "specimen_id": "CONCOL EWOC_0396",
+   "view": "ventral",
+   "label_text_read": "label read at 1.9x (LS frame): \"Concordia College / Dept. of Biology\", handwritten \"396\", printed fields Coll./Loc./Meas./Date left BLANK, Sex field: female symbol. NO species name on label: species = GBIF occurrence identification \"Sturnus vulgaris Linnaeus, 1758\" (gbifID 5138164147, catalog EWOC_0396, institutionCode CONCOL, no locality/date/age in the record)",
+   "label_read_zoom_magnification": "1.9x",
+   "sex_age": "female (label symbol); age not stated; spotted winter-type plumage",
+   "pixel_size": [
+    5000,
+    3333
+   ],
+   "scale": {
+    "px_per_cm": 161.9,
+    "method": "Elsie Welter Natural History Museum 0-10 cm bar: white 1-cm separator lines located by profile analysis; 0 cm and 10 cm lines used directly (D frame x=1996.1 and 3615.5 -> 161.9 px/cm; V 161.9; LS 162.0); an earlier 4-line least-squares fit gave 161.6-161.7 (biased by an outlier line, 0.2% lower); zoom magnification of the bar check not recorded",
+    "ruler_plane_caveat": "table plane only; specimen top sits ~2 cm above"
+   },
+   "use": "CC0 per the GBIF media licence field, BUT the in-frame scale bar reads 'copyright reserved' (Elsie Welter Natural History Museum, Concordia College): treat as reference-only unless the museum confirms CC0",
+   "within_frame_proportions": {
+    "bill_tip": [
+     854,
+     1442
+    ],
+    "tail_tip": [
+     4525,
+     1199
+    ],
+    "axis_length_px": 3679.0,
+    "axis_length_cm": 22.72,
+    "px_per_cm_used": 161.9,
+    "wingtip": null,
+    "wing_front": null,
+    "notes": "tail fanned; tail_tip = tip at (4525,1199), midline about (4515,1350); wingtip not recorded"
+   },
+   "file_bytes": 1947248,
+   "license_or_terms": "CC0 1.0 (GBIF media licence http://creativecommons.org/publicdomain/zero/1.0/; rightsHolder Concordia College; note: scale bar text says \"copyright reserved\" but the data licence field is CC0)",
+   "scale_verification": "scale measured by code (subagent); NOT individually re-verified by the lead; same-lab/same-ruler images agree within 0.5 % with the re-checked frames"
+  },
+  {
+   "file": "other/EWOC_0396_LS.jpg",
+   "source_url": "https://bellatlas.umn.edu/collections/individual/index.php?occid=3731342 (GBIF occurrence 5138164147)",
+   "image_url": "https://bellatlas-images.s3.msi.umn.edu/CONCOL/EWOC_0/EWOC_0396_LS.jpg",
+   "source": "Elsie Welter Natural History Museum, Concordia College (CONCOL), via bellatlas.umn.edu and GBIF; GBIF dataset e269ce04-2c22-4de6-a8df-fb2f6f7d73dc",
+   "specimen_id": "CONCOL EWOC_0396",
+   "view": "lateral, left side",
+   "label_text_read": "label read at 1.9x (LS frame): \"Concordia College / Dept. of Biology\", handwritten \"396\", printed fields Coll./Loc./Meas./Date left BLANK, Sex field: female symbol. NO species name on label: species = GBIF occurrence identification \"Sturnus vulgaris Linnaeus, 1758\" (gbifID 5138164147, catalog EWOC_0396, institutionCode CONCOL, no locality/date/age in the record)",
+   "label_read_zoom_magnification": "1.9x",
+   "sex_age": "female (label symbol); age not stated; spotted winter-type plumage",
+   "pixel_size": [
+    5000,
+    3333
+   ],
+   "scale": {
+    "px_per_cm": 162.0,
+    "method": "Elsie Welter Natural History Museum 0-10 cm bar: white 1-cm separator lines located by profile analysis; 0 cm and 10 cm lines used directly (D frame x=1996.1 and 3615.5 -> 161.9 px/cm; V 161.9; LS 162.0); an earlier 4-line least-squares fit gave 161.6-161.7 (biased by an outlier line, 0.2% lower); zoom magnification of the bar check not recorded",
+    "ruler_plane_caveat": "table plane only; specimen top sits ~2 cm above"
+   },
+   "use": "CC0 per the GBIF media licence field, BUT the in-frame scale bar reads 'copyright reserved' (Elsie Welter Natural History Museum, Concordia College): treat as reference-only unless the museum confirms CC0",
+   "within_frame_proportions": {
+    "bill_tip": [
+     1026,
+     1858
+    ],
+    "tail_tip": [
+     4637,
+     1928
+    ],
+    "axis_length_px": 3611.7,
+    "axis_length_cm": 22.29,
+    "px_per_cm_used": 162.0,
+    "wingtip": {
+     "px": [
+      4845,
+      1882
+     ],
+     "frac_along_axis": 1.057,
+     "lateral_offset_cm": -0.31
+    },
+    "wing_front": {
+     "px": [
+      2460,
+      1890
+     ],
+     "frac_along_axis": 0.397,
+     "lateral_offset_cm": 0.03
+    },
+    "notes": "tail_tip = tail wisps (LOW confidence); wing_front is LOW confidence"
+   },
+   "file_bytes": 1957605,
+   "license_or_terms": "CC0 1.0 (GBIF media licence http://creativecommons.org/publicdomain/zero/1.0/; rightsHolder Concordia College; note: scale bar text says \"copyright reserved\" but the data licence field is CC0)",
+   "scale_verification": "scale measured by code (subagent); NOT individually re-verified by the lead; same-lab/same-ruler images agree within 0.5 % with the re-checked frames"
+  },
+  {
+   "file": "other/Skelet_van_een_spreeuw_RP-P-1997-279.jpg",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Skelet_van_een_spreeuw_Dierskeletten_(serietitel),_RP-P-1997-279.jpg",
+   "image_url": "https://upload.wikimedia.org/wikipedia/commons/2/22/Skelet_van_een_spreeuw_Dierskeletten_%28serietitel%29%2C_RP-P-1997-279.jpg",
+   "source": "Rijksmuseum Amsterdam, object RP-P-1997-279 (print after Hendrick Hondius I, 1625-1626, series \"Dierskeletten\" 7/23)",
+   "specimen_id": "RP-P-1997-279 (engraving, not a specimen)",
+   "view": "lateral (skeleton perched on a branch)",
+   "label_text_read": "inscription \"Spreew / Estourneau\" (Dutch/French starling) and Latin verse; read from the full frame (large engraved text)",
+   "label_read_zoom_magnification": "no zoom used (large engraved text, full frame displayed at ~0.39x); no fine detail claimed",
+   "sex_age": null,
+   "pixel_size": [
+    3220,
+    5148
+   ],
+   "scale": null,
+   "use": "publishable (CC0) BUT reference-only for geometry: 17th-century artistic engraving, anatomy stylised (very long legs, upright pose, proportions not measured), no scale. Use only for naming/topology of bones.",
+   "within_frame_proportions": null,
+   "file_bytes": 2166826,
+   "license_or_terms": "CC0 (Wikimedia Commons LicenseShortName CC0; Rijksmuseum)",
+   "scale_verification": "no scale"
+  }
+ ],
+ "leads_not_downloaded": [
+  {
+   "what": "Concordia College other starling skins with D/V/LS/RS views + 10 cm bar, 5000x3333, CC0",
+   "ids": "EWOC_0547 (earlier judged a good starling set), EWOC_0395, EWOC_0792, EWOC_0710 (all GBIF Sturnus vulgaris, 4 images each incl. D and LS; posture not assessed for the last three)",
+   "url_pattern": "https://bellatlas-images.s3.msi.umn.edu/CONCOL/EWOC_0/EWOC_<nnnn>_{D,V,LS,RS}.jpg",
+   "licence": "CC0",
+   "note": "EWOC_0716 is listed as Sturnus vulgaris on GBIF (gbifID 5138163453, male) but looked like a grackle on visual inspection = probable MISIDENTIFIED record (no zoom check recorded; do not use)."
+  },
+  {
+   "what": "Tall Timbers Research Station ornithology: starling skins with a Westcott 6-inch ruler in frame, 4000 px, three views (a, b, plain)",
+   "ids": "TTRS02601O, TTRS02317O, TTRS00996O, TTRS02984O, TTRS00995O (GBIF dataset 2f897875, preparation \"Skin\", 3 images each)",
+   "url_pattern": "https://cvcoll.org/media/TTRS_Ornithology/ttrs02/ttrs02601o_a.jpg (also _b and plain name; ttrs00/ for TTRS009xx)",
+   "licence": "media-level licence field EMPTY in GBIF; occurrence/dataset licence CC0 -> treat as reference-only until confirmed",
+   "note": "Westcott ruler visible in frame (seen in thumbnails only; ~4000 px). Not downloaded or zoom-checked."
+  },
+  {
+   "what": "MCZ Harvard skins MCZ:Orn:182763 and 182761 (dorsal/lateral/ventral with cm/inch ruler)",
+   "url_pattern": "https://iiif.mcz.harvard.edu/iiif/3/<id>/full/max/0/default.jpg, ids 148059/148060 (182761) and 148063/148064 (182763), 4 images per specimen",
+   "licence": "media CC BY-NC-SA 3.0 (occurrence record CC BY-NC 4.0)",
+   "use": "reference-only (NC)",
+   "note": "IIIF full/max gave only ~1000 px wide images; ruler in frame; not downloaded."
+  },
+  {
+   "what": "UTEP:Bird:1660 (Arctos) male study skin dorsal/lateral/ventral",
+   "url": "https://arctos.database.museum/media/10830289?open (..90, ..91)",
+   "licence": "media CC BY-NC-SA 3.0 (creator Alonso Corral; occurrence record CC0)",
+   "use": "reference-only (NC); not fetched, identifiers are Arctos media-page URLs"
+  },
+  {
+   "what": "Tampere museum (TMPM, laji.fi) spread-wing starling pairs (file names ...siipi_d / siipi_v = wing dorsal/ventral), e.g. LY.JS1170, JS1171, JS1172, JS1173, JS1177",
+   "url_pattern": "https://image.laji.fi/MM.3931030/TMPM_LY.JS1171_ltk_99_kottarainen_132_19.8-78_siipi_d.jpg",
+   "licence": "media CC BY-SA 4.0 (occurrence record CC BY 4.0)",
+   "note": "image.laji.fi returned a 53-byte \"service not available\" body in the earlier download attempt and no image on a retry; never viewed, scale unknown."
+  },
+  {
+   "what": "Auckland Museum mount/wing photos on Commons (CC BY 4.0): LB15197-1, LB3999-1, LB4355-1/-2 (5792x8688 portrait), LB7865-1 (8688x5792); wings LB10956-4/-5, LB13761-4/-5, LB5664-4/-5 (1800x1137)",
+   "url": "https://commons.wikimedia.org/wiki/Category:Sturnus_vulgaris_(museum_specimens) / Category:Sturnus_vulgaris_wings",
+   "licence": "CC BY 4.0 (credit Auckland Museum)",
+   "note": "Mounted/perched specimens (catalogued \"mount\"); not downloaded or zoom-checked; in-frame scale not verified."
+  },
+  {
+   "what": "Naturalis mounted skins (GBIF \"skin (mounted skin)\"): RMNH.AVES.155448 (images _3.._8, _LAB_1, _lat_copyright_robin_de_puy), 155451, 96071 (each 7 images incl. _LAB_1/_LAB_2); RMNH.AVES.90844 (Sturnus vulgaris humii; images _ref, _pos, _lat, _lat_left, _lat_right, _ant, _lab_1)",
+   "url_pattern": "https://medialib.naturalis.nl/file/id/<id>/format/large",
+   "licence": "CC0 1.0 per GBIF (file name \"..._copyright_robin_de_puy\" suggests a photographer credit -> verify before publishing)",
+   "note": "Mounts may show a more natural perched neck posture than flat skins; NOT downloaded or zoom-checked, so scale presence (e.g. in 90844_ref) is unverified."
+  },
+  {
+   "what": "Naturalis study-skin files on Wikimedia Commons (1126 titles containing \"Naturalis\" among 1168 enumerated; e.g. File:Naturalis Biodiversity Center - RMNH.AVES.13346 1 - Sturnus vulgaris vulgaris ...)",
+   "url": "https://commons.wikimedia.org/wiki/Category:Sturnus_vulgaris_(museum_specimens)",
+   "licence": "MIXED: 1081 Naturalis files are CC0 but 45 Naturalis files (e.g. RMNH.AVES.101961) are CC BY-SA 3.0 -> check each file page; other Commons licences in the 1168: CC BY 4.0 28, CC BY 2.0 8, CC BY-SA 4.0 2, CC0 2, CC BY-SA 3.0 1, public domain 1",
+   "note": "Naming is \"<id> 1/2 ...\" (not dor/ven/lat). Earlier impression (not zoom-verified): grid-mat background without ruler and some birds cropped by the frame. Enumerated, not downloaded: the 2013/2020 sets above are better framed. Full title list: derived/all_titles.json; metadata: derived/commons_imageinfo.json."
+  },
+  {
+   "what": "Bulgarian NMNHS osteological collection starling \"Skel\" photos (4): BG-NMNHS-ORN-3335, 3310, 3308, 3299",
+   "url": "via GBIF dataset 1d0212a5-5c5e-4696-8114-f39b2b35de5f (gbifID 4987978126 for ORN-3335)",
+   "licence": "GBIF media extension licence CC BY 4.0, but record accessRights say \"not-for-profit use only\" -> treat as NC",
+   "use": "reference-only",
+   "note": "Earlier inspection: photos of loose bones piled in a tub with a ruler partly visible; NOT usable for outlining an articulated skeleton. Image identifiers are in the GBIF Multimedia extension (see gbif_small_sets.json); not downloaded."
+  },
+  {
+   "what": "Smithsonian NMNH (USNM) Sturnus vulgaris: 630 imaged specimens (488 whole skins, 76 skeletons) but the GBIF media are catalogue-page scans, not specimen photos; only USNM 312994 (mounted juvenile, 3 photos) has real images and its licence is \"Usage Conditions Apply\"",
+   "licence": "CC0 for catalogue scans; \"Usage Conditions Apply\" for 312994",
+   "use": "not useful / reference-only"
+  }
+ ],
+ "not_found": [
+  "No Naturalis (or any CC0/CC BY) photo of an ARTICULATED Sturnus vulgaris skeleton. Naturalis RMNH.AVES.259388.b is catalogued as \"skeleton (loose bones)\" but its images show a spread wing; the NMNH \"Skeleton: Whole\" starling records only have catalogue-page scans; Bulgarian NMNHS bone-pile photos are not usable; only 17th-century engravings (Rijksmuseum CC0 downloaded; Coiter c.1575 PD sketch on Commons not downloaded, 410x468 crop of File:CoiterIllustrationSceletonSturni.jpg) exist as open skeleton drawings.",
+  "Among the Commons Naturalis skins sampled earlier, none was recognised as having a ruler (grid-mat background only; not systematically checked); rulers/scale bars were found only in the 2020 sets RMNH.AVES.259388.a/b and 259485.a/b.",
+  "Not searched directly: Museum fuer Naturkunde Berlin, Biodiversity Heritage Library plates (illustrations, not measured specimens), iDigBio portal, Burke Museum, MCZbase portal (MCZ seen only via GBIF). Smithsonian Open Access API not queried (needs key); NMNH starling media seen via GBIF only.",
+  "Tampere TMPM wing images could not be fetched (host error)."
+ ],
+ "skin_notes_from_subagent": [
+  "NECK POSTURE: every downloaded skin is a straight study skin with the neck fully extended and the head in line with the trunk (bill tip, eye, body axis collinear); this lengthens bill-tip-to-tail-tip to 19.6-23.1 cm versus a live bird with retracted neck, so use body length from skins only for trunk/head/tail segment lengths, not for overall pose. The mounted specimens (Naturalis 155448 etc., Auckland) show the natural retracted perched neck.",
+  "TAIL: in several frames the tail is fanned (259388.a dor, 5070087.a dor, EWOC_0396 D/V), so tail_tip is partly estimated. In the lateral frames of 259485.a and 5070087.a the wingtip sits at 0.955 and 0.944 of the bill-to-tail length (tail ~0.9-1.1 cm beyond the wingtip); in 259388.a lat_left and EWOC_0396 LS the wingtip lies slightly beyond the tail tip (1.016, 1.057).",
+  "WING BEND/SHOULDER: the carpal bend is not directly visible on folded wings; \"wing_front\" is the anterior end of the visible covert tract (proxy) and is LOW confidence (+-40-100 px). Lateral estimates: 0.402 (5070087.a), 0.436 (259388.a), 0.397 (EWOC_0396 LS) of the bill-to-tail length from the bill tip.",
+  "All px_per_cm values are for the ruler plane; no camera distance is given so the perspective magnification of the body top is unknown (a few %).",
+  "Downloaded count: 13 Naturalis + 3 Concordia + 1 Rijksmuseum print = 17 files (slightly over the ~15 guideline; the 4 spread-wing images and the print are the least essential). Thumbnails/previews used for inspection remain in derived/thumbs_tmp/.",
+  "Licensing: Naturalis GBIF media/occurrence licence = CC0 1.0. Naturalis files on Commons are NOT uniformly CC0 (45 of 1126 are CC BY-SA 3.0); the 13 downloaded Naturalis images were taken from medialib via GBIF (CC0 licence field), not from Commons."
+ ]
+}

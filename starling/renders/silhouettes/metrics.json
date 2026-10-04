@@ -1,0 +1,93 @@
+{
+ "glide": {
+  "span_over_L": 1.882,
+  "width_m": 0.376,
+  "tip_aft_of_bill_L": 0.439,
+  "wingtip_aft_of_bill_L_min": 0.965,
+  "wrist_off_midline_L": 0.367,
+  "wrist_ahead_of_shoulder_L": 0.081,
+  "hand_sweep_deg": 21.68,
+  "hand_droop_deg": -3.44,
+  "height_m": 0.036,
+  "tip_above_shoulder_m": 0.011,
+  "tip_aft_of_shoulder_m": 0.029
+ },
+ "flap_top": {
+  "span_over_L": 1.311,
+  "width_m": 0.262,
+  "tip_aft_of_bill_L": 0.369,
+  "wingtip_aft_of_bill_L_min": 0.965,
+  "wrist_off_midline_L": 0.229,
+  "wrist_ahead_of_shoulder_L": 0.114,
+  "hand_sweep_deg": 25.324,
+  "hand_droop_deg": -40.389,
+  "height_m": 0.148,
+  "tip_above_shoulder_m": 0.128,
+  "tip_aft_of_shoulder_m": 0.017
+ },
+ "flap_mid": {
+  "span_over_L": 1.901,
+  "width_m": 0.38,
+  "tip_aft_of_bill_L": 0.277,
+  "wingtip_aft_of_bill_L_min": 0.563,
+  "wrist_off_midline_L": 0.344,
+  "wrist_ahead_of_shoulder_L": 0.137,
+  "hand_sweep_deg": 11.398,
+  "hand_droop_deg": -2.811,
+  "height_m": 0.036,
+  "tip_above_shoulder_m": -0.002,
+  "tip_aft_of_shoulder_m": -0.003
+ },
+ "flap_bottom": {
+  "span_over_L": 0.74,
+  "width_m": 0.148,
+  "tip_aft_of_bill_L": 0.585,
+  "wingtip_aft_of_bill_L_min": 0.605,
+  "wrist_off_midline_L": 0.206,
+  "wrist_ahead_of_shoulder_L": 0.091,
+  "hand_sweep_deg": 67.632,
+  "hand_droop_deg": 46.552,
+  "height_m": 0.159,
+  "tip_above_shoulder_m": -0.143,
+  "tip_aft_of_shoulder_m": 0.061
+ },
+ "upstroke": {
+  "span_over_L": 1.026,
+  "width_m": 0.205,
+  "tip_aft_of_bill_L": 0.662,
+  "wingtip_aft_of_bill_L_min": 0.675,
+  "wrist_off_midline_L": 0.201,
+  "wrist_ahead_of_shoulder_L": 0.14,
+  "hand_sweep_deg": 59.356,
+  "hand_droop_deg": -13.328,
+  "height_m": 0.05,
+  "tip_above_shoulder_m": 0.03,
+  "tip_aft_of_shoulder_m": 0.076
+ },
+ "upstroke_top": {
+  "span_over_L": 1.152,
+  "width_m": 0.23,
+  "tip_aft_of_bill_L": 0.472,
+  "wingtip_aft_of_bill_L_min": 0.554,
+  "wrist_off_midline_L": 0.241,
+  "wrist_ahead_of_shoulder_L": 0.158,
+  "hand_sweep_deg": 46.186,
+  "hand_droop_deg": -39.028,
+  "height_m": 0.132,
+  "tip_above_shoulder_m": 0.112,
+  "tip_aft_of_shoulder_m": 0.038
+ },
+ "bound": {
+  "span_over_L": 0.322,
+  "width_m": 0.064,
+  "tip_aft_of_bill_L": 0.369,
+  "wingtip_aft_of_bill_L_min": 0.606,
+  "wrist_off_midline_L": 0.054,
+  "wrist_ahead_of_shoulder_L": 0.034,
+  "hand_sweep_deg": 104.668,
+  "hand_droop_deg": -2.464,
+  "height_m": 0.036,
+  "tip_above_shoulder_m": 0.003,
+  "tip_aft_of_shoulder_m": 0.113
+ }
+}

@@ -211,7 +211,7 @@ const W_SEP = 20, W_ALI = 18, W_COH = 6, W_TGT = 8, W_GLOBAL = .12, W_SPD = 1.5,
 const R_FLEE = 65;
 const R_FLOCK = 20 * Math.cbrt(N / 400), W_REJOIN = 2;   // beyond R_FLOCK (∝ N^⅓ at fixed density) birds head back, 1/s
 const FRAME_CAP = 20;                          // largest framing acceleration, u/s²
-const SPAN = 1.3, LEN = 1.05;
+const SPAN = 1.63;                             // u, full-spread span: about twice life size (0.382 m), like the falcon
 // Behavioural noise: an Ornstein–Uhlenbeck acceleration per bird, stationary std NOISE (u/s²),
 // correlation time NOISE_TAU. The paper argues the noise level, not the rule, sets the order and
 // the correlation range, so ?noise=<factor> scales it. Measured on undisturbed flight (?calm, 400 birds):
@@ -578,22 +578,29 @@ function birdFrame(x, y, z, fx, fy, fz, bk, th, s, span, len) {   // sets the ba
   bL = len * s; bH = span * .5 * s; bC = Math.cos(th); bS = Math.sin(th);
 }
 
-function pushBird(path, body, x, y, z, fx, fy, fz, bk, th, s, span, len) {
-  birdFrame(x, y, z, fx, fy, fz, bk, th, s, span, len);
-  wp(.5, 0);          const n0 = _x, n1 = _y;
-  wp(.3, .13);        const a0 = _x, a1 = _y;
-  wp(-.06, 1); const b0 = _x, b1 = _y;
-  wp(-.16, 1); const c0 = _x, c1 = _y;
-  wp(-.4, .16);       const d0 = _x, d1 = _y;
-  wp(-.62, .07);      const e0 = _x, e1 = _y;
-  wp(-.62, -.07);     const f0 = _x, f1 = _y;
-  wp(-.4, -.16);      const g0 = _x, g1 = _y;
-  wp(-.16, -1); const h0 = _x, h1 = _y;
-  wp(-.06, -1); const i0 = _x, i1 = _y;
-  wp(.3, -.13);       const j0 = _x, j1 = _y;
-  path.moveTo(n0, n1); path.lineTo(a0, a1); path.lineTo(b0, b1); path.lineTo(c0, c1); path.lineTo(d0, d1); path.lineTo(e0, e1);
-  path.lineTo(f0, f1); path.lineTo(g0, g1); path.lineTo(h0, h1); path.lineTo(i0, i1); path.lineTo(j0, j1); path.closePath();
-  if (body) { body.moveTo(n0, n1); body.lineTo((e0 + f0) / 2, (e1 + f1) / 2); }
+// Starling outline fitted to the measured model in starling/ (starling/outline/starling-low15.json): the
+// nose, then seven points down the right side (neck, wing leading-edge root, wrist, tip, wrist on the
+// trailing edge, trailing-edge root, tail corner) as [along the body, across the span] in full-spread
+// half-spans, a = 0 at the shoulders. spread is the mid-downstroke planform, flexed the mid-upstroke one,
+// vertex for vertex so they blend. The left side is the mirror image.
+const STARLING = {
+  spread: [.291,0,.144,.037,.112,.074,.197,.554,.018,1.015,-.131,.626,-.309,.085,-.732,.131],
+  flexed: [.318,0,.148,.032,.134,.046,-.006,.386,-.406,.548,-.275,.331,-.353,.07,-.735,.126],
+};
+const _lx = new Float64Array(8), _ly = new Float64Array(8);
+function pushBird(path, body, x, y, z, fx, fy, fz, bk, th, flex, s, span) {
+  birdFrame(x, y, z, fx, fy, fz, bk, 0, s, span, span * .5);        // a and w both in half-spans
+  const A = STARLING.spread, B = STARLING.flexed, c = Math.cos(th), sn = Math.sin(th);
+  for (let i = 0; i < 8; i++) {
+    const a = A[2 * i] + (B[2 * i] - A[2 * i]) * flex, w = A[2 * i + 1] + (B[2 * i + 1] - A[2 * i + 1]) * flex;
+    if (i > 2 && i < 6) { bC = c; bS = sn; } else { bC = 1; bS = 0; }   // only the wrist and tip swing with the wingbeat
+    wp(a, -w); _lx[i] = _x; _ly[i] = _y;
+    wp(a, w);
+    if (i) path.lineTo(_x, _y); else path.moveTo(_x, _y);
+  }
+  for (let i = 7; i > 0; i--) path.lineTo(_lx[i], _ly[i]);
+  path.closePath();
+  if (body) { body.moveTo(_lx[0], _ly[0]); body.lineTo((_x + _lx[7]) / 2, (_y + _ly[7]) / 2); }
 }
 
 // Falcon outline read off the measured peregrine model in falcon/ (falcon/blender/export_outline.py →
@@ -616,7 +623,7 @@ const FALCON = {
   tail: [-.177,.07,-.495,.054,-.498,.047,-.5,.039,-.502,.031,-.503,.023,-.504,.016,-.505,.008,-.505,0],
   tailFan: [-.177,.07,-.435,.202,-.453,.176,-.469,.149,-.482,.121,-.492,.092,-.499,.062,-.503,.031,-.505,0],
 };
-const FALCON_SPAN = 4.4;                       // u, full-spread span (the glide is .945 of it); about twice life size against the starlings, to stay visible
+const FALCON_SPAN = 4.4;                       // u, full-spread span (the glide is .945 of it); about twice life size, like the starlings, to stay visible
 // parts: three Path2Ds (right wing, left wing, body and tail), each to be filled on its own with the
 // non-zero rule. A folded wing laps over itself and over the body; within one part every loop winds the
 // same way, so the laps add up, but seen side-on with the wings raised the two wings wind opposite ways
@@ -662,8 +669,9 @@ function draw() {
     if (_z < 10) continue;
     const b = clamp(((_z - ZMIN) / (ZMAX - ZMIN) * NB) | 0, 0, NB - 1);
     const s = 1 / Math.hypot(vx[i], vy[i], vz[i]);
-    const th = .15 + .8 * Math.sin(phase[i]);
-    pushBird(fills[b], bodies[b], px[i], py[i], pz[i], vx[i] * s, vy[i] * s, vz[i] * s, bank[i], th, size[i] * sizeK, SPAN, LEN);
+    const th = -.05 + .78 * Math.cos(phase[i]);                       // tip 42° above the shoulder at the top of the stroke, 48° below at the bottom
+    const flex = Math.max(0, -Math.sin(phase[i]));                    // wings spread on the way down, flexed on the way up
+    pushBird(fills[b], bodies[b], px[i], py[i], pz[i], vx[i] * s, vy[i] * s, vz[i] * s, bank[i], th, flex, size[i] * sizeK, SPAN);
   }
   ctx.lineCap = 'round';
   for (let b = NB - 1; b >= 0; b--) {

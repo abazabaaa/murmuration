@@ -12,3 +12,6 @@ falcon/HANDOVER.md
 # overlays traced from third-party photographs; see CREDITS.md
 falcon/analysis/photo_fits/*.png
 falcon/analysis/validation/
+starling/HANDOVER.md
+starling/analysis/photo_fits/*.png
+starling/analysis/validation/

@@ -43,7 +43,8 @@ implementation.
 ## Layout
 
 - `murmuration.html`, `murmuration-check.js`, `murmuration-sky.jpg`: the page.
-- `blender/`: the rigged falcon the page's current outline was traced from.
+- `blender/`: an earlier rigged falcon; the page no longer uses it.
+- `starling/`: the measured starling model the page's starling outline comes from.
 - `falcon/`: a peregrine model with measured proportions, its build scripts,
   renders and validation. See `falcon/README.md`.
 

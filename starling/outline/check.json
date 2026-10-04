@@ -1,0 +1,13 @@
+{
+ "iou_outline_vs_render": {
+  "glide": 0.9963,
+  "flap_top": 0.9955,
+  "flap_mid": 0.9961,
+  "flap_bottom": 0.9941,
+  "upstroke": 0.9955,
+  "upstroke_top": 0.9946,
+  "bound": 0.9935
+ },
+ "fill": "nonzero",
+ "raster_px": 1200
+}
