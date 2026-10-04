@@ -32,6 +32,12 @@
 //   Eq 5   correlation length  C(ξ) = 0  (a zero must exist: Eq 14 says ∫ numerator dr = |Σ u_i|² − N c0 = −N c0 < 0)
 //   Eq 15  speed correlation   same as Eq 4 with φ_i = |v_i| − (1/N) Σ |v_k|   (Eq 16)
 //   result ξ ≈ 0.35 L (orientation), ξ_sp ≈ 0.36 L (speed), Φ = 0.96 ± 0.03; interaction is topological (~7 birds)
+// Scale-free here means ξ ∝ L and C(r) keeping one shape in r/L. Two things in the model produce it:
+//   1. nothing restores a single bird's heading or speed to a preferred value: steering, levelling
+//      and the speed hold act on flock means, so a fluctuation can only relax through the neighbours;
+//   2. the behavioural noise is persistent (NOISE_TAU) and alignment is stiff (W_ALI), so the long
+//      wavelengths carry the fluctuation (white noise leaves it in a neighbour-sized blob).
+// Measured, undisturbed (?calm), N = 100…1600: L = 17…39 m, ξ/L = 0.33–0.38, ξ_sp/L = 0.32–0.36.
 // World unit: 1 u = 0.5 m, so CRUISE 23 u/s ≈ 11.5 m/s (paper Fig 1C), separation 5 u ≈ 2.5 m.
 // Press C to toggle the correlation panel (?stats opens it; ?debug adds the frame counter).
 
@@ -60,6 +66,15 @@ const canvas = document.getElementById('c');
 const ctx = canvas.getContext('2d');
 const sky = document.createElement('canvas');
 const sctx = sky.getContext('2d');
+// Photographic backdrop: murmuration-sky.jpg is an evening panorama (Poly Haven "Scythian Tombs 2",
+// CC0) reprojected for this camera, with the horizon at 80 % of its height and a 46° vertical field
+// of view. Until it loads, if it is missing, or with ?painted, the painted sky below is used.
+const skyImg = document.createElement('img');
+let skyReady = false;
+if (!params.has('painted')) {
+  skyImg.onload = () => { skyReady = true; paintSky(); fresh = true; };
+  skyImg.src = 'murmuration-sky.jpg';
+}
 
 // ---------------------------------------------------------------- camera
 // World: x right, y up, z away from the viewer. The camera stands on the ground looking
@@ -106,6 +121,16 @@ function paintSky() {
   const g = sctx, r = rng(7);
   g.setTransform(dpr, 0, 0, dpr, 0, 0);
   const hz = HORIZON;
+
+  if (skyReady) {                              // same focal length and horizon as the camera, scaled up only to cover
+    const iw = skyImg.naturalWidth, ih = skyImg.naturalHeight, fi = (ih / 2) / Math.tan(23 * Math.PI / 180);
+    const k = Math.max(f / fi, W / iw, H / ih);
+    g.drawImage(skyImg, cx - iw * k / 2, hz - .8 * ih * k, iw * k, ih * k);
+    const vg = g.createRadialGradient(cx, cy * .95, Math.min(W, H) * .35, cx, cy, Math.hypot(W, H) * .62);
+    vg.addColorStop(0, 'rgba(6,3,14,0)'); vg.addColorStop(1, 'rgba(6,3,14,.35)');
+    g.fillStyle = vg; g.fillRect(0, 0, W, H);
+    return;
+  }
 
   const grad = g.createLinearGradient(0, 0, 0, hz);
   [[0, '#080a22'], [.26, '#1b1a4c'], [.52, '#573a7c'], [.74, '#bf5a62'], [.9, '#f0955b'], [1, '#ffc87c']]
@@ -182,25 +207,28 @@ function paintSky() {
 const M = 0.5;                                 // metres per world unit (used for the readout only)
 const CRUISE = 23, VMIN = 12, VMAX = 30, MAX_ACC = 16;
 const RS = 5, RN = 38;                         // separation radius / sanity cutoff on the topological neighbours
-const W_SEP = 20, W_ALI = 4.5, W_COH = 3, W_TGT = 8, W_GLOBAL = .12, W_SPD = 1.5, W_FLEE = 70;
+const W_SEP = 20, W_ALI = 18, W_COH = 6, W_TGT = 8, W_GLOBAL = .12, W_SPD = 1.5, W_SPD4 = .002, W_LEVEL = .9, W_FLEE = 70;
 const R_FLEE = 65;
 const R_FLOCK = 20 * Math.cbrt(N / 400), W_REJOIN = 2;   // beyond R_FLOCK (∝ N^⅓ at fixed density) birds head back, 1/s
-const FRAME_CAP = 12;                          // largest framing acceleration, u/s²
+const FRAME_CAP = 20;                          // largest framing acceleration, u/s²
 const SPAN = 1.3, LEN = 1.05;
 // Behavioural noise: an Ornstein–Uhlenbeck acceleration per bird, stationary std NOISE (u/s²),
 // correlation time NOISE_TAU. The paper argues the noise level, not the rule, sets the order and
 // the correlation range, so ?noise=<factor> scales it. Measured on undisturbed flight (?calm, 400 birds):
-//   0.3 → Φ ≈ 0.999, |u| ≈ 0.6 m/s (rigid);  1 → Φ ≈ 0.98–0.99, |u| ≈ 2 m/s, ξ/L ≈ 0.32–0.36;
-//   1.5 → Φ ≈ 0.95 and the flock spreads to L ≈ 35 m.  A falcon strike dips Φ to ≈ 0.9 for a few seconds.
-const NOISE = 12 * (params.has('noise') ? Math.max(0, +params.get('noise')) : 1), NOISE_TAU = .5;
+//   0.5 → Φ ≈ 1.000, |u| ≈ 0.4 m/s, ξ/L ≈ 0.41 (rigid);  1 → Φ ≈ 0.99–1.00, |u| ≈ 1.0–1.5 m/s, ξ/L ≈ 0.35;
+//   1.5 → Φ ≈ 0.99, |u| ≈ 1.9 m/s, the flock stretches to L ≈ 31 m and the far-side anticorrelation fades.
+// A falcon strike dips Φ to 0.7–0.95 for a few seconds and can split the flock briefly.
+// NOISE_TAU must be long against 1/(D k²) for the modes that matter (D ≈ W_ALI · 3.5 u², k ≈ π/L):
+// with τ = 0.5 s and W_ALI = 4.5 the same noise gave C(r) ≈ 0 beyond 0.15 L.
+const NOISE_K = params.has('noise') ? Math.max(0, +params.get('noise')) : 1;
+const NOISE = 9 * NOISE_K, NOISE_TAU = 4;
 
 const px = new Float32Array(N), py = new Float32Array(N), pz = new Float32Array(N);
 const vx = new Float32Array(N), vy = new Float32Array(N), vz = new Float32Array(N);
 const ax = new Float32Array(N), ay = new Float32Array(N), az = new Float32Array(N);
 const nzx = new Float32Array(N), nzy = new Float32Array(N), nzz = new Float32Array(N);   // OU noise state
 const bank = new Float32Array(N), alarm = new Float32Array(N);
-const eager = new Float32Array(N);
-const phase = new Float32Array(N), freq = new Float32Array(N), size = new Float32Array(N), pace = new Float32Array(N);
+const phase = new Float32Array(N), freq = new Float32Array(N), size = new Float32Array(N);
 const nbD = new Float32Array(K), nbI = new Int32Array(K);
 const tgt = { x: 0, y: 0, z: 0 }, tmp = { x: 0, y: 0, z: 0 };
 let gcx = 0, gcy = 0, gcz = 0, gvx = 0, gvy = 0, gvz = 0, lure = 0, lastMove = -1e9;
@@ -225,13 +253,13 @@ function initFlock() {
     const a = (rand() - .5) * .6, s = CRUISE * (.9 + .2 * rand());
     px[i] = tmp.x + (rand() - .5) * 46; py[i] = tmp.y + (rand() - .5) * 24; pz[i] = tmp.z + (rand() - .5) * 46;
     vx[i] = s * Math.cos(a); vy[i] = (rand() - .5) * 2; vz[i] = s * Math.sin(a);
-    phase[i] = rand() * TAU; freq[i] = 7 + rand() * 4; size[i] = .85 + .3 * rand(); pace[i] = .95 + .1 * rand(); eager[i] = .8 + .4 * rand();
+    phase[i] = rand() * TAU; freq[i] = 7 + rand() * 4; size[i] = .85 + .3 * rand();
     nzx[i] = NOISE * gauss(); nzy[i] = NOISE * gauss(); nzz[i] = NOISE * gauss();
   }
 }
 
 // ---------------------------------------------------------------- falcon
-const fal = { on: false, x: 0, y: 0, z: 0, vx: 0, vy: 0, vz: 0, age: 0, ret: 0, prey: 0, leaving: false, side: 1, phase: 0 };
+const fal = { on: false, x: 0, y: 0, z: 0, vx: 0, vy: 0, vz: 0, age: 0, ret: 0, prey: 0, leaving: false, side: 1, phase: 0, fan: 0 };
 const CALM = params.has('calm');               // ?calm: no spontaneous attacks (clicks still work)
 let nextFalcon = CALM ? Infinity : 14 + rand() * 6;
 
@@ -280,6 +308,7 @@ function updateFalcon(dt, t) {
   let aX = (dx / d * sp - fal.vx) * 2.4, aY = (dy / d * sp - fal.vy) * 2.4, aZ = (dz / d * sp - fal.vz) * 2.4;
   const am = Math.hypot(aX, aY, aZ);
   if (am > 55) { aX *= 55 / am; aY *= 55 / am; aZ *= 55 / am; }
+  fal.fan += (Math.min(1, am / 55) - fal.fan) * Math.min(1, dt * 4);   // tail spreads in hard turns
   fal.vx += aX * dt; fal.vy += aY * dt; fal.vz += aZ * dt;
   fal.x += fal.vx * dt; fal.y += fal.vy * dt; fal.z += fal.vz * dt;
   P(fal.x, fal.y, fal.z);
@@ -290,9 +319,10 @@ function updateFalcon(dt, t) {
 
 // ---------------------------------------------------------------- simulation
 function step(dt, t) {
-  let sx = 0, sy = 0, sz = 0, svx = 0, svy = 0, svz = 0;
-  for (let i = 0; i < N; i++) { sx += px[i]; sy += py[i]; sz += pz[i]; svx += vx[i]; svy += vy[i]; svz += vz[i]; }
+  let sx = 0, sy = 0, sz = 0, svx = 0, svy = 0, svz = 0, ssp = 0;
+  for (let i = 0; i < N; i++) { sx += px[i]; sy += py[i]; sz += pz[i]; svx += vx[i]; svy += vy[i]; svz += vz[i]; ssp += Math.hypot(vx[i], vy[i], vz[i]); }
   gcx = sx / N; gcy = sy / N; gcz = sz / N; gvx = svx / N; gvy = svy / N; gvz = svz / N;   // centre of mass and its velocity
+  const gsp = ssp / N, gvl = Math.hypot(gvx, gvy, gvz) + 1e-6, hx = gvx / gvl, hy = gvy / gvl, hz = gvz / gvl;   // mean speed, flock heading
 
   lure += ((performance.now() - lastMove < 2600 ? 1 : 0) - lure) * Math.min(1, dt * 1.4);
   if (t - way.t > 16 || Math.hypot(gcx - way.x, gcy - way.y, gcz - way.z) < 100) nextWaypoint(t);
@@ -318,7 +348,7 @@ function step(dt, t) {
     if (u > um) fx = -(u - um) * zc; else if (u < -um) fx = -(u + um) * zc;
     if (v > vt) fy = -(v - vt) * zc; else if (v < vb) fy = -(v - vb) * zc;
     if (zc > zmax) fz = -(zc - zmax); else if (zc < zmin) fz = (zmin - zc) * 2;
-    frX = 3 * fx; frY = 3 * (fy * ct + fz * st); frZ = 3 * (-fy * st + fz * ct);
+    frX = 5 * fx; frY = 5 * (fy * ct + fz * st); frZ = 5 * (-fy * st + fz * ct);
     const fm = Math.hypot(frX, frY, frZ);
     if (fm > FRAME_CAP) { frX *= FRAME_CAP / fm; frY *= FRAME_CAP / fm; frZ *= FRAME_CAP / fm; }
   }
@@ -381,14 +411,21 @@ function step(dt, t) {
       let e = clamp((t - way.t - lag) / 1.2, 0, 1); e = e * e * (3 - 2 * e);
       let tx = way.ox + (way.x - way.ox) * e, ty = way.oy + (way.y - way.oy) * e, tz = way.oz + (way.z - way.oz) * e;
       if (lure > .01) { tx += (tgt.x - tx) * lure; ty += (tgt.y - ty) * lure; tz += (tgt.z - tz) * lure; }
+      // Only the part across the flock's heading is applied, and it does not depend on the bird's own
+      // velocity: it turns the flock without pulling each heading toward a preferred direction. A
+      // push along the heading is balanced by the speed hold, and together they act on every bird as
+      // an aligning field of rate W_TGT/CRUISE, which cuts the correlation length to ~√(D/rate) ≈ 3 m.
       const dx = tx - gcx, dy = ty - gcy, dz = tz - gcz, d = Math.hypot(dx, dy, dz) + 1e-4;
-      const k = W_TGT * eager[i] * (1 + .8 * lure) * clamp(d / 30, .4, 1) / d;
-      aX += dx * k; aY += dy * k; aZ += dz * k;
+      const k = W_TGT * (1 + .8 * lure) * clamp(d / 30, .4, 1) / d, al = dx * hx + dy * hy + dz * hz;
+      aX += (dx - al * hx) * k; aY += (dy - al * hy) * k; aZ += (dz - al * hz) * k;
     }
 
     {                                          // hold cruise speed, fly mostly level, behavioural noise
-      const s = (CRUISE * pace[i] - spd) * W_SPD / spd;
-      aX += vxi * s; aY += vyi * s - vyi * .9; aZ += vzi * s;
+      // Speed and climb are held for the flock as a whole (mean speed, mean vertical velocity). Each
+      // bird's own speed is confined only marginally, by a quartic well with no linear stiffness at
+      // CRUISE, so speed fluctuations are passed between neighbours instead of being damped in place.
+      const ds = CRUISE - spd, s = (W_SPD * (CRUISE - gsp) + W_SPD4 * ds * ds * ds) / spd;
+      aX += vxi * s; aY += vyi * s - W_LEVEL * gvy; aZ += vzi * s;
       nzx[i] = nzx[i] * ouDecay + ouKick * gauss();
       nzy[i] = nzy[i] * ouDecay + ouKick * gauss();
       nzz[i] = nzz[i] * ouDecay + ouKick * gauss();
@@ -529,7 +566,7 @@ function wp(a, w) {                            // point on the bird: a along the
   P(bX + bFx * al + bRx * lat + bNx * lift, bY + bFy * al + bRy * lat + bNy * lift, bZ + bFz * al + bRz * lat + bNz * lift);
 }
 
-function pushBird(path, body, x, y, z, fx, fy, fz, bk, th, s, span, len, sweep) {
+function birdFrame(x, y, z, fx, fy, fz, bk, th, s, span, len) {   // sets the basis wp() draws in
   const rl = Math.hypot(fx, fz);
   let rx = 1, rz = 0;
   if (rl > 1e-3) { rx = fz / rl; rz = -fx / rl; }
@@ -539,21 +576,58 @@ function pushBird(path, body, x, y, z, fx, fy, fz, bk, th, s, span, len, sweep) 
   bRx = rx * cb - nx * sb; bRy = -ny * sb; bRz = rz * cb - nz * sb;
   bNx = nx * cb + rx * sb; bNy = ny * cb; bNz = nz * cb + rz * sb;
   bL = len * s; bH = span * .5 * s; bC = Math.cos(th); bS = Math.sin(th);
+}
 
+function pushBird(path, body, x, y, z, fx, fy, fz, bk, th, s, span, len) {
+  birdFrame(x, y, z, fx, fy, fz, bk, th, s, span, len);
   wp(.5, 0);          const n0 = _x, n1 = _y;
   wp(.3, .13);        const a0 = _x, a1 = _y;
-  wp(-.06 - sweep, 1); const b0 = _x, b1 = _y;
-  wp(-.16 - sweep, 1); const c0 = _x, c1 = _y;
+  wp(-.06, 1); const b0 = _x, b1 = _y;
+  wp(-.16, 1); const c0 = _x, c1 = _y;
   wp(-.4, .16);       const d0 = _x, d1 = _y;
   wp(-.62, .07);      const e0 = _x, e1 = _y;
   wp(-.62, -.07);     const f0 = _x, f1 = _y;
   wp(-.4, -.16);      const g0 = _x, g1 = _y;
-  wp(-.16 - sweep, -1); const h0 = _x, h1 = _y;
-  wp(-.06 - sweep, -1); const i0 = _x, i1 = _y;
+  wp(-.16, -1); const h0 = _x, h1 = _y;
+  wp(-.06, -1); const i0 = _x, i1 = _y;
   wp(.3, -.13);       const j0 = _x, j1 = _y;
   path.moveTo(n0, n1); path.lineTo(a0, a1); path.lineTo(b0, b1); path.lineTo(c0, c1); path.lineTo(d0, d1); path.lineTo(e0, e1);
   path.lineTo(f0, f1); path.lineTo(g0, g1); path.lineTo(h0, h1); path.lineTo(i0, i1); path.lineTo(j0, j1); path.closePath();
   if (body) { body.moveTo(n0, n1); body.lineTo((e0 + f0) / 2, (e1 + f1) / 2); }
+}
+
+// Falcon outline traced from the top view of blender/falcon.blend (export: blender/falcon-outline.json).
+// Flat lists of [along the body, across the span] in half-spans: the right wing as one chain (leading
+// edge root → tip, trailing edge tip → root) in the glide pose and in the tucked stoop pose, vertex for
+// vertex so the two blend; the right edge of the body, nose → rump; the right edge of the tail, closed
+// and fanned. The left side is the mirror image.
+const FALCON = {
+  wingGlide: [0.1,0.058,0.109,0.133,0.121,0.206,0.131,0.276,0.139,0.344,0.145,0.41,0.144,0.473,0.135,0.534,0.117,0.592,0.094,0.647,0.069,0.7,0.044,0.749,0.019,0.796,-0.006,0.839,-0.03,0.878,-0.055,0.914,-0.076,0.945,-0.09,0.97,-0.096,0.983,-0.098,0.989,-0.099,0.993,-0.1,0.995,-0.1,0.995,-0.1,0.993,-0.099,0.989,-0.098,0.983,-0.095,0.97,-0.087,0.945,-0.077,0.914,-0.066,0.878,-0.059,0.839,-0.058,0.796,-0.062,0.749,-0.07,0.7,-0.084,0.647,-0.105,0.592,-0.128,0.534,-0.16,0.473,-0.184,0.41,-0.201,0.344,-0.212,0.276,-0.22,0.206,-0.221,0.133,-0.22,0.058],
+  wingStoop: [0.1,0.058,0.097,0.136,0.035,0.208,0.007,0.212,-0,0.27,-0.017,0.334,-0.067,0.397,-0.138,0.379,-0.193,0.351,-0.244,0.319,-0.292,0.285,-0.337,0.252,-0.378,0.219,-0.417,0.187,-0.452,0.156,-0.483,0.125,-0.51,0.1,-0.533,0.081,-0.545,0.073,-0.55,0.07,-0.554,0.068,-0.556,0.067,-0.556,0.067,-0.554,0.068,-0.55,0.069,-0.545,0.071,-0.532,0.076,-0.508,0.088,-0.479,0.104,-0.446,0.121,-0.408,0.134,-0.365,0.143,-0.318,0.148,-0.268,0.149,-0.213,0.144,-0.154,0.133,-0.093,0.12,-0.123,0.161,-0.327,0.222,-0.32,0.154,-0.302,0.075,-0.222,0.021,-0.211,0.087,-0.22,0.058],
+  body: [0.282,0,0.269,0.019,0.25,0.036,0.231,0.05,0.212,0.057,0.192,0.06,0.173,0.063,0.154,0.063,0.135,0.064,0.115,0.067,0.096,0.071,0.077,0.075,0.058,0.087,0.038,0.092,0.019,0.095,-0,0.096,-0.019,0.096,-0.058,0.095,-0.077,0.093,-0.096,0.091,-0.115,0.088,-0.135,0.082,-0.154,0.078,-0.173,0.073,-0.192,0.068,-0.212,0.063,-0.231,0.059,-0.25,0.051,-0.269,0.048,-0.288,0.043,-0.308,0.04,-0.327,0.039],
+  tail: [-0.288,0.03,-0.322,0.036,-0.356,0.048,-0.389,0.054,-0.423,0.056,-0.457,0.058,-0.49,0.06,-0.524,0.062,-0.558,0.063,-0.591,0.065,-0.618,0.067,-0.622,0.048,-0.623,0.038,-0.624,0.019],
+  tailFan: [-0.288,0.03,-0.316,0.044,-0.344,0.066,-0.371,0.09,-0.399,0.106,-0.426,0.121,-0.454,0.135,-0.481,0.15,-0.509,0.164,-0.537,0.179,-0.564,0.193,-0.593,0.142,-0.605,0.115,-0.62,0.058],
+};
+const FALCON_SPAN = 4.4;                       // u; about twice life size against the starlings, to stay visible
+function pushFalcon(path, x, y, z, fx, fy, fz, th, s, tuck, fan) {
+  birdFrame(x, y, z, fx, fy, fz, 0, th, s, 1, .5);                  // a and w both in half-spans
+  const G = FALCON.wingGlide, S = FALCON.wingStoop, B = FALCON.body, T = FALCON.tail, F = FALCON.tailFan;
+  for (let side = 1; side >= -1; side -= 2) {
+    for (let i = 0; i < G.length; i += 2) {
+      const j = side > 0 ? i : G.length - 2 - i;                    // same winding on both sides, so overlaps stay filled
+      wp(G[j] + (S[j] - G[j]) * tuck, side * (G[j + 1] + (S[j + 1] - G[j + 1]) * tuck));
+      if (i) path.lineTo(_x, _y); else path.moveTo(_x, _y);
+    }
+    path.closePath();
+  }
+  for (let side = 1; side >= -1; side -= 2) {                       // body and tail: down the right edge, back up the left
+    for (let i = 0; i < B.length + T.length; i += 2) {
+      const j = side > 0 ? i : B.length + T.length - 2 - i, t = j - B.length;
+      if (t < 0) wp(B[j], side * B[j + 1]); else wp(T[t] + (F[t] - T[t]) * fan, side * (T[t + 1] + (F[t + 1] - T[t + 1]) * fan));
+      if (i || side < 0) path.lineTo(_x, _y); else path.moveTo(_x, _y);
+    }
+  }
+  path.closePath();
 }
 
 const fills = Array.from({ length: NB }, () => null), bodies = Array.from({ length: NB }, () => null);
@@ -571,7 +645,7 @@ function draw() {
     const b = clamp(((_z - ZMIN) / (ZMAX - ZMIN) * NB) | 0, 0, NB - 1);
     const s = 1 / Math.hypot(vx[i], vy[i], vz[i]);
     const th = .15 + .8 * Math.sin(phase[i]);
-    pushBird(fills[b], bodies[b], px[i], py[i], pz[i], vx[i] * s, vy[i] * s, vz[i] * s, bank[i], th, size[i] * sizeK, SPAN, LEN, 0);
+    pushBird(fills[b], bodies[b], px[i], py[i], pz[i], vx[i] * s, vy[i] * s, vz[i] * s, bank[i], th, size[i] * sizeK, SPAN, LEN);
   }
   ctx.lineCap = 'round';
   for (let b = NB - 1; b >= 0; b--) {
@@ -584,9 +658,9 @@ function draw() {
     const s = 1 / Math.hypot(fal.vx, fal.vy, fal.vz);
     const dive = clamp(-fal.vy * s * 2, 0, 1);
     const fp = new Path2D();
-    pushBird(fp, null, fal.x, fal.y, fal.z, fal.vx * s, fal.vy * s, fal.vz * s, 0, .25 + .5 * Math.sin(fal.phase) * (1 - dive), 3.4 * (1 - .35 * dive), 1, 1.9, .3);
+    pushFalcon(fp, fal.x, fal.y, fal.z, fal.vx * s, fal.vy * s, fal.vz * s, .2 + .5 * Math.sin(fal.phase) * (1 - dive), FALCON_SPAN * sizeK, dive, fal.fan * (1 - dive));
     ctx.fillStyle = '#170a10'; ctx.fill(fp);
-    ctx.strokeStyle = '#170a10'; ctx.lineWidth = 1.6 * Math.max(.8, f / 1272); ctx.stroke(fp);
+    ctx.strokeStyle = '#170a10'; ctx.lineWidth = Math.max(.8, f / 1272); ctx.lineJoin = 'round'; ctx.stroke(fp);
   }
 
   if (showPanel) drawPanel();
@@ -598,7 +672,7 @@ let showPanel = params.has('stats') || params.has('debug');
 const FONT = '11px ui-monospace, Menlo, monospace';
 const fmt = (v, d = 1) => Number.isFinite(v) ? v.toFixed(d) : '—';
 function drawPanel() {
-  const pw = 300, ph = 262, pad = 12, x0 = W - pw - 14, y0 = 14;
+  const pw = 380, ph = 262, pad = 12, x0 = W - pw - 14, y0 = 14;
   const gx = x0 + 34, gy = y0 + 24, gw = pw - 34 - pad, gh = 108;
   ctx.save();
   ctx.fillStyle = 'rgba(8,6,20,.72)';
@@ -645,9 +719,9 @@ function drawPanel() {
     line(0, `N ${N}   L flock size`, `${fmt(corr.L * M)} m`);
     line(1, 'Φ polarization (Eq 1) · paper 0.96', `${fmt(corr.phi, 3)}  ⟨${fmt(corr.avgPhi, 3)}⟩`);
     line(2, 'speed  ⟨|v|⟩ ± σ   ·   |u| rms', `${fmt(corr.speed * M)} ± ${fmt(corr.sigSpeed * M)}   ${fmt(corr.rmsU * M)} m/s`);
-    line(3, 'ξ orientation (Eq 5) · paper ξ/L 0.35', `${fmt(corr.xi * M)} m   ξ/L ${fmt(corr.xi / corr.L, 2)} ⟨${fmt(corr.avgXiL, 2)}⟩`, 'rgba(240,120,110,.95)');
-    line(4, 'ξ speed (Eq 15) · paper ξ/L 0.36', `${fmt(corr.xiSp * M)} m   ξ/L ${fmt(corr.xiSp / corr.L, 2)} ⟨${fmt(corr.avgXiSpL, 2)}⟩`, 'rgba(130,170,245,.95)');
-    line(5, 'nearest neighbour · noise', `${fmt(stats.nn * M, 2)} m   ${fmt(NOISE / 12, 2)}×`);
+    line(3, 'ξ orientation · paper ξ/L 0.35', `${fmt(corr.xi * M)} m   ξ/L ${fmt(corr.xi / corr.L, 2)} ⟨${fmt(corr.avgXiL, 2)}⟩`, 'rgba(240,120,110,.95)');
+    line(4, 'ξ speed · paper ξ/L 0.36', `${fmt(corr.xiSp * M)} m   ξ/L ${fmt(corr.xiSp / corr.L, 2)} ⟨${fmt(corr.avgXiSpL, 2)}⟩`, 'rgba(130,170,245,.95)');
+    line(5, 'nearest neighbour · noise', `${fmt(stats.nn * M, 2)} m   ${fmt(NOISE_K, 2)}×`);
     ctx.textAlign = 'left'; ctx.fillStyle = 'rgba(255,238,220,.38)';
     ctx.fillText('C to hide · ?noise= ?n= ?seed=', x0 + pad, ty + 6 * lh);
   } else {
