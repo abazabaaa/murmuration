@@ -1,0 +1,14 @@
+# third-party clone of the Blender MCP server (github.com/ahujasid/blender-mcp)
+blender-mcp/
+# local Claude Code settings
+.claude/
+# Blender backup files
+*.blend1
+.DS_Store
+node_modules/
+__pycache__/
+# internal handover notes (contain local paths)
+falcon/HANDOVER.md
+# overlays traced from third-party photographs; see CREDITS.md
+falcon/analysis/photo_fits/*.png
+falcon/analysis/validation/
