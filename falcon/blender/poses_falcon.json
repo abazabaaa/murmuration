@@ -1,0 +1,194 @@
+{
+ "_conventions": "Per-bone rotations in degrees, body frame, right-wing convention, chained shoulder->elbow->wrist. sweep + = tip aft, elev + = tip up, twist + = leading edge up. scale_x compresses the chord (feathers fanning shut). Targets: fits3 photo fits and refs/stoop/poses.md.",
+ "soar": {
+  "bones": {
+   "humerus": {
+    "sweep": 0.7,
+    "elev": 5
+   },
+   "hand": {
+    "sweep": 1.5,
+    "elev": -2
+   }
+  },
+  "tail_fan": 0.7,
+  "target": "photo fits A, P02: arm -2..+1 deg, hand -4..+1 deg; b/L ~2.2"
+ },
+ "glide": {
+  "bones": {
+   "humerus": {
+    "sweep": 20,
+    "elev": 3
+   },
+   "forearm": {
+    "sweep": -24
+   },
+   "hand": {
+    "sweep": 13,
+    "elev": -3
+   }
+  },
+  "tail_fan": 0.0,
+  "target": "photo fits B, P03, P04, P06: arm +2 deg fwd, hand 10 deg aft; flight span ~0.85-0.9 of pressed; b/L ~2.0",
+  "fan": {
+   "aft": 0.5
+  }
+ },
+ "flap_top": {
+  "bones": {
+   "humerus": {
+    "sweep": -4,
+    "elev": 36,
+    "twist": -6
+   },
+   "hand": {
+    "sweep": 4,
+    "elev": 6
+   }
+  },
+  "tail_fan": 0.15,
+  "target": "top of stroke +36 deg (Mills 2018 amplitude 72 deg; cm181)"
+ },
+ "flap_mid": {
+  "bones": {
+   "humerus": {
+    "sweep": -6,
+    "elev": 0,
+    "twist": -8
+   },
+   "hand": {
+    "sweep": 2,
+    "elev": -2
+   }
+  },
+  "tail_fan": 0.15,
+  "target": "mid-downstroke: full span, elevation 0, slight pronation"
+ },
+ "flap_bottom": {
+  "bones": {
+   "humerus": {
+    "sweep": -10,
+    "elev": -36,
+    "twist": -8
+   },
+   "hand": {
+    "sweep": 0,
+    "elev": -8
+   }
+  },
+  "tail_fan": 0.2,
+  "target": "bottom of stroke -36 deg"
+ },
+ "upstroke": {
+  "bones": {
+   "humerus": {
+    "sweep": 30,
+    "elev": 8
+   },
+   "forearm": {
+    "sweep": -55
+   },
+   "hand": {
+    "sweep": 70,
+    "elev": -6,
+    "scale_x": 0.85
+   }
+  },
+  "tail_fan": 0.15,
+  "target": "span 0.5-0.7 of full, wrist leads, hand swept 30-60 deg (Hedenstrom 2009, Tobalske 2011; generic)",
+  "fan": {
+   "aft": 0.6,
+   "scale_x": 0.85
+  }
+ },
+ "upstroke_top": {
+  "bones": {
+   "humerus": {
+    "sweep": 12,
+    "elev": 32
+   },
+   "forearm": {
+    "sweep": -26
+   },
+   "hand": {
+    "sweep": 40,
+    "elev": -4,
+    "scale_x": 0.9
+   }
+  },
+  "tail_fan": 0.15,
+  "target": "late upstroke: arm high, hand still flexed",
+  "fan": {
+   "aft": 0.5,
+   "scale_x": 0.9
+  }
+ },
+ "stoop_tuck": {
+  "bones": {
+   "humerus": {
+    "sweep": 59,
+    "elev": 12,
+    "scale_x": 0.55
+   },
+   "forearm": {
+    "sweep": -136,
+    "scale_x": 0.55
+   },
+   "hand": {
+    "sweep": 152,
+    "elev": -4,
+    "scale_x": 0.6
+   }
+  },
+  "tail_fan": 0.0,
+  "target": "width/L 0.26-0.36 (Ponitz 2014 Fig 7 A-B); primaries parallel to body; tips ~0.88 L from bill",
+  "fan": {
+   "aft": 1.0,
+   "scale_x": 0.36
+  }
+ },
+ "pullout_early": {
+  "bones": {
+   "humerus": {
+    "sweep": 18,
+    "elev": 8
+   },
+   "forearm": {
+    "sweep": -66
+   },
+   "hand": {
+    "sweep": 132,
+    "elev": -10,
+    "scale_x": 0.75
+   }
+  },
+  "tail_fan": 0.5,
+  "target": "5a: span/L 0.76, hands parallel to body, wrists 0.25-0.28 L off midline and ~0.08 L ahead of the shoulder, tips ~0.90 L (Selim 2020 Fig 2a)",
+  "fan": {
+   "aft": 1.0,
+   "scale_x": 0.6
+  }
+ },
+ "stoop_m": {
+  "bones": {
+   "humerus": {
+    "sweep": 12,
+    "elev": 6
+   },
+   "forearm": {
+    "sweep": -48
+   },
+   "hand": {
+    "sweep": 84,
+    "elev": -32,
+    "scale_x": 0.9
+   }
+  },
+  "tail_fan": 0.3,
+  "target": "5b: span/L 1.2-1.7, hand sweep ~52 deg, arm 10-29 deg forward, tips 0.69-0.78 L; hands droop toward ~60 deg in front view (Selim 2020; cm018, cm070)",
+  "fan": {
+   "aft": 0.8,
+   "scale_x": 0.85
+  }
+ }
+}

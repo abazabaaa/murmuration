@@ -1,0 +1,112 @@
+{
+ "soar": {
+  "span_over_L": 2.224,
+  "width_m": 1.023,
+  "tip_aft_of_bill_L": 0.375,
+  "wingtip_aft_of_bill_L_min": 0.957,
+  "wrist_off_midline_L": 0.467,
+  "wrist_ahead_of_shoulder_L": 0.028,
+  "hand_sweep_deg": 12.313,
+  "hand_droop_deg": -2.552,
+  "height_m": 0.093
+ },
+ "glide": {
+  "span_over_L": 2.114,
+  "width_m": 0.972,
+  "tip_aft_of_bill_L": 0.467,
+  "wingtip_aft_of_bill_L_min": 0.611,
+  "wrist_off_midline_L": 0.431,
+  "wrist_ahead_of_shoulder_L": -0.013,
+  "hand_sweep_deg": 19.121,
+  "hand_droop_deg": 0.331,
+  "height_m": 0.093
+ },
+ "flap_top": {
+  "span_over_L": 1.751,
+  "width_m": 0.805,
+  "tip_aft_of_bill_L": 0.328,
+  "wingtip_aft_of_bill_L_min": 0.556,
+  "wrist_off_midline_L": 0.397,
+  "wrist_ahead_of_shoulder_L": 0.054,
+  "hand_sweep_deg": 14.1,
+  "hand_droop_deg": -41.714,
+  "height_m": 0.355
+ },
+ "flap_mid": {
+  "span_over_L": 2.238,
+  "width_m": 1.029,
+  "tip_aft_of_bill_L": 0.263,
+  "wingtip_aft_of_bill_L_min": 0.558,
+  "wrist_off_midline_L": 0.462,
+  "wrist_ahead_of_shoulder_L": 0.072,
+  "hand_sweep_deg": 6.316,
+  "hand_droop_deg": 0.651,
+  "height_m": 0.093
+ },
+ "flap_bottom": {
+  "span_over_L": 1.738,
+  "width_m": 0.8,
+  "tip_aft_of_bill_L": 0.244,
+  "wingtip_aft_of_bill_L_min": 0.555,
+  "wrist_off_midline_L": 0.375,
+  "wrist_ahead_of_shoulder_L": 0.084,
+  "hand_sweep_deg": 5.08,
+  "hand_droop_deg": 41.892,
+  "height_m": 0.357
+ },
+ "upstroke": {
+  "span_over_L": 1.5,
+  "width_m": 0.69,
+  "tip_aft_of_bill_L": 0.759,
+  "wingtip_aft_of_bill_L_min": 0.789,
+  "wrist_off_midline_L": 0.358,
+  "wrist_ahead_of_shoulder_L": 0.027,
+  "hand_sweep_deg": 55.006,
+  "hand_droop_deg": -0.964,
+  "height_m": 0.093
+ },
+ "upstroke_top": {
+  "span_over_L": 1.711,
+  "width_m": 0.787,
+  "tip_aft_of_bill_L": 0.563,
+  "wingtip_aft_of_bill_L_min": 0.607,
+  "wrist_off_midline_L": 0.38,
+  "wrist_ahead_of_shoulder_L": 0.052,
+  "hand_sweep_deg": 38.67,
+  "hand_droop_deg": -24.736,
+  "height_m": 0.257
+ },
+ "stoop_tuck": {
+  "span_over_L": 0.318,
+  "width_m": 0.146,
+  "tip_aft_of_bill_L": 0.785,
+  "wingtip_aft_of_bill_L_min": 0.877,
+  "wrist_off_midline_L": 0.088,
+  "wrist_ahead_of_shoulder_L": 0.032,
+  "hand_sweep_deg": 85.231,
+  "hand_droop_deg": -6.462,
+  "height_m": 0.093
+ },
+ "pullout_early": {
+  "span_over_L": 0.709,
+  "width_m": 0.326,
+  "tip_aft_of_bill_L": 0.441,
+  "wingtip_aft_of_bill_L_min": 0.812,
+  "wrist_off_midline_L": 0.308,
+  "wrist_ahead_of_shoulder_L": 0.103,
+  "hand_sweep_deg": 93.006,
+  "hand_droop_deg": 8.232,
+  "height_m": 0.093
+ },
+ "stoop_m": {
+  "span_over_L": 1.381,
+  "width_m": 0.635,
+  "tip_aft_of_bill_L": 0.638,
+  "wingtip_aft_of_bill_L_min": 0.668,
+  "wrist_off_midline_L": 0.361,
+  "wrist_ahead_of_shoulder_L": 0.1,
+  "hand_sweep_deg": 57.415,
+  "hand_droop_deg": 27.701,
+  "height_m": 0.176
+ }
+}

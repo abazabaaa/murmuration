@@ -1,0 +1,958 @@
+{
+ "generated": "2026-10-03",
+ "root": "refs/stoop (reference images are not included in this repository)",
+ "note": "CC BY and CC BY-SA images need attribution (artist + licence + source page); CC BY-SA requires share-alike for derivatives. Reference use for Blender posing does not require redistribution. Selim/arXiv material is reference-only.",
+ "not_obtained": "Tucker 1998 (JEB 201:403) and Tucker, Cade & Tucker 1998 (JEB 201:2061) are paywalled; abstracts only, no figures downloaded. No Wikimedia Commons photo of a true tucked stoop at speed was found; Ponitz 2014 Fig 7 is the only stoop photo set.",
+ "items": [
+  {
+   "file": "ponitz2014/fig001.png",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 1, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Dam-wall dive set-up photo with two camera positions (Cam1, Cam2) and the reconstructed 3-D flight path; two inset falcon photos. Context only.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig001.tif",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 1, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Dam-wall dive set-up photo with two camera positions (Cam1, Cam2) and the reconstructed 3-D flight path; two inset falcon photos. Context only.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig002.png",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 2, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Top-view layout of the equipment at the dam. Context only.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig002.tif",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 2, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Top-view layout of the equipment at the dam. Context only.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig003.png",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 3, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Reprojection error of the stereo reconstruction. Context only.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig003.tif",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 3, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Reprojection error of the stereo reconstruction. Context only.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig004.png",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 4, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "A: real falcon photos (opened-wing and cupped-wing); B: CAD/scan model silhouettes in top (640x295 px = 400 mm Lref), front and side views. Source of the model silhouette scale (top-view area 0.0411 m2, checked: 0.0426 m2 by pixel count).",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig004.tif",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 4, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "A: real falcon photos (opened-wing and cupped-wing); B: CAD/scan model silhouettes in top (640x295 px = 400 mm Lref), front and side views. Source of the model silhouette scale (top-view area 0.0411 m2, checked: 0.0426 m2 by pixel count).",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig005.png",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 5, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Falcon model mounted in the wind tunnel. Context only.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig005.tif",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 5, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Falcon model mounted in the wind tunnel. Context only.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig006.png",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 6, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Sphere drag-coefficient calibration. Not geometry.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig006.tif",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 6, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Sphere drag-coefficient calibration. Not geometry.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig007.png",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 7, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Dive photo sequence A-E, each panel zoom-inspected: A tucked/narrow teardrop, tail furled, head down (width/length 0.257 by mask); B tucked (about 0.36); C diamond/cupped-front tuck, wings folded back along the body (about 0.49 manual); D pull-out, wings partly open, tail fanned, bird seen from above/behind; E landing, front view, wings open in an M/cupped arch. KEY POSE FIGURE.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig007.tif",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 7, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Dive photo sequence A-E, each panel zoom-inspected: A tucked/narrow teardrop, tail furled, head down (width/length 0.257 by mask); B tucked (about 0.36); C diamond/cupped-front tuck, wings folded back along the body (about 0.49 manual); D pull-out, wings partly open, tail fanned, bird seen from above/behind; E landing, front view, wings open in an M/cupped arch. KEY POSE FIGURE.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig008.png",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 8, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "3-D dive trajectory coloured by speed (max 22.5 m/s = 81 km/h).",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig008.tif",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 8, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "3-D dive trajectory coloured by speed (max 22.5 m/s = 81 km/h).",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig009.png",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 9, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Side and front views of the trajectory split into six phases.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig009.tif",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 9, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Side and front views of the trajectory split into six phases.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig010.png",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 10, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Speed and acceleration time series.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig010.tif",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 10, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Speed and acceleration time series.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig011.png",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 11, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Flight-path angle time series.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig011.tif",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 11, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Flight-path angle time series.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig012.png",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 12, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Force diagram (lift, drag, weight).",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig012.tif",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 12, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Force diagram (lift, drag, weight).",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig013.png",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 13, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Lift/drag polar of the model; equilibrium alpha = 5 deg, glide alpha_g = 21 deg.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig013.tif",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 13, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Lift/drag polar of the model; equilibrium alpha = 5 deg, glide alpha_g = 21 deg.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig014.png",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 14, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Drag coefficient versus Reynolds number.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig014.tif",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 14, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Drag coefficient versus Reynolds number.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig015.png",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 15, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Oil-flow visualisation on the model (flow separation). Not geometry.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig015.tif",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 15, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Oil-flow visualisation on the model (flow separation). Not geometry.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig016.png",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 16, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Oil-flow / PIV result. Not geometry.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig016.tif",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 16, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Oil-flow / PIV result. Not geometry.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig017.png",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 17, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "PIV wake result. Not geometry.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz2014/fig017.tif",
+   "source": "https://doi.org/10.1371/journal.pone.0086506 (Fig 17, PLOS large-figure download)",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "PIV wake result. Not geometry.",
+   "inspected": "Fig 7 panels zoom-inspected at 3.5x-4.5x; others opened with Read"
+  },
+  {
+   "file": "ponitz_article.html",
+   "source": "https://doi.org/10.1371/journal.pone.0086506",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Saved article page of Ponitz et al. 2014, PLOS ONE 9(2):e86506."
+  },
+  {
+   "file": "ponitz_text.txt",
+   "source": "https://doi.org/10.1371/journal.pone.0086506",
+   "license": "CC BY (PLOS Creative Commons Attribution License); credit Ponitz, Schmitz, Fischer, Bleckmann, Bruecker 2014",
+   "shows": "Extracted text of the article: captions and the wing-morphing sentences (diamond shape observed at about 80 km/h; Tucker describes the later tight tuck to about 240 km/h)."
+  },
+  {
+   "file": "papers/ponitz_falke_2014_cupped_wings.pdf",
+   "source": "Ponitz B, Triep M, Bruecker C (2014) Aerodynamics of the cupped wings during peregrine falcon diving flight. Open J Fluid Dyn 4(4):363-372, doi:10.4236/ojfd.2014.44027 (City Research Online copy)",
+   "license": "CC BY 4.0",
+   "shows": "PDF of the paper: opened-wing versus cupped-wing falcon CAD models and wind-tunnel/LES results.",
+   "inspected": "text/pdf"
+  },
+  {
+   "file": "papers/pf.txt",
+   "source": "same as above",
+   "license": "CC BY 4.0",
+   "shows": "Extracted text of the Ponitz-Triep paper.",
+   "inspected": "text/pdf"
+  },
+  {
+   "file": "papers/pfimg-000.png",
+   "source": "same as above (embedded Fig 1 image)",
+   "license": "CC BY 4.0",
+   "shows": "Dam-dive 3-D trajectory with two inset falcon photos.",
+   "inspected": "opened with Read (contact sheet and zoom)"
+  },
+  {
+   "file": "papers/pfimg-001.png",
+   "source": "same as above (embedded Fig 1 image, variant)",
+   "license": "CC BY 4.0",
+   "shows": "Dam-dive 3-D trajectory with two inset falcon photos.",
+   "inspected": "opened with Read (contact sheet and zoom)"
+  },
+  {
+   "file": "papers/pfimg-002.png",
+   "source": "same as above (embedded Fig 2 image)",
+   "license": "CC BY 4.0",
+   "shows": "Rendered falcon CAD models, opened wings (left pair) and cupped wings (right pair), side/plan and front views.",
+   "inspected": "opened with Read (contact sheet and zoom)"
+  },
+  {
+   "file": "papers/pfpage-03.png",
+   "source": "same as above (page render)",
+   "license": "CC BY 4.0",
+   "shows": "Page 3 render with Fig 1 caption (flight phases).",
+   "inspected": "opened with Read (contact sheet and zoom)"
+  },
+  {
+   "file": "papers/pfpage-04.png",
+   "source": "same as above (page render)",
+   "license": "CC BY 4.0",
+   "shows": "Page 4 render with Fig 2 and Table 1 (reference areas: top-view 0.0411 m2 opened, 0.0421 m2 cupped, per paper).",
+   "inspected": "opened with Read (contact sheet and zoom)"
+  },
+  {
+   "file": "ponitz_triep_2014_fig1_opened_vs_cupped_photos.png",
+   "source": "Ponitz, Triep, Bruecker 2014 Fig 1",
+   "license": "CC BY 4.0",
+   "shows": "Dive trajectory with inset falcon photos (opened versus cupped wings).",
+   "inspected": "opened with Read (contact sheet and zoom)"
+  },
+  {
+   "file": "ponitz_triep_2014_fig2_CAD_opened_vs_cupped_front_views.png",
+   "source": "Ponitz, Triep, Bruecker 2014 Fig 2",
+   "license": "CC BY 4.0",
+   "shows": "CAD renders of the falcon model, opened wings (left) versus cupped wings (right), side and FRONT views. Front view shows the cupped wing arch: wrists level with the back, hands drooping outward and down.",
+   "inspected": "opened with Read (contact sheet and zoom)"
+  },
+  {
+   "file": "papers/arxiv_2008.03948_peregrine_pullout.pdf",
+   "source": "Selim et al. 2020, arXiv:2008.03948, Peregrine falcon dive: pull-out manoeuvre and flight control through wing morphing",
+   "license": "arXiv non-exclusive licence: reference use only, do not redistribute",
+   "shows": "PDF. Defines four stoop morphologies (Teardrop, Cupped, Open-Cupped, M-shape) and the M-shape sweep range 40 to 90 deg.",
+   "inspected": "text/pdf"
+  },
+  {
+   "file": "papers/arx.txt",
+   "source": "same as above",
+   "license": "arXiv non-exclusive licence: reference use only",
+   "shows": "Extracted text.",
+   "inspected": "text/pdf"
+  },
+  {
+   "file": "papers/selim_img-000.png",
+   "source": "Selim et al. 2020 Fig 1 (embedded image, 6000x3000)",
+   "license": "arXiv non-exclusive licence: reference use only",
+   "shows": "Stoop silhouette sequence with Cupped-shape and M-shape CAD plan and front views. Measured on CAD silhouettes: span/length cupped 0.49, M-shape 0.57; front view: wrist apex level with the back at 0.41-0.51 half-span, hand drooping about 60 deg below horizontal.",
+   "inspected": "opened with Read (contact sheet and zoom)"
+  },
+  {
+   "file": "papers/selim_img-001.png",
+   "source": "Selim et al. 2020 Fig 2 (embedded image, 1314x508)",
+   "license": "arXiv non-exclusive licence: reference use only",
+   "shows": "Sweep schematic: (a) Lambda_max = 90 deg, (b) Lambda_min = 40 deg (label); silhouettes measured, see poses.md.",
+   "inspected": "opened with Read (contact sheet and zoom)"
+  },
+  {
+   "file": "papers/selim_img-002.png",
+   "source": "Selim et al. 2020 Fig 2 (embedded image, 1314x508)",
+   "license": "arXiv non-exclusive licence: reference use only",
+   "shows": "Binary masks used for the same schematic.",
+   "inspected": "opened with Read (contact sheet and zoom)"
+  },
+  {
+   "file": "papers/selim_page-03.png",
+   "source": "page render",
+   "license": "arXiv non-exclusive licence: reference use only",
+   "shows": "Page 3 render with Fig 1 caption.",
+   "inspected": "opened with Read (contact sheet and zoom)"
+  },
+  {
+   "file": "papers/selim_page-04.png",
+   "source": "page render",
+   "license": "arXiv non-exclusive licence: reference use only",
+   "shows": "Page 4 render: the four-morphology taxonomy and Fig 2.",
+   "inspected": "opened with Read (contact sheet and zoom)"
+  },
+  {
+   "file": "papers/selim_page-06.png",
+   "source": "page render",
+   "license": "arXiv non-exclusive licence: reference use only",
+   "shows": "Page 6 render (CFD set-up). Not geometry.",
+   "inspected": "opened with Read (contact sheet and zoom)"
+  },
+  {
+   "file": "selim2020_fig1_stoop_sequence_cupped_Mshape_CAD.png",
+   "source": "Selim et al. 2020 Fig 1 (copy of selim_img-000)",
+   "license": "arXiv non-exclusive licence: reference use only",
+   "shows": "See papers/selim_img-000.png.",
+   "inspected": "opened with Read (contact sheet and zoom)"
+  },
+  {
+   "file": "selim2020_fig2_Mshape_sweep_schematic.png",
+   "source": "Selim et al. 2020 Fig 2 (copy of selim_img-001)",
+   "license": "arXiv non-exclusive licence: reference use only",
+   "shows": "See papers/selim_img-001.png. Zoom-inspected at 4.1x (a) and 3.0x (b).",
+   "inspected": "opened with Read (contact sheet and zoom)"
+  },
+  {
+   "file": "commons/cm000_1_of_2_Peregrine_Falcon_Falco_peregrinus_Morro_Rock.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:1_of_2_Peregrine_Falcon_(Falco_peregrinus)_Morro_Rock.jpg",
+   "license": "CC BY 2.0",
+   "artist": "Mike Baird",
+   "shows": "Commons description: 1 of 2 Peregrine Falcon (Falco peregrinus) Morro Rock, Morro Bay, CA 05 June 2008.  Photo by Michael \"Mike\" L. Baird Canon 1D Mark III 300mm f/2.8 w/ 1.4XTE han",
+   "size": "2611x1739",
+   "inspected": "contact sheet"
+  },
+  {
+   "file": "commons/cm001_1_of_9_Peregrine_Falcon_Adult_Morro_Bay_CA_27_May_2008_25295.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:1_of_9_Peregrine_Falcon_Adult,_Morro_Bay,_CA_27_May_2008_(2529508465).jpg",
+   "license": "CC BY 2.0",
+   "artist": "Mike Baird from Morro Bay, USA",
+   "shows": "Commons description: 1 of 9  Peregrine Falcon Adult, Morro Bay, CA 27 May 2008, Five chicks have fledged; two from the south side join three from the north side of Morro Rock in an",
+   "size": "1147x1721",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm003_2_of_3_Peregrine_Falcon_Falco_peregrinus_defending_its_nest.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:2_of_3_Peregrine_Falcon_(Falco_peregrinus),_defending_its_nest_area,_gives_chase_to_a_Bald_Eagle_(Haliaeetus_leucocephalus).jpg",
+   "license": "CC BY 2.0",
+   "artist": "Mike Baird",
+   "shows": "Commons description: Peregrine Falcon (Falco peregrinus), defending its nest area, gives chase to a Bald Eagle (Haliaeetus leucocephalus) near Morro Rock, Morro Bay, CA at 9AM, Satu",
+   "size": "1872x1248",
+   "inspected": "contact sheet"
+  },
+  {
+   "file": "commons/cm004_2_of_9_Peregrine_Falcon_Adult_Morro_Bay_CA_27_May_2008_25295.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:2_of_9_Peregrine_Falcon_Adult,_Morro_Bay,_CA_27_May_2008_(2529507825).jpg",
+   "license": "CC BY 2.0",
+   "artist": "Mike Baird from Morro Bay, USA",
+   "shows": "Wings raised, not measured.",
+   "size": "1203x803",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm005_3_of_9_Peregrine_Falcon_Adult_Morro_Bay_CA_27_May_2008_25303.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:3_of_9_Peregrine_Falcon_Adult,_Morro_Bay,_CA_27_May_2008_(2530324138).jpg",
+   "license": "CC BY 2.0",
+   "artist": "Mike Baird from Morro Bay, USA",
+   "shows": "Commons description: 3 of 9 Peregrine Falcon Adult, Morro Bay, CA 27 May 2008, Five chicks have fledged; two from the south side join three from the north side of Morro Rock in an i",
+   "size": "1274x850",
+   "inspected": "contact sheet"
+  },
+  {
+   "file": "commons/cm006_8_of_9_Peregrine_Falcon_Juvenile_Fledgling_Morro_Bay_CA_27_M.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:8_of_9_Peregrine_Falcon_Juvenile_Fledgling,_Morro_Bay,_CA_27_May_2008_(2530316148).jpg",
+   "license": "CC BY 2.0",
+   "artist": "Mike Baird from Morro Bay, USA",
+   "shows": "Commons description: 8 of 9 Peregrine Falcon Juvenile Fledgling, Morro Bay, CA 27 May 2008, Five chicks have fledged; two from the south side join three from the north side of Morro",
+   "size": "1682x1121",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm007_A_Peregrine_Falcon_Taking_Off_49463788347.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:A_Peregrine_Falcon_Taking_Off_(49463788347).jpg",
+   "license": "CC BY 2.0",
+   "artist": "Hari K  Patibanda",
+   "shows": "Take-off, bottom of downstroke / early upstroke: wing curved down with separated primaries (zoom 2.3x).",
+   "size": "4404x2936",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm008_A_Peregrine_Falcon_in_Flight_49524987411.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:A_Peregrine_Falcon_in_Flight_(49524987411).jpg",
+   "license": "CC BY 2.0",
+   "artist": "Hari K  Patibanda",
+   "shows": "Take-off, bottom of downstroke: wing down and slightly forward (about 29 deg forward of the down-vertical), primaries fanned.",
+   "size": "4094x2729",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm009_A_Peregrine_Falcon_in_Flight_and_off_for_hunt_49666203797.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:A_Peregrine_Falcon_in_Flight_and_off_for_hunt_(49666203797).jpg",
+   "license": "CC BY 2.0",
+   "artist": "Hari K  Patibanda",
+   "shows": "Take-off wingbeat frame, not measured.",
+   "size": "600x399",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm010_A_Peregrine_Falcon_take_Off_for_hunt_49665924326.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:A_Peregrine_Falcon_take_Off_for_hunt_(49665924326).jpg",
+   "license": "CC BY 2.0",
+   "artist": "Hari K  Patibanda",
+   "shows": "Take-off wingbeat frame, not measured.",
+   "size": "3000x2000",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm012_A_peregrine_falcon_takes_off_from_Winchester_Cathedral.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:A_peregrine_falcon_takes_off_from_Winchester_Cathedral.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Andy Morffew",
+   "shows": "Head-on take-off, wings extended and raised; strongly rolled (right wing +38 deg, left +9 deg => about +23 deg dihedral, 15 deg roll; estimate).",
+   "size": "3362x2690",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm016_Falco_peregrinus_England_flying_8.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Falco_peregrinus_-England_-flying-8.jpg",
+   "license": "CC BY 2.0",
+   "artist": "Steve Childs",
+   "shows": "Full-spread glide, banked. Span/length 2.16 (foreshortened).",
+   "size": "3276x2185",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm017_Falco_peregrinus_England_flying_8_2.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Falco_peregrinus_-England_-flying-8_(2).jpg",
+   "license": "CC BY 2.0",
+   "artist": "Steve Childs",
+   "shows": "Commons description: A Peregrine Falcon flying in England.",
+   "size": "3655x2436",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm018_Falco_peregrinus_Morro_Rock_Morro_Bay_California_USA_flying.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Falco_peregrinus_-Morro_Rock,_Morro_Bay,_California,_USA_-flying-8.jpg",
+   "license": "CC BY 2.0",
+   "artist": "Mike Baird",
+   "shows": "Ventral, crescent swept wings (976x976, zoom-checked at 8.6x). Span/length 1.68; hand sweep 48-51 deg aft; arm forward 25-29 deg; wrist about 0.09 L forward of the root; tips 0.69-0.74 L aft of the bill.",
+   "size": "976x976",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm019_Falco_peregrinus_Peregrine_falcon_Adana_2016_10_29_01_1.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Falco_peregrinus_-_Peregrine_falcon,_Adana_2016-10-29_01-1.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Zeynel Cebeci",
+   "shows": "Banked soaring turn; raised wing with strongly swept hand. Phase not time-stamped.",
+   "size": "1024x648",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm020_Falco_peregrinus_Peregrine_falcon_Adana_2016_10_29_01_2.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Falco_peregrinus_-_Peregrine_falcon,_Adana_2016-10-29_01-2.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Zeynel Cebeci",
+   "shows": "Adana banked-turn sequence frame. Commons description: Peregrine Falcon (Falco peregrinus). \u00c7i\u00e7ekli - Sar\u0131\u00e7am, Adana - Turkey.",
+   "size": "985x628",
+   "inspected": "contact sheet"
+  },
+  {
+   "file": "commons/cm021_Falco_peregrinus_Peregrine_falcon_Adana_2016_10_29_01_3.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Falco_peregrinus_-_Peregrine_falcon,_Adana_2016-10-29_01-3.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Zeynel Cebeci",
+   "shows": "Banked soaring turn, swept wings.",
+   "size": "1280x826",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm022_Falco_peregrinus_Peregrine_falcon_Adana_2016_10_29_01_4.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Falco_peregrinus_-_Peregrine_falcon,_Adana_2016-10-29_01-4.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Zeynel Cebeci",
+   "shows": "Adana banked-turn sequence frame. Commons description: Peregrine Falcon (Falco peregrinus). \u00c7i\u00e7ekli - Sar\u0131\u00e7am, Adana - Turkey.",
+   "size": "1024x678",
+   "inspected": "contact sheet"
+  },
+  {
+   "file": "commons/cm023_Falco_peregrinus_Peregrine_falcon_Adana_2016_10_29_01_5.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Falco_peregrinus_-_Peregrine_falcon,_Adana_2016-10-29_01-5.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Zeynel Cebeci",
+   "shows": "Banked soaring turn, wing down with primaries open.",
+   "size": "985x630",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm024_Falco_peregrinus_Peregrine_falcon_Adana_2016_10_29_01_6.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Falco_peregrinus_-_Peregrine_falcon,_Adana_2016-10-29_01-6.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Zeynel Cebeci",
+   "shows": "Banked soaring turn, swept wings.",
+   "size": "985x653",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm025_Falco_peregrinus_Peregrine_falcon_Adana_2016_10_29_01_7.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Falco_peregrinus_-_Peregrine_falcon,_Adana_2016-10-29_01-7.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Zeynel Cebeci",
+   "shows": "Banked soaring turn, both wings partly swept (hand about 35 deg).",
+   "size": "1024x716",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm026_Falco_peregrinus_Peregrine_falcon_Adana_2016_10_29_01_8.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Falco_peregrinus_-_Peregrine_falcon,_Adana_2016-10-29_01-8.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Zeynel Cebeci",
+   "shows": "Adana banked-turn sequence frame. Commons description: Peregrine Falcon (Falco peregrinus). \u00c7i\u00e7ekli - Sar\u0131\u00e7am, Adana - Turkey.",
+   "size": "1024x680",
+   "inspected": "contact sheet"
+  },
+  {
+   "file": "commons/cm027_Falco_peregrinus_Peregrine_falcon_Adana_2016_10_29_01_9.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Falco_peregrinus_-_Peregrine_falcon,_Adana_2016-10-29_01-9.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Zeynel Cebeci",
+   "shows": "Adana banked-turn sequence frame. Commons description: Peregrine Falcon (Falco peregrinus). \u00c7i\u00e7ekli - Sar\u0131\u00e7am, Adana - Turkey.",
+   "size": "1024x641",
+   "inspected": "contact sheet"
+  },
+  {
+   "file": "commons/cm028_Falco_peregrinus_San_Giuliano_Terme_Toscana.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Falco_peregrinus_-_San_Giuliano_Terme_(Toscana).jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Scontardi",
+   "shows": "Full-spread glide, belly view. Span/length 2.52, wing sweep 8 / -6 deg (roll-contaminated).",
+   "size": "1944x1296",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm029_Falco_peregrinus_08_agosto_2015.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Falco_peregrinus_08-agosto-2015.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Juan lacruz",
+   "shows": "Commons description: Peregrine falcon",
+   "size": "2350x1322",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm033_Falco_peregrinus_Beachy_Head_2.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Falco_peregrinus_Beachy_Head_2.jpg",
+   "license": "CC BY 2.0",
+   "artist": "Ron Knight from Seaford, East Sussex, United Kingdom",
+   "shows": "Commons description: Peregrine Falcon Falco peregrinus, Chat Vale, Beachy Head, Sussex, UK.",
+   "size": "960x640",
+   "inspected": "contact sheet"
+  },
+  {
+   "file": "commons/cm034_Falco_peregrinus_Beachy_Head_3.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Falco_peregrinus_Beachy_Head_3.jpg",
+   "license": "CC BY 2.0",
+   "artist": "Ron Knight from Seaford, East Sussex, United Kingdom",
+   "shows": "Commons description: Peregrine Falcon Falco peregrinus, Chat Vale, Beachy Head, Sussex, UK.",
+   "size": "960x640",
+   "inspected": "contact sheet"
+  },
+  {
+   "file": "commons/cm037_Falco_peregrinus_brookei_Melilla_1.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Falco_peregrinus_brookei,_Melilla_1.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Antonio VISIEDO ORTIZ",
+   "shows": "Commons description: Peregrine Falcon Falco peregrinus brookei, Zona mar\u00edtimo terrestre de los acantilados de Aguad\u00fa, Melilla, Spain (Mediterranean coast of Morocco).",
+   "size": "962x722",
+   "inspected": "contact sheet"
+  },
+  {
+   "file": "commons/cm040_FALCON_PEREGRINE_11_11_08_morro_rock_slo_co_ca_2_3022737337.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:FALCON,_PEREGRINE_(11-11-08)_morro_rock,_slo_co,_ca_-2_(3022737337).jpg",
+   "license": "CC0",
+   "artist": "ALAN SCHMIERER",
+   "shows": "Commons description: CALIFORNIA - BIRDS of San Luis Obispo Co",
+   "size": "1944x1266",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm047_Falco_peregrinus_Morro_Rock.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Falco_peregrinus_Morro_Rock.jpg",
+   "license": "CC BY 2.0",
+   "artist": "Peregrine_Falcon_in_flight.jpg: Kevin Cole from Pacific Coast, USA\nderivative work: MPF",
+   "shows": "Head-on, level flapping flight near mid-downstroke: wings flat, bank about 20 deg, mean wing elevation about 0 deg.",
+   "size": "2300x1600",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm054_FlyingPeregrine.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:FlyingPeregrine.jpg",
+   "license": "CC BY-SA 3.0",
+   "artist": "Juan Lacruz",
+   "shows": "Commons description: Peregrine falcon in flight",
+   "size": "2736x2736",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm057_Halcon_peregrino.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Halcon_peregrino.jpg",
+   "license": "CC BY-SA 3.0",
+   "artist": "Juan Lacruz",
+   "shows": "Commons description: Peregrine Falcon",
+   "size": "3994x2662",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm066_My_First_Falcon_50971957787.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:My_First_Falcon_(50971957787).jpg",
+   "license": "CC BY 2.0",
+   "artist": "Channel City Camera Club from Santa Barbara, US",
+   "shows": "Belly glide, not measured.",
+   "size": "1548x1149",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm068_Peregrine_Falcon_25336773440.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrine_Falcon_(25336773440).jpg",
+   "license": "CC BY 2.0",
+   "artist": "Ed Dunens",
+   "shows": "Belly glide, not measured.",
+   "size": "1544x1029",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm070_Peregrine_Falcon_32211893995.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrine_Falcon_(32211893995).jpg",
+   "license": "CC BY 2.0",
+   "artist": "Andy Reago &amp; Chrissy McClarren",
+   "shows": "Ventral, swept wings (zoom-checked at 4.5x). Span/length 1.22; hand sweep 58 deg; arm forward 10-26 deg; tips 0.72-0.78 L aft of the bill.",
+   "size": "2593x1945",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm071_Peregrine_Falcon_44754134675.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrine_Falcon_(44754134675).jpg",
+   "license": "CC BY 2.0",
+   "artist": "Andy Reago &amp; Chrissy McClarren",
+   "shows": "Swept-wing belly view, not measured.",
+   "size": "1605x1148",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm072_Peregrine_Falcon_44754134885.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrine_Falcon_(44754134885).jpg",
+   "license": "CC BY 2.0",
+   "artist": "Andy Reago &amp; Chrissy McClarren",
+   "shows": "Belly view, full-spread glide. Landmark span/body-length 2.40; tips aft of the bill by 0.30 L (upper) / 0.57 L (lower, bank-contaminated).",
+   "size": "1985x1496",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm073_Peregrine_Falcon_45617996382.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrine_Falcon_(45617996382).jpg",
+   "license": "CC BY 2.0",
+   "artist": "Andy Reago &amp; Chrissy McClarren",
+   "shows": "Swept-wing belly view, not measured.",
+   "size": "1508x1080",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm095_Peregrine_Falcon_Falco_peregrinus_10.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrine_Falcon_(Falco_peregrinus)_(10).jpg",
+   "license": "CC BY-SA 3.0",
+   "artist": "Ken Billington",
+   "shows": "Commons description: Peregrine Falcon (Falco peregrinus)",
+   "size": "800x669",
+   "inspected": "contact sheet"
+  },
+  {
+   "file": "commons/cm104_Peregrine_Falcon_Falco_peregrinus_6.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrine_Falcon_(Falco_peregrinus)_(6).jpg",
+   "license": "CC BY-SA 3.0",
+   "artist": "Ken Billington",
+   "shows": "Dark peregrine mini-sequence frame.",
+   "size": "576x511",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm105_Peregrine_Falcon_Falco_peregrinus_7.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrine_Falcon_(Falco_peregrinus)_(7).jpg",
+   "license": "CC BY-SA 3.0",
+   "artist": "Ken Billington",
+   "shows": "Dark peregrine mini-sequence frame.",
+   "size": "705x520",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm106_Peregrine_Falcon_Falco_peregrinus_8.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrine_Falcon_(Falco_peregrinus)_(8).jpg",
+   "license": "CC BY-SA 3.0",
+   "artist": "Ken Billington",
+   "shows": "Dark peregrine mini-sequence frame.",
+   "size": "800x658",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm107_Peregrine_Falcon_Falco_peregrinus_9.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrine_Falcon_(Falco_peregrinus)_(9).jpg",
+   "license": "CC BY-SA 3.0",
+   "artist": "Ken Billington",
+   "shows": "Banked, one wing raised near vertical, other trailing aft.",
+   "size": "800x592",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm110_Peregrine_Falcon_at_Appuldurcombe_5147160662.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrine_Falcon_at_Appuldurcombe_(5147160662).jpg",
+   "license": "CC BY 2.0",
+   "artist": "Peter Trimming from Croydon, England",
+   "shows": "Swept dive, not measured.",
+   "size": "968x648",
+   "inspected": "contact sheet"
+  },
+  {
+   "file": "commons/cm116_Peregrine_falcon_Falco_peregrinus_in_flight_Cape_Baily_Kamay.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrine_falcon_(Falco_peregrinus)_in_flight,_Cape_Baily,_Kamay_Botany_Bay_NSW_Jun_2022.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Kytabu",
+   "shows": "Commons description: A peregrine falcon in flight as it hunts off the cliffs of Cape Baily in Kamay Botany Bay National Park, New South Wales.",
+   "size": "2202x2202",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm126_Peregrine_Falcon_submelanogenys_subspecies_Herdsman_Lake_nea.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrine_Falcon,_submelanogenys_subspecies,_Herdsman_Lake_near_Perth,_Western_Austraila.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "FlightEditor",
+   "shows": "Side view, top of upstroke / early downstroke: arm near vertical, primaries trailing aft, wrist the highest point (zoom-checked at 2.2x).",
+   "size": "7200x6002",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm128_Peregrine_Falcon_La_Ca_ada.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrine_Falcon_La_Ca%C3%B1ada.jpg",
+   "license": "CC BY-SA 3.0",
+   "artist": "Juan Lacruz",
+   "shows": "Commons description: Peregrine Falcon",
+   "size": "1938x1938",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm134_Peregrine_Falcon_in_Baruipur_February_2026_by_Tisha_Mukherje.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrine_Falcon_in_Baruipur_February_2026_by_Tisha_Mukherjee_01.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Tisha Mukherjee",
+   "shows": "Commons description: Peregrine Falcon (Falco peregrinus, Falconidae, Falconiformes) in Baruipur, West Bengal, India.",
+   "size": "2504x1878",
+   "inspected": "contact sheet"
+  },
+  {
+   "file": "commons/cm135_Peregrine_Falcon_in_Baruipur_February_2026_by_Tisha_Mukherje.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrine_Falcon_in_Baruipur_February_2026_by_Tisha_Mukherjee_02.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Tisha Mukherjee",
+   "shows": "Commons description: Peregrine Falcon (Falco peregrinus, Falconidae, Falconiformes) in Baruipur, West Bengal, India.",
+   "size": "2504x1878",
+   "inspected": "contact sheet"
+  },
+  {
+   "file": "commons/cm136_Peregrine_Falcon_in_Baruipur_February_2026_by_Tisha_Mukherje.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrine_Falcon_in_Baruipur_February_2026_by_Tisha_Mukherjee_03.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Tisha Mukherjee",
+   "shows": "Commons description: Peregrine Falcon (Falco peregrinus, Falconidae, Falconiformes) in Baruipur, West Bengal, India.",
+   "size": "2504x1878",
+   "inspected": "contact sheet"
+  },
+  {
+   "file": "commons/cm155_Peregrino_en_vuelo.gif",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrino_en_vuelo.gif",
+   "license": "CC BY-SA 3.0",
+   "artist": "Juan Lacruz",
+   "shows": "22-frame GIF of a glide.",
+   "size": "1024x683",
+   "inspected": "contact sheet"
+  },
+  {
+   "file": "commons/cm156_Roosevelt_the_peregrine_Falco_peregrinus_7375412454.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Roosevelt_the_peregrine_(Falco_peregrinus)_%E2%99%82_(7375412454).jpg",
+   "license": "CC BY 2.0",
+   "artist": "Benjamin Smith from United States",
+   "shows": "Commons description: FWS Band ID: 1126-06424",
+   "size": "591x591",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm177_Peregrine_Falcon_Falco_peregrinus_03.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrine_Falcon_(Falco_peregrinus)_03.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Shiv's fotografia",
+   "shows": "Commons description: The Peregrine Falcon (Falco peregrinus) is rightly called the living missile of the world. With its streamlined body and unmatched aerodynamics, it can reach di",
+   "size": "6000x4000",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm178_Peregrine_Falcon_Falco_peregrinus_04.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrine_Falcon_(Falco_peregrinus)_04.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Shiv's fotografia",
+   "shows": "Commons description: The Peregrine Falcon (Falco peregrinus) is rightly called the living missile of the world. With its streamlined body and unmatched aerodynamics, it can reach di",
+   "size": "6000x4000",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm179_Peregrine_Falcon_Falco_peregrinus_05.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrine_Falcon_(Falco_peregrinus)_05.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Shiv's fotografia",
+   "shows": "Commons description: The Peregrine Falcon (Falco peregrinus) is rightly called the living missile of the world. With its streamlined body and unmatched aerodynamics, it can reach di",
+   "size": "6000x4000",
+   "inspected": "contact sheet"
+  },
+  {
+   "file": "commons/cm180_Peregrine_Falcon_Falco_peregrinus_06.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrine_Falcon_(Falco_peregrinus)_06.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Shiv's fotografia",
+   "shows": "Commons description: The Peregrine Falcon (Falco peregrinus) is rightly called the living missile of the world. With its streamlined body and unmatched aerodynamics, it can reach di",
+   "size": "6000x4000",
+   "inspected": "contact sheet"
+  },
+  {
+   "file": "commons/cm181_Peregrine_Falcon_Falco_peregrinus_07.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Peregrine_Falcon_(Falco_peregrinus)_07.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Shiv's fotografia",
+   "shows": "Head-on take-off, top of stroke: both wings raised symmetrically about 37 deg above horizontal, fully extended.",
+   "size": "6000x4000",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm185_Swoop_50103477033.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Swoop!_(50103477033).jpg",
+   "license": "CC BY 2.0",
+   "artist": "Paul Balfe",
+   "shows": "Wings steeply raised, strongly asymmetric (about 51 and 77 deg); manoeuvring flap, larger than level-flight amplitude.",
+   "size": "960x1200",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm188_The_Peregrine_Falcon_a_Living_Missile_and_Fastest_Bird_on_Ea.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:The_Peregrine_Falcon_a_Living_Missile_and_Fastest_Bird_on_Earth_01.jpg",
+   "license": "CC BY 4.0",
+   "artist": "Shiv's fotografia",
+   "shows": "Wings raised, not measured.",
+   "size": "6000x4000",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm190_Verrazano_Bridge_Falcons_18165976380.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Verrazano_Bridge_Falcons_(18165976380).jpg",
+   "license": "CC BY 2.0",
+   "artist": "Metropolitan Transportation Authority of the State of New York",
+   "shows": "Raised wings, front view.",
+   "size": "1470x2160",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm191_Verrazano_Bridge_Falcons_18355244161.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Verrazano_Bridge_Falcons_(18355244161).jpg",
+   "license": "CC BY 2.0",
+   "artist": "Metropolitan Transportation Authority of the State of New York",
+   "shows": "Side view, top of upstroke: wing vertical and leaning about 12 deg forward of vertical; tail fanned.",
+   "size": "2160x1298",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm192_Wanderfalke_falco_peregrinus_Spiekeroog_Nationalpark_Nieders.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Wanderfalke_(falco_peregrinus)_-_Spiekeroog,_Nationalpark_Nieders%C3%A4chsisches_Wattenmeer.jpg",
+   "license": "CC BY-SA 4.0",
+   "artist": "Stephan Sprinz",
+   "shows": "Head-on from below, swept wings: M-wing seen from the front/below; foreshortened, qualitative only.",
+   "size": "3777x2516",
+   "inspected": "gridded view"
+  },
+  {
+   "file": "commons/cm193_Wanderfalke_Suederoogsand.jpg",
+   "source": "https://commons.wikimedia.org/wiki/File:Wanderfalke_Suederoogsand.jpg",
+   "license": "CC BY-SA 3.0",
+   "artist": "Jimmyc2023",
+   "shows": "Commons description: Ein beringter Wanderfalke, der auf der Rettungsbake des S\u00fcderoogsandes im Nationalpark Schleswig-Holsteinisches Wattenmeer gebr\u00fctet hat.",
+   "size": "1332x888",
+   "inspected": "gridded view"
+  }
+ ]
+}

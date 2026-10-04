@@ -1,0 +1,578 @@
+{
+ "generated": "2026-10-03",
+ "species": "Falco peregrinus",
+ "images": [
+  {
+   "file": "featheratlas/PEFA_tail_imm.jpg",
+   "source_url": "https://www.fws.gov/lab/featheratlas/images/feathers/PEFA_tail_imm.jpg",
+   "page_url": "https://www.fws.gov/lab/featheratlas/feather.html?Bird=PEFA_tail_imm",
+   "source": "USFWS National Forensics Laboratory, Feather Atlas",
+   "license_or_terms": "Feather Atlas FAQ: 'All images and data on the website are freely available to the public; no special permission is required for their use.' Credit USFWS Forensics Lab as courtesy.",
+   "content": "Rectrices of the RIGHT wing/tail, dorsal view, laid out individually (NOT a spread wing)",
+   "sex_age": "Male, Juvenile",
+   "specimen": "BRD 1802",
+   "locality": "Clatsop Co., Oregon, USA",
+   "side": "right half of tail (R6..R1 left->right)",
+   "pixel_size": [
+    800,
+    559
+   ],
+   "scale": {
+    "px_per_cm": 22.94,
+    "cm_per_px": 0.04359,
+    "method": "2-cm grid, 9 intervals = 413 px; axis labelled 0-16 cm",
+    "caveat": "800-px web scan is the largest copy served; EXIF shows originals were ~9600 px wide. High-res files only on request (featheratlas@fws.gov, per FAQ). Per-feather lengths in peregrine_records.json come from the atlas data table (measured along the rachis)."
+   },
+   "notes": ""
+  },
+  {
+   "file": "featheratlas/PEFA_tail_adult.jpg",
+   "source_url": "https://www.fws.gov/lab/featheratlas/images/feathers/PEFA_tail_adult.jpg",
+   "page_url": "https://www.fws.gov/lab/featheratlas/feather.html?Bird=PEFA_tail_adult",
+   "source": "USFWS National Forensics Laboratory, Feather Atlas",
+   "license_or_terms": "Feather Atlas FAQ: 'All images and data on the website are freely available to the public; no special permission is required for their use.' Credit USFWS Forensics Lab as courtesy.",
+   "content": "Rectrices of the RIGHT wing/tail, dorsal view, laid out individually (NOT a spread wing)",
+   "sex_age": "Male, Adult",
+   "specimen": "BRD 1313",
+   "locality": "Unknown Co., Oregon, USA",
+   "side": "right half of tail (R6..R1 left->right)",
+   "pixel_size": [
+    800,
+    690
+   ],
+   "scale": {
+    "px_per_cm": 31.63,
+    "cm_per_px": 0.03162,
+    "method": "2-cm grid, 8 intervals = 506 px; axis labelled 0-16 cm",
+    "caveat": "800-px web scan is the largest copy served; EXIF shows originals were ~9600 px wide. High-res files only on request (featheratlas@fws.gov, per FAQ). Per-feather lengths in peregrine_records.json come from the atlas data table (measured along the rachis)."
+   },
+   "notes": ""
+  },
+  {
+   "file": "featheratlas/PEFA_tail_female.jpg",
+   "source_url": "https://www.fws.gov/lab/featheratlas/images/feathers/PEFA_tail_female.jpg",
+   "page_url": "https://www.fws.gov/lab/featheratlas/feather.html?Bird=PEFA_tail_female",
+   "source": "USFWS National Forensics Laboratory, Feather Atlas",
+   "license_or_terms": "Feather Atlas FAQ: 'All images and data on the website are freely available to the public; no special permission is required for their use.' Credit USFWS Forensics Lab as courtesy.",
+   "content": "Rectrices of the RIGHT wing/tail, dorsal view, laid out individually (NOT a spread wing)",
+   "sex_age": "Female, Adult",
+   "specimen": "BRD 2889",
+   "locality": "Jackson Co., Oregon, USA",
+   "side": "right half of tail (R6..R1 left->right)",
+   "pixel_size": [
+    800,
+    735
+   ],
+   "scale": {
+    "px_per_cm": 26.55,
+    "cm_per_px": 0.03766,
+    "method": "axis labels 0 cm at y=623.5 and 20 cm at y=92.5 (531 px / 20 cm); 2-cm grid",
+    "caveat": "800-px web scan is the largest copy served; EXIF shows originals were ~9600 px wide. High-res files only on request (featheratlas@fws.gov, per FAQ). Per-feather lengths in peregrine_records.json come from the atlas data table (measured along the rachis)."
+   },
+   "notes": ""
+  },
+  {
+   "file": "featheratlas/PEFA_primary_female_bluebk.jpg",
+   "source_url": "https://www.fws.gov/lab/featheratlas/images/feathers/PEFA_primary_female_bluebk.jpg",
+   "page_url": "https://www.fws.gov/lab/featheratlas/feather.html?Bird=PEFA_primary_female_bluebk",
+   "source": "USFWS National Forensics Laboratory, Feather Atlas",
+   "license_or_terms": "Feather Atlas FAQ: 'All images and data on the website are freely available to the public; no special permission is required for their use.' Credit USFWS Forensics Lab as courtesy.",
+   "content": "Primaries of the RIGHT wing/tail, dorsal view, laid out individually (NOT a spread wing)",
+   "sex_age": "Female, Adult",
+   "specimen": "BRD 2889",
+   "locality": "Jackson Co., Oregon, USA",
+   "side": "right",
+   "pixel_size": [
+    800,
+    660
+   ],
+   "scale": {
+    "px_per_cm": 17.84,
+    "cm_per_px": 0.05605,
+    "method": "axis labels 0 cm at y=566 and 28 cm at y=66.5 (499.5 px / 28 cm); 2-cm grid",
+    "caveat": "800-px web scan is the largest copy served; EXIF shows originals were ~9600 px wide. High-res files only on request (featheratlas@fws.gov, per FAQ). Per-feather lengths in peregrine_records.json come from the atlas data table (measured along the rachis)."
+   },
+   "notes": ""
+  },
+  {
+   "file": "featheratlas/PEFA_secondary_female.jpg",
+   "source_url": "https://www.fws.gov/lab/featheratlas/images/feathers/PEFA_secondary_female.jpg",
+   "page_url": "https://www.fws.gov/lab/featheratlas/feather.html?Bird=PEFA_secondary_female",
+   "source": "USFWS National Forensics Laboratory, Feather Atlas",
+   "license_or_terms": "Feather Atlas FAQ: 'All images and data on the website are freely available to the public; no special permission is required for their use.' Credit USFWS Forensics Lab as courtesy.",
+   "content": "Secondaries of the RIGHT wing/tail, dorsal view, laid out individually (NOT a spread wing)",
+   "sex_age": "Female, Adult",
+   "specimen": "BRD 2889",
+   "locality": "Jackson Co., Oregon, USA",
+   "side": "right",
+   "pixel_size": [
+    800,
+    372
+   ],
+   "scale": {
+    "px_per_cm": 14.44,
+    "cm_per_px": 0.06925,
+    "method": "2-cm grid, 8 intervals = 231 px",
+    "caveat": "800-px web scan is the largest copy served; EXIF shows originals were ~9600 px wide. High-res files only on request (featheratlas@fws.gov, per FAQ). Per-feather lengths in peregrine_records.json come from the atlas data table (measured along the rachis)."
+   },
+   "notes": ""
+  },
+  {
+   "file": "featheratlas/PEFA_primary_imm_male.jpg",
+   "source_url": "https://www.fws.gov/lab/featheratlas/images/feathers/PEFA_primary_imm_male.jpg",
+   "page_url": "https://www.fws.gov/lab/featheratlas/feather.html?Bird=PEFA_primary_imm_male",
+   "source": "USFWS National Forensics Laboratory, Feather Atlas",
+   "license_or_terms": "Feather Atlas FAQ: 'All images and data on the website are freely available to the public; no special permission is required for their use.' Credit USFWS Forensics Lab as courtesy.",
+   "content": "Primaries of the RIGHT wing/tail, dorsal view, laid out individually (NOT a spread wing)",
+   "sex_age": "Male, Juvenile",
+   "specimen": "BRD 1802",
+   "locality": "Clatsop Co., Oregon, USA",
+   "side": "right",
+   "pixel_size": [
+    800,
+    734
+   ],
+   "scale": {
+    "px_per_cm": 17.35,
+    "cm_per_px": 0.05764,
+    "method": "2-cm grid, 13 intervals = 451 px",
+    "caveat": "800-px web scan is the largest copy served; EXIF shows originals were ~9600 px wide. High-res files only on request (featheratlas@fws.gov, per FAQ). Per-feather lengths in peregrine_records.json come from the atlas data table (measured along the rachis)."
+   },
+   "notes": ""
+  },
+  {
+   "file": "featheratlas/PEFA_secondary_imm_male.jpg",
+   "source_url": "https://www.fws.gov/lab/featheratlas/images/feathers/PEFA_secondary_imm_male.jpg",
+   "page_url": "https://www.fws.gov/lab/featheratlas/feather.html?Bird=PEFA_secondary_imm_male",
+   "source": "USFWS National Forensics Laboratory, Feather Atlas",
+   "license_or_terms": "Feather Atlas FAQ: 'All images and data on the website are freely available to the public; no special permission is required for their use.' Credit USFWS Forensics Lab as courtesy.",
+   "content": "Secondaries of the RIGHT wing/tail, dorsal view, laid out individually (NOT a spread wing)",
+   "sex_age": "Male, Juvenile",
+   "specimen": "BRD 1802",
+   "locality": "Clatsop Co., Oregon, USA",
+   "side": "right",
+   "pixel_size": [
+    800,
+    430
+   ],
+   "scale": {
+    "px_per_cm": 14.31,
+    "cm_per_px": 0.06988,
+    "method": "2-cm grid, 8 intervals = 229 px",
+    "caveat": "800-px web scan is the largest copy served; EXIF shows originals were ~9600 px wide. High-res files only on request (featheratlas@fws.gov, per FAQ). Per-feather lengths in peregrine_records.json come from the atlas data table (measured along the rachis)."
+   },
+   "notes": ""
+  },
+  {
+   "file": "featheratlas/PEFA_primary_adult.jpg",
+   "source_url": "https://www.fws.gov/lab/featheratlas/images/feathers/PEFA_primary_adult.jpg",
+   "page_url": "https://www.fws.gov/lab/featheratlas/feather.html?Bird=PEFA_primary_adult",
+   "source": "USFWS National Forensics Laboratory, Feather Atlas",
+   "license_or_terms": "Feather Atlas FAQ: 'All images and data on the website are freely available to the public; no special permission is required for their use.' Credit USFWS Forensics Lab as courtesy.",
+   "content": "Primaries of the RIGHT wing/tail, dorsal view, laid out individually (NOT a spread wing)",
+   "sex_age": "Male, Adult",
+   "specimen": "BRD 1313",
+   "locality": "Unknown Co., Oregon, USA",
+   "side": "right",
+   "pixel_size": [
+    800,
+    718
+   ],
+   "scale": {
+    "px_per_cm": 17.81,
+    "cm_per_px": 0.05615,
+    "method": "2-cm grid, 13 intervals = 463 px",
+    "caveat": "800-px web scan is the largest copy served; EXIF shows originals were ~9600 px wide. High-res files only on request (featheratlas@fws.gov, per FAQ). Per-feather lengths in peregrine_records.json come from the atlas data table (measured along the rachis)."
+   },
+   "notes": ""
+  },
+  {
+   "file": "featheratlas/PEFA_secondary_adult.jpg",
+   "source_url": "https://www.fws.gov/lab/featheratlas/images/feathers/PEFA_secondary_adult.jpg",
+   "page_url": "https://www.fws.gov/lab/featheratlas/feather.html?Bird=PEFA_secondary_adult",
+   "source": "USFWS National Forensics Laboratory, Feather Atlas",
+   "license_or_terms": "Feather Atlas FAQ: 'All images and data on the website are freely available to the public; no special permission is required for their use.' Credit USFWS Forensics Lab as courtesy.",
+   "content": "Secondaries of the RIGHT wing/tail, dorsal view, laid out individually (NOT a spread wing)",
+   "sex_age": "Male, Adult",
+   "specimen": "BRD 1313",
+   "locality": "Unknown Co., Oregon, USA",
+   "side": "right",
+   "pixel_size": [
+    800,
+    480
+   ],
+   "scale": {
+    "px_per_cm": 17.79,
+    "cm_per_px": 0.05621,
+    "method": "2-cm grid, 7 intervals = 249 px",
+    "caveat": "800-px web scan is the largest copy served; EXIF shows originals were ~9600 px wide. High-res files only on request (featheratlas@fws.gov, per FAQ). Per-feather lengths in peregrine_records.json come from the atlas data table (measured along the rachis)."
+   },
+   "notes": "Black background"
+  },
+  {
+   "file": "featheratlas/PEFA_secondary_adult_blubk.jpg",
+   "source_url": "https://www.fws.gov/lab/featheratlas/images/feathers/PEFA_secondary_adult_blubk.jpg",
+   "page_url": "https://www.fws.gov/lab/featheratlas/feather.html?Bird=PEFA_secondary_adult_blubk",
+   "source": "USFWS National Forensics Laboratory, Feather Atlas",
+   "license_or_terms": "Feather Atlas FAQ: 'All images and data on the website are freely available to the public; no special permission is required for their use.' Credit USFWS Forensics Lab as courtesy.",
+   "content": "Secondaries of the RIGHT wing/tail, dorsal view, laid out individually (NOT a spread wing)",
+   "sex_age": "Male, Adult",
+   "specimen": "BRD 1313",
+   "locality": "Unknown Co., Oregon, USA",
+   "side": "right",
+   "pixel_size": [
+    800,
+    480
+   ],
+   "scale": {
+    "px_per_cm": 17.79,
+    "cm_per_px": 0.05621,
+    "method": "2-cm grid, 7 intervals = 249 px",
+    "caveat": "800-px web scan is the largest copy served; EXIF shows originals were ~9600 px wide. High-res files only on request (featheratlas@fws.gov, per FAQ). Per-feather lengths in peregrine_records.json come from the atlas data table (measured along the rachis)."
+   },
+   "notes": "Blue background"
+  },
+  {
+   "file": "slater/PSM21186_male_dorsal.jpg",
+   "source_url": "https://www.jstor.org/stable/community.36062547",
+   "image_url": "https://www.jstor.org/iiif/2023/11/07/14/9be71584-30af-4b09-8394-26d078d4175b_deflate.tif/full/2048,/0/default.jpg",
+   "source": "Slater Museum of Natural History (University of Puget Sound) Wing & Tail Image Collection, hosted on JSTOR (Collins Memorial Library shared collection); item 21186a, record date 2009-04-21, Washington State",
+   "license_or_terms": "Shared by the institution via JSTOR Shared Collections ('For terms of use, please refer to our Terms & Conditions'); caption bar on each image reads '(c) Slater Museum of Natural History-University of Puget Sound'. Treat as reference-only; check JSTOR T&C before redistributing.",
+   "content": "PSM 21186 spread wing; collection month Jan",
+   "sex_age": "male",
+   "view": "dorsal (JSTOR 'above')",
+   "side": "right",
+   "side_determination": "from morphology (leading edge at top; tip to the right = right wing, tip to the left = left wing in dorsal view; the ventral image of the same specimen is the mirror)",
+   "pixel_size": [
+    2048,
+    1398
+   ],
+   "scale": {
+    "px_per_cm": 49.87,
+    "cm_per_px": 0.02005,
+    "method": "15-cm scale bar at lower left: 1-cm black/white blocks (label '1 cm'), 1-mm ticks. Pitch measured from tick transitions and block edges (derived/scale_all.py), mean of the two; checked at 11x magnification on PSM 19885.",
+    "tick_based_px_per_cm": 49.93,
+    "block_based_px_per_cm": 49.8,
+    "uncertainty": "~ +/-0.5% from the bar; wing feathers sit a few mm above the bar plane so lengths measured on the feathers may read ~1-3% large",
+    "caveat": "2048 px wide is the maximum the JSTOR IIIF server offers (info.json). Scale differs between specimens (camera distance changed)."
+   },
+   "iiif_info_json": "slater/PSM21186_male_dorsal.info.json"
+  },
+  {
+   "file": "slater/PSM21186_male_ventral.jpg",
+   "source_url": "https://www.jstor.org/stable/community.36062548",
+   "image_url": "https://www.jstor.org/iiif/2023/11/07/14/2a8faf77-f5c9-4247-a5a4-e3f14a8249a0_deflate.tif/full/2048,/0/default.jpg",
+   "source": "Slater Museum of Natural History (University of Puget Sound) Wing & Tail Image Collection, hosted on JSTOR (Collins Memorial Library shared collection); item 21186b, record date 2009-04-21, Washington State",
+   "license_or_terms": "Shared by the institution via JSTOR Shared Collections ('For terms of use, please refer to our Terms & Conditions'); caption bar on each image reads '(c) Slater Museum of Natural History-University of Puget Sound'. Treat as reference-only; check JSTOR T&C before redistributing.",
+   "content": "PSM 21186 spread wing; collection month Jan",
+   "sex_age": "male",
+   "view": "ventral (JSTOR 'below')",
+   "side": "right",
+   "side_determination": "from morphology (leading edge at top; tip to the right = right wing, tip to the left = left wing in dorsal view; the ventral image of the same specimen is the mirror)",
+   "pixel_size": [
+    2048,
+    1398
+   ],
+   "scale": {
+    "px_per_cm": 49.89,
+    "cm_per_px": 0.02005,
+    "method": "15-cm scale bar at lower left: 1-cm black/white blocks (label '1 cm'), 1-mm ticks. Pitch measured from tick transitions and block edges (derived/scale_all.py), mean of the two; checked at 11x magnification on PSM 19885.",
+    "tick_based_px_per_cm": 49.93,
+    "block_based_px_per_cm": 49.84,
+    "uncertainty": "~ +/-0.5% from the bar; wing feathers sit a few mm above the bar plane so lengths measured on the feathers may read ~1-3% large",
+    "caveat": "2048 px wide is the maximum the JSTOR IIIF server offers (info.json). Scale differs between specimens (camera distance changed)."
+   },
+   "iiif_info_json": "slater/PSM21186_male_ventral.info.json"
+  },
+  {
+   "file": "slater/PSM19885_female_dorsal.jpg",
+   "source_url": "https://www.jstor.org/stable/community.36062545",
+   "image_url": "https://www.jstor.org/iiif/2023/11/07/14/17888d7e-8949-4e89-b007-6e4d7d420bb8_deflate.tif/full/2048,/0/default.jpg",
+   "source": "Slater Museum of Natural History (University of Puget Sound) Wing & Tail Image Collection, hosted on JSTOR (Collins Memorial Library shared collection); item 19885a, record date 2009-04-21, Washington State",
+   "license_or_terms": "Shared by the institution via JSTOR Shared Collections ('For terms of use, please refer to our Terms & Conditions'); caption bar on each image reads '(c) Slater Museum of Natural History-University of Puget Sound'. Treat as reference-only; check JSTOR T&C before redistributing.",
+   "content": "PSM 19885 spread wing; collection month May",
+   "sex_age": "female",
+   "view": "dorsal (JSTOR 'above')",
+   "side": "left",
+   "side_determination": "from morphology (leading edge at top; tip to the right = right wing, tip to the left = left wing in dorsal view; the ventral image of the same specimen is the mirror)",
+   "pixel_size": [
+    2048,
+    1398
+   ],
+   "scale": {
+    "px_per_cm": 38.34,
+    "cm_per_px": 0.02608,
+    "method": "15-cm scale bar at lower left: 1-cm black/white blocks (label '1 cm'), 1-mm ticks. Pitch measured from tick transitions and block edges (derived/scale_all.py), mean of the two; checked at 11x magnification on PSM 19885.",
+    "tick_based_px_per_cm": 38.39,
+    "block_based_px_per_cm": 38.29,
+    "uncertainty": "~ +/-0.5% from the bar; wing feathers sit a few mm above the bar plane so lengths measured on the feathers may read ~1-3% large",
+    "caveat": "2048 px wide is the maximum the JSTOR IIIF server offers (info.json). Scale differs between specimens (camera distance changed)."
+   },
+   "iiif_info_json": "slater/PSM19885_female_dorsal.info.json"
+  },
+  {
+   "file": "slater/PSM19885_female_ventral.jpg",
+   "source_url": "https://www.jstor.org/stable/community.36062546",
+   "image_url": "https://www.jstor.org/iiif/2023/11/07/14/78181178-41e8-43c5-9a89-0e894f05c7d8_deflate.tif/full/2048,/0/default.jpg",
+   "source": "Slater Museum of Natural History (University of Puget Sound) Wing & Tail Image Collection, hosted on JSTOR (Collins Memorial Library shared collection); item 19885b, record date 2009-04-21, Washington State",
+   "license_or_terms": "Shared by the institution via JSTOR Shared Collections ('For terms of use, please refer to our Terms & Conditions'); caption bar on each image reads '(c) Slater Museum of Natural History-University of Puget Sound'. Treat as reference-only; check JSTOR T&C before redistributing.",
+   "content": "PSM 19885 spread wing; collection month May",
+   "sex_age": "female",
+   "view": "ventral (JSTOR 'below')",
+   "side": "left",
+   "side_determination": "from morphology (leading edge at top; tip to the right = right wing, tip to the left = left wing in dorsal view; the ventral image of the same specimen is the mirror)",
+   "pixel_size": [
+    2048,
+    1398
+   ],
+   "scale": {
+    "px_per_cm": 38.32,
+    "cm_per_px": 0.0261,
+    "method": "15-cm scale bar at lower left: 1-cm black/white blocks (label '1 cm'), 1-mm ticks. Pitch measured from tick transitions and block edges (derived/scale_all.py), mean of the two; checked at 11x magnification on PSM 19885.",
+    "tick_based_px_per_cm": 38.39,
+    "block_based_px_per_cm": 38.25,
+    "uncertainty": "~ +/-0.5% from the bar; wing feathers sit a few mm above the bar plane so lengths measured on the feathers may read ~1-3% large",
+    "caveat": "2048 px wide is the maximum the JSTOR IIIF server offers (info.json). Scale differs between specimens (camera distance changed)."
+   },
+   "iiif_info_json": "slater/PSM19885_female_ventral.info.json"
+  },
+  {
+   "file": "slater/PSM22483_female_a.jpg",
+   "source_url": "https://www.jstor.org/stable/community.36062549",
+   "image_url": "https://www.jstor.org/iiif/2023/11/07/14/16a2098f-04fd-4897-9787-f05ca0a2bc03_deflate.tif/full/2048,/0/default.jpg",
+   "source": "Slater Museum of Natural History (University of Puget Sound) Wing & Tail Image Collection, hosted on JSTOR (Collins Memorial Library shared collection); item 22483a, record date 2009-04-21, Washington State",
+   "license_or_terms": "Shared by the institution via JSTOR Shared Collections ('For terms of use, please refer to our Terms & Conditions'); caption bar on each image reads '(c) Slater Museum of Natural History-University of Puget Sound'. Treat as reference-only; check JSTOR T&C before redistributing.",
+   "content": "PSM 22483 spread wing; collection month Jan",
+   "sex_age": "female (adult)",
+   "view": "dorsal (by appearance; JSTOR record does not say above/below)",
+   "side": "right",
+   "side_determination": "from morphology (leading edge at top; tip to the right = right wing, tip to the left = left wing in dorsal view; the ventral image of the same specimen is the mirror)",
+   "pixel_size": [
+    2048,
+    1398
+   ],
+   "scale": {
+    "px_per_cm": 39.82,
+    "cm_per_px": 0.02511,
+    "method": "15-cm scale bar at lower left: 1-cm black/white blocks (label '1 cm'), 1-mm ticks. Pitch measured from tick transitions and block edges (derived/scale_all.py), mean of the two; checked at 11x magnification on PSM 19885.",
+    "tick_based_px_per_cm": 39.87,
+    "block_based_px_per_cm": 39.77,
+    "uncertainty": "~ +/-0.5% from the bar; wing feathers sit a few mm above the bar plane so lengths measured on the feathers may read ~1-3% large",
+    "caveat": "2048 px wide is the maximum the JSTOR IIIF server offers (info.json). Scale differs between specimens (camera distance changed)."
+   },
+   "iiif_info_json": "slater/PSM22483_female_a.info.json"
+  },
+  {
+   "file": "slater/PSM22483_female_b.jpg",
+   "source_url": "https://www.jstor.org/stable/community.36062550",
+   "image_url": "https://www.jstor.org/iiif/2023/11/07/14/92fe2894-586b-4f5c-9abf-b1fc669fdc27_deflate.tif/full/2048,/0/default.jpg",
+   "source": "Slater Museum of Natural History (University of Puget Sound) Wing & Tail Image Collection, hosted on JSTOR (Collins Memorial Library shared collection); item 22483b, record date 2009-04-21, Washington State",
+   "license_or_terms": "Shared by the institution via JSTOR Shared Collections ('For terms of use, please refer to our Terms & Conditions'); caption bar on each image reads '(c) Slater Museum of Natural History-University of Puget Sound'. Treat as reference-only; check JSTOR T&C before redistributing.",
+   "content": "PSM 22483 spread wing; collection month Jan",
+   "sex_age": "female (adult)",
+   "view": "ventral (by appearance)",
+   "side": "right",
+   "side_determination": "from morphology (leading edge at top; tip to the right = right wing, tip to the left = left wing in dorsal view; the ventral image of the same specimen is the mirror)",
+   "pixel_size": [
+    2048,
+    1398
+   ],
+   "scale": {
+    "px_per_cm": 39.82,
+    "cm_per_px": 0.02512,
+    "method": "15-cm scale bar at lower left: 1-cm black/white blocks (label '1 cm'), 1-mm ticks. Pitch measured from tick transitions and block edges (derived/scale_all.py), mean of the two; checked at 11x magnification on PSM 19885.",
+    "tick_based_px_per_cm": 39.87,
+    "block_based_px_per_cm": 39.76,
+    "uncertainty": "~ +/-0.5% from the bar; wing feathers sit a few mm above the bar plane so lengths measured on the feathers may read ~1-3% large",
+    "caveat": "2048 px wide is the maximum the JSTOR IIIF server offers (info.json). Scale differs between specimens (camera distance changed)."
+   },
+   "iiif_info_json": "slater/PSM22483_female_b.info.json"
+  },
+  {
+   "file": "slater/PSM22661_female_dorsal.jpg",
+   "source_url": "https://www.jstor.org/stable/community.36062551",
+   "image_url": "https://www.jstor.org/iiif/2023/11/07/14/437e60eb-ce7e-4ce5-a1f1-6457349dffeb_deflate.tif/full/2048,/0/default.jpg",
+   "source": "Slater Museum of Natural History (University of Puget Sound) Wing & Tail Image Collection, hosted on JSTOR (Collins Memorial Library shared collection); item 22661a, record date 2009-04-21, Washington State",
+   "license_or_terms": "Shared by the institution via JSTOR Shared Collections ('For terms of use, please refer to our Terms & Conditions'); caption bar on each image reads '(c) Slater Museum of Natural History-University of Puget Sound'. Treat as reference-only; check JSTOR T&C before redistributing.",
+   "content": "PSM 22661 spread wing; collection month Jul",
+   "sex_age": "female",
+   "view": "dorsal (JSTOR 'above')",
+   "side": "left",
+   "side_determination": "from morphology (leading edge at top; tip to the right = right wing, tip to the left = left wing in dorsal view; the ventral image of the same specimen is the mirror)",
+   "pixel_size": [
+    2048,
+    1398
+   ],
+   "scale": {
+    "px_per_cm": 39.53,
+    "cm_per_px": 0.0253,
+    "method": "15-cm scale bar at lower left: 1-cm black/white blocks (label '1 cm'), 1-mm ticks. Pitch measured from tick transitions and block edges (derived/scale_all.py), mean of the two; checked at 11x magnification on PSM 19885.",
+    "tick_based_px_per_cm": 39.6,
+    "block_based_px_per_cm": 39.45,
+    "uncertainty": "~ +/-0.5% from the bar; wing feathers sit a few mm above the bar plane so lengths measured on the feathers may read ~1-3% large",
+    "caveat": "2048 px wide is the maximum the JSTOR IIIF server offers (info.json). Scale differs between specimens (camera distance changed)."
+   },
+   "iiif_info_json": "slater/PSM22661_female_dorsal.info.json"
+  },
+  {
+   "file": "slater/PSM22661_female_ventral.jpg",
+   "source_url": "https://www.jstor.org/stable/community.36062552",
+   "image_url": "https://www.jstor.org/iiif/2023/11/07/14/c50479d5-4c54-4860-937a-0e9e33ca6822_deflate.tif/full/2048,/0/default.jpg",
+   "source": "Slater Museum of Natural History (University of Puget Sound) Wing & Tail Image Collection, hosted on JSTOR (Collins Memorial Library shared collection); item 22661b, record date 2009-04-21, Washington State",
+   "license_or_terms": "Shared by the institution via JSTOR Shared Collections ('For terms of use, please refer to our Terms & Conditions'); caption bar on each image reads '(c) Slater Museum of Natural History-University of Puget Sound'. Treat as reference-only; check JSTOR T&C before redistributing.",
+   "content": "PSM 22661 spread wing; collection month Jul",
+   "sex_age": "female",
+   "view": "ventral (JSTOR 'below')",
+   "side": "left",
+   "side_determination": "from morphology (leading edge at top; tip to the right = right wing, tip to the left = left wing in dorsal view; the ventral image of the same specimen is the mirror)",
+   "pixel_size": [
+    2048,
+    1398
+   ],
+   "scale": {
+    "px_per_cm": 39.47,
+    "cm_per_px": 0.02534,
+    "method": "15-cm scale bar at lower left: 1-cm black/white blocks (label '1 cm'), 1-mm ticks. Pitch measured from tick transitions and block edges (derived/scale_all.py), mean of the two; checked at 11x magnification on PSM 19885.",
+    "tick_based_px_per_cm": 39.53,
+    "block_based_px_per_cm": 39.4,
+    "uncertainty": "~ +/-0.5% from the bar; wing feathers sit a few mm above the bar plane so lengths measured on the feathers may read ~1-3% large",
+    "caveat": "2048 px wide is the maximum the JSTOR IIIF server offers (info.json). Scale differs between specimens (camera distance changed)."
+   },
+   "iiif_info_json": "slater/PSM22661_female_ventral.info.json"
+  },
+  {
+   "file": "slater/PSM23894_female_tail.jpg",
+   "source_url": "https://www.jstor.org/stable/community.36062544",
+   "image_url": "https://www.jstor.org/iiif/2023/11/07/14/c118ea1e-76eb-4e31-8430-7363e4244301_deflate.tif/full/2048,/0/default.jpg",
+   "source": "Slater Museum of Natural History (University of Puget Sound) Wing & Tail Image Collection, hosted on JSTOR (Collins Memorial Library shared collection); item 23894 tail, record date 2009-04-21, Washington State",
+   "license_or_terms": "Shared by the institution via JSTOR Shared Collections ('For terms of use, please refer to our Terms & Conditions'); caption bar on each image reads '(c) Slater Museum of Natural History-University of Puget Sound'. Treat as reference-only; check JSTOR T&C before redistributing.",
+   "content": "PSM 23894 spread wing (tail fan); collection month Jul",
+   "sex_age": "female (hatch-year 1993, aged by a few remaining juvenal feathers in Aug 1994)",
+   "view": "tail, dorsal(?), all 12 rectrices pinned out in a flat fan",
+   "side": "n/a",
+   "side_determination": "n/a",
+   "pixel_size": [
+    2048,
+    1398
+   ],
+   "scale": {
+    "px_per_cm": 47.87,
+    "cm_per_px": 0.02089,
+    "method": "15-cm scale bar at lower left: 1-cm black/white blocks (label '1 cm'), 1-mm ticks. Pitch measured from tick transitions and block edges (derived/scale_all.py), mean of the two; checked at 11x magnification on PSM 19885.",
+    "tick_based_px_per_cm": 47.92,
+    "block_based_px_per_cm": 47.82,
+    "uncertainty": "~ +/-0.5% from the bar; wing feathers sit a few mm above the bar plane so lengths measured on the feathers may read ~1-3% large",
+    "caveat": "2048 px wide is the maximum the JSTOR IIIF server offers (info.json). Scale differs between specimens (camera distance changed)."
+   },
+   "iiif_info_json": "slater/PSM23894_female_tail.info.json"
+  },
+  {
+   "file": "naturalis/ZMA_AVES_43803_dors.jpg",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Naturalis_Biodiversity_Center_-_ZMA.AVES.43803_2_DORS_-_Falco_peregrinus_harterti_Buturlin,_1907_-_Falconidae_-_skin_specimen.jpeg",
+   "source": "Naturalis Biodiversity Center study skin ZMA.AVES.43803, Falco peregrinus (harterti per label), via Wikimedia Commons",
+   "license_or_terms": "CC BY-SA 3.0 as shown in Commons metadata (credit Naturalis Biodiversity Center)",
+   "content": "mounted/straight study skin, wings folded, dorsal view, black background",
+   "sex_age": "not stated (brown dorsal plumage = immature-type)",
+   "side": "both (folded)",
+   "pixel_size": [
+    1224,
+    1920
+   ],
+   "scale": {
+    "px_per_cm": null,
+    "method": "NO scale bar or ruler in frame; specimen length not given. Use only for within-frame proportions (bill tip -> shoulder -> tail tip)."
+   },
+   "notes": "Not scaled. Bill tip to tail tip ~1670 px in dorsal and ventral frames."
+  },
+  {
+   "file": "naturalis/ZMA_AVES_43803_vent.jpg",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Naturalis_Biodiversity_Center_-_ZMA.AVES.43803_3_VENT_-_Falco_peregrinus_harterti_Buturlin,_1907_-_Falconidae_-_skin_specimen.jpeg",
+   "source": "Naturalis Biodiversity Center study skin ZMA.AVES.43803, Falco peregrinus (harterti per label), via Wikimedia Commons",
+   "license_or_terms": "CC BY-SA 3.0 as shown in Commons metadata (credit Naturalis Biodiversity Center)",
+   "content": "mounted/straight study skin, wings folded, ventral view, black background",
+   "sex_age": "not stated (brown dorsal plumage = immature-type)",
+   "side": "both (folded)",
+   "pixel_size": [
+    1224,
+    1920
+   ],
+   "scale": {
+    "px_per_cm": null,
+    "method": "NO scale bar or ruler in frame; specimen length not given. Use only for within-frame proportions (bill tip -> shoulder -> tail tip)."
+   },
+   "notes": "Not scaled. Bill tip to tail tip ~1670 px in dorsal and ventral frames."
+  },
+  {
+   "file": "naturalis/ZMA_AVES_43803_lat.jpg",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Naturalis_Biodiversity_Center_-_ZMA.AVES.43803_1_LAT_-_Falco_peregrinus_harterti_Buturlin,_1907_-_Falconidae_-_skin_specimen.jpeg",
+   "source": "Naturalis Biodiversity Center study skin ZMA.AVES.43803, Falco peregrinus (harterti per label), via Wikimedia Commons",
+   "license_or_terms": "CC BY-SA 3.0 as shown in Commons metadata (credit Naturalis Biodiversity Center)",
+   "content": "mounted/straight study skin, wings folded, lateral view, black background",
+   "sex_age": "not stated (brown dorsal plumage = immature-type)",
+   "side": "both (folded)",
+   "pixel_size": [
+    1224,
+    1920
+   ],
+   "scale": {
+    "px_per_cm": null,
+    "method": "NO scale bar or ruler in frame; specimen length not given. Use only for within-frame proportions (bill tip -> shoulder -> tail tip)."
+   },
+   "notes": "Not scaled. Bill tip to tail tip ~1670 px in dorsal and ventral frames."
+  },
+  {
+   "file": "wikimedia/FalcoPeregrinusSkeleton_Erxleben.jpg",
+   "source_url": "https://commons.wikimedia.org/wiki/File:FalcoPeregrinusSkeleton.jpg",
+   "source": "J. Erxleben lithograph of a Falco peregrinus skeleton (19th century), Wikimedia Commons",
+   "license_or_terms": "Public domain (Commons metadata)",
+   "content": "skeleton, perched pose, right lateral",
+   "sex_age": "not stated",
+   "side": "right",
+   "pixel_size": [
+    1364,
+    1800
+   ],
+   "scale": {
+    "px_per_cm": null,
+    "method": "NO scale; drawing is roughly life-size but the plate is not calibrated"
+   },
+   "notes": "Proportion reference for skull/neck/shoulder girdle only; do not read absolute sizes from it."
+  },
+  {
+   "file": "wikimedia/flight_ventral_A_england_CC-BY-2.0.jpg",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Falco_peregrinus_-England_-flying-8.jpg",
+   "source": "Wikimedia Commons: Falco peregrinus -England -flying-8.jpg",
+   "license_or_terms": "Steve Childs (Flickr), CC BY 2.0",
+   "content": "free-flying peregrine photographed from below (near-planform ventral view) against blue sky",
+   "sex_age": "not stated",
+   "side": "both",
+   "pixel_size": [
+    1920,
+    1281
+   ],
+   "scale": {
+    "px_per_cm": null,
+    "method": "NO scale; used for dimensionless ratios only (bill tip -> wing leading-edge root -> trailing-edge root -> tail tip, projected wing span). Perspective/banking error est. +/-0.03 in fractions."
+   },
+   "notes": "Downloaded as the 1600-px-wide Commons rendering (Special:FilePath); original is larger."
+  },
+  {
+   "file": "wikimedia/flight_ventral_B_juanlacruz_CC-BY-SA-3.0.jpg",
+   "source_url": "https://commons.wikimedia.org/wiki/File:FlyingPeregrine.jpg",
+   "source": "Wikimedia Commons: FlyingPeregrine.jpg",
+   "license_or_terms": "Juan Lacruz, CC BY-SA 3.0",
+   "content": "free-flying peregrine photographed from below (near-planform ventral view) against blue sky",
+   "sex_age": "not stated",
+   "side": "both",
+   "pixel_size": [
+    1920,
+    1920
+   ],
+   "scale": {
+    "px_per_cm": null,
+    "method": "NO scale; used for dimensionless ratios only (bill tip -> wing leading-edge root -> trailing-edge root -> tail tip, projected wing span). Perspective/banking error est. +/-0.03 in fractions."
+   },
+   "notes": "Downloaded as the 1600-px-wide Commons rendering (Special:FilePath); original is larger."
+  }
+ ]
+}

@@ -1,0 +1,1203 @@
+{
+ "_meta": {
+  "species": "Falco peregrinus",
+  "units": "cm unless named otherwise",
+  "generated": "2026-10-03",
+  "confidence_key": {
+   "high": "read from open full text/data table",
+   "medium": "secondary source or search snippet of paywalled page",
+   "derived": "computed here from scans/photos"
+  }
+ },
+ "published": {
+  "total_length_cm": {
+   "male": {
+    "range": [
+     36,
+     49
+    ],
+    "source": "Luensmann P. Falco peregrinus. USDA Forest Service Fire Effects Information System https://www.fs.usda.gov/database/feis/animals/bird/fape/all.html",
+    "confidence": "high",
+    "also": "BOW 'Field Identification' snippet: total length male 36-49 cm, female 45-58 cm"
+   },
+   "female": {
+    "range": [
+     45,
+     58
+    ],
+    "source": "Luensmann P. Falco peregrinus. USDA Forest Service Fire Effects Information System https://www.fs.usda.gov/database/feis/animals/bird/fape/all.html",
+    "confidence": "high"
+   },
+   "species_range": {
+    "range": [
+     34,
+     58
+    ],
+    "source": "Wikipedia 'Peregrine falcon' (cites White 1994 HBW vol.2; Potter 2002 ADW; Scholz 1993; Ferguson-Lees & Christie 2001 Raptors of the World for wing chord/tail/tarsus; Snow 1998; CRC Handbook of Avian Body Masses 1992; White et al. 2002 BNA)",
+    "confidence": "medium"
+   },
+   "pealei": {
+    "male": 41,
+    "female": 47,
+    "source": "Wikipedia 'Peale's falcon' (F. p. pealei), secondary source, no primary citation checked",
+    "confidence": "medium"
+   },
+   "both_sexes_AAB": {
+    "range": [
+     36,
+     49
+    ],
+    "source": "Cornell Lab All About Birds, Peregrine Falcon ID page https://www.allaboutbirds.org/guide/Peregrine_Falcon/id (read as search-result excerpt; direct fetch returned 403)",
+    "confidence": "medium"
+   }
+  },
+  "wingspan_cm": {
+   "anatum_male": {
+    "mean": 87.1,
+    "sd": 5.5,
+    "n": 11,
+    "source": "White CM, Clum NJ, Cade TJ, Hunt WG. Peregrine Falcon (Falco peregrinus), v1.1. Birds of the World, Cornell Lab of Ornithology, doi:10.2173/bow.perfal.01.1 (formerly BNA 660, 2002). PAYWALLED: only publicly visible snippets were read, flagged 'snippet'.",
+    "confidence": "medium (snippet, confirmed by two independent search extractions)"
+   },
+   "anatum_female": {
+    "mean": 99.7,
+    "sd": 4.8,
+    "n": 14,
+    "source": "White CM, Clum NJ, Cade TJ, Hunt WG. Peregrine Falcon (Falco peregrinus), v1.1. Birds of the World, Cornell Lab of Ornithology, doi:10.2173/bow.perfal.01.1 (formerly BNA 660, 2002). PAYWALLED: only publicly visible snippets were read, flagged 'snippet'.",
+    "confidence": "medium (snippet; first part of sentence read directly)"
+   },
+   "pealei_female": {
+    "mean": 103.5,
+    "sd": 6.4,
+    "source": "White CM, Clum NJ, Cade TJ, Hunt WG. Peregrine Falcon (Falco peregrinus), v1.1. Birds of the World, Cornell Lab of Ornithology, doi:10.2173/bow.perfal.01.1 (formerly BNA 660, 2002). PAYWALLED: only publicly visible snippets were read, flagged 'snippet'.",
+    "confidence": "medium"
+   },
+   "mills_table1_male": {
+    "value": 87.3,
+    "source": "Mills R, Taylor GK, Hemelrijk CK (2019) Sexual size dimorphism, prey morphology and catch success in relation to flight mechanics in the peregrine falcon: a simulation study. J Avian Biol 50(3):jav.01979, doi:10.1111/jav.01979, Table 1 (PMC7613156). Compiled by those authors from Pennycuick 1968, Hedenstrom & Moller 1992, Berg & Rayner 1995, Jenkins 1995, Tucker et al. 2000, Hedenstrom & Liechti 2001, Ward et al. 2001/2004, Bruderer et al. 2010.",
+    "confidence": "high"
+   },
+   "mills_table1_female": {
+    "value": 98.4,
+    "source": "Mills R, Taylor GK, Hemelrijk CK (2019) Sexual size dimorphism, prey morphology and catch success in relation to flight mechanics in the peregrine falcon: a simulation study. J Avian Biol 50(3):jav.01979, doi:10.1111/jav.01979, Table 1 (PMC7613156). Compiled by those authors from Pennycuick 1968, Hedenstrom & Moller 1992, Berg & Rayner 1995, Jenkins 1995, Tucker et al. 2000, Hedenstrom & Liechti 2001, Ward et al. 2001/2004, Bruderer et al. 2010.",
+    "confidence": "high"
+   },
+   "species_range": {
+    "range": [
+     74,
+     120
+    ],
+    "source": "Wikipedia 'Peregrine falcon' (cites White 1994 HBW vol.2; Potter 2002 ADW; Scholz 1993; Ferguson-Lees & Christie 2001 Raptors of the World for wing chord/tail/tarsus; Snow 1998; CRC Handbook of Avian Body Masses 1992; White et al. 2002 BNA)",
+    "confidence": "medium"
+   },
+   "AAB_both_sexes": {
+    "range": [
+     100,
+     110
+    ],
+    "source": "Cornell Lab All About Birds, Peregrine Falcon ID page https://www.allaboutbirds.org/guide/Peregrine_Falcon/id (read as search-result excerpt; direct fetch returned 403)",
+    "confidence": "medium"
+   },
+   "pealei_wikipedia": {
+    "male": 92,
+    "female": 111,
+    "source": "Wikipedia 'Peale's falcon' (F. p. pealei), secondary source, no primary citation checked",
+    "confidence": "medium"
+   }
+  },
+  "wing_chord_folded_mm": {
+   "tundrius_male": {
+    "mean": 308.3,
+    "range": [
+     292,
+     330
+    ],
+    "n": 64,
+    "source": "White CM (1968) Diagnosis and relationships of the North American tundra-inhabiting Peregrine Falcons. The Auk 85(2):179-191 (open PDF: digitalcommons.usf.edu/auk/vol85/iss2/1). Falco peregrinus tundrius.",
+    "confidence": "high"
+   },
+   "tundrius_female": {
+    "mean": 351.8,
+    "range": [
+     331,
+     368
+    ],
+    "n": 62,
+    "source": "White CM (1968) Diagnosis and relationships of the North American tundra-inhabiting Peregrine Falcons. The Auk 85(2):179-191 (open PDF: digitalcommons.usf.edu/auk/vol85/iss2/1). Falco peregrinus tundrius.",
+    "confidence": "high"
+   },
+   "nominate_male": {
+    "mean": 285,
+    "sd": 10.39,
+    "range": [
+     268,
+     310
+    ],
+    "n": "12-18",
+    "source": "White CM, Clum NJ, Cade TJ, Hunt WG. Peregrine Falcon (Falco peregrinus), v1.1. Birds of the World, Cornell Lab of Ornithology, doi:10.2173/bow.perfal.01.1 (formerly BNA 660, 2002). PAYWALLED: only publicly visible snippets were read, flagged 'snippet'. Appendix 2",
+    "confidence": "medium (snippet)"
+   },
+   "species_range_cm": {
+    "range": [
+     26.5,
+     39
+    ],
+    "source": "Wikipedia 'Peregrine falcon' (cites White 1994 HBW vol.2; Potter 2002 ADW; Scholz 1993; Ferguson-Lees & Christie 2001 Raptors of the World for wing chord/tail/tarsus; Snow 1998; CRC Handbook of Avian Body Masses 1992; White et al. 2002 BNA)",
+    "confidence": "medium"
+   },
+   "pealei_male_range": [
+    320,
+    345
+   ],
+   "pealei_female_range": [
+    363,
+    391
+   ],
+   "pealei_source": "Wikipedia 'Peale's falcon' (F. p. pealei), secondary source, no primary citation checked"
+  },
+  "tail_length_mm": {
+   "tundrius_male": {
+    "mean": 140.5,
+    "range": [
+     134,
+     154
+    ],
+    "n": 64,
+    "source": "White CM (1968) Diagnosis and relationships of the North American tundra-inhabiting Peregrine Falcons. The Auk 85(2):179-191 (open PDF: digitalcommons.usf.edu/auk/vol85/iss2/1). Falco peregrinus tundrius.",
+    "confidence": "high"
+   },
+   "tundrius_female": {
+    "mean": 167.8,
+    "range": [
+     138,
+     180
+    ],
+    "n": 62,
+    "source": "White CM (1968) Diagnosis and relationships of the North American tundra-inhabiting Peregrine Falcons. The Auk 85(2):179-191 (open PDF: digitalcommons.usf.edu/auk/vol85/iss2/1). Falco peregrinus tundrius.",
+    "confidence": "high"
+   },
+   "nominate_male": {
+    "mean": 125,
+    "sd": 6.14,
+    "range": [
+     114,
+     136
+    ],
+    "source": "White CM, Clum NJ, Cade TJ, Hunt WG. Peregrine Falcon (Falco peregrinus), v1.1. Birds of the World, Cornell Lab of Ornithology, doi:10.2173/bow.perfal.01.1 (formerly BNA 660, 2002). PAYWALLED: only publicly visible snippets were read, flagged 'snippet'. Appendix 2",
+    "confidence": "medium (snippet)"
+   },
+   "species_range_cm": {
+    "range": [
+     13,
+     19
+    ],
+    "source": "Wikipedia 'Peregrine falcon' (cites White 1994 HBW vol.2; Potter 2002 ADW; Scholz 1993; Ferguson-Lees & Christie 2001 Raptors of the World for wing chord/tail/tarsus; Snow 1998; CRC Handbook of Avian Body Masses 1992; White et al. 2002 BNA)",
+    "confidence": "medium"
+   },
+   "tail_to_body_length_model": {
+    "value": "'just over a third' of body length (model of Ponitz falcon)",
+    "source": "Selim O, Gowree ER, Lagemann C, Talboys E, Jagadeesh C, Bruecker C (2021) Peregrine Falcon's dive: pullout maneuver and flight control through wing morphing. AIAA J 59; arXiv:2008.03948",
+    "confidence": "medium"
+   }
+  },
+  "tarsus_mm": {
+   "tundrius_male": 44.3,
+   "tundrius_female": 49.8,
+   "source": "White CM (1968) Diagnosis and relationships of the North American tundra-inhabiting Peregrine Falcons. The Auk 85(2):179-191 (open PDF: digitalcommons.usf.edu/auk/vol85/iss2/1). Falco peregrinus tundrius.",
+   "species_range_cm": [
+    4.5,
+    5.6
+   ],
+   "species_source": "Wikipedia 'Peregrine falcon' (cites White 1994 HBW vol.2; Potter 2002 ADW; Scholz 1993; Ferguson-Lees & Christie 2001 Raptors of the World for wing chord/tail/tarsus; Snow 1998; CRC Handbook of Avian Body Masses 1992; White et al. 2002 BNA)"
+  },
+  "body_mass_g": {
+   "tundrius_male": {
+    "mean": 610.9,
+    "range": [
+     550,
+     647
+    ],
+    "n": 12,
+    "source": "White CM (1968) Diagnosis and relationships of the North American tundra-inhabiting Peregrine Falcons. The Auk 85(2):179-191 (open PDF: digitalcommons.usf.edu/auk/vol85/iss2/1). Falco peregrinus tundrius.",
+    "confidence": "high"
+   },
+   "tundrius_female": {
+    "mean": 952.0,
+    "range": [
+     825,
+     1094
+    ],
+    "n": 19,
+    "source": "White CM (1968) Diagnosis and relationships of the North American tundra-inhabiting Peregrine Falcons. The Auk 85(2):179-191 (open PDF: digitalcommons.usf.edu/auk/vol85/iss2/1). Falco peregrinus tundrius.",
+    "confidence": "high"
+   },
+   "mills_male": {
+    "value": 528,
+    "source": "Mills R, Taylor GK, Hemelrijk CK (2019) Sexual size dimorphism, prey morphology and catch success in relation to flight mechanics in the peregrine falcon: a simulation study. J Avian Biol 50(3):jav.01979, doi:10.1111/jav.01979, Table 1 (PMC7613156). Compiled by those authors from Pennycuick 1968, Hedenstrom & Moller 1992, Berg & Rayner 1995, Jenkins 1995, Tucker et al. 2000, Hedenstrom & Liechti 2001, Ward et al. 2001/2004, Bruderer et al. 2010.",
+    "confidence": "high"
+   },
+   "mills_female": {
+    "value": 771,
+    "source": "Mills R, Taylor GK, Hemelrijk CK (2019) Sexual size dimorphism, prey morphology and catch success in relation to flight mechanics in the peregrine falcon: a simulation study. J Avian Biol 50(3):jav.01979, doi:10.1111/jav.01979, Table 1 (PMC7613156). Compiled by those authors from Pennycuick 1968, Hedenstrom & Moller 1992, Berg & Rayner 1995, Jenkins 1995, Tucker et al. 2000, Hedenstrom & Liechti 2001, Ward et al. 2001/2004, Bruderer et al. 2010.",
+    "confidence": "high"
+   },
+   "FEIS": {
+    "male_range": [
+     500,
+     994
+    ],
+    "female_range": [
+     750,
+     1398
+    ],
+    "source": "Luensmann P. Falco peregrinus. USDA Forest Service Fire Effects Information System https://www.fs.usda.gov/database/feis/animals/bird/fape/all.html",
+    "confidence": "high"
+   },
+   "wikipedia": {
+    "male_range": [
+     330,
+     1000
+    ],
+    "female_range": [
+     700,
+     1500
+    ],
+    "source": "Wikipedia 'Peregrine falcon' (cites White 1994 HBW vol.2; Potter 2002 ADW; Scholz 1993; Ferguson-Lees & Christie 2001 Raptors of the World for wing chord/tail/tarsus; Snow 1998; CRC Handbook of Avian Body Masses 1992; White et al. 2002 BNA)",
+    "confidence": "medium"
+   },
+   "AAB_both": {
+    "range": [
+     530,
+     1600
+    ],
+    "source": "Cornell Lab All About Birds, Peregrine Falcon ID page https://www.allaboutbirds.org/guide/Peregrine_Falcon/id (read as search-result excerpt; direct fetch returned 403)",
+    "confidence": "medium"
+   },
+   "BTO_key_stat": {
+    "value": 889.3,
+    "source": "BTO BirdFacts https://www.bto.org/understanding-birds/birdfacts/peregrine (only a mass value is given there)",
+    "confidence": "medium"
+   },
+   "ponitz_individual": {
+    "value": 500,
+    "source": "Ponitz B, Schmitz A, Fischer D, Bleckmann H, Bruecker C (2014) Diving-flight aerodynamics of a peregrine falcon (Falco peregrinus). PLoS ONE 9(2):e86506, doi:10.1371/journal.pone.0086506",
+    "confidence": "high",
+    "note": "'The mass of the investigated falcon was 0.5 kg.' (trained falconry bird; model built from a stuffed female body)"
+   }
+  },
+  "wing_area_total_cm2_incl_body": {
+   "male": {
+    "value": 897,
+    "source": "Mills R, Taylor GK, Hemelrijk CK (2019) Sexual size dimorphism, prey morphology and catch success in relation to flight mechanics in the peregrine falcon: a simulation study. J Avian Biol 50(3):jav.01979, doi:10.1111/jav.01979, Table 1 (PMC7613156). Compiled by those authors from Pennycuick 1968, Hedenstrom & Moller 1992, Berg & Rayner 1995, Jenkins 1995, Tucker et al. 2000, Hedenstrom & Liechti 2001, Ward et al. 2001/2004, Bruderer et al. 2010.",
+    "confidence": "high",
+    "note": "S = 8.97 dm2; AR column reproduces as b^2/S so this is total area incl. body between roots"
+   },
+   "female": {
+    "value": 1183,
+    "source": "Mills R, Taylor GK, Hemelrijk CK (2019) Sexual size dimorphism, prey morphology and catch success in relation to flight mechanics in the peregrine falcon: a simulation study. J Avian Biol 50(3):jav.01979, doi:10.1111/jav.01979, Table 1 (PMC7613156). Compiled by those authors from Pennycuick 1968, Hedenstrom & Moller 1992, Berg & Rayner 1995, Jenkins 1995, Tucker et al. 2000, Hedenstrom & Liechti 2001, Ward et al. 2001/2004, Bruderer et al. 2010.",
+    "confidence": "high",
+    "note": "S = 11.83 dm2"
+   }
+  },
+  "aspect_ratio_b2_over_S": {
+   "male": {
+    "value": 8.49,
+    "source": "Mills R, Taylor GK, Hemelrijk CK (2019) Sexual size dimorphism, prey morphology and catch success in relation to flight mechanics in the peregrine falcon: a simulation study. J Avian Biol 50(3):jav.01979, doi:10.1111/jav.01979, Table 1 (PMC7613156). Compiled by those authors from Pennycuick 1968, Hedenstrom & Moller 1992, Berg & Rayner 1995, Jenkins 1995, Tucker et al. 2000, Hedenstrom & Liechti 2001, Ward et al. 2001/2004, Bruderer et al. 2010.",
+    "confidence": "high"
+   },
+   "female": {
+    "value": 8.18,
+    "source": "Mills R, Taylor GK, Hemelrijk CK (2019) Sexual size dimorphism, prey morphology and catch success in relation to flight mechanics in the peregrine falcon: a simulation study. J Avian Biol 50(3):jav.01979, doi:10.1111/jav.01979, Table 1 (PMC7613156). Compiled by those authors from Pennycuick 1968, Hedenstrom & Moller 1992, Berg & Rayner 1995, Jenkins 1995, Tucker et al. 2000, Hedenstrom & Liechti 2001, Ward et al. 2001/2004, Bruderer et al. 2010.",
+    "confidence": "high"
+   }
+  },
+  "wing_width_cm_BOW": {
+   "anatum_female": {
+    "mean": 16.9,
+    "sd": 0.6,
+    "n": 14,
+    "source": "White CM, Clum NJ, Cade TJ, Hunt WG. Peregrine Falcon (Falco peregrinus), v1.1. Birds of the World, Cornell Lab of Ornithology, doi:10.2173/bow.perfal.01.1 (formerly BNA 660, 2002). PAYWALLED: only publicly visible snippets were read, flagged 'snippet'.",
+    "confidence": "medium (snippet)"
+   },
+   "anatum_male": {
+    "mean": 14.3,
+    "sd": 0.7,
+    "n": 11,
+    "source": "White CM, Clum NJ, Cade TJ, Hunt WG. Peregrine Falcon (Falco peregrinus), v1.1. Birds of the World, Cornell Lab of Ornithology, doi:10.2173/bow.perfal.01.1 (formerly BNA 660, 2002). PAYWALLED: only publicly visible snippets were read, flagged 'snippet'.",
+    "confidence": "medium (snippet)"
+   },
+   "pealei_female": {
+    "mean": 17.7,
+    "sd": 0.7,
+    "source": "White CM, Clum NJ, Cade TJ, Hunt WG. Peregrine Falcon (Falco peregrinus), v1.1. Birds of the World, Cornell Lab of Ornithology, doi:10.2173/bow.perfal.01.1 (formerly BNA 660, 2002). PAYWALLED: only publicly visible snippets were read, flagged 'snippet'.",
+    "confidence": "medium (snippet)"
+   },
+   "note": "definition of 'wing width' is not visible in the snippet; ours (max chord excl. inner 10% of span) is 17.4-18.5 cm in three females"
+  },
+  "wing_loading_g_per_cm2_BOW": {
+   "calculated_male": 0.52,
+   "calculated_female": 0.66,
+   "measured_male": 0.62,
+   "measured_female_range": [
+    0.59,
+    0.91
+   ],
+   "source": "White CM, Clum NJ, Cade TJ, Hunt WG. Peregrine Falcon (Falco peregrinus), v1.1. Birds of the World, Cornell Lab of Ornithology, doi:10.2173/bow.perfal.01.1 (formerly BNA 660, 2002). PAYWALLED: only publicly visible snippets were read, flagged 'snippet'.",
+   "confidence": "medium (snippet)"
+  },
+  "frontal_projection_area_cm2": {
+   "value": 123,
+   "top_view_projection_area_cm2": 411,
+   "source": "Ponitz B, Schmitz A, Fischer D, Bleckmann H, Bruecker C (2014) Diving-flight aerodynamics of a peregrine falcon (Falco peregrinus). PLoS ONE 9(2):e86506, doi:10.1371/journal.pone.0086506",
+   "note": "life-size model of a diving falcon (wings tucked), Table 1",
+   "confidence": "high"
+  },
+  "bone_lengths_mm_RBCM": {
+   "source": "Royal BC Museum, Avian Osteology, Peregrine Falcon species page https://rbcm.ca/Natural_History/Bones/Species-Pages/PEFA.htm (n=10 per sex; sources/subspecies not given; page has internal typos, e.g. female skull-width mean 37.06 outside its own 39.23-42.28 range)",
+   "confidence": "medium",
+   "n_per_sex": 10,
+   "humerus": {
+    "male": {
+     "mean": 77.24,
+     "range": [
+      73.22,
+      82.02
+     ]
+    },
+    "female": {
+     "mean": 90.87,
+     "range": [
+      80.77,
+      95.99
+     ]
+    }
+   },
+   "ulna": {
+    "male": {
+     "mean": 89.83,
+     "range": [
+      86.15,
+      95.2
+     ]
+    },
+    "female": {
+     "mean": 105.7,
+     "range": [
+      95.69,
+      122.4
+     ],
+     "flag": "upper range looks like an outlier/typo"
+    }
+   },
+   "radius": {
+    "male": {
+     "mean": 83.08,
+     "range": [
+      79.35,
+      87.53
+     ]
+    },
+    "female": {
+     "mean": 97.09,
+     "range": [
+      88.9,
+      103.49
+     ]
+    }
+   },
+   "carpometacarpus": {
+    "male": {
+     "mean": 55.35,
+     "range": [
+      51.17,
+      57.96
+     ]
+    },
+    "female": {
+     "mean": 63.87,
+     "range": [
+      56.01,
+      67.88
+     ],
+     "n": 11
+    }
+   },
+   "femur": {
+    "male": {
+     "mean": 63.59
+    },
+    "female": {
+     "mean": 73.01
+    }
+   },
+   "tibiotarsus": {
+    "male": {
+     "mean": 79.84
+    },
+    "female": {
+     "mean": 92.96
+    }
+   },
+   "tarsometatarsus": {
+    "male": {
+     "mean": 48.56
+    },
+    "female": {
+     "mean": 55.06
+    }
+   },
+   "skull_total_length": {
+    "male": {
+     "mean": 65.18,
+     "range": [
+      64.12,
+      66.43
+     ],
+     "n": 4
+    },
+    "female": {
+     "mean": 70.92,
+     "range": [
+      67.76,
+      72.92
+     ],
+     "n": 7
+    }
+   },
+   "skull_width": {
+    "male": {
+     "mean": 37.72,
+     "range": [
+      36.66,
+      38.91
+     ],
+     "n": 9
+    },
+    "female": {
+     "range": [
+      39.23,
+      42.28
+     ],
+     "n": 11,
+     "published_mean": 37.06,
+     "flag": "published mean lies outside the published range (typo); use the range midpoint ~40.8"
+    }
+   },
+   "note": "bone-only values (no feathers/soft tissue). Humerus+ulna (straight) = M 167 mm, F 197 mm."
+  },
+  "feather_atlas_lengths": {
+   "source": "USFWS Feather Atlas data table (featheratlas.sqlite) https://www.fws.gov/lab/featheratlas/",
+   "records": "featheratlas/peregrine_records.json",
+   "highlight": {
+    "adult_female_BRD2889": {
+     "primaries_total_len_cm_P10_to_P1": [
+      25.8,
+      27.4,
+      27.0,
+      25.7,
+      24.6,
+      23.0,
+      21.6,
+      20.1,
+      18.3,
+      16.6
+     ],
+     "primaries_vane_len_cm": [
+      22.4,
+      23.2,
+      22.0,
+      20.6,
+      19.5,
+      18.1,
+      16.8,
+      15.7,
+      14.3,
+      13.1
+     ],
+     "longest": "P9 27.4 cm; P10 = 94% of P9",
+     "tail_total_len_cm_R6_to_R1": [
+      18.5,
+      19.1,
+      19.1,
+      19.3,
+      19.5,
+      19.4
+     ],
+     "tail_vane_len_cm": [
+      16.3,
+      16.7,
+      16.7,
+      17.0,
+      17.0,
+      16.9
+     ]
+    },
+    "juvenile_male_BRD1802": {
+     "primaries_total_len_cm_P10_to_P1": [
+      23.8,
+      25.5,
+      25.1,
+      23.6,
+      22.3,
+      20.9,
+      19.5,
+      17.6,
+      16.0,
+      14.8
+     ],
+     "tail_total_len_cm_R6_to_R1": [
+      19.8,
+      20.8,
+      20.8,
+      20.7,
+      20.6,
+      20.3
+     ]
+    },
+    "adult_male_BRD1313": {
+     "primaries_total_len_cm_P10_to_P1": [
+      23.3,
+      24.9,
+      null,
+      22.9,
+      21.7,
+      20.2,
+      18.4,
+      16.8,
+      15.1,
+      null
+     ],
+     "note": "two primaries and several rectrices missing in scan"
+    }
+   }
+  }
+ },
+ "measured_slater_scans": {
+  "method": "Segmentation of the dorsal-view images against the blue-grey background; scale from the in-frame 15-cm bar. Left wings mirrored so tip is on the right. Span axis = image x; root = median left edge of the cut end (includes scapulars, excludes the downy tuft only approximately). Chord = vertical extent of the mask at that x (overestimates true chord on the drooped distal wing). Scripts in derived/.",
+  "per_specimen": {
+   "PSM21186_male_dorsal": {
+    "side": "right",
+    "view": "dorsal",
+    "sex": "male",
+    "id": "PSM 21186",
+    "collection_month": "Jan",
+    "cm_per_px": 0.020053123992463253,
+    "semi_span_root_to_tip_cm": 36.93785439411731,
+    "wing_area_cm2": 415.83792645174157,
+    "mean_chord_cm": 11.257771553671173,
+    "AR_wing_only": 6.562196473434715,
+    "chord_at_fraction_cm": {
+     "0.00": 13.24,
+     "0.05": 16.88,
+     "0.10": 16.78,
+     "0.15": 15.04,
+     "0.20": 14.94,
+     "0.25": 15.02,
+     "0.30": 14.78,
+     "0.35": 14.02,
+     "0.40": 12.93,
+     "0.45": 11.35,
+     "0.50": 11.29,
+     "0.55": 11.01,
+     "0.60": 10.71,
+     "0.65": 10.41,
+     "0.70": 10.05,
+     "0.75": 9.04,
+     "0.80": 8.36,
+     "0.85": 6.56,
+     "0.90": 6.12,
+     "0.95": 3.19,
+     "1.00": 0.24
+    },
+    "max_chord_any_cm": 16.88473040165406,
+    "max_chord_any_at_span_frac": 0.05,
+    "max_chord_excl_inner10pct_cm": 16.784464781691742,
+    "max_chord_excl_inner10_at_frac": 0.1,
+    "max_chord_over_semispan_any": 0.4571118349619979,
+    "max_chord_over_semispan_excl_inner10": 0.45439739413680785,
+    "leading_edge_apex_from_root_cm": 10.969058823877399,
+    "leading_edge_apex_frac": 0.2969598262757872,
+    "flat_top_range_frac": [
+     0.26547231270358307,
+     0.3279044516829533
+    ],
+    "handwing_frac_if_wrist_at_apex": 0.7030401737242128,
+    "tip_drop_below_leading_edge_apex_cm": null
+   },
+   "PSM19885_female_dorsal": {
+    "side": "left",
+    "view": "dorsal",
+    "sex": "female",
+    "id": "PSM 19885",
+    "collection_month": "May",
+    "cm_per_px": 0.026081886621217486,
+    "semi_span_root_to_tip_cm": 47.8733028932447,
+    "wing_area_cm2": 647.3012178373426,
+    "mean_chord_cm": 13.521131376307899,
+    "AR_wing_only": 7.081256968944126,
+    "chord_at_fraction_cm": {
+     "0.00": 10.04,
+     "0.05": 19.27,
+     "0.10": 18.52,
+     "0.15": 16.43,
+     "0.20": 16.3,
+     "0.25": 16.22,
+     "0.30": 16.72,
+     "0.35": 17.01,
+     "0.40": 15.88,
+     "0.45": 15.02,
+     "0.50": 14.58,
+     "0.55": 15.0,
+     "0.60": 14.03,
+     "0.65": 13.43,
+     "0.70": 12.7,
+     "0.75": 11.22,
+     "0.80": 10.77,
+     "0.85": 9.18,
+     "0.90": 7.41,
+     "0.95": 5.11,
+     "1.00": 0.37
+    },
+    "max_chord_any_cm": 19.274514213079723,
+    "max_chord_any_at_span_frac": 0.05,
+    "max_chord_excl_inner10pct_cm": 18.518139501064415,
+    "max_chord_excl_inner10_at_frac": 0.1,
+    "max_chord_over_semispan_any": 0.4026150912557886,
+    "max_chord_over_semispan_excl_inner10": 0.386815581585399,
+    "leading_edge_apex_from_root_cm": 3.9774877097356667,
+    "leading_edge_apex_frac": 0.0830836284391174,
+    "flat_top_range_frac": [
+     0.0830836284391174,
+     0.10215200217924271
+    ],
+    "handwing_frac_if_wrist_at_apex": 0.9169163715608826,
+    "tip_drop_below_leading_edge_apex_cm": null
+   },
+   "PSM22483_female_a": {
+    "side": "right",
+    "view": "dorsal",
+    "sex": "female",
+    "id": "PSM 22483",
+    "collection_month": "Jan",
+    "cm_per_px": 0.025113891377002127,
+    "semi_span_root_to_tip_cm": 46.81229352673196,
+    "wing_area_cm2": 597.1570525004624,
+    "mean_chord_cm": 12.756415195924088,
+    "AR_wing_only": 7.3394120225389585,
+    "chord_at_fraction_cm": {
+     "0.00": 13.49,
+     "0.05": 17.98,
+     "0.10": 17.71,
+     "0.15": 17.15,
+     "0.20": 16.78,
+     "0.25": 16.15,
+     "0.30": 16.17,
+     "0.35": 15.77,
+     "0.40": 15.02,
+     "0.45": 14.26,
+     "0.50": 13.79,
+     "0.55": 13.11,
+     "0.60": 12.73,
+     "0.65": 11.9,
+     "0.70": 11.2,
+     "0.75": 9.95,
+     "0.80": 8.11,
+     "0.85": 7.51,
+     "0.90": 6.45,
+     "0.95": 4.75,
+     "1.00": 0.48
+    },
+    "max_chord_any_cm": 17.981546225933524,
+    "max_chord_any_at_span_frac": 0.05,
+    "max_chord_excl_inner10pct_cm": 17.7052934207865,
+    "max_chord_excl_inner10_at_frac": 0.1,
+    "max_chord_over_semispan_any": 0.3841201716738198,
+    "max_chord_over_semispan_excl_inner10": 0.3782188841201717,
+    "leading_edge_apex_from_root_cm": 16.474712743313397,
+    "leading_edge_apex_frac": 0.351931330472103,
+    "flat_top_range_frac": [
+     0.3106223175965665,
+     0.42542918454935624
+    ],
+    "handwing_frac_if_wrist_at_apex": 0.648068669527897,
+    "tip_drop_below_leading_edge_apex_cm": null
+   },
+   "PSM22661_female_dorsal": {
+    "side": "left",
+    "view": "dorsal",
+    "sex": "female",
+    "id": "PSM 22661",
+    "collection_month": "Jul",
+    "cm_per_px": 0.025299719294212656,
+    "semi_span_root_to_tip_cm": 46.020189396172825,
+    "wing_area_cm2": 606.1018532464439,
+    "mean_chord_cm": 13.170346780381767,
+    "AR_wing_only": 6.98845522651285,
+    "chord_at_fraction_cm": {
+     "0.00": 12.78,
+     "0.05": 17.56,
+     "0.10": 16.95,
+     "0.15": 16.14,
+     "0.20": 16.32,
+     "0.25": 16.75,
+     "0.30": 17.36,
+     "0.35": 17.08,
+     "0.40": 16.37,
+     "0.45": 15.1,
+     "0.50": 14.37,
+     "0.55": 13.91,
+     "0.60": 12.3,
+     "0.65": 12.19,
+     "0.70": 11.84,
+     "0.75": 10.45,
+     "0.80": 8.83,
+     "0.85": 8.45,
+     "0.90": 6.88,
+     "0.95": 5.03,
+     "1.00": 2.43
+    },
+    "max_chord_any_cm": 17.558005190183582,
+    "max_chord_any_at_span_frac": 0.05,
+    "max_chord_excl_inner10pct_cm": 17.35560743582988,
+    "max_chord_excl_inner10_at_frac": 0.30000000000000004,
+    "max_chord_over_semispan_any": 0.3815283122594832,
+    "max_chord_over_semispan_excl_inner10": 0.377130291368884,
+    "leading_edge_apex_from_root_cm": 12.725758804988965,
+    "leading_edge_apex_frac": 0.2765255634964266,
+    "flat_top_range_frac": [
+     0.262781748213304,
+     0.29631665750412317
+    ],
+    "handwing_frac_if_wrist_at_apex": 0.7234744365035735,
+    "tip_drop_below_leading_edge_apex_cm": null
+   }
+  },
+  "outlines_41pts_file": "derived/planform_stats.json (key outline_41pts per specimen)",
+  "female_summary": {
+   "semi_span_root_to_tip_cm": {
+    "mean": 46.9,
+    "range": [
+     46.02,
+     47.873
+    ]
+   },
+   "single_wing_area_cm2": {
+    "mean": 616.9,
+    "range": [
+     597.157,
+     647.301
+    ]
+   },
+   "mean_chord_cm": {
+    "mean": 13.15
+   },
+   "AR_wing_only_2L2_over_A": {
+    "mean": 7.14,
+    "range": [
+     6.988,
+     7.339
+    ]
+   }
+  },
+  "male_PSM21186": {
+   "semi_span_root_to_tip_cm": 36.94,
+   "single_wing_area_cm2": 415.8,
+   "AR_wing_only": 6.56
+  },
+  "cross_checks": {
+   "twice_single_wing_area_vs_published_total_area": {
+    "male_scan": 832,
+    "male_published_with_body": 897,
+    "female_scan_range": [
+     1194,
+     1295
+    ],
+    "female_published_with_body": 1183,
+    "comment": "scan area excludes the body between the roots (~60-100 cm2), so scan 2A is slightly below published S for the male and brackets it for the large females"
+   },
+   "implied_wingspan_cm": {
+    "male": 83.4,
+    "female_range": [
+     102.0,
+     105.7
+    ],
+    "comment": "adds an assumed 9.5-10 cm body width; compare BOW anatum 87.1 +/-5.5 (M) and 99.7 +/-4.8 (F)"
+   }
+  }
+ },
+ "measured_tail_fan_PSM23894": {
+  "specimen": "female, hatch-year 1993, 12 rectrices pinned flat",
+  "px_per_cm": 47.87,
+  "fan_bounding_box_cm": {
+   "width": 41.2,
+   "height": 22.5
+  },
+  "fan_area_cm2": 562,
+  "outer_tip_angular_span_deg": 162,
+  "feather_tip_distance_from_base_blob_cm": [
+   [
+    10.5,
+    22.3
+   ],
+   [
+    25.5,
+    22.1
+   ],
+   [
+    42.5,
+    21.8
+   ],
+   [
+    61.5,
+    21.7
+   ],
+   [
+    75.5,
+    16.5
+   ],
+   [
+    89.5,
+    16.7
+   ],
+   [
+    107.5,
+    20.8
+   ],
+   [
+    128.5,
+    20.3
+   ],
+   [
+    150.5,
+    19.9
+   ],
+   [
+    172.5,
+    19.5
+   ]
+  ],
+  "note": "Only 10 tips resolved (the two central feathers are shorter, ~16.5 cm, and sit in front). Distances are from the centroid of the orange flesh blob, so they exceed free-feather length by the embedded base. This is an artificial flat fan (~160 deg), not the natural in-flight maximum."
+ },
+ "measured_tail_feather_widths_FeatherAtlas": {
+  "adult_female_BRD2889_cm": {
+   "max_vane_width_R6_to_R1": [
+    3.21,
+    3.32,
+    3.76,
+    3.79,
+    3.78,
+    3.24
+   ],
+   "length_extent": [
+    18.0,
+    18.7
+   ]
+  },
+  "juvenile_male_BRD1802_cm": {
+   "max_vane_width_R6_to_R1": [
+    3.22,
+    2.98,
+    3.34,
+    3.35,
+    3.44,
+    2.91
+   ],
+   "length_extent": [
+    16.4,
+    17.3
+   ]
+  },
+  "closed_tail_width_estimate_cm": {
+   "adult_female": 6.5,
+   "juvenile_male": 5.8,
+   "method": "2 x central-rectrix (R1) max vane width, i.e. the two R1 side by side with the other ten tucked beneath; no published value found",
+   "confidence": "derived"
+  },
+  "fanned_tail_width_geometry": "width at tip ~ 2*L*sin(theta/2): tail 17 cm with 60 deg fan -> ~17 cm, 90 deg -> ~24 cm (geometry only; no measured in-flight value found)"
+ },
+ "measured_flight_photos": {
+  "method": "Landmarks read off near-planform ventral photos with the zoom tool (A: 3.4x crop of original box (580,490)-(1160,790); B: 1.8x and 5.5x crops). Fractions are projected on the bill-tip -> tail-tip axis.",
+  "A_Steve_Childs_CC_BY_2_0": {
+   "bill_tip_px": [
+    611.5,
+    676.8
+   ],
+   "tail_tip_px": [
+    1122.7,
+    624.0
+   ],
+   "body_axis_len_px": 514,
+   "leading_edge_root_frac": [
+    0.142,
+    0.199
+   ],
+   "leading_edge_root_frac_mean": 0.17,
+   "trailing_edge_root_frac": [
+    0.51,
+    0.617
+   ],
+   "projected_span_over_length": 1.97,
+   "shoulder_width_over_length": 0.24,
+   "visible_tail_over_length": 0.44
+  },
+  "B_Juan_Lacruz_CC_BY_SA_3_0": {
+   "bill_tip_px": [
+    489.8,
+    985.0
+   ],
+   "tail_tip_px": [
+    1491.3,
+    930.0
+   ],
+   "body_axis_len_px": 1003,
+   "leading_edge_root_frac": [
+    0.18,
+    0.224
+   ],
+   "leading_edge_root_frac_mean": 0.2,
+   "trailing_edge_root_frac": [
+    0.603,
+    0.61
+   ],
+   "projected_span_over_length": 1.71,
+   "shoulder_width_over_length": 0.215,
+   "visible_tail_over_length": 0.39
+  },
+  "naturalis_skin_ZMA43803": {
+   "dorsal_wing_bend_frac": 0.176,
+   "ventral_wing_root_frac": 0.207,
+   "note": "bill tip y~125-166 px, tail tip y~1790-1840 px in a 1224x1920 frame; neck posture of a mounted skin"
+  },
+  "caveats": "visible tail in the photos includes the undertail coverts so it over-states true rectrix length; wings in both photos are swept so projected span under-states fully spread span"
+ },
+ "ratios": {
+  "wingspan_over_total_length": {
+   "male": {
+    "mid": 2.049,
+    "range": [
+     1.778,
+     2.419
+    ],
+    "basis": "BOW anatum span 87.1 / FEIS length 36-49 (mid 42.5)"
+   },
+   "female": {
+    "mid": 1.936,
+    "range": [
+     1.719,
+     2.216
+    ],
+    "basis": "BOW anatum span 99.7 / FEIS length 45-58 (mid 51.5)"
+   },
+   "mills_spans_over_mid_length": {
+    "male": 2.054,
+    "female": 1.911
+   },
+   "pealei_wikipedia": {
+    "male": 2.244,
+    "female": 2.362
+   },
+   "flight_photo_projected_swept": [
+    1.71,
+    1.97
+   ],
+   "recommended": {
+    "spread_wings": 2.0,
+    "plausible_range": [
+     1.9,
+     2.3
+    ],
+    "gliding_swept": 1.7
+   }
+  },
+  "tail_over_total_length": {
+   "male": {
+    "mid": 0.331,
+    "range": [
+     0.287,
+     0.39
+    ],
+    "basis": "White 1968 tundrius tail 140.5 mm / BOW-FEIS length 36-49 cm"
+   },
+   "female": {
+    "mid": 0.326,
+    "range": [
+     0.289,
+     0.373
+    ],
+    "basis": "White 1968 tail 167.8 mm / length 45-58 cm"
+   },
+   "selim_model": "just over 1/3 (~0.35)",
+   "photo_visible_tail_incl_coverts": [
+    0.39,
+    0.44
+   ],
+   "recommended": {
+    "value": 0.34,
+    "plausible_range": [
+     0.3,
+     0.38
+    ]
+   },
+   "tail_over_wing_chord": {
+    "male": 0.456,
+    "female": 0.477,
+    "basis": "White 1968 means"
+   }
+  },
+  "max_wing_chord_over_semispan": {
+   "scan_root_to_tip": {
+    "female_excl_inner10pct": [
+     0.377,
+     0.387
+    ],
+    "male_excl_inner10pct": 0.454,
+    "at_span_fraction": "0.05-0.30 (near the arm/secondary region, not at the tip)"
+   },
+   "scan_normalised_by_b_over_2": {
+    "female": [
+     0.34,
+     0.35
+    ],
+    "assumed_half_body_width_cm": 5.0
+   },
+   "BOW_wing_width_over_half_span": {
+    "female": 0.339,
+    "male": 0.328
+   },
+   "chord_profile_c_over_L_at_span_fraction": {
+    "0.05": [
+     0.457,
+     0.403,
+     0.384,
+     0.382
+    ],
+    "0.30": [
+     0.4,
+     0.349,
+     0.345,
+     0.377
+    ],
+    "0.50": [
+     0.306,
+     0.305,
+     0.295,
+     0.312
+    ],
+    "0.70": [
+     0.272,
+     0.265,
+     0.239,
+     0.257
+    ],
+    "0.90": [
+     0.166,
+     0.155,
+     0.138,
+     0.149
+    ],
+    "order": [
+     "PSM21186_male_dorsal",
+     "PSM19885_female_dorsal",
+     "PSM22483_female_a",
+     "PSM22661_female_dorsal"
+    ]
+   },
+   "recommended": {
+    "value_of_root_to_tip_semispan": 0.38,
+    "value_of_b_over_2": 0.34
+   }
+  },
+  "wing_leading_edge_root_position_from_bill_tip_over_total_length": {
+   "photo_A": 0.17,
+   "photo_B": 0.2,
+   "skins": [
+    0.176,
+    0.207
+   ],
+   "mean": 0.19,
+   "plausible_range": [
+    0.17,
+    0.22
+   ],
+   "trailing_edge_root": [
+    0.56,
+    0.61
+   ],
+   "root_chord_over_length": [
+    0.39,
+    0.41
+   ],
+   "definition": "where the wing leading edge meets the neck/shoulder, projected on the bill-tip->tail-tip axis; tail tip = longest rectrix tip"
+  },
+  "hand_wing_over_total_wing_length": {
+   "planform_apex_method": {
+    "values": [
+     0.703,
+     null,
+     0.648,
+     0.723
+    ],
+    "order": [
+     "PSM21186_male_dorsal",
+     "PSM19885_female_dorsal",
+     "PSM22483_female_a",
+     "PSM22661_female_dorsal"
+    ],
+    "comment": "wrist taken at the leading-edge apex; PSM 19885 apex is unreliable (flat top, scapular bulge) -> use 0.65-0.72 from the other three"
+   },
+   "bones_plus_chord": {
+    "male": 0.649,
+    "female": 0.642,
+    "with_arm_bend_0_93": {
+     "male": 0.665,
+     "female": 0.658
+    },
+    "basis": "hand-wing = published folded-wing chord (carpal joint -> longest primary tip, White 1968 tundrius); arm = humerus+ulna (RBCM)"
+   },
+   "recommended": {
+    "value": 0.66,
+    "plausible_range": [
+     0.63,
+     0.72
+    ]
+   }
+  },
+  "longest_primary_feather_over_root_to_tip_semispan": {
+   "female": [
+    0.572,
+    0.585,
+    0.595
+   ],
+   "male_adult_scan_vs_juv_primary": 0.69,
+   "comment": "feather atlas total feather length (incl. calamus) vs Slater root-to-tip; different individuals"
+  },
+  "body_width_at_shoulders_over_total_length": {
+   "photo_A": 0.24,
+   "photo_B": 0.215,
+   "mean": 0.23,
+   "implied_cm_for_45cm_bird": [
+    9.7,
+    10.8
+   ],
+   "ponitz_frontal_area_equiv_diameter_cm": 12.5
+  },
+  "head_width_cm": {
+   "skull_bone_width_male_mm": [
+    36.7,
+    38.9
+   ],
+   "skull_bone_width_female_mm": [
+    39.2,
+    42.3
+   ],
+   "source": "Royal BC Museum, Avian Osteology, Peregrine Falcon species page https://rbcm.ca/Natural_History/Bones/Species-Pages/PEFA.htm (n=10 per sex; sources/subspecies not given; page has internal typos, e.g. female skull-width mean 37.06 outside its own 39.23-42.28 range)",
+   "note": "bone only; add ~1-1.5 cm for feathers (not sourced)"
+  }
+ },
+ "unverified_leads": [
+  "AVONET (Tobias et al. 2022) is said to list Falco peregrinus wing length 263-365 mm (n=18) and Hand-Wing Index 40-58 (n=16); only a secondary search summary was seen and the figshare file sits behind a bot-challenge, so not used.",
+  "Tucker VA (1998) J Exp Biol 201:403 and Tucker et al. 2000 J Exp Biol 203:3733: publisher pages returned 403/abstract-only; no morphometrics were extracted. Mills et al. 2019 Table 1 cites Tucker et al. 2000 among its sources for the wing area / span values.",
+  "Birds of the World species account (Appearance/Measurements/Appendix 2) is paywalled; values marked 'snippet' were visible in search excerpts only.",
+  "BTO BirdFacts page gives only mass (889.3 g); no wingspan/wing/tail lengths."
+ ]
+}
