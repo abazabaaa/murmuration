@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Murmuration</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #0c0a1a; }
+  canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+  .hud {
+    position: fixed; left: clamp(16px, 3vw, 34px); bottom: clamp(14px, 2.6vh, 28px);
+    font: 500 11px/1.6 ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
+    letter-spacing: .16em; text-transform: uppercase; color: rgba(255, 226, 200, .7);
+    pointer-events: none; user-select: none; transition: opacity 2.4s ease;
+  }
+  .hud b { display: block; font-size: 13px; font-weight: 600; letter-spacing: .34em; color: rgba(255, 238, 220, .95); }
+  .hud.dim { opacity: .38; }
+  #dbg { position: fixed; top: 8px; left: 8px; margin: 0; font: 11px/1.4 ui-monospace, monospace; color: #fff; pointer-events: none; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="hud" id="hud"><b>Murmuration</b><span id="hint"></span></div>
+<script>
+(() => {
+'use strict';
+// Flocking model with the observables of Cavagna et al., "Scale-free correlations in
+// starling flocks", PNAS 107:11865 (2010).  Equation numbers below refer to that paper.
+//   Eq 1   polarization        Φ = |(1/N) Σ v_i/|v_i||
+//   Eq 2   velocity fluctuation u_i = v_i − (1/N) Σ v_k          (Eq 3: Σ u_i = 0)
+//   Eq 4   correlation         C(r) = (1/c0) Σ_ij u_i·u_j δ(r−r_ij) / Σ_ij δ(r−r_ij), c0 = (1/N) Σ |u_i|² so C(0)=1
+//   Eq 5   correlation length  C(ξ) = 0  (a zero must exist: Eq 14 says ∫ numerator dr = |Σ u_i|² − N c0 = −N c0 < 0)
+//   Eq 15  speed correlation   same as Eq 4 with φ_i = |v_i| − (1/N) Σ |v_k|   (Eq 16)
+//   result ξ ≈ 0.35 L (orientation), ξ_sp ≈ 0.36 L (speed), Φ = 0.96 ± 0.03; interaction is topological (~7 birds)
+// World unit: 1 u = 0.5 m, so CRUISE 23 u/s ≈ 11.5 m/s (paper Fig 1C), separation 5 u ≈ 2.5 m.
+// Press C to toggle the correlation panel (?stats opens it; ?debug adds the frame counter).
+
+const params = new URLSearchParams(location.search);
+const N = Math.min(3000, Math.max(20, +params.get('n') || 400));
+const K = 7;                                   // topological neighbours (Ballerini et al. 2008: 6–7, not a radius)
+const TAU = Math.PI * 2;
+
+const rng = s => () => {                       // mulberry32
+  s = (s + 0x6D2B79F5) | 0;
+  let t = Math.imul(s ^ (s >>> 15), 1 | s);
+  t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+};
+const rand = rng(params.has('seed') ? +params.get('seed') : (Math.random() * 4294967296) >>> 0);
+let gSpare = NaN;
+const gauss = () => {                          // Box–Muller, N(0,1)
+  if (!Number.isNaN(gSpare)) { const v = gSpare; gSpare = NaN; return v; }
+  let u1 = rand(); while (u1 <= 1e-12) u1 = rand();
+  const r = Math.sqrt(-2 * Math.log(u1)), a = TAU * rand();
+  gSpare = r * Math.sin(a); return r * Math.cos(a);
+};
+const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
+
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const sky = document.createElement('canvas');
+const sctx = sky.getContext('2d');
+
+// ---------------------------------------------------------------- camera
+// World: x right, y up, z away from the viewer. The camera stands on the ground looking
+// at the flock, pitched up so the horizon sits low in the frame.
+const CAM_H = 2;
+const ZMIN = 75, ZMAX = 200;
+let W, H, dpr, f, cx, cy, HORIZON, ct, st, UM, VT, VB, sizeK;
+
+function layout() {
+  W = innerWidth; H = innerHeight;
+  dpr = Math.min(devicePixelRatio || 1, 2);
+  canvas.width = sky.width = Math.round(W * dpr);
+  canvas.height = sky.height = Math.round(H * dpr);
+  f = Math.min((H / 2) / Math.tan(23 * Math.PI / 180), (W / 2) / Math.tan(21 * Math.PI / 180));
+  cx = W / 2; cy = H / 2;
+  HORIZON = 0.8 * H;
+  const pitch = Math.atan((HORIZON - cy) / f);
+  ct = Math.cos(pitch); st = Math.sin(pitch);
+  UM = 0.8 * (W / 2) / f;                      // flock stays inside these view tangents
+  VT = (cy - 0.13 * H) / f;
+  VB = (cy - 0.62 * H) / f;
+  sizeK = clamp(1150 / f, 1, 1.7);
+  paintSky();
+  fresh = true;
+}
+
+let _x = 0, _y = 0, _z = 0;
+function P(x, y, z) {                          // world -> screen, result in _x _y (px) and _z (depth)
+  const yr = y - CAM_H;
+  _z = yr * st + z * ct;
+  const k = f / _z;
+  _x = cx + x * k;
+  _y = cy - (yr * ct - z * st) * k;
+}
+function screenToWorld(sx, sy, depth, out) {
+  const dx = (sx - cx) / f, dy = (cy - sy) / f;
+  out.x = dx * depth;
+  out.y = CAM_H + (dy * ct + st) * depth;
+  out.z = (ct - dy * st) * depth;
+}
+
+// ---------------------------------------------------------------- scenery
+function paintSky() {
+  const g = sctx, r = rng(7);
+  g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const hz = HORIZON;
+
+  const grad = g.createLinearGradient(0, 0, 0, hz);
+  [[0, '#080a22'], [.26, '#1b1a4c'], [.52, '#573a7c'], [.74, '#bf5a62'], [.9, '#f0955b'], [1, '#ffc87c']]
+    .forEach(([o, c]) => grad.addColorStop(o, c));
+  g.fillStyle = grad; g.fillRect(0, 0, W, H);
+
+  for (let i = 0; i < 150; i++) {              // first stars
+    const y = Math.pow(r(), 1.9) * hz * .6, x = r() * W;
+    g.fillStyle = `rgba(255,240,228,${(.1 + r() * .5) * (1 - y / (hz * .6))})`;
+    g.fillRect(x, y, r() < .12 ? 1.4 : .8, r() < .12 ? 1.4 : .8);
+  }
+
+  const sx = W * .7, sy = hz - H * .012;       // sun sinking behind the ridge
+  let rg = g.createRadialGradient(sx, sy, 0, sx, sy, Math.max(W, H) * .6);
+  rg.addColorStop(0, 'rgba(255,214,150,.8)'); rg.addColorStop(.28, 'rgba(255,150,100,.3)'); rg.addColorStop(1, 'rgba(255,120,110,0)');
+  g.fillStyle = rg; g.fillRect(0, 0, W, H);
+  rg = g.createRadialGradient(sx, sy, 0, sx, sy, H * .06);
+  rg.addColorStop(0, 'rgba(255,250,232,1)'); rg.addColorStop(.6, 'rgba(255,228,176,.95)'); rg.addColorStop(1, 'rgba(255,196,128,0)');
+  g.fillStyle = rg; g.beginPath(); g.arc(sx, sy, H * .06, 0, TAU); g.fill();
+
+  const blob = (x, y, w, h, c, a) => {         // soft streak of cloud
+    g.save(); g.translate(x, y); g.scale(w, h);
+    const q = g.createRadialGradient(0, 0, 0, 0, 0, 1);
+    q.addColorStop(0, `rgba(${c},${a})`); q.addColorStop(1, `rgba(${c},0)`);
+    g.fillStyle = q; g.beginPath(); g.arc(0, 0, 1, 0, TAU); g.fill(); g.restore();
+  };
+  for (let i = 0; i < 26; i++) {
+    const t = .3 + .64 * Math.pow(r(), .85), y = hz * t, w = W * (.08 + r() * .24);
+    const c = [Math.round(120 + 135 * t), Math.round(80 + 70 * t), Math.round(150 - 40 * t)].join(',');
+    const a = .1 + r() * .16;
+    for (let k = 0; k < 4; k++) blob(r() * W + (r() - .5) * w, y + (r() - .5) * H * .02, w * (.4 + r() * .6), w * (.02 + r() * .03), c, a);
+  }
+
+  const wob = (u, p) => .5 + .5 * (.5 * Math.sin(u * 5.1 + p[0]) + .32 * Math.sin(u * 11.7 + p[1]) + .18 * Math.sin(u * 27 + p[2]));
+  const ridge = (base, amp, jag, fill, p) => {
+    g.fillStyle = fill; g.beginPath(); g.moveTo(0, H);
+    for (let x = 0; x <= W + 3; x += 3) g.lineTo(x, base - wob(x / W, p) * amp - r() * jag);
+    g.lineTo(W + 3, H); g.closePath(); g.fill();
+  };
+  const far = g.createLinearGradient(0, hz - H * .07, 0, hz + H * .03);
+  far.addColorStop(0, '#7a4262'); far.addColorStop(1, '#3a2148');
+  ridge(hz + H * .004, H * .05, 0, far, [1, 2, 3]);
+  ridge(hz + H * .02, H * .045, 1, '#26173a', [4, 5, 6]);
+  ridge(hz + H * .04, H * .035, 5, '#130c22', [7, 8, 9]);
+  const mead = g.createLinearGradient(0, hz + H * .06, 0, H);
+  mead.addColorStop(0, '#1a1030'); mead.addColorStop(.35, '#0d0919'); mead.addColorStop(1, '#06040b');
+  g.fillStyle = mead; g.fillRect(0, hz + H * .06, W, H);
+
+  for (let i = 0; i < 8; i++) {                // poplars
+    const x = r() * W, th = H * (.1 + r() * .08), tw = th * (.06 + r() * .03), by = hz + H * .08;
+    g.fillStyle = '#0a0711'; g.beginPath(); g.moveTo(x, by - th);
+    g.quadraticCurveTo(x + tw * 1.5, by - th * .5, x + tw * .4, by); g.lineTo(x - tw * .4, by);
+    g.quadraticCurveTo(x - tw * 1.5, by - th * .5, x, by - th); g.fill();
+  }
+  g.strokeStyle = '#050309'; g.lineCap = 'round';
+  for (let i = 0; i < W / 3; i++) {            // reeds
+    const x = r() * W, h = H * (.03 + .13 * r() * r() * r()), lean = (r() - .5) * h * .5;
+    g.lineWidth = .8 + r() * 1.3;
+    g.beginPath(); g.moveTo(x, H + 2); g.quadraticCurveTo(x + lean * .2, H - h * .6, x + lean, H - h); g.stroke();
+  }
+
+  const vg = g.createRadialGradient(cx, cy * .95, Math.min(W, H) * .35, cx, cy, Math.hypot(W, H) * .62);
+  vg.addColorStop(0, 'rgba(6,3,14,0)'); vg.addColorStop(1, 'rgba(6,3,14,.5)');
+  g.fillStyle = vg; g.fillRect(0, 0, W, H);
+
+  const nc = document.createElement('canvas'); nc.width = nc.height = 96;   // grain to dither the gradients
+  const nx = nc.getContext('2d'), id = nx.createImageData(96, 96);
+  for (let i = 0; i < id.data.length; i += 4) { id.data[i] = id.data[i + 1] = id.data[i + 2] = r() * 255; id.data[i + 3] = 10; }
+  nx.putImageData(id, 0, 0);
+  g.fillStyle = g.createPattern(nc, 'repeat'); g.fillRect(0, 0, W, H);
+}
+
+// ---------------------------------------------------------------- flock
+const M = 0.5;                                 // metres per world unit (used for the readout only)
+const CRUISE = 23, VMIN = 12, VMAX = 30, MAX_ACC = 16;
+const RS = 5, RN = 38;                         // separation radius / sanity cutoff on the topological neighbours
+const W_SEP = 20, W_ALI = 4.5, W_COH = 3, W_TGT = 8, W_GLOBAL = .12, W_SPD = 1.5, W_FLEE = 70;
+const R_FLEE = 65;
+const R_FLOCK = 20 * Math.cbrt(N / 400), W_REJOIN = 2;   // beyond R_FLOCK (∝ N^⅓ at fixed density) birds head back, 1/s
+const FRAME_CAP = 12;                          // largest framing acceleration, u/s²
+const SPAN = 1.3, LEN = 1.05;
+// Behavioural noise: an Ornstein–Uhlenbeck acceleration per bird, stationary std NOISE (u/s²),
+// correlation time NOISE_TAU. The paper argues the noise level, not the rule, sets the order and
+// the correlation range, so ?noise=<factor> scales it. Measured on undisturbed flight (?calm, 400 birds):
+//   0.3 → Φ ≈ 0.999, |u| ≈ 0.6 m/s (rigid);  1 → Φ ≈ 0.98–0.99, |u| ≈ 2 m/s, ξ/L ≈ 0.32–0.36;
+//   1.5 → Φ ≈ 0.95 and the flock spreads to L ≈ 35 m.  A falcon strike dips Φ to ≈ 0.9 for a few seconds.
+const NOISE = 12 * (params.has('noise') ? Math.max(0, +params.get('noise')) : 1), NOISE_TAU = .5;
+
+const px = new Float32Array(N), py = new Float32Array(N), pz = new Float32Array(N);
+const vx = new Float32Array(N), vy = new Float32Array(N), vz = new Float32Array(N);
+const ax = new Float32Array(N), ay = new Float32Array(N), az = new Float32Array(N);
+const nzx = new Float32Array(N), nzy = new Float32Array(N), nzz = new Float32Array(N);   // OU noise state
+const bank = new Float32Array(N), alarm = new Float32Array(N);
+const eager = new Float32Array(N);
+const phase = new Float32Array(N), freq = new Float32Array(N), size = new Float32Array(N), pace = new Float32Array(N);
+const nbD = new Float32Array(K), nbI = new Int32Array(K);
+const tgt = { x: 0, y: 0, z: 0 }, tmp = { x: 0, y: 0, z: 0 };
+let gcx = 0, gcy = 0, gcz = 0, gvx = 0, gvy = 0, gvz = 0, lure = 0, lastMove = -1e9;
+const ptr = { x: 0, y: 0 };
+let stats = { pol: 0, nn: 0, out: 0 };
+
+const way = { x: 0, y: 0, z: 0, ox: 0, oy: 0, oz: 0, hx: 1, hy: 0, hz: 0, t: -1e9 };
+function nextWaypoint(t) {                     // usually the far side of the sky, sometimes a loop back
+  const hl = Math.hypot(gvx, gvy, gvz) + 1e-6; // heading at the moment of the switch (drives the ripple lag)
+  way.hx = gvx / hl; way.hy = gvy / hl; way.hz = gvz / hl;
+  way.ox = way.x; way.oy = way.y; way.oz = way.z;
+  P(gcx, gcy, gcz);
+  const side = (_x > cx) === (rand() < .75) ? -1 : 1;
+  screenToWorld(cx + side * W * (.1 + .2 * rand()), H * (.27 + .2 * rand()), 125 + 70 * rand(), way);
+  if (way.t < -1e8) { way.ox = way.x; way.oy = way.y; way.oz = way.z; }
+  way.t = t;
+}
+
+function initFlock() {
+  screenToWorld(cx + W * .05, H * .4, 140, tmp);
+  for (let i = 0; i < N; i++) {
+    const a = (rand() - .5) * .6, s = CRUISE * (.9 + .2 * rand());
+    px[i] = tmp.x + (rand() - .5) * 46; py[i] = tmp.y + (rand() - .5) * 24; pz[i] = tmp.z + (rand() - .5) * 46;
+    vx[i] = s * Math.cos(a); vy[i] = (rand() - .5) * 2; vz[i] = s * Math.sin(a);
+    phase[i] = rand() * TAU; freq[i] = 7 + rand() * 4; size[i] = .85 + .3 * rand(); pace[i] = .95 + .1 * rand(); eager[i] = .8 + .4 * rand();
+    nzx[i] = NOISE * gauss(); nzy[i] = NOISE * gauss(); nzz[i] = NOISE * gauss();
+  }
+}
+
+// ---------------------------------------------------------------- falcon
+const fal = { on: false, x: 0, y: 0, z: 0, vx: 0, vy: 0, vz: 0, age: 0, ret: 0, prey: 0, leaving: false, side: 1, phase: 0 };
+const CALM = params.has('calm');               // ?calm: no spontaneous attacks (clicks still work)
+let nextFalcon = CALM ? Infinity : 14 + rand() * 6;
+
+function launchFalcon(clickX, clickY) {
+  if (fal.on) return;
+  fal.on = true; fal.age = 0; fal.ret = 0; fal.leaving = false; fal.phase = 0;
+  fal.side = clickX == null ? (rand() < .5 ? -1 : 1) : (clickX < cx ? 1 : -1);
+  screenToWorld(fal.side > 0 ? W * 1.12 : -W * .12, H * (.18 + .12 * rand()), 190 + 30 * rand(), tmp);
+  fal.x = tmp.x; fal.y = tmp.y; fal.z = tmp.z;
+  const dx = gcx - fal.x, dy = gcy - fal.y, dz = gcz - fal.z, d = Math.hypot(dx, dy, dz);
+  fal.vx = dx / d * 28; fal.vy = dy / d * 28; fal.vz = dz / d * 28;
+  if (clickX != null) {                        // first strike goes for the bird nearest the click
+    let best = 1e9;
+    for (let i = 0; i < N; i++) {
+      P(px[i], py[i], pz[i]);
+      const d2 = (_x - clickX) ** 2 + (_y - clickY) ** 2;
+      if (d2 < best) { best = d2; fal.prey = i; }
+    }
+    fal.ret = 1.6;
+  }
+}
+
+function updateFalcon(dt, t) {
+  if (!fal.on) { if (t > nextFalcon) launchFalcon(null); return; }
+  fal.age += dt; fal.ret -= dt; fal.phase += dt * 11;
+  if (fal.age > 9) fal.leaving = true;
+  let tx, ty, tz;
+  if (fal.leaving) {
+    screenToWorld(fal.side > 0 ? -W * .35 : W * 1.35, H * .1, 200, tmp);
+    tx = tmp.x; ty = tmp.y; tz = tmp.z;
+  } else {
+    let d = Math.hypot(px[fal.prey] - fal.x, py[fal.prey] - fal.y, pz[fal.prey] - fal.z);
+    if (fal.ret <= 0 || d < 3) {               // strike on the nearest bird we didn't just pass through
+      let best = 1e9;
+      for (let i = 0; i < N; i++) {
+        const dd = (px[i] - fal.x) ** 2 + (py[i] - fal.y) ** 2 + (pz[i] - fal.z) ** 2;
+        if (dd > 196 && dd < best) { best = dd; fal.prey = i; }
+      }
+      fal.ret = 1.2 + rand() * .6;
+    }
+    const i = fal.prey;
+    tx = px[i] + vx[i] * .35; ty = py[i] + vy[i] * .35; tz = pz[i] + vz[i] * .35;
+  }
+  let dx = tx - fal.x, dy = ty - fal.y, dz = tz - fal.z;
+  const d = Math.hypot(dx, dy, dz) + 1e-6, sp = 32;
+  let aX = (dx / d * sp - fal.vx) * 2.4, aY = (dy / d * sp - fal.vy) * 2.4, aZ = (dz / d * sp - fal.vz) * 2.4;
+  const am = Math.hypot(aX, aY, aZ);
+  if (am > 55) { aX *= 55 / am; aY *= 55 / am; aZ *= 55 / am; }
+  fal.vx += aX * dt; fal.vy += aY * dt; fal.vz += aZ * dt;
+  fal.x += fal.vx * dt; fal.y += fal.vy * dt; fal.z += fal.vz * dt;
+  P(fal.x, fal.y, fal.z);
+  if (fal.age > 17 || (fal.leaving && (_x < -W * .1 || _x > W * 1.1))) {
+    fal.on = false; nextFalcon = CALM ? Infinity : t + 28 + rand() * 24;
+  }
+}
+
+// ---------------------------------------------------------------- simulation
+function step(dt, t) {
+  let sx = 0, sy = 0, sz = 0, svx = 0, svy = 0, svz = 0;
+  for (let i = 0; i < N; i++) { sx += px[i]; sy += py[i]; sz += pz[i]; svx += vx[i]; svy += vy[i]; svz += vz[i]; }
+  gcx = sx / N; gcy = sy / N; gcz = sz / N; gvx = svx / N; gvy = svy / N; gvz = svz / N;   // centre of mass and its velocity
+
+  lure += ((performance.now() - lastMove < 2600 ? 1 : 0) - lure) * Math.min(1, dt * 1.4);
+  if (t - way.t > 16 || Math.hypot(gcx - way.x, gcy - way.y, gcz - way.z) < 100) nextWaypoint(t);
+  if (lure > .01) screenToWorld(ptr.x, ptr.y, clamp(gcz, 100, 180), tgt);
+  updateFalcon(dt, t);
+
+  // Exact one-step update of the OU noise: x' = x e^{-dt/τ} + σ sqrt(1 − e^{-2dt/τ}) N(0,1).
+  // Its stationary variance is σ² whatever the frame rate.
+  const ouDecay = Math.exp(-dt / NOISE_TAU), ouKick = NOISE * Math.sqrt(1 - ouDecay * ouDecay);
+
+  // Keep the flock in the picture by pushing the whole flock, not each bird: a common acceleration
+  // turns the flock coherently (Φ unchanged), whereas per-bird shoves compressed it and scattered
+  // headings every time it overshot a waypoint. The box is shrunk by the radius of gyration.
+  let frX = 0, frY = 0, frZ = 0;
+  {
+    let r2 = 0;
+    for (let i = 0; i < N; i++) r2 += (px[i] - gcx) ** 2 + (py[i] - gcy) ** 2 + (pz[i] - gcz) ** 2;
+    const Rg = Math.sqrt(r2 / N);
+    const yr = gcy - CAM_H, zc = yr * st + gcz * ct, yc = yr * ct - gcz * st, u = gcx / zc, v = yc / zc;
+    const mu = Math.min(1.1 * Rg / zc, .4 * UM, .4 * (VT - VB)), mz = Math.min(1.1 * Rg, .4 * (ZMAX - ZMIN) / 2);
+    const um = UM - mu, vt = VT - mu, vb = VB + mu, zmax = ZMAX - mz, zmin = ZMIN + mz;
+    let fx = 0, fy = 0, fz = 0;
+    if (u > um) fx = -(u - um) * zc; else if (u < -um) fx = -(u + um) * zc;
+    if (v > vt) fy = -(v - vt) * zc; else if (v < vb) fy = -(v - vb) * zc;
+    if (zc > zmax) fz = -(zc - zmax); else if (zc < zmin) fz = (zmin - zc) * 2;
+    frX = 3 * fx; frY = 3 * (fy * ct + fz * st); frZ = 3 * (-fy * st + fz * ct);
+    const fm = Math.hypot(frX, frY, frZ);
+    if (fm > FRAME_CAP) { frX *= FRAME_CAP / fm; frY *= FRAME_CAP / fm; frZ *= FRAME_CAP / fm; }
+  }
+
+  let pol = 0, pvx = 0, pvy = 0, pvz = 0, nn = 0, outside = 0;
+  for (let i = 0; i < N; i++) {
+    const x = px[i], y = py[i], z = pz[i], vxi = vx[i], vyi = vy[i], vzi = vz[i];
+    const spd = Math.hypot(vxi, vyi, vzi) + 1e-4;
+
+    let nb = 0;                                // K nearest, insertion-sorted
+    for (let j = 0; j < N; j++) {
+      if (j === i) continue;
+      const dx = px[j] - x, dy = py[j] - y, dz = pz[j] - z, d2 = dx * dx + dy * dy + dz * dz;
+      if (nb === K && d2 >= nbD[K - 1]) continue;
+      let k = nb < K ? nb++ : K - 1;
+      while (k > 0 && nbD[k - 1] > d2) { nbD[k] = nbD[k - 1]; nbI[k] = nbI[k - 1]; k--; }
+      nbD[k] = d2; nbI[k] = j;
+    }
+
+    let aX = 0, aY = 0, aZ = 0;
+    let m = 0, avx = 0, avy = 0, avz = 0, ccx = 0, ccy = 0, ccz = 0, spx = 0, spy = 0, spz = 0;
+    for (let n = 0; n < nb; n++) {
+      const d2 = nbD[n];
+      if (d2 > RN * RN) continue;
+      const j = nbI[n], d = Math.sqrt(d2) + 1e-4;
+      m++; avx += vx[j]; avy += vy[j]; avz += vz[j]; ccx += px[j]; ccy += py[j]; ccz += pz[j];
+      if (d < RS) {
+        const w = (RS - d) / (RS * d);
+        spx += (x - px[j]) * w; spy += (y - py[j]) * w; spz += (z - pz[j]) * w;
+      }
+    }
+    if (nb) nn += Math.sqrt(nbD[0]);
+    if (m) {
+      const inv = 1 / m;
+      const wa = W_ALI * (1 + alarm[i]), wc = W_COH * (1 + 2 * alarm[i]);
+      aX += wa * (avx * inv - vxi) + wc * (ccx * inv - x) + W_SEP * spx;
+      aY += wa * (avy * inv - vyi) + wc * (ccy * inv - y) + W_SEP * spy;
+      aZ += wa * (avz * inv - vzi) + wc * (ccz * inv - z) + W_SEP * spz;
+    }
+
+    {                                          // stay with the group: weak centering, and detached birds steer to
+      const dx = gcx - x, dy = gcy - y, dz = gcz - z, d = Math.hypot(dx, dy, dz) + 1e-4;   // rejoin
+      aX += W_GLOBAL * dx; aY += W_GLOBAL * dy; aZ += W_GLOBAL * dz;
+      if (d > R_FLOCK) {
+        // Velocity matching, not a central pull: a split-off group under a central force at the
+        // acceleration cap just orbits the flock (radius v²/a_max ≈ 56 u at top speed). Matching the
+        // flock's velocity plus a component toward its centre removes the tangential motion instead.
+        const w = Math.min(1, (d - R_FLOCK) / R_FLOCK), s = .8 * CRUISE * w / d;
+        aX += W_REJOIN * w * (gvx + dx * s - vxi);
+        aY += W_REJOIN * w * (gvy + dy * s - vyi);
+        aZ += W_REJOIN * w * (gvz + dz * s - vzi);
+      }
+    }
+
+    {                                          // drive toward the roost; the turn ripples back from the front.
+      // The drive direction is measured from the flock centre, not from each bird, so a wide flock
+      // is not fanned out by the geometry of a shared target: that fan was the largest source of
+      // disorder and pushed Φ far below the observed 0.96.
+      const lag = clamp(1.2 - ((x - gcx) * way.hx + (y - gcy) * way.hy + (z - gcz) * way.hz) / 25, 0, 2.4);
+      let e = clamp((t - way.t - lag) / 1.2, 0, 1); e = e * e * (3 - 2 * e);
+      let tx = way.ox + (way.x - way.ox) * e, ty = way.oy + (way.y - way.oy) * e, tz = way.oz + (way.z - way.oz) * e;
+      if (lure > .01) { tx += (tgt.x - tx) * lure; ty += (tgt.y - ty) * lure; tz += (tgt.z - tz) * lure; }
+      const dx = tx - gcx, dy = ty - gcy, dz = tz - gcz, d = Math.hypot(dx, dy, dz) + 1e-4;
+      const k = W_TGT * eager[i] * (1 + .8 * lure) * clamp(d / 30, .4, 1) / d;
+      aX += dx * k; aY += dy * k; aZ += dz * k;
+    }
+
+    {                                          // hold cruise speed, fly mostly level, behavioural noise
+      const s = (CRUISE * pace[i] - spd) * W_SPD / spd;
+      aX += vxi * s; aY += vyi * s - vyi * .9; aZ += vzi * s;
+      nzx[i] = nzx[i] * ouDecay + ouKick * gauss();
+      nzy[i] = nzy[i] * ouDecay + ouKick * gauss();
+      nzz[i] = nzz[i] * ouDecay + ouKick * gauss();
+      aX += nzx[i]; aY += .5 * nzy[i]; aZ += nzz[i];
+    }
+
+    let fear = 0;
+    if (fal.on) {
+      const dx = x - fal.x, dy = y - fal.y, dz = z - fal.z, d = Math.hypot(dx, dy, dz) + 1e-4;
+      if (d < R_FLEE) {
+        fear = 1 - d / R_FLEE;
+        const k = W_FLEE * fear * fear / d;
+        aX += dx * k; aY += dy * k; aZ += dz * k;
+        if (fear > alarm[i]) alarm[i] = fear;
+      }
+    }
+
+    const cap = MAX_ACC * (1 + 1.3 * alarm[i]), am = Math.hypot(aX, aY, aZ);
+    if (am > cap) { const s = cap / am; aX *= s; aY *= s; aZ *= s; }
+    ax[i] = aX; ay[i] = aY; az[i] = aZ;
+
+    ax[i] += frX; ay[i] += frY; az[i] += frZ;   // common framing push (see above)
+
+    {                                          // per-bird backstop on a wider box, soft and capped
+      const yr = y - CAM_H, zc = yr * st + z * ct, yc = yr * ct - z * st, u = x / zc, v = yc / zc;
+      const um = 1.25 * UM, vh = .25 * (VT - VB), vt = VT + vh, vb = VB - vh, zmax = 1.15 * ZMAX, zmin = .85 * ZMIN;
+      let fx = 0, fy = 0, fz = 0;
+      if (u > um) fx = -(u - um) * zc; else if (u < -um) fx = -(u + um) * zc;
+      if (v > vt) fy = -(v - vt) * zc; else if (v < vb) fy = -(v - vb) * zc;
+      if (zc > zmax) fz = -(zc - zmax); else if (zc < zmin) fz = (zmin - zc) * 2;
+      if (fx || fy || fz) {
+        outside++;
+        let bx = 1.5 * fx, by = 1.5 * (fy * ct + fz * st), bz = 1.5 * (-fy * st + fz * ct);
+        const bm = Math.hypot(bx, by, bz);
+        if (bm > FRAME_CAP) { bx *= FRAME_CAP / bm; by *= FRAME_CAP / bm; bz *= FRAME_CAP / bm; }
+        ax[i] += bx; ay[i] += by; az[i] += bz;
+      }
+    }
+  }
+
+  for (let i = 0; i < N; i++) {
+    vx[i] += ax[i] * dt; vy[i] += ay[i] * dt; vz[i] += az[i] * dt;
+    const s = Math.hypot(vx[i], vy[i], vz[i]) + 1e-6, top = VMAX * (1 + .3 * alarm[i]);
+    const c = s > top ? top / s : s < VMIN ? VMIN / s : 1;
+    vx[i] *= c; vy[i] *= c; vz[i] *= c;
+    px[i] += vx[i] * dt; py[i] += vy[i] * dt; pz[i] += vz[i] * dt;
+
+    const fx = vx[i] / s, fz = vz[i] / s, rl = Math.hypot(fx, fz) + 1e-6;
+    const lat = (ax[i] * fz - az[i] * fx) / rl;                     // accel toward the bird's right
+    bank[i] += (clamp(Math.atan(lat / 9), -1.1, 1.1) - bank[i]) * Math.min(1, dt * 6);
+    phase[i] += freq[i] * dt * TAU * (1 + .5 * alarm[i]);
+    alarm[i] = Math.max(0, alarm[i] - dt * .7);
+    pvx += vx[i] / s; pvy += vy[i] / s; pvz += vz[i] / s;
+  }
+  stats.pol = Math.hypot(pvx, pvy, pvz) / N; stats.nn = nn / N; stats.out = outside;   // Eq 1
+}
+
+// ---------------------------------------------------------------- correlation analysis (Eqs 1–5, 14–16)
+const NBIN = 32;
+const ux = new Float32Array(N), uy = new Float32Array(N), uz = new Float32Array(N), phi = new Float32Array(N);
+const cNum = new Float64Array(NBIN), cNumSp = new Float64Array(NBIN), cCnt = new Float64Array(NBIN);
+const corr = {
+  t: -1e9, phi: 0, speed: 0, sigSpeed: 0, rmsU: 0, L: 0, dr: 0, xi: NaN, xiSp: NaN,
+  C: new Float32Array(NBIN), Csp: new Float32Array(NBIN), cnt: cCnt,
+  avgXiL: NaN, avgXiSpL: NaN, avgPhi: NaN, samples: 0,
+};
+const MIN_PAIRS = 30;                          // bins with fewer pairs are too noisy to plot or to place ξ
+function firstZero(C, dr) {                    // Eq 5: linear interpolation of the first sign change of the binned C(r)
+  for (let b = 1; b < NBIN; b++) {
+    if (cCnt[b] < MIN_PAIRS || cCnt[b - 1] < MIN_PAIRS) continue;
+    if (C[b - 1] > 0 && C[b] <= 0) return (b - .5 + C[b - 1] / (C[b - 1] - C[b])) * dr;
+  }
+  return NaN;
+}
+function analyse(t) {
+  let Vx = 0, Vy = 0, Vz = 0, S = 0, Px = 0, Py = 0, Pz = 0;
+  for (let i = 0; i < N; i++) {
+    const s = Math.hypot(vx[i], vy[i], vz[i]) + 1e-9;
+    Vx += vx[i]; Vy += vy[i]; Vz += vz[i]; S += s;
+    Px += vx[i] / s; Py += vy[i] / s; Pz += vz[i] / s;
+  }
+  Vx /= N; Vy /= N; Vz /= N; S /= N;
+  let c0 = 0, c0s = 0;
+  for (let i = 0; i < N; i++) {
+    ux[i] = vx[i] - Vx; uy[i] = vy[i] - Vy; uz[i] = vz[i] - Vz;   // Eq 2 (so Σ u_i = 0, Eq 3)
+    phi[i] = Math.hypot(vx[i], vy[i], vz[i]) - S;                  // Eq 16
+    c0 += ux[i] * ux[i] + uy[i] * uy[i] + uz[i] * uz[i]; c0s += phi[i] * phi[i];
+  }
+  c0 /= N; c0s /= N;                                             // c0 = ⟨|u|²⟩ makes C(0) = 1
+
+  let L2 = 0;                                                    // flock size L: largest inter-bird distance
+  for (let i = 0; i < N; i++) {
+    const x = px[i], y = py[i], z = pz[i];
+    for (let j = i + 1; j < N; j++) {
+      const d2 = (px[j] - x) ** 2 + (py[j] - y) ** 2 + (pz[j] - z) ** 2;
+      if (d2 > L2) L2 = d2;
+    }
+  }
+  const L = Math.sqrt(L2), dr = L / NBIN, inv = 1 / (dr + 1e-9);
+  cNum.fill(0); cNumSp.fill(0); cCnt.fill(0);
+  for (let i = 0; i < N; i++) {                                  // Eq 4 / Eq 15 with a box-car δ of width dr
+    const x = px[i], y = py[i], z = pz[i], uxi = ux[i], uyi = uy[i], uzi = uz[i], pi = phi[i];
+    for (let j = i + 1; j < N; j++) {
+      const d = Math.sqrt((px[j] - x) ** 2 + (py[j] - y) ** 2 + (pz[j] - z) ** 2);
+      let b = (d * inv) | 0; if (b >= NBIN) b = NBIN - 1;
+      cNum[b] += uxi * ux[j] + uyi * uy[j] + uzi * uz[j];
+      cNumSp[b] += pi * phi[j];
+      cCnt[b]++;
+    }
+  }
+  for (let b = 0; b < NBIN; b++) {
+    corr.C[b] = cCnt[b] >= MIN_PAIRS ? cNum[b] / (cCnt[b] * c0) : NaN;
+    corr.Csp[b] = cCnt[b] >= MIN_PAIRS ? cNumSp[b] / (cCnt[b] * c0s) : NaN;
+  }
+  corr.t = t; corr.phi = Math.hypot(Px, Py, Pz) / N; corr.speed = S; corr.sigSpeed = Math.sqrt(c0s); corr.rmsU = Math.sqrt(c0);
+  corr.L = L; corr.dr = dr; corr.xi = firstZero(corr.C, dr); corr.xiSp = firstZero(corr.Csp, dr);
+  const a = corr.samples ? .1 : 1;                               // running average over instants, as in Fig 2C/D
+  if (Number.isFinite(corr.xi)) corr.avgXiL = Number.isFinite(corr.avgXiL) ? corr.avgXiL + (corr.xi / L - corr.avgXiL) * a : corr.xi / L;
+  if (Number.isFinite(corr.xiSp)) corr.avgXiSpL = Number.isFinite(corr.avgXiSpL) ? corr.avgXiSpL + (corr.xiSp / L - corr.avgXiSpL) * a : corr.xiSp / L;
+  corr.avgPhi = Number.isFinite(corr.avgPhi) ? corr.avgPhi + (corr.phi - corr.avgPhi) * a : corr.phi;
+  corr.samples++;
+}
+
+// ---------------------------------------------------------------- drawing
+const NB = 6;
+const fillCol = [], lineW = [];
+for (let b = 0; b < NB; b++) {
+  const t = b / (NB - 1);                      // 0 near .. 1 far
+  fillCol.push(`rgba(${Math.round(9 + 30 * t)},${Math.round(7 + 20 * t)},${Math.round(18 + 34 * t)},${(.97 - .2 * t).toFixed(2)})`);
+  lineW.push(1.7 - .8 * t);
+}
+let fresh = true;
+const TRAIL = .5;
+
+let bX, bY, bZ, bFx, bFy, bFz, bRx, bRy, bRz, bNx, bNy, bNz, bL, bH, bC, bS;
+function wp(a, w) {                            // point on the bird: a along the body, w across the wings
+  const aw = Math.abs(w), lat = w * bH * (1 - (1 - bC) * aw), lift = aw * bH * bS, al = a * bL;
+  P(bX + bFx * al + bRx * lat + bNx * lift, bY + bFy * al + bRy * lat + bNy * lift, bZ + bFz * al + bRz * lat + bNz * lift);
+}
+
+function pushBird(path, body, x, y, z, fx, fy, fz, bk, th, s, span, len, sweep) {
+  const rl = Math.hypot(fx, fz);
+  let rx = 1, rz = 0;
+  if (rl > 1e-3) { rx = fz / rl; rz = -fx / rl; }
+  const nx = fy * rz, ny = fz * rx - fx * rz, nz = -fy * rx;         // wing normal, ~ up
+  const cb = Math.cos(bk), sb = Math.sin(bk);
+  bX = x; bY = y; bZ = z; bFx = fx; bFy = fy; bFz = fz;
+  bRx = rx * cb - nx * sb; bRy = -ny * sb; bRz = rz * cb - nz * sb;
+  bNx = nx * cb + rx * sb; bNy = ny * cb; bNz = nz * cb + rz * sb;
+  bL = len * s; bH = span * .5 * s; bC = Math.cos(th); bS = Math.sin(th);
+
+  wp(.5, 0);          const n0 = _x, n1 = _y;
+  wp(.3, .13);        const a0 = _x, a1 = _y;
+  wp(-.06 - sweep, 1); const b0 = _x, b1 = _y;
+  wp(-.16 - sweep, 1); const c0 = _x, c1 = _y;
+  wp(-.4, .16);       const d0 = _x, d1 = _y;
+  wp(-.62, .07);      const e0 = _x, e1 = _y;
+  wp(-.62, -.07);     const f0 = _x, f1 = _y;
+  wp(-.4, -.16);      const g0 = _x, g1 = _y;
+  wp(-.16 - sweep, -1); const h0 = _x, h1 = _y;
+  wp(-.06 - sweep, -1); const i0 = _x, i1 = _y;
+  wp(.3, -.13);       const j0 = _x, j1 = _y;
+  path.moveTo(n0, n1); path.lineTo(a0, a1); path.lineTo(b0, b1); path.lineTo(c0, c1); path.lineTo(d0, d1); path.lineTo(e0, e1);
+  path.lineTo(f0, f1); path.lineTo(g0, g1); path.lineTo(h0, h1); path.lineTo(i0, i1); path.lineTo(j0, j1); path.closePath();
+  if (body) { body.moveTo(n0, n1); body.lineTo((e0 + f0) / 2, (e1 + f1) / 2); }
+}
+
+const fills = Array.from({ length: NB }, () => null), bodies = Array.from({ length: NB }, () => null);
+
+function draw() {
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.globalAlpha = fresh ? 1 : TRAIL; fresh = false;
+  ctx.drawImage(sky, 0, 0, W, H);
+  ctx.globalAlpha = 1;
+
+  for (let b = 0; b < NB; b++) { fills[b] = new Path2D(); bodies[b] = new Path2D(); }
+  for (let i = 0; i < N; i++) {
+    P(px[i], py[i], pz[i]);
+    if (_z < 10) continue;
+    const b = clamp(((_z - ZMIN) / (ZMAX - ZMIN) * NB) | 0, 0, NB - 1);
+    const s = 1 / Math.hypot(vx[i], vy[i], vz[i]);
+    const th = .15 + .8 * Math.sin(phase[i]);
+    pushBird(fills[b], bodies[b], px[i], py[i], pz[i], vx[i] * s, vy[i] * s, vz[i] * s, bank[i], th, size[i] * sizeK, SPAN, LEN, 0);
+  }
+  ctx.lineCap = 'round';
+  for (let b = NB - 1; b >= 0; b--) {
+    ctx.fillStyle = ctx.strokeStyle = fillCol[b];
+    ctx.lineWidth = lineW[b] * Math.max(.8, f / 1272);
+    ctx.fill(fills[b]); ctx.stroke(bodies[b]);
+  }
+
+  if (fal.on) {
+    const s = 1 / Math.hypot(fal.vx, fal.vy, fal.vz);
+    const dive = clamp(-fal.vy * s * 2, 0, 1);
+    const fp = new Path2D();
+    pushBird(fp, null, fal.x, fal.y, fal.z, fal.vx * s, fal.vy * s, fal.vz * s, 0, .25 + .5 * Math.sin(fal.phase) * (1 - dive), 3.4 * (1 - .35 * dive), 1, 1.9, .3);
+    ctx.fillStyle = '#170a10'; ctx.fill(fp);
+    ctx.strokeStyle = '#170a10'; ctx.lineWidth = 1.6 * Math.max(.8, f / 1272); ctx.stroke(fp);
+  }
+
+  if (showPanel) drawPanel();
+}
+
+// Correlation panel, laid out like Fig 2A/B of the paper: C(r) (orientation, red) and C_sp(r)
+// (speed, blue) against distance r up to the flock size L, with the zero crossings ξ marked.
+let showPanel = params.has('stats') || params.has('debug');
+const FONT = '11px ui-monospace, Menlo, monospace';
+const fmt = (v, d = 1) => Number.isFinite(v) ? v.toFixed(d) : '—';
+function drawPanel() {
+  const pw = 300, ph = 262, pad = 12, x0 = W - pw - 14, y0 = 14;
+  const gx = x0 + 34, gy = y0 + 24, gw = pw - 34 - pad, gh = 108;
+  ctx.save();
+  ctx.fillStyle = 'rgba(8,6,20,.72)';
+  ctx.beginPath(); ctx.roundRect(x0, y0, pw, ph, 8); ctx.fill();
+  ctx.font = FONT; ctx.textBaseline = 'middle';
+  ctx.fillStyle = 'rgba(255,238,220,.9)'; ctx.textAlign = 'left';
+  ctx.fillText('CORRELATION  C(r)  ·  Cavagna et al. 2010', x0 + pad, y0 + 11);
+
+  const Y = c => gy + gh * (1 - (clamp(c, -1, 1) + 1) / 2);
+  ctx.strokeStyle = 'rgba(255,238,220,.18)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(gx, Y(1)); ctx.lineTo(gx, Y(-1)); ctx.lineTo(gx + gw, Y(-1)); ctx.stroke();
+  ctx.setLineDash([2, 3]); ctx.beginPath(); ctx.moveTo(gx, Y(0)); ctx.lineTo(gx + gw, Y(0)); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle = 'rgba(255,238,220,.55)'; ctx.textAlign = 'right';
+  ctx.fillText('1', gx - 5, Y(1)); ctx.fillText('0', gx - 5, Y(0)); ctx.fillText('-1', gx - 5, Y(-1));
+
+  if (corr.samples) {
+    const X = r => gx + gw * r / corr.L;
+    const series = (C, col) => {
+      ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = 1.2; ctx.beginPath();
+      let first = true;
+      for (let b = 0; b < NBIN; b++) {
+        if (Number.isNaN(C[b])) continue;
+        const sx = X((b + .5) * corr.dr), sy = Y(C[b]);
+        if (first) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy); first = false;
+      }
+      ctx.stroke();
+      for (let b = 0; b < NBIN; b++) if (!Number.isNaN(C[b])) { ctx.beginPath(); ctx.arc(X((b + .5) * corr.dr), Y(C[b]), 1.8, 0, TAU); ctx.fill(); }
+    };
+    const xiMark = (xi, col) => {
+      if (!Number.isFinite(xi)) return;
+      ctx.strokeStyle = col; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(X(xi), Y(1)); ctx.lineTo(X(xi), Y(-1)); ctx.stroke(); ctx.setLineDash([]);
+    };
+    series(corr.Csp, 'rgba(96,150,240,.9)'); series(corr.C, 'rgba(240,86,74,.95)');
+    xiMark(corr.xiSp, 'rgba(96,150,240,.6)'); xiMark(corr.xi, 'rgba(240,86,74,.7)');
+
+    ctx.fillStyle = 'rgba(255,238,220,.55)'; ctx.textAlign = 'center';
+    ctx.fillText('0', gx, gy + gh + 9); ctx.fillText(`r  (m)`, gx + gw / 2, gy + gh + 9); ctx.fillText(fmt(corr.L * M, 0), gx + gw, gy + gh + 9);
+
+    const ty = gy + gh + 26, lh = 15;
+    const line = (i, label, val, col) => {
+      ctx.textAlign = 'left'; ctx.fillStyle = col || 'rgba(255,238,220,.6)'; ctx.fillText(label, x0 + pad, ty + i * lh);
+      ctx.textAlign = 'right'; ctx.fillStyle = col || 'rgba(255,238,220,.92)'; ctx.fillText(val, x0 + pw - pad, ty + i * lh);
+    };
+    line(0, `N ${N}   L flock size`, `${fmt(corr.L * M)} m`);
+    line(1, 'Φ polarization (Eq 1) · paper 0.96', `${fmt(corr.phi, 3)}  ⟨${fmt(corr.avgPhi, 3)}⟩`);
+    line(2, 'speed  ⟨|v|⟩ ± σ   ·   |u| rms', `${fmt(corr.speed * M)} ± ${fmt(corr.sigSpeed * M)}   ${fmt(corr.rmsU * M)} m/s`);
+    line(3, 'ξ orientation (Eq 5) · paper ξ/L 0.35', `${fmt(corr.xi * M)} m   ξ/L ${fmt(corr.xi / corr.L, 2)} ⟨${fmt(corr.avgXiL, 2)}⟩`, 'rgba(240,120,110,.95)');
+    line(4, 'ξ speed (Eq 15) · paper ξ/L 0.36', `${fmt(corr.xiSp * M)} m   ξ/L ${fmt(corr.xiSp / corr.L, 2)} ⟨${fmt(corr.avgXiSpL, 2)}⟩`, 'rgba(130,170,245,.95)');
+    line(5, 'nearest neighbour · noise', `${fmt(stats.nn * M, 2)} m   ${fmt(NOISE / 12, 2)}×`);
+    ctx.textAlign = 'left'; ctx.fillStyle = 'rgba(255,238,220,.38)';
+    ctx.fillText('C to hide · ?noise= ?n= ?seed=', x0 + pad, ty + 6 * lh);
+  } else {
+    ctx.fillStyle = 'rgba(255,238,220,.5)'; ctx.textAlign = 'left'; ctx.fillText('sampling…', gx, gy + gh / 2);
+  }
+  ctx.restore();
+}
+
+// ---------------------------------------------------------------- input, loop
+addEventListener('resize', layout);
+addEventListener('pointermove', e => {
+  ptr.x = e.clientX; ptr.y = e.clientY; lastMove = performance.now();
+}, { passive: true });
+addEventListener('pointerdown', e => {
+  ptr.x = e.clientX; ptr.y = e.clientY; lastMove = performance.now();
+  launchFalcon(e.clientX, e.clientY);
+});
+addEventListener('keydown', e => { if (e.key === 'c' || e.key === 'C') showPanel = !showPanel; });
+
+document.getElementById('hint').textContent = `${N} starlings · move to lure · click to loose a falcon · C for correlations`;
+setTimeout(() => document.getElementById('hud').classList.add('dim'), 9000);
+
+layout();
+initFlock();
+
+let simT = 0;
+const warm = +params.get('warm') || 0;
+for (let s = 0; s < warm * 60; s++) { simT += 1 / 60; step(1 / 60, simT); }
+if (params.has('falcon')) launchFalcon(null);
+
+let dbg = null;
+if (params.has('debug')) {
+  dbg = document.createElement('pre'); dbg.id = 'dbg'; document.body.appendChild(dbg);
+  window.murm = { step, analyse, draw, stats, corr, px, py, pz, vx, vy, vz, N, M, fal, get simT() { return simT; },
+    cam: { get UM() { return UM; }, get VT() { return VT; }, get VB() { return VB; }, get ct() { return ct; }, get st() { return st; }, CAM_H, ZMIN, ZMAX } };
+}
+
+const ANALYSE_EVERY = N > 1500 ? 1 : .5;       // seconds of simulated time between O(N²) correlation passes
+let last = performance.now() / 1000, frames = 0, fpsT = 0, fps = 0;
+function loop(ms) {
+  const now = ms / 1000, dt = Math.min(now - last, 1 / 30); last = now;
+  if (dt > 0) { simT += dt; step(dt, simT); }
+  if (showPanel && simT - corr.t >= ANALYSE_EVERY) analyse(simT);
+  draw();
+  if (dbg) {
+    frames++; fpsT += dt;
+    if (fpsT > .5) { fps = frames / fpsT; frames = 0; fpsT = 0; }
+    dbg.textContent = `t ${simT.toFixed(1)}  fps ${fps.toFixed(0)}  pol ${stats.pol.toFixed(2)}  nn ${stats.nn.toFixed(1)}  out ${stats.out}  falcon ${fal.on}`;
+  }
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
