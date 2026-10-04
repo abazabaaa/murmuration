@@ -1,0 +1,306 @@
+[
+  {
+    "id": "c004 File:European starling (Sturnus vulgaris) in flight Almoloya composite.jpg",
+    "file_page": "https://commons.wikimedia.org/wiki/File:European_starling_(Sturnus_vulgaris)_in_flight_Almoloya_composite.jpg",
+    "license": "CC BY-SA 4.0 (Charles J. Sharp)",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Composite of four frames of one bird in lateral/dorsal views; no ventral view and not a single exposure."
+  },
+  {
+    "id": "c005 File:European starling (Sturnus vulgaris) in flight Lerma composite of 5 images.jpg",
+    "file_page": "https://commons.wikimedia.org/wiki/File:European_starling_(Sturnus_vulgaris)_in_flight_Lerma_composite_of_5_images.jpg",
+    "license": "CC BY-SA 4.0 (Charles J. Sharp)",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Composite of five frames, lateral/dorsal views, birds about 1000 px across; not ventral."
+  },
+  {
+    "id": "c000 File:2009-10-21 1) (9) Star, Sturnus vulgaris.JPG",
+    "file_page": "https://commons.wikimedia.org/wiki/File:2009-10-21_1)_(9)_Star,_Sturnus_vulgaris.JPG",
+    "license": "CC BY-SA 3.0 (Vera Buhl)",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Several birds, motion-blurred, twigs and leaves in frame."
+  },
+  {
+    "id": "c031 File:2009-10-21 1) (3) Star, Sturnus vulgaris.JPG",
+    "file_page": "https://commons.wikimedia.org/wiki/File:2009-10-21_1)_(3)_Star,_Sturnus_vulgaris.JPG",
+    "license": "CC BY-SA 3.0 (Vera Buhl)",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Distant flock; each bird under 150 px."
+  },
+  {
+    "id": "c038 File:Flying KF Starling.JPG",
+    "file_page": "https://commons.wikimedia.org/wiki/File:Flying_KF_Starling.JPG",
+    "license": "CC BY-SA 3.0 (Roberto J Galindo)",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Bird small and in lateral view; wires cross the frame."
+  },
+  {
+    "id": "c086 File:Starling - Cockerham Sands (51434104869).jpg",
+    "file_page": "https://commons.wikimedia.org/wiki/File:Starling_-_Cockerham_Sands_(51434104869).jpg",
+    "license": "CC BY 2.0 (Steve Childs)",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Lateral view with one wing down; not ventral (otherwise clean blue sky)."
+  },
+  {
+    "id": "c090 File:Steigflug (54094247446) v2.jpg",
+    "file_page": "https://commons.wikimedia.org/wiki/File:Steigflug_(54094247446)_v2.jpg",
+    "license": "CC BY 2.0 (Ralf Huesges)",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Crop of the same frame as kept photo 11; duplicate."
+  },
+  {
+    "id": "c109 File:JOYON Gerard ETOURNEAUX 2010.jpg",
+    "file_page": "https://commons.wikimedia.org/wiki/File:JOYON_G%C3%A9rard_ETOURNEAUX_2010.jpg",
+    "license": "CC BY-SA 3.0",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Small bird in lateral view with blossom branches below."
+  },
+  {
+    "id": "c115 File:Starling, Subotica, Serbia (148775337).jpg",
+    "file_page": "https://commons.wikimedia.org/wiki/File:Starling,_Subotica,_Serbia_(148775337).jpg",
+    "license": "CC BY-SA 3.0 (Daniel Borsos)",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Small bird, twigs overlap the sky around it."
+  },
+  {
+    "id": "c160 File:Starling (148775333).jpg",
+    "file_page": "https://commons.wikimedia.org/wiki/File:Starling_(148775333).jpg",
+    "license": "CC BY-SA 3.0 (Daniel Borsos)",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Small bird in dorsal/oblique view with twigs overlapping."
+  },
+  {
+    "id": "c324 File:DSC 2745 etourneau juvenile (50034992192).jpg",
+    "file_page": "https://commons.wikimedia.org/wiki/File:DSC_2745_%C3%A9tourneau_juv%C3%A9nile_(50034992192).jpg",
+    "license": "CC BY-SA 2.0 (Pierre-Marie Epiney)",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "971x737 original, bird oblique/lateral, branch in frame."
+  },
+  {
+    "id": "c362 File:NZ8 1936 (52969867748).jpg",
+    "file_page": "https://commons.wikimedia.org/wiki/File:NZ8_1936_(52969867748).jpg",
+    "license": "CC BY-SA 2.0 (Bengt Nyman)",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Flat recoloured violet-blue background and smeared, painterly feather texture at 2.2x (looks AI-processed); view dorsal-or-ventral cannot be trusted."
+  },
+  {
+    "id": "c363 File:NZ8 1937 (52969867848).jpg",
+    "file_page": "https://commons.wikimedia.org/wiki/File:NZ8_1937_(52969867848).jpg",
+    "license": "CC BY-SA 2.0 (Bengt Nyman)",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Same series as c362: four birds on one flat violet-blue background, dorsal/oblique views, processed."
+  },
+  {
+    "id": "c364 File:NZ8 1939 (52969786625).jpg",
+    "file_page": "https://commons.wikimedia.org/wiki/File:NZ8_1939_(52969786625).jpg",
+    "license": "CC BY-SA 2.0 (Bengt Nyman)",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Same series as c362: six birds on one flat violet-blue background, dorsal/oblique views, processed."
+  },
+  {
+    "id": "Commons, about 1,650 other files (category crawl of Category:Sturnus vulgaris, 41 subcategories, plus 25 full-text searches)",
+    "file_page": "https://commons.wikimedia.org/wiki/Category:Sturnus_vulgaris_in_flight",
+    "license": "various",
+    "status": "rejected",
+    "checked": "thumbnail only",
+    "reason": "Screened as thumbnails: perched, on ground, flocks, drawings, nests, or lateral/dorsal flight; none ventral on plain sky beyond those kept."
+  },
+  {
+    "id": "i395550538",
+    "file_page": "https://www.inaturalist.org/observations/223253465",
+    "license": "CC BY (andre-knocklein)",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Flight frame in lateral view and small in frame (phone/telephoto snapshot); not ventral."
+  },
+  {
+    "id": "i138516178",
+    "file_page": "https://www.inaturalist.org/observations/84286033",
+    "license": "CC BY (oakleafe)",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Flight frame in lateral view and small in frame (phone/telephoto snapshot); not ventral."
+  },
+  {
+    "id": "i182418262",
+    "file_page": "https://www.inaturalist.org/observations/108355431",
+    "license": "CC BY (codrin_bucur)",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Flight frame in lateral view and small in frame (phone/telephoto snapshot); not ventral."
+  },
+  {
+    "id": "iNaturalist, 547 CC0/CC BY/CC BY-SA photos of taxon 14850 matched by 17 flight-related search terms (469 at least 1000 px screened as thumbnails)",
+    "file_page": "https://www.inaturalist.org/taxa/14850",
+    "license": "CC0 / CC BY / CC BY-SA",
+    "status": "rejected",
+    "checked": "thumbnail only (originals downloaded for 9)",
+    "reason": "Almost all perched, ground, flock-in-sky dots, carcasses or feathers; the few single in-flight birds are tiny or lateral. Nine downloaded (i138516187, i143742391, i15111233, i636135860, i636135864, i636135878 and the three above) and none usable."
+  },
+  {
+    "id": "Flickr 14700931918 'DSC0192' (Jon Brinn)",
+    "file_page": "https://www.flickr.com/photos/126816719@N03/14700931918/",
+    "license": "Public Domain Mark",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Diving/banked pose with the body strongly pitched and wings swept down; cloud texture behind the whole bird."
+  },
+  {
+    "id": "Flickr 21283363721 'angry' (Jon Brinn)",
+    "file_page": "https://www.flickr.com/photos/126816719@N03/21283363721/",
+    "license": "Public Domain Mark",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Strong bank, legs thrust forward, cloudy background."
+  },
+  {
+    "id": "Flickr 16711614229 'starling attack' (Jon Brinn)",
+    "file_page": "https://www.flickr.com/photos/126816719@N03/16711614229/",
+    "license": "Public Domain Mark",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Reduced original (1157x1772); left wing raised but right wing hidden or foreshortened, cloud touches the tail end, span under about 600 px."
+  },
+  {
+    "id": "Flickr 20948174994 'three's a crowd' (Jon Brinn), full frame",
+    "file_page": "https://www.flickr.com/photos/126816719@N03/20948174994/",
+    "license": "Public Domain Mark",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Two of the three birds are fighting and overlap each other; only the right-hand bird was kept, as photo 08, cropped."
+  },
+  {
+    "id": "Flickr 14449737340 'Starling in flight' (Donnchadh H)",
+    "file_page": "https://www.flickr.com/photos/",
+    "license": "CC BY 2.0",
+    "status": "rejected",
+    "checked": "viewed at 1024 px",
+    "reason": "Lateral view on grey sky with a conifer twig in frame; 1024 px preview only."
+  },
+  {
+    "id": "Flickr 51576822620 (Hari K Patibanda)",
+    "file_page": "https://www.flickr.com/photos/",
+    "license": "CC BY 2.0",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Chestnut-tailed starling, a different species; silhouette against bokeh."
+  },
+  {
+    "id": "Flickr 50634223878 'The Starling Departs' (Henry Burrows)",
+    "file_page": "https://www.flickr.com/photos/",
+    "license": "CC BY-SA 2.0",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Lateral view, car roof and vegetation in frame."
+  },
+  {
+    "id": "Flickr 8069441081 'Open Wings' (Charles Lam)",
+    "file_page": "https://www.flickr.com/photos/",
+    "license": "CC BY-SA 2.0",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Pied/Asian starling, not Sturnus vulgaris; banked."
+  },
+  {
+    "id": "Flickr 20270572322 and 19657889183 'Flying' (Charles Lam)",
+    "file_page": "https://www.flickr.com/photos/",
+    "license": "CC BY-SA 2.0",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Asian glossy starling (red eye, Aplonis-type), perched in leaves; wrong species."
+  },
+  {
+    "id": "Flickr 44188965061 'etourneau sansonnet en vol' and 29252333207 'l etourneau en vol (2)' (gvilleneuve28)",
+    "file_page": "https://www.flickr.com/photos/",
+    "license": "Public Domain Mark",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Lateral/oblique, blurred trees or snow behind, watermark."
+  },
+  {
+    "id": "Flickr 49944343512 'Starling coming into land' (pete beard)",
+    "file_page": "https://www.flickr.com/photos/",
+    "license": "CC BY 2.0",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "800 px preview, front view with shed and foliage behind."
+  },
+  {
+    "id": "Flickr 5796585687 'Fly Away' (Iain A Wanless)",
+    "file_page": "https://www.flickr.com/photos/",
+    "license": "CC BY 2.0",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Lateral, sepia-toned, perch branch in frame."
+  },
+  {
+    "id": "Flickr 52043495406 'Room Service' (Xer S. Rowan) and 54029134627 (caroline legg)",
+    "file_page": "https://www.flickr.com/photos/",
+    "license": "CC BY 2.0",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Foliage background; lateral or two birds fighting."
+  },
+  {
+    "id": "Flickr 54096011904 (Paul Gavinger), 3302696755 (Nesster)",
+    "file_page": "https://www.flickr.com/photos/",
+    "license": "CC BY 2.0 / CC BY-SA 2.0",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Not starlings (crow, pigeon-like silhouette) and cluttered background."
+  },
+  {
+    "id": "Flickr 54538941162 'Starling in flight garden 23 5 2025 1a' (Alex M Shepherd)",
+    "file_page": "https://www.flickr.com/photos/137390807@N03/54538941162/",
+    "license": "CC0",
+    "status": "oblique_not_promoted",
+    "checked": "viewed",
+    "reason": "Oblique profile (bird flying right, one wing near-vertical); not ventral. Original 2147x1403, clean sky."
+  },
+  {
+    "id": "Flickr 49919267272 'Starling fledgling garden 20 5 2020 1a' (Alex M Shepherd)",
+    "file_page": "https://www.flickr.com/photos/137390807@N03/49919267272/",
+    "license": "CC0",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Oblique, banked profile of a fledgling; not ventral."
+  },
+  {
+    "id": "Flickr 53762476750 'Starling garden 31 5 2024 1a' (Alex M Shepherd)",
+    "file_page": "https://www.flickr.com/photos/137390807@N03/53762476750/",
+    "license": "CC0",
+    "status": "rejected",
+    "checked": "viewed",
+    "reason": "Feeder, wall and car roof behind the bird."
+  },
+  {
+    "id": "Flickr 54786700935 'Starling juvenile in flight East Haven 7 9 2025 1a' (Alex M Shepherd)",
+    "file_page": "https://www.flickr.com/photos/137390807@N03/54786700935/",
+    "license": "CC0",
+    "status": "extra_not_ventral",
+    "checked": "viewed",
+    "reason": "Clean lateral (side) view with wings folded close to the body, plain blue sky; NOT ventral. Copied to extras_not_ventral/ as the folded-phase example."
+  },
+  {
+    "id": "Flickr, about 1,030 CC BY/CC BY-SA/CC0/PDM search hits from 100+ queries",
+    "file_page": "https://www.flickr.com/photos/",
+    "license": "various",
+    "status": "rejected",
+    "checked": "thumbnail only",
+    "reason": "Screened as thumbnails across four sweeps; the rest are perched, ground, murmuration dots, other species (mynas, rosy and superb starlings) or off-topic."
+  }
+]

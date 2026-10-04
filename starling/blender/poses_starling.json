@@ -1,0 +1,135 @@
+{
+ "_conventions": "Per-bone rotations in degrees, body frame, right-wing convention, chained shoulder->elbow->wrist (local to the parent). sweep + = tip aft, elev + = tip up, twist + = leading edge up. scale_x compresses the chord. Targets: refs/kinematics/poses.md and the photo fits (analysis/photo_fits).",
+ "glide": {
+  "bones": {
+   "humerus": {
+    "sweep": 9,
+    "elev": 6
+   },
+   "hand": {
+    "sweep": 0,
+    "elev": -2
+   }
+  },
+  "tail_fan": 0.3,
+  "target": "full-spread glide as photographed: photo fits P01/P04 arm 7-11 deg aft, hand -7..+5; dihedral 6 deg (estimated); tail partly spread"
+ },
+ "flap_top": {
+  "bones": {
+   "humerus": {
+    "sweep": 4,
+    "elev": 64,
+    "twist": -4
+   },
+   "forearm": {
+    "elev": -6
+   },
+   "hand": {
+    "sweep": 2,
+    "elev": -16
+   }
+  },
+  "tail_fan": 0.3,
+  "target": "tip +12..+16 cm above the shoulder (+0.6..0.7 BL), 1.3-2.9 cm aft of it; humerus +80-90 deg (Ben-Gida 2013 Fig 4, Stalnov 2015 Fig 3, Dial 1991)"
+ },
+ "flap_mid": {
+  "bones": {
+   "humerus": {
+    "sweep": -3,
+    "elev": 0,
+    "twist": -13
+   },
+   "hand": {
+    "sweep": 2
+   }
+  },
+  "tail_fan": 0.25,
+  "target": "span 1.0, tip at shoulder level, chord pitched 13 deg LE-down (Ben-Gida 2013 Fig 5b)"
+ },
+ "flap_bottom": {
+  "bones": {
+   "humerus": {
+    "sweep": 14,
+    "elev": -58,
+    "twist": -10
+   },
+   "forearm": {
+    "elev": -4
+   },
+   "hand": {
+    "sweep": 20,
+    "elev": -4
+   }
+  },
+  "tail_fan": 0.25,
+  "target": "tip -14.5..-16.5 cm below the shoulder, ~6.3 cm aft of it (Ben-Gida 2013 Fig 4, Stalnov 2015 Fig 3); wing nearly straight, so top-view span ~0.39-0.50 of full"
+ },
+ "upstroke": {
+  "bones": {
+   "humerus": {
+    "sweep": 32,
+    "elev": 22
+   },
+   "forearm": {
+    "sweep": -92
+   },
+   "hand": {
+    "sweep": 106,
+    "elev": -6,
+    "scale_x": 0.85
+   }
+  },
+  "tail_fan": 0.2,
+  "fan": {
+   "aft": 0.6,
+   "scale_x": 0.85
+  },
+  "target": "mid-upstroke span 0.50 of mid-downstroke (0.40-0.60; robin proxy, Hedenstrom 2006); hand swept 45-60 deg; wrists adducted (Dial 1991)"
+ },
+ "upstroke_top": {
+  "bones": {
+   "humerus": {
+    "sweep": 14,
+    "elev": 55
+   },
+   "forearm": {
+    "sweep": -32
+   },
+   "hand": {
+    "sweep": 44,
+    "elev": -10,
+    "scale_x": 0.9
+   }
+  },
+  "tail_fan": 0.25,
+  "fan": {
+   "aft": 0.5,
+   "scale_x": 0.9
+  },
+  "target": "late upstroke: span recovering 0.5 -> 0.7, humerus rising toward +80 deg (Dial 1991, Tobalske 1995)"
+ },
+ "bound": {
+  "bones": {
+   "humerus": {
+    "sweep": 92,
+    "elev": 6,
+    "scale_x": 0.42
+   },
+   "forearm": {
+    "sweep": -168,
+    "scale_x": 0.42
+   },
+   "hand": {
+    "sweep": 168,
+    "elev": -3,
+    "scale_x": 0.6
+   }
+  },
+  "tail_fan": 0.0,
+  "fan": {
+   "aft": 1.0,
+   "scale_x": 0.36
+  },
+  "target": "bound of intermittent flight: wings held tight to the body (Tobalske 2011), span 0.12-0.20 of full; humerus 28 mm < forearm 34 mm puts the folded wrist ~0.7 cm ahead of the shoulder, so the tips reach ~0.86 L (between the tail base 0.68 L and tip; perched skins 0.94-1.06); tail furled"
+ }
+}

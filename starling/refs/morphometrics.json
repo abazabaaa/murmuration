@@ -1,0 +1,2009 @@
+{
+ "_meta": {
+  "species": "Sturnus vulgaris (European starling), prefer S. v. vulgaris adults",
+  "units": "every entry carries its own unit (mm, cm, cm2, g, N/m2)",
+  "generated": "2026-10-03",
+  "confidence_key": {
+   "high": "read directly from the cited source (data file, raw page text, PDF text) or measured by code and zoom-checked",
+   "medium": "derived here from sources, or a secondary compilation of a book/paper not read, or a single unreplicated individual",
+   "derived": "computed here from scans"
+  },
+  "conflicts_see": "notes.md section 'Conflicts and doubts'"
+ },
+ "published": {
+  "total_length": {
+   "species_range": {
+    "range": [
+     20.6,
+     23.1
+    ],
+    "unit": "cm",
+    "sex": "both",
+    "source": "Audubon Field Guide, European Starling (page text read 2026-10-03)",
+    "url": "https://www.audubon.org/field-guide/bird/european-starling",
+    "confidence": "high",
+    "note": "secondary compilation"
+   },
+   "species_mean": {
+    "value": 21.5,
+    "unit": "cm",
+    "sex": "both",
+    "source": "Animal Diversity Web, Sturnus vulgaris (common starling), Univ. Michigan Museum of Zoology (page text read 2026-10-03)",
+    "url": "https://animaldiversity.org/accounts/Sturnus_vulgaris/",
+    "confidence": "high",
+    "note": "secondary compilation (Animal Diversity Web 'average length')"
+   },
+   "species_range_2": {
+    "range": [
+     19,
+     23
+    ],
+    "unit": "cm",
+    "sex": "both",
+    "source": "Wikipedia 'Common starling', Description section (wikitext read 2026-10-03), which cites Feare C. & Craig A. (1998) Starlings and Mynas, Christopher Helm, p.183 (book not read)",
+    "url": "https://en.wikipedia.org/wiki/Common_starling",
+    "confidence": "high",
+    "note": "cites Feare & Craig 1998"
+   },
+   "recommended": {
+    "value": 21.0,
+    "rng": [
+     19,
+     23
+    ],
+    "unit": "cm",
+    "basis": "midpoint of the three sources; live bird with the neck retracted. Study skins have the neck stretched (see measured_study_skins: bill tip to tail tip 19.6-23.1 cm)",
+    "confidence": "medium"
+   }
+  },
+  "wingspan": {
+   "live_bird_in_flight_tunnel": {
+    "value": 38.2,
+    "unit": "cm",
+    "sex": "not stated",
+    "n": 1,
+    "source": "Ben-Gida H., Kirchhefer A., Taylor Z.J., Bezner-Kerr W., Guglielmo C.G., Kopp G.A., Gurka R. (2013) Estimation of unsteady aerodynamics in the wake of a freely flying European starling (Sturnus vulgaris). PLoS ONE 8(11):e80086 (text read from the arXiv version 1306.0146, section 2.2)",
+    "url": "https://doi.org/10.1371/journal.pone.0080086",
+    "confidence": "high",
+    "note": "'maximum wingspan'; one trained bird; same bird in Stalnov et al. 2015"
+   },
+   "audubon_range": {
+    "range": [
+     31.0,
+     40.1
+    ],
+    "unit": "cm",
+    "source": "Audubon Field Guide, European Starling (page text read 2026-10-03)",
+    "url": "https://www.audubon.org/field-guide/bird/european-starling",
+    "confidence": "high",
+    "note": "secondary compilation"
+   },
+   "adw_mean": {
+    "value": 40.0,
+    "unit": "cm",
+    "source": "Animal Diversity Web, Sturnus vulgaris (common starling), Univ. Michigan Museum of Zoology (page text read 2026-10-03)",
+    "url": "https://animaldiversity.org/accounts/Sturnus_vulgaris/",
+    "confidence": "high",
+    "note": "secondary compilation; seems high next to the measured values"
+   },
+   "wikipedia_range": {
+    "range": [
+     31,
+     44
+    ],
+    "unit": "cm",
+    "source": "Wikipedia 'Common starling', Description section (wikitext read 2026-10-03), which cites Feare C. & Craig A. (1998) Starlings and Mynas, Christopher Helm, p.183 (book not read)",
+    "url": "https://en.wikipedia.org/wiki/Common_starling",
+    "confidence": "high",
+    "note": "cites Feare & Craig 1998"
+   },
+   "birdwingdata_rows": {
+    "range": [
+     35.9,
+     42.4
+    ],
+    "unit": "cm",
+    "source": "Shiomi K., Tatani M., Kikuchi D.M. (2024) BirdWingData: wingspan and wing area data of birds compiled from multiple literature sources and original measurements. Ecological Research, doi:10.1111/1440-1703.12502; data figshare doi:10.6084/m9.figshare.23537892 (CC BY 4.0), BirdWingData_tidy_ver2.1.csv",
+    "url": "https://doi.org/10.6084/m9.figshare.23537892",
+    "confidence": "high",
+    "note": "two-wing values, species-level rows from Viscor 1987 (39.1), Hambly 2004 (37.8), Alerstam 2007 (38.0), Pennycuick 2008 (38.4), Bruderer 2010 (38.0), Vagasi 2016 (42.4 A-II incl. body, 35.9 B-II excl. body), Vincze 2019 (35.9 B-II?); see derived/published_sources/birdwingdata_sturnus_vulgaris.json"
+   },
+   "recommended": {
+    "value": 38.0,
+    "rng": [
+     36,
+     42
+    ],
+    "unit": "cm",
+    "basis": "tip to tip incl. body; five independent rows 37.8-38.4 and the measured live bird 38.2 agree; 42.4 and 40.0 are outliers",
+    "confidence": "medium"
+   }
+  },
+  "wing_length_carpal_joint_to_longest_primary_tip": {
+   "AVONET_museum_male": {
+    "value": 128.97,
+    "range": [
+     124.0,
+     134.0
+    ],
+    "sd": 2.68,
+    "unit": "mm",
+    "sex": "male",
+    "n": 17,
+    "source": "Tobias J.A. et al. (2022) AVONET: morphological, ecological and geographical data for all birds. Ecology Letters 25:581-597, doi:10.1111/ele.13898; data: figshare doi:10.6084/m9.figshare.16586228.v7 (CC BY 4.0), supplementary table AVONET_supp1.xlsx, sheets AVONET1_BirdLife and AVONET_Raw_Data (28 museum rows, Sturnus vulgaris)",
+    "url": "https://doi.org/10.6084/m9.figshare.16586228.v7",
+    "confidence": "high",
+    "note": "museum skins, folded wing, carpal joint to tip of longest primary; computed from the 17 raw rows"
+   },
+   "AVONET_museum_female": {
+    "value": 127.32,
+    "range": [
+     124.0,
+     131.0
+    ],
+    "sd": 2.34,
+    "unit": "mm",
+    "sex": "female",
+    "n": 11,
+    "source": "Tobias J.A. et al. (2022) AVONET: morphological, ecological and geographical data for all birds. Ecology Letters 25:581-597, doi:10.1111/ele.13898; data: figshare doi:10.6084/m9.figshare.16586228.v7 (CC BY 4.0), supplementary table AVONET_supp1.xlsx, sheets AVONET1_BirdLife and AVONET_Raw_Data (28 museum rows, Sturnus vulgaris)",
+    "url": "https://doi.org/10.6084/m9.figshare.16586228.v7",
+    "confidence": "high"
+   },
+   "AVONET_species_mean": {
+    "value": 128.3,
+    "range": [
+     124,
+     134
+    ],
+    "sd": 2.64,
+    "unit": "mm",
+    "sex": "both",
+    "n": 28,
+    "source": "Tobias J.A. et al. (2022) AVONET: morphological, ecological and geographical data for all birds. Ecology Letters 25:581-597, doi:10.1111/ele.13898; data: figshare doi:10.6084/m9.figshare.16586228.v7 (CC BY 4.0), supplementary table AVONET_supp1.xlsx, sheets AVONET1_BirdLife and AVONET_Raw_Data (28 museum rows, Sturnus vulgaris)",
+    "url": "https://doi.org/10.6084/m9.figshare.16586228.v7",
+    "confidence": "high"
+   },
+   "BTO_live_adult_male": {
+    "value": 132.6,
+    "range": [
+     128,
+     137
+    ],
+    "sd": 3.1,
+    "unit": "mm",
+    "sex": "male",
+    "n": 18182,
+    "source": "BTO BirdFacts: Starling, Biometrics (live birds, BTO ringing scheme), read from the page HTML 2026-10-03",
+    "url": "https://www.bto.org/learn/about-birds/birdfacts/starling",
+    "confidence": "high",
+    "note": "live birds; method not stated on the page (BTO ringers measure maximum chord of the flattened wing - from the ringing manual, not verified here)"
+   },
+   "BTO_live_adult_female": {
+    "value": 129.5,
+    "range": [
+     124,
+     135
+    ],
+    "sd": 3.3,
+    "unit": "mm",
+    "sex": "female",
+    "n": 13930,
+    "source": "BTO BirdFacts: Starling, Biometrics (live birds, BTO ringing scheme), read from the page HTML 2026-10-03",
+    "url": "https://www.bto.org/learn/about-birds/birdfacts/starling",
+    "confidence": "high"
+   },
+   "BTO_live_all_adults": {
+    "value": 131.3,
+    "range": [
+     126,
+     137
+    ],
+    "sd": 3.5,
+    "unit": "mm",
+    "sex": "both",
+    "n": 32774,
+    "source": "BTO BirdFacts: Starling, Biometrics (live birds, BTO ringing scheme), read from the page HTML 2026-10-03",
+    "url": "https://www.bto.org/learn/about-birds/birdfacts/starling",
+    "confidence": "high"
+   },
+   "BTO_live_juvenile": {
+    "value": 130.2,
+    "range": [
+     122,
+     136
+    ],
+    "sd": 4.2,
+    "unit": "mm",
+    "sex": "both",
+    "n": 10312,
+    "source": "BTO BirdFacts: Starling, Biometrics (live birds, BTO ringing scheme), read from the page HTML 2026-10-03",
+    "url": "https://www.bto.org/learn/about-birds/birdfacts/starling",
+    "confidence": "high",
+    "note": "juveniles are not shorter-winged than adults here"
+   },
+   "HANZAB_via_ABSA": {
+    "range": [
+     115,
+     130
+    ],
+    "unit": "mm",
+    "sex": "male 119-130, female 115-127",
+    "source": "Australian Bird Study Association, Bird in the Hand 2nd ed., species sheet Common Starling (compiled from HANZAB vol. 7, Australian/introduced birds; reproduced with permission of BirdLife Australia)",
+    "url": "https://absa.asn.au/wp-content/uploads/2016/01/Common-Starling.pdf",
+    "confidence": "high",
+    "note": "Australian introduced population"
+   },
+   "wikipedia_wing_chord": {
+    "range": [
+     118,
+     138
+    ],
+    "unit": "mm",
+    "source": "Wikipedia 'Common starling', Description section (wikitext read 2026-10-03), which cites Feare C. & Craig A. (1998) Starlings and Mynas, Christopher Helm, p.183 (book not read)",
+    "url": "https://en.wikipedia.org/wiki/Common_starling",
+    "confidence": "high",
+    "note": "cites Feare & Craig 1998"
+   },
+   "recommended": {
+    "value": 129.0,
+    "rng": [
+     124,
+     134
+    ],
+    "unit": "mm",
+    "basis": "AVONET male mean; live birds read ~3 mm longer (BTO 131-133 mm: flattened/straightened wing). Use 129-132 mm for the flattened wing chord",
+    "confidence": "high"
+   }
+  },
+  "wing_secondary1_and_kipps": {
+   "AVONET_secondary1_species_mean": {
+    "value": 79.11,
+    "range": [
+     75.8,
+     85.5
+    ],
+    "sd": 2.08,
+    "unit": "mm",
+    "n": 26,
+    "source": "Tobias J.A. et al. (2022) AVONET: morphological, ecological and geographical data for all birds. Ecology Letters 25:581-597, doi:10.1111/ele.13898; data: figshare doi:10.6084/m9.figshare.16586228.v7 (CC BY 4.0), supplementary table AVONET_supp1.xlsx, sheets AVONET1_BirdLife and AVONET_Raw_Data (28 museum rows, Sturnus vulgaris)",
+    "url": "https://doi.org/10.6084/m9.figshare.16586228.v7",
+    "confidence": "high",
+    "note": "carpal joint to tip of first secondary (computed from raw rows)"
+   },
+   "AVONET_kipps_distance": {
+    "value": 49.24,
+    "range": [
+     46.3,
+     51.5
+    ],
+    "sd": 1.36,
+    "unit": "mm",
+    "n": 26,
+    "source": "Tobias J.A. et al. (2022) AVONET: morphological, ecological and geographical data for all birds. Ecology Letters 25:581-597, doi:10.1111/ele.13898; data: figshare doi:10.6084/m9.figshare.16586228.v7 (CC BY 4.0), supplementary table AVONET_supp1.xlsx, sheets AVONET1_BirdLife and AVONET_Raw_Data (28 museum rows, Sturnus vulgaris)",
+    "url": "https://doi.org/10.6084/m9.figshare.16586228.v7",
+    "confidence": "high",
+    "note": "tip of longest primary minus tip of first secondary: how far the primaries project past the secondaries"
+   },
+   "AVONET_hand_wing_index": {
+    "value": 38.4,
+    "unit": "%",
+    "source": "Tobias J.A. et al. (2022) AVONET: morphological, ecological and geographical data for all birds. Ecology Letters 25:581-597, doi:10.1111/ele.13898; data: figshare doi:10.6084/m9.figshare.16586228.v7 (CC BY 4.0), supplementary table AVONET_supp1.xlsx, sheets AVONET1_BirdLife and AVONET_Raw_Data (28 museum rows, Sturnus vulgaris)",
+    "url": "https://doi.org/10.6084/m9.figshare.16586228.v7",
+    "confidence": "high",
+    "note": "species mean from AVONET1_BirdLife"
+   }
+  },
+  "tail_length": {
+   "AVONET_all": {
+    "value": 65.78,
+    "range": [
+     60.0,
+     75.0
+    ],
+    "sd": 4.32,
+    "unit": "mm",
+    "sex": "both",
+    "n": 16,
+    "source": "Tobias J.A. et al. (2022) AVONET: morphological, ecological and geographical data for all birds. Ecology Letters 25:581-597, doi:10.1111/ele.13898; data: figshare doi:10.6084/m9.figshare.16586228.v7 (CC BY 4.0), supplementary table AVONET_supp1.xlsx, sheets AVONET1_BirdLife and AVONET_Raw_Data (28 museum rows, Sturnus vulgaris)",
+    "url": "https://doi.org/10.6084/m9.figshare.16586228.v7",
+    "confidence": "high",
+    "note": "pygostyle base to tip of longest rectrix; only 16 of the 28 rows have a tail value"
+   },
+   "AVONET_male": {
+    "value": 65.18,
+    "range": [
+     60.0,
+     74.0
+    ],
+    "sd": 4.22,
+    "unit": "mm",
+    "sex": "male",
+    "n": 11,
+    "source": "Tobias J.A. et al. (2022) AVONET: morphological, ecological and geographical data for all birds. Ecology Letters 25:581-597, doi:10.1111/ele.13898; data: figshare doi:10.6084/m9.figshare.16586228.v7 (CC BY 4.0), supplementary table AVONET_supp1.xlsx, sheets AVONET1_BirdLife and AVONET_Raw_Data (28 museum rows, Sturnus vulgaris)",
+    "url": "https://doi.org/10.6084/m9.figshare.16586228.v7",
+    "confidence": "high"
+   },
+   "AVONET_female": {
+    "value": 67.1,
+    "range": [
+     64.0,
+     75.0
+    ],
+    "sd": 4.72,
+    "unit": "mm",
+    "sex": "female",
+    "n": 5,
+    "source": "Tobias J.A. et al. (2022) AVONET: morphological, ecological and geographical data for all birds. Ecology Letters 25:581-597, doi:10.1111/ele.13898; data: figshare doi:10.6084/m9.figshare.16586228.v7 (CC BY 4.0), supplementary table AVONET_supp1.xlsx, sheets AVONET1_BirdLife and AVONET_Raw_Data (28 museum rows, Sturnus vulgaris)",
+    "url": "https://doi.org/10.6084/m9.figshare.16586228.v7",
+    "confidence": "high",
+    "note": "n=5 only"
+   },
+   "HANZAB_via_ABSA": {
+    "range": [
+     59,
+     68
+    ],
+    "unit": "mm",
+    "sex": "male 60-68, female 59-65",
+    "source": "Australian Bird Study Association, Bird in the Hand 2nd ed., species sheet Common Starling (compiled from HANZAB vol. 7, Australian/introduced birds; reproduced with permission of BirdLife Australia)",
+    "url": "https://absa.asn.au/wp-content/uploads/2016/01/Common-Starling.pdf",
+    "confidence": "high"
+   },
+   "wikipedia_range": {
+    "range": [
+     58,
+     68
+    ],
+    "unit": "mm",
+    "source": "Wikipedia 'Common starling', Description section (wikitext read 2026-10-03), which cites Feare C. & Craig A. (1998) Starlings and Mynas, Christopher Helm, p.183 (book not read)",
+    "url": "https://en.wikipedia.org/wiki/Common_starling",
+    "confidence": "high"
+   },
+   "recommended": {
+    "value": 65.0,
+    "rng": [
+     58,
+     75
+    ],
+    "unit": "mm",
+    "basis": "AVONET mean 65.8, HANZAB 59-68; tail is ~0.31 of total length",
+    "confidence": "high"
+   }
+  },
+  "culmen_and_bill": {
+   "AVONET_culmen_all": {
+    "value": 30.21,
+    "range": [
+     26.1,
+     34.0
+    ],
+    "sd": 2.16,
+    "unit": "mm",
+    "sex": "both",
+    "n": 16,
+    "source": "Tobias J.A. et al. (2022) AVONET: morphological, ecological and geographical data for all birds. Ecology Letters 25:581-597, doi:10.1111/ele.13898; data: figshare doi:10.6084/m9.figshare.16586228.v7 (CC BY 4.0), supplementary table AVONET_supp1.xlsx, sheets AVONET1_BirdLife and AVONET_Raw_Data (28 museum rows, Sturnus vulgaris)",
+    "url": "https://doi.org/10.6084/m9.figshare.16586228.v7",
+    "confidence": "high",
+    "note": "tip to skull base along the culmen; n=16 of 28 rows"
+   },
+   "AVONET_culmen_male": {
+    "value": 30.76,
+    "range": [
+     28.4,
+     34.0
+    ],
+    "sd": 1.82,
+    "unit": "mm",
+    "sex": "male",
+    "n": 11,
+    "source": "Tobias J.A. et al. (2022) AVONET: morphological, ecological and geographical data for all birds. Ecology Letters 25:581-597, doi:10.1111/ele.13898; data: figshare doi:10.6084/m9.figshare.16586228.v7 (CC BY 4.0), supplementary table AVONET_supp1.xlsx, sheets AVONET1_BirdLife and AVONET_Raw_Data (28 museum rows, Sturnus vulgaris)",
+    "url": "https://doi.org/10.6084/m9.figshare.16586228.v7",
+    "confidence": "high"
+   },
+   "AVONET_culmen_female": {
+    "value": 29.0,
+    "range": [
+     26.1,
+     32.2
+    ],
+    "sd": 2.57,
+    "unit": "mm",
+    "sex": "female",
+    "n": 5,
+    "source": "Tobias J.A. et al. (2022) AVONET: morphological, ecological and geographical data for all birds. Ecology Letters 25:581-597, doi:10.1111/ele.13898; data: figshare doi:10.6084/m9.figshare.16586228.v7 (CC BY 4.0), supplementary table AVONET_supp1.xlsx, sheets AVONET1_BirdLife and AVONET_Raw_Data (28 museum rows, Sturnus vulgaris)",
+    "url": "https://doi.org/10.6084/m9.figshare.16586228.v7",
+    "confidence": "high",
+    "note": "n=5"
+   },
+   "AVONET_bill_to_nares_species_mean": {
+    "value": 18.5,
+    "unit": "mm",
+    "source": "Tobias J.A. et al. (2022) AVONET: morphological, ecological and geographical data for all birds. Ecology Letters 25:581-597, doi:10.1111/ele.13898; data: figshare doi:10.6084/m9.figshare.16586228.v7 (CC BY 4.0), supplementary table AVONET_supp1.xlsx, sheets AVONET1_BirdLife and AVONET_Raw_Data (28 museum rows, Sturnus vulgaris)",
+    "url": "https://doi.org/10.6084/m9.figshare.16586228.v7",
+    "confidence": "high"
+   },
+   "AVONET_bill_width": {
+    "value": 6.55,
+    "range": [
+     6.3,
+     6.8
+    ],
+    "sd": 0.18,
+    "unit": "mm",
+    "n": 12,
+    "source": "Tobias J.A. et al. (2022) AVONET: morphological, ecological and geographical data for all birds. Ecology Letters 25:581-597, doi:10.1111/ele.13898; data: figshare doi:10.6084/m9.figshare.16586228.v7 (CC BY 4.0), supplementary table AVONET_supp1.xlsx, sheets AVONET1_BirdLife and AVONET_Raw_Data (28 museum rows, Sturnus vulgaris)",
+    "url": "https://doi.org/10.6084/m9.figshare.16586228.v7",
+    "confidence": "high",
+    "note": "at the distal end of the nares"
+   },
+   "AVONET_bill_depth": {
+    "value": 6.47,
+    "range": [
+     5.9,
+     7.0
+    ],
+    "sd": 0.38,
+    "unit": "mm",
+    "n": 12,
+    "source": "Tobias J.A. et al. (2022) AVONET: morphological, ecological and geographical data for all birds. Ecology Letters 25:581-597, doi:10.1111/ele.13898; data: figshare doi:10.6084/m9.figshare.16586228.v7 (CC BY 4.0), supplementary table AVONET_supp1.xlsx, sheets AVONET1_BirdLife and AVONET_Raw_Data (28 museum rows, Sturnus vulgaris)",
+    "url": "https://doi.org/10.6084/m9.figshare.16586228.v7",
+    "confidence": "high"
+   },
+   "wikipedia_culmen": {
+    "range": [
+     25,
+     32
+    ],
+    "unit": "mm",
+    "source": "Wikipedia 'Common starling', Description section (wikitext read 2026-10-03), which cites Feare C. & Craig A. (1998) Starlings and Mynas, Christopher Helm, p.183 (book not read)",
+    "url": "https://en.wikipedia.org/wiki/Common_starling",
+    "confidence": "high"
+   }
+  },
+  "tarsus": {
+   "AVONET_all": {
+    "value": 28.99,
+    "range": [
+     26.1,
+     31.0
+    ],
+    "sd": 1.39,
+    "unit": "mm",
+    "sex": "both",
+    "n": 16,
+    "source": "Tobias J.A. et al. (2022) AVONET: morphological, ecological and geographical data for all birds. Ecology Letters 25:581-597, doi:10.1111/ele.13898; data: figshare doi:10.6084/m9.figshare.16586228.v7 (CC BY 4.0), supplementary table AVONET_supp1.xlsx, sheets AVONET1_BirdLife and AVONET_Raw_Data (28 museum rows, Sturnus vulgaris)",
+    "url": "https://doi.org/10.6084/m9.figshare.16586228.v7",
+    "confidence": "high"
+   },
+   "wikipedia_range": {
+    "range": [
+     27,
+     32
+    ],
+    "unit": "mm",
+    "source": "Wikipedia 'Common starling', Description section (wikitext read 2026-10-03), which cites Feare C. & Craig A. (1998) Starlings and Mynas, Christopher Helm, p.183 (book not read)",
+    "url": "https://en.wikipedia.org/wiki/Common_starling",
+    "confidence": "high"
+   }
+  },
+  "mass": {
+   "BTO_adults": {
+    "value": 85.0,
+    "range": [
+     73.3,
+     98
+    ],
+    "sd": 9.9,
+    "unit": "g",
+    "sex": "both",
+    "n": 24304,
+    "source": "BTO BirdFacts: Starling, Biometrics (live birds, BTO ringing scheme), read from the page HTML 2026-10-03",
+    "url": "https://www.bto.org/learn/about-birds/birdfacts/starling",
+    "confidence": "high",
+    "note": "range = 5th-95th percentile; UK ringing, includes pre-roost fat/heavy winter birds"
+   },
+   "BTO_male": {
+    "value": 87.0,
+    "range": [
+     76,
+     100
+    ],
+    "sd": 10.0,
+    "unit": "g",
+    "sex": "male",
+    "n": 13448,
+    "source": "BTO BirdFacts: Starling, Biometrics (live birds, BTO ringing scheme), read from the page HTML 2026-10-03",
+    "url": "https://www.bto.org/learn/about-birds/birdfacts/starling",
+    "confidence": "high"
+   },
+   "BTO_female": {
+    "value": 82.5,
+    "range": [
+     72,
+     95
+    ],
+    "sd": 9.3,
+    "unit": "g",
+    "sex": "female",
+    "n": 10351,
+    "source": "BTO BirdFacts: Starling, Biometrics (live birds, BTO ringing scheme), read from the page HTML 2026-10-03",
+    "url": "https://www.bto.org/learn/about-birds/birdfacts/starling",
+    "confidence": "high"
+   },
+   "BTO_juvenile": {
+    "value": 81.8,
+    "range": [
+     70,
+     95
+    ],
+    "sd": 7.6,
+    "unit": "g",
+    "n": 8104,
+    "source": "BTO BirdFacts: Starling, Biometrics (live birds, BTO ringing scheme), read from the page HTML 2026-10-03",
+    "url": "https://www.bto.org/learn/about-birds/birdfacts/starling",
+    "confidence": "high"
+   },
+   "AVONET_species_mean": {
+    "value": 77.14,
+    "unit": "g",
+    "source": "Tobias J.A. et al. (2022) AVONET: morphological, ecological and geographical data for all birds. Ecology Letters 25:581-597, doi:10.1111/ele.13898; data: figshare doi:10.6084/m9.figshare.16586228.v7 (CC BY 4.0), supplementary table AVONET_supp1.xlsx, sheets AVONET1_BirdLife and AVONET_Raw_Data (28 museum rows, Sturnus vulgaris)",
+    "url": "https://doi.org/10.6084/m9.figshare.16586228.v7",
+    "confidence": "high",
+    "note": "taken from Dunning (CRC Handbook of Avian Body Masses), NOT measured on the AVONET specimens"
+   },
+   "HANZAB_via_ABSA": {
+    "range": [
+     75,
+     98
+    ],
+    "unit": "g",
+    "sex": "male 75-98, female 75.6-94",
+    "source": "Australian Bird Study Association, Bird in the Hand 2nd ed., species sheet Common Starling (compiled from HANZAB vol. 7, Australian/introduced birds; reproduced with permission of BirdLife Australia)",
+    "url": "https://absa.asn.au/wp-content/uploads/2016/01/Common-Starling.pdf",
+    "confidence": "high"
+   },
+   "audubon_range": {
+    "range": [
+     59.5,
+     96.4
+    ],
+    "unit": "g",
+    "source": "Audubon Field Guide, European Starling (page text read 2026-10-03)",
+    "url": "https://www.audubon.org/field-guide/bird/european-starling",
+    "confidence": "high"
+   },
+   "adw_range": {
+    "range": [
+     70,
+     100
+    ],
+    "unit": "g",
+    "source": "Animal Diversity Web, Sturnus vulgaris (common starling), Univ. Michigan Museum of Zoology (page text read 2026-10-03)",
+    "url": "https://animaldiversity.org/accounts/Sturnus_vulgaris/",
+    "confidence": "high"
+   },
+   "wikipedia_range": {
+    "range": [
+     58,
+     101
+    ],
+    "unit": "g",
+    "source": "Wikipedia 'Common starling', Description section (wikitext read 2026-10-03), which cites Feare C. & Craig A. (1998) Starlings and Mynas, Christopher Helm, p.183 (book not read)",
+    "url": "https://en.wikipedia.org/wiki/Common_starling",
+    "confidence": "high"
+   },
+   "wind_tunnel_bird": {
+    "value": 78,
+    "unit": "g",
+    "n": 1,
+    "source": "Ben-Gida H., Kirchhefer A., Taylor Z.J., Bezner-Kerr W., Guglielmo C.G., Kopp G.A., Gurka R. (2013) Estimation of unsteady aerodynamics in the wake of a freely flying European starling (Sturnus vulgaris). PLoS ONE 8(11):e80086 (text read from the arXiv version 1306.0146, section 2.2)",
+    "url": "https://doi.org/10.1371/journal.pone.0080086",
+    "confidence": "high"
+   },
+   "recommended": {
+    "value": 80.0,
+    "rng": [
+     70,
+     100
+    ],
+    "unit": "g",
+    "basis": "between the wind-tunnel bird (78), AVONET (77) and UK ringing adults (85); 85 g is a heavy UK winter average",
+    "confidence": "medium"
+   }
+  },
+  "wing_area_two_wings": {
+   "rows": {
+    "range": [
+     192.0,
+     282.2
+    ],
+    "unit": "cm2",
+    "source": "Shiomi K., Tatani M., Kikuchi D.M. (2024) BirdWingData: wingspan and wing area data of birds compiled from multiple literature sources and original measurements. Ecological Research, doi:10.1111/1440-1703.12502; data figshare doi:10.6084/m9.figshare.23537892 (CC BY 4.0), BirdWingData_tidy_ver2.1.csv",
+    "url": "https://doi.org/10.6084/m9.figshare.23537892",
+    "confidence": "high",
+    "note": "species-level rows (two wings): Viscor 1987 192.0 (def ?); Hambly 2004 230.2 (A-II); Alerstam 2007 244.0 (A-II); Pennycuick 2008 251.0 (A-II); Bruderer 2010 230.0 (A-II); Vagasi 2016 282.2 (A-II) and 229.2 (B-II); Vincze 2019 229.2 (B-II?). A = body between the wings included, B = not included. Underlying papers not read."
+   },
+   "ben_gida_2013_implied": {
+    "value": 228.0,
+    "unit": "cm2",
+    "n": 1,
+    "source": "Ben-Gida H., Kirchhefer A., Taylor Z.J., Bezner-Kerr W., Guglielmo C.G., Kopp G.A., Gurka R. (2013) Estimation of unsteady aerodynamics in the wake of a freely flying European starling (Sturnus vulgaris). PLoS ONE 8(11):e80086 (text read from the arXiv version 1306.0146, section 2.2)",
+    "url": "https://doi.org/10.1371/journal.pone.0080086",
+    "confidence": "medium",
+    "note": "derived here: span^2 / AR = 38.2^2 / 6.4; published 'average chord 6 cm' gives 38.2 x 6 = 229. 'wings lifting area' definition (body included or not) not stated"
+   },
+   "recommended": {
+    "value": 229.0,
+    "rng": [
+     205,
+     250
+    ],
+    "unit": "cm2",
+    "basis": "Ben-Gida implied 228, Bruderer 230, Hambly 230, Vagasi B-II 229 agree",
+    "confidence": "medium"
+   }
+  },
+  "aspect_ratio": {
+   "ben_gida_2013": {
+    "value": 6.4,
+    "unit": "-",
+    "n": 1,
+    "source": "Ben-Gida H., Kirchhefer A., Taylor Z.J., Bezner-Kerr W., Guglielmo C.G., Kopp G.A., Gurka R. (2013) Estimation of unsteady aerodynamics in the wake of a freely flying European starling (Sturnus vulgaris). PLoS ONE 8(11):e80086 (text read from the arXiv version 1306.0146, section 2.2)",
+    "url": "https://doi.org/10.1371/journal.pone.0080086",
+    "confidence": "high",
+    "note": "span^2 / wings lifting area"
+   },
+   "derived_from_birdwingdata_rows": {
+    "range": [
+     5.6,
+     6.4
+    ],
+    "unit": "-",
+    "source": "Shiomi K., Tatani M., Kikuchi D.M. (2024) BirdWingData: wingspan and wing area data of birds compiled from multiple literature sources and original measurements. Ecological Research, doi:10.1111/1440-1703.12502; data figshare doi:10.6084/m9.figshare.23537892 (CC BY 4.0), BirdWingData_tidy_ver2.1.csv",
+    "url": "https://doi.org/10.6084/m9.figshare.23537892",
+    "confidence": "medium",
+    "note": "computed here per row span^2/area: Hambly 6.21, Alerstam 5.92, Pennycuick 5.87, Bruderer 6.28, Vagasi 6.36 (A-II) / 5.64 (B-II); Viscor 7.96 is an outlier (span and area inconsistent with the others)"
+   }
+  },
+  "wing_loading": {
+   "derived": {
+    "range": [
+     29.9,
+     36.8
+    ],
+    "unit": "N/m2",
+    "source": "Shiomi K., Tatani M., Kikuchi D.M. (2024) BirdWingData: wingspan and wing area data of birds compiled from multiple literature sources and original measurements. Ecological Research, doi:10.1111/1440-1703.12502; data figshare doi:10.6084/m9.figshare.23537892 (CC BY 4.0), BirdWingData_tidy_ver2.1.csv; Ben-Gida H., Kirchhefer A., Taylor Z.J., Bezner-Kerr W., Guglielmo C.G., Kopp G.A., Gurka R. (2013) Estimation of unsteady aerodynamics in the wake of a freely flying European starling (Sturnus vulgaris). PLoS ONE 8(11):e80086 (text read from the arXiv version 1306.0146, section 2.2)",
+    "url": "https://doi.org/10.6084/m9.figshare.23537892",
+    "confidence": "medium",
+    "note": "computed here: mass*9.81/area per row; Ben-Gida bird 0.078*9.81/0.0228 = 33.6 N/m2 (3.4 kg/m2)"
+   }
+  },
+  "wing_bones": {
+   "humerus_greatest_length": {
+    "value": 28,
+    "unit": "mm",
+    "sex": "male",
+    "n": 1,
+    "source": "Balyan L., Manaseryan N., Ghasabyan M., Kumelova M., Gyonjyan A. (2024) Osteometric data of Avian Fauna of Armenia: a baseline for zoologists and archaeozoologists. Data in Brief 52:110059, doi:10.1016/j.dib.2024.110059 (citation fields from the PMC page via a summarising fetch; numbers read directly from the Mendeley xlsx); dataset doi:10.17632/8wfkb2mmns.1 (CC BY)",
+    "url": "https://data.mendeley.com/datasets/8wfkb2mmns/1",
+    "confidence": "high",
+    "note": "skeleton in the Institute of Zoology collection, Masis (Armenia); vernier caliper, 0.5 mm; recorded to whole mm. Subspecies not stated (probably not the nominate form)"
+   },
+   "ulna_greatest_length": {
+    "value": 34,
+    "unit": "mm",
+    "sex": "male",
+    "n": 1,
+    "source": "Balyan L., Manaseryan N., Ghasabyan M., Kumelova M., Gyonjyan A. (2024) Osteometric data of Avian Fauna of Armenia: a baseline for zoologists and archaeozoologists. Data in Brief 52:110059, doi:10.1016/j.dib.2024.110059 (citation fields from the PMC page via a summarising fetch; numbers read directly from the Mendeley xlsx); dataset doi:10.17632/8wfkb2mmns.1 (CC BY)",
+    "url": "https://data.mendeley.com/datasets/8wfkb2mmns/1",
+    "confidence": "high"
+   },
+   "radius_greatest_length": {
+    "value": 29,
+    "unit": "mm",
+    "sex": "male",
+    "n": 1,
+    "source": "Balyan L., Manaseryan N., Ghasabyan M., Kumelova M., Gyonjyan A. (2024) Osteometric data of Avian Fauna of Armenia: a baseline for zoologists and archaeozoologists. Data in Brief 52:110059, doi:10.1016/j.dib.2024.110059 (citation fields from the PMC page via a summarising fetch; numbers read directly from the Mendeley xlsx); dataset doi:10.17632/8wfkb2mmns.1 (CC BY)",
+    "url": "https://data.mendeley.com/datasets/8wfkb2mmns/1",
+    "confidence": "high"
+   },
+   "carpometacarpus_greatest_length": {
+    "value": 21,
+    "unit": "mm",
+    "sex": "male",
+    "n": 1,
+    "source": "Balyan L., Manaseryan N., Ghasabyan M., Kumelova M., Gyonjyan A. (2024) Osteometric data of Avian Fauna of Armenia: a baseline for zoologists and archaeozoologists. Data in Brief 52:110059, doi:10.1016/j.dib.2024.110059 (citation fields from the PMC page via a summarising fetch; numbers read directly from the Mendeley xlsx); dataset doi:10.17632/8wfkb2mmns.1 (CC BY)",
+    "url": "https://data.mendeley.com/datasets/8wfkb2mmns/1",
+    "confidence": "high"
+   },
+   "note": "NOT FOUND in a second source (RBCM page returns 404, Nudds 2007 / Wang 2011 supplements not reachable). Single bird, rounded to whole mm: treat as +-1 mm and one individual."
+  },
+  "other_bones_and_skull": {
+   "tibiotarsus_GL": {
+    "value": 45,
+    "unit": "mm",
+    "sex": "male",
+    "n": 1,
+    "source": "Balyan L., Manaseryan N., Ghasabyan M., Kumelova M., Gyonjyan A. (2024) Osteometric data of Avian Fauna of Armenia: a baseline for zoologists and archaeozoologists. Data in Brief 52:110059, doi:10.1016/j.dib.2024.110059 (citation fields from the PMC page via a summarising fetch; numbers read directly from the Mendeley xlsx); dataset doi:10.17632/8wfkb2mmns.1 (CC BY)",
+    "url": "https://data.mendeley.com/datasets/8wfkb2mmns/1",
+    "confidence": "high"
+   },
+   "femur_GL": {
+    "value": 26,
+    "unit": "mm",
+    "sex": "male",
+    "n": 1,
+    "source": "Balyan L., Manaseryan N., Ghasabyan M., Kumelova M., Gyonjyan A. (2024) Osteometric data of Avian Fauna of Armenia: a baseline for zoologists and archaeozoologists. Data in Brief 52:110059, doi:10.1016/j.dib.2024.110059 (citation fields from the PMC page via a summarising fetch; numbers read directly from the Mendeley xlsx); dataset doi:10.17632/8wfkb2mmns.1 (CC BY)",
+    "url": "https://data.mendeley.com/datasets/8wfkb2mmns/1",
+    "confidence": "high"
+   },
+   "tarsometatarsus_GL": {
+    "value": 31,
+    "unit": "mm",
+    "sex": "male",
+    "n": 1,
+    "source": "Balyan L., Manaseryan N., Ghasabyan M., Kumelova M., Gyonjyan A. (2024) Osteometric data of Avian Fauna of Armenia: a baseline for zoologists and archaeozoologists. Data in Brief 52:110059, doi:10.1016/j.dib.2024.110059 (citation fields from the PMC page via a summarising fetch; numbers read directly from the Mendeley xlsx); dataset doi:10.17632/8wfkb2mmns.1 (CC BY)",
+    "url": "https://data.mendeley.com/datasets/8wfkb2mmns/1",
+    "confidence": "high"
+   },
+   "cranium_greatest_length": {
+    "value": 50,
+    "unit": "mm",
+    "sex": "male",
+    "n": 1,
+    "source": "Balyan L., Manaseryan N., Ghasabyan M., Kumelova M., Gyonjyan A. (2024) Osteometric data of Avian Fauna of Armenia: a baseline for zoologists and archaeozoologists. Data in Brief 52:110059, doi:10.1016/j.dib.2024.110059 (citation fields from the PMC page via a summarising fetch; numbers read directly from the Mendeley xlsx); dataset doi:10.17632/8wfkb2mmns.1 (CC BY)",
+    "url": "https://data.mendeley.com/datasets/8wfkb2mmns/1",
+    "confidence": "high",
+    "note": "'Gl'; skull incl. bill base"
+   },
+   "cranium_greatest_breadth": {
+    "value": 20,
+    "unit": "mm",
+    "sex": "male",
+    "n": 1,
+    "source": "Balyan L., Manaseryan N., Ghasabyan M., Kumelova M., Gyonjyan A. (2024) Osteometric data of Avian Fauna of Armenia: a baseline for zoologists and archaeozoologists. Data in Brief 52:110059, doi:10.1016/j.dib.2024.110059 (citation fields from the PMC page via a summarising fetch; numbers read directly from the Mendeley xlsx); dataset doi:10.17632/8wfkb2mmns.1 (CC BY)",
+    "url": "https://data.mendeley.com/datasets/8wfkb2mmns/1",
+    "confidence": "high",
+    "note": "'Gb'"
+   },
+   "mandible_GL": {
+    "value": 43,
+    "unit": "mm",
+    "sex": "male",
+    "n": 1,
+    "source": "Balyan L., Manaseryan N., Ghasabyan M., Kumelova M., Gyonjyan A. (2024) Osteometric data of Avian Fauna of Armenia: a baseline for zoologists and archaeozoologists. Data in Brief 52:110059, doi:10.1016/j.dib.2024.110059 (citation fields from the PMC page via a summarising fetch; numbers read directly from the Mendeley xlsx); dataset doi:10.17632/8wfkb2mmns.1 (CC BY)",
+    "url": "https://data.mendeley.com/datasets/8wfkb2mmns/1",
+    "confidence": "high"
+   },
+   "skull_length": {
+    "value": 52,
+    "unit": "mm",
+    "n": 1,
+    "source": "skullsite.com 'Sturnus vulgaris (Starling)' skull page (provenance of the specimen not stated)",
+    "url": "https://skullsite.com/skullpage/sturnus-vulgaris-starling/",
+    "confidence": "medium",
+    "note": "cranium length 24, width 19, height 14 mm; specimen provenance not stated"
+   }
+  },
+  "body_and_head_width": {
+   "lateral_body_width": {
+    "value": 4.0,
+    "unit": "cm",
+    "n": 1,
+    "source": "Ben-Gida H., Kirchhefer A., Taylor Z.J., Bezner-Kerr W., Guglielmo C.G., Kopp G.A., Gurka R. (2013) Estimation of unsteady aerodynamics in the wake of a freely flying European starling (Sturnus vulgaris). PLoS ONE 8(11):e80086 (text read from the arXiv version 1306.0146, section 2.2)",
+    "url": "https://doi.org/10.1371/journal.pone.0080086",
+    "confidence": "high",
+    "note": "'lateral body width' of the wind-tunnel bird, measurement point not defined (probably the widest part of the trunk)"
+   },
+   "head_width_live": "NOT FOUND (only cranium breadth 19-20 mm from skeletons, which excludes skin and feathers)",
+   "body_depth_and_girth": "NOT FOUND"
+  },
+  "primary_secondary_tail_feather_lengths_atlas": {
+   "note": "data table of the Feather Atlas: TF = total feather length incl. calamus, VF = vane length along the rachis, cm; TF1..TFn in table order = left to right in the atlas image (primaries outer P9 -> inner P1, tail R6 -> R1); the order was checked against the image-measured left-to-right vane lengths (measured_feather_atlas_images), which follow the same sequence within 0.3-0.5 cm",
+   "adult_female_BRD2881_primaries_TF_cm": [
+    10.5,
+    10.6,
+    10.3,
+    9.7,
+    9.2,
+    8.8,
+    8.4,
+    8.1,
+    7.8
+   ],
+   "adult_female_BRD2881_primaries_VF_cm": [
+    9.2,
+    9.2,
+    8.8,
+    8.0,
+    7.6,
+    7.0,
+    7.0,
+    6.8,
+    6.6
+   ],
+   "juvenile_male_BRD2880_primaries_TF_cm": [
+    9.2,
+    9.7,
+    9.2,
+    8.6,
+    8.0,
+    7.6,
+    7.5,
+    7.2,
+    6.9
+   ],
+   "adult_female_BRD2881_secondaries_TF_cm": [
+    7.3,
+    7.3,
+    7.1,
+    6.8,
+    6.7,
+    6.5,
+    6.2,
+    5.5,
+    4.4
+   ],
+   "adult_female_BRD2881_tail_TF_cm": [
+    7.1,
+    7.1,
+    7.0,
+    6.9,
+    6.8,
+    6.4
+   ],
+   "juvenile_male_BRD2880_tail_TF_cm": [
+    6.2,
+    6.6,
+    6.6,
+    6.5,
+    6.5,
+    6.0
+   ],
+   "source": "USFWS National Forensics Laboratory, Feather Atlas data table (featheratlas.sqlite, table Feathers), specimens BRD 2881 (adult female, breeding plumage, HY/SY) and BRD 2880 (juvenile male, Outagamie Co., Wisconsin)",
+   "url": "https://www.fws.gov/lab/featheratlas/",
+   "confidence": "high"
+  }
+ },
+ "measured_slater_scans": {
+  "PSM20907_male_dorsal": {
+   "sex": "male",
+   "view": "dorsal",
+   "tip_side": "right",
+   "jstor_item": "20907a",
+   "root_point_px_original": [
+    74.1,
+    649.1
+   ],
+   "scale_px_per_cm": {
+    "bar_tick": 123.36,
+    "bar_block": 123.66,
+    "lens_model_centre": 129.3,
+    "confidence": "high for the bar measurement (code, zoom-verified), model value is a sensitivity estimate"
+   },
+   "bar_scale_planform_cm": {
+    "root_to_tip_cm": 15.686,
+    "x_span_root_to_tip_cm": 15.659,
+    "span_axis_angle_deg_from_image_x": 3.349,
+    "wing_area_cm2": 85.512,
+    "mean_chord_cm": 5.452,
+    "AR_wing_only_2L2_over_A": 5.755,
+    "max_chord_extent_any_cm": 7.494,
+    "max_chord_extent_any_at_frac": 0.275,
+    "max_chord_extent_excl_inner10_cm": 7.494,
+    "max_chord_extent_excl_inner10_at_frac": 0.275,
+    "max_chord_area_based_excl_inner10_cm": 7.441,
+    "max_chord_area_based_excl_inner10_at_frac": 0.275,
+    "max_chord_over_root_to_tip_excl_inner10": 0.478,
+    "leading_edge_apex_frac": 0.1,
+    "leading_edge_apex_from_root_cm": 1.569,
+    "leading_edge_apex_n_cm": 3.502,
+    "tip_n_cm": 0.0,
+    "tip_drop_below_apex_cm": 3.502
+   },
+   "lens_model_planform_cm": {
+    "root_to_tip_cm": 15.362,
+    "x_span_root_to_tip_cm": 15.338,
+    "span_axis_angle_deg_from_image_x": 3.186,
+    "wing_area_cm2": 80.308,
+    "mean_chord_cm": 5.228,
+    "AR_wing_only_2L2_over_A": 5.877,
+    "max_chord_extent_any_cm": 7.222,
+    "max_chord_extent_any_at_frac": 0.275,
+    "max_chord_extent_excl_inner10_cm": 7.222,
+    "max_chord_extent_excl_inner10_at_frac": 0.275,
+    "max_chord_area_based_excl_inner10_cm": 7.166,
+    "max_chord_area_based_excl_inner10_at_frac": 0.275,
+    "max_chord_over_root_to_tip_excl_inner10": 0.47,
+    "leading_edge_apex_frac": 0.1,
+    "leading_edge_apex_from_root_cm": 1.536,
+    "leading_edge_apex_n_cm": 3.364,
+    "tip_n_cm": -0.0,
+    "tip_drop_below_apex_cm": 3.364
+   }
+  },
+  "PSM20907_male_b": {
+   "sex": "male",
+   "view": "ventral",
+   "tip_side": "left",
+   "jstor_item": "20907b",
+   "root_point_px_original": [
+    1955.6,
+    817.9
+   ],
+   "scale_px_per_cm": {
+    "bar_tick": 119.52,
+    "bar_block": 119.83,
+    "lens_model_centre": 125.8,
+    "confidence": "high for the bar measurement (code, zoom-verified), model value is a sensitivity estimate"
+   },
+   "bar_scale_planform_cm": {
+    "root_to_tip_cm": 16.371,
+    "x_span_root_to_tip_cm": 16.005,
+    "span_axis_angle_deg_from_image_x": 12.134,
+    "wing_area_cm2": 91.132,
+    "mean_chord_cm": 5.567,
+    "AR_wing_only_2L2_over_A": 5.882,
+    "max_chord_extent_any_cm": 7.799,
+    "max_chord_extent_any_at_frac": 0.225,
+    "max_chord_extent_excl_inner10_cm": 7.799,
+    "max_chord_extent_excl_inner10_at_frac": 0.225,
+    "max_chord_area_based_excl_inner10_cm": 7.722,
+    "max_chord_area_based_excl_inner10_at_frac": 0.25,
+    "max_chord_over_root_to_tip_excl_inner10": 0.476,
+    "leading_edge_apex_frac": 0.2,
+    "leading_edge_apex_from_root_cm": 3.274,
+    "leading_edge_apex_n_cm": 4.053,
+    "tip_n_cm": 0.0,
+    "tip_drop_below_apex_cm": 4.053
+   },
+   "lens_model_planform_cm": {
+    "root_to_tip_cm": 16.006,
+    "x_span_root_to_tip_cm": 15.645,
+    "span_axis_angle_deg_from_image_x": 12.203,
+    "wing_area_cm2": 85.109,
+    "mean_chord_cm": 5.317,
+    "AR_wing_only_2L2_over_A": 6.021,
+    "max_chord_extent_any_cm": 7.486,
+    "max_chord_extent_any_at_frac": 0.225,
+    "max_chord_extent_excl_inner10_cm": 7.486,
+    "max_chord_extent_excl_inner10_at_frac": 0.225,
+    "max_chord_area_based_excl_inner10_cm": 7.439,
+    "max_chord_area_based_excl_inner10_at_frac": 0.25,
+    "max_chord_over_root_to_tip_excl_inner10": 0.468,
+    "leading_edge_apex_frac": 0.2,
+    "leading_edge_apex_from_root_cm": 3.201,
+    "leading_edge_apex_n_cm": 3.958,
+    "tip_n_cm": 0.0,
+    "tip_drop_below_apex_cm": 3.958
+   }
+  },
+  "PSM20462_female_a": {
+   "sex": "female",
+   "view": "dorsal",
+   "tip_side": "right",
+   "jstor_item": "20462a",
+   "root_point_px_original": [
+    84.9,
+    734.1
+   ],
+   "scale_px_per_cm": {
+    "bar_tick": 139.27,
+    "bar_block": 139.64,
+    "lens_model_centre": 144.2,
+    "confidence": "high for the bar measurement (code, zoom-verified), model value is a sensitivity estimate"
+   },
+   "bar_scale_planform_cm": {
+    "root_to_tip_cm": 14.286,
+    "x_span_root_to_tip_cm": 14.008,
+    "span_axis_angle_deg_from_image_x": 11.319,
+    "wing_area_cm2": 75.035,
+    "mean_chord_cm": 5.252,
+    "AR_wing_only_2L2_over_A": 5.44,
+    "max_chord_extent_any_cm": 7.268,
+    "max_chord_extent_any_at_frac": 0.175,
+    "max_chord_extent_excl_inner10_cm": 7.268,
+    "max_chord_extent_excl_inner10_at_frac": 0.175,
+    "max_chord_area_based_excl_inner10_cm": 7.053,
+    "max_chord_area_based_excl_inner10_at_frac": 0.125,
+    "max_chord_over_root_to_tip_excl_inner10": 0.509,
+    "leading_edge_apex_frac": 0.125,
+    "leading_edge_apex_from_root_cm": 1.786,
+    "leading_edge_apex_n_cm": 3.85,
+    "tip_n_cm": 0.0,
+    "tip_drop_below_apex_cm": 3.85
+   },
+   "lens_model_planform_cm": {
+    "root_to_tip_cm": 14.105,
+    "x_span_root_to_tip_cm": 13.828,
+    "span_axis_angle_deg_from_image_x": 11.382,
+    "wing_area_cm2": 71.962,
+    "mean_chord_cm": 5.102,
+    "AR_wing_only_2L2_over_A": 5.529,
+    "max_chord_extent_any_cm": 7.107,
+    "max_chord_extent_any_at_frac": 0.125,
+    "max_chord_extent_excl_inner10_cm": 7.107,
+    "max_chord_extent_excl_inner10_at_frac": 0.125,
+    "max_chord_area_based_excl_inner10_cm": 6.94,
+    "max_chord_area_based_excl_inner10_at_frac": 0.125,
+    "max_chord_over_root_to_tip_excl_inner10": 0.504,
+    "leading_edge_apex_frac": 0.125,
+    "leading_edge_apex_from_root_cm": 1.763,
+    "leading_edge_apex_n_cm": 3.808,
+    "tip_n_cm": 0.0,
+    "tip_drop_below_apex_cm": 3.808
+   }
+  },
+  "PSM20462_female_b": {
+   "sex": "female",
+   "view": "ventral",
+   "tip_side": "left",
+   "jstor_item": "20462b",
+   "root_point_px_original": [
+    1984.5,
+    806.5
+   ],
+   "scale_px_per_cm": {
+    "bar_tick": 132.79,
+    "bar_block": 133.04,
+    "lens_model_centre": 138.3,
+    "confidence": "high for the bar measurement (code, zoom-verified), model value is a sensitivity estimate"
+   },
+   "bar_scale_planform_cm": {
+    "root_to_tip_cm": 15.11,
+    "x_span_root_to_tip_cm": 14.855,
+    "span_axis_angle_deg_from_image_x": 10.531,
+    "wing_area_cm2": 80.928,
+    "mean_chord_cm": 5.356,
+    "AR_wing_only_2L2_over_A": 5.642,
+    "max_chord_extent_any_cm": 7.713,
+    "max_chord_extent_any_at_frac": 0.175,
+    "max_chord_extent_excl_inner10_cm": 7.713,
+    "max_chord_extent_excl_inner10_at_frac": 0.175,
+    "max_chord_area_based_excl_inner10_cm": 7.463,
+    "max_chord_area_based_excl_inner10_at_frac": 0.175,
+    "max_chord_over_root_to_tip_excl_inner10": 0.51,
+    "leading_edge_apex_frac": 0.175,
+    "leading_edge_apex_from_root_cm": 2.644,
+    "leading_edge_apex_n_cm": 4.674,
+    "tip_n_cm": 0.0,
+    "tip_drop_below_apex_cm": 4.674
+   },
+   "lens_model_planform_cm": {
+    "root_to_tip_cm": 14.877,
+    "x_span_root_to_tip_cm": 14.623,
+    "span_axis_angle_deg_from_image_x": 10.586,
+    "wing_area_cm2": 77.007,
+    "mean_chord_cm": 5.176,
+    "AR_wing_only_2L2_over_A": 5.748,
+    "max_chord_extent_any_cm": 7.54,
+    "max_chord_extent_any_at_frac": 0.175,
+    "max_chord_extent_excl_inner10_cm": 7.54,
+    "max_chord_extent_excl_inner10_at_frac": 0.175,
+    "max_chord_area_based_excl_inner10_cm": 7.288,
+    "max_chord_area_based_excl_inner10_at_frac": 0.175,
+    "max_chord_over_root_to_tip_excl_inner10": 0.507,
+    "leading_edge_apex_frac": 0.175,
+    "leading_edge_apex_from_root_cm": 2.603,
+    "leading_edge_apex_n_cm": 4.606,
+    "tip_n_cm": -0.0,
+    "tip_drop_below_apex_cm": 4.606
+   }
+  },
+  "PSM21188_male_a": {
+   "sex": "male",
+   "view": "dorsal",
+   "tip_side": "left",
+   "jstor_item": "21188a",
+   "root_point_px_original": [
+    1892.8,
+    640.1
+   ],
+   "scale_px_per_cm": {
+    "bar_tick": 137.22,
+    "bar_block": 137.56,
+    "lens_model_centre": 141.5,
+    "confidence": "high for the bar measurement (code, zoom-verified), model value is a sensitivity estimate"
+   },
+   "bar_scale_planform_cm": {
+    "root_to_tip_cm": 13.745,
+    "x_span_root_to_tip_cm": 13.695,
+    "span_axis_angle_deg_from_image_x": 4.915,
+    "wing_area_cm2": 74.984,
+    "mean_chord_cm": 5.455,
+    "AR_wing_only_2L2_over_A": 5.039,
+    "max_chord_extent_any_cm": 7.214,
+    "max_chord_extent_any_at_frac": 0.125,
+    "max_chord_extent_excl_inner10_cm": 7.214,
+    "max_chord_extent_excl_inner10_at_frac": 0.125,
+    "max_chord_area_based_excl_inner10_cm": 7.11,
+    "max_chord_area_based_excl_inner10_at_frac": 0.125,
+    "max_chord_over_root_to_tip_excl_inner10": 0.525,
+    "leading_edge_apex_frac": 0.1,
+    "leading_edge_apex_from_root_cm": 1.375,
+    "leading_edge_apex_n_cm": 3.373,
+    "tip_n_cm": 0.0,
+    "tip_drop_below_apex_cm": 3.373
+   },
+   "lens_model_planform_cm": {
+    "root_to_tip_cm": 13.565,
+    "x_span_root_to_tip_cm": 13.515,
+    "span_axis_angle_deg_from_image_x": 4.88,
+    "wing_area_cm2": 72.142,
+    "mean_chord_cm": 5.318,
+    "AR_wing_only_2L2_over_A": 5.101,
+    "max_chord_extent_any_cm": 7.093,
+    "max_chord_extent_any_at_frac": 0.125,
+    "max_chord_extent_excl_inner10_cm": 7.093,
+    "max_chord_extent_excl_inner10_at_frac": 0.125,
+    "max_chord_area_based_excl_inner10_cm": 6.972,
+    "max_chord_area_based_excl_inner10_at_frac": 0.125,
+    "max_chord_over_root_to_tip_excl_inner10": 0.523,
+    "leading_edge_apex_frac": 0.1,
+    "leading_edge_apex_from_root_cm": 1.356,
+    "leading_edge_apex_n_cm": 3.312,
+    "tip_n_cm": -0.0,
+    "tip_drop_below_apex_cm": 3.312
+   }
+  },
+  "PSM21188_male_b": {
+   "sex": "male",
+   "view": "ventral",
+   "tip_side": "right",
+   "jstor_item": "21188b",
+   "root_point_px_original": [
+    78.1,
+    663.2
+   ],
+   "scale_px_per_cm": {
+    "bar_tick": 137.51,
+    "bar_block": 137.87,
+    "lens_model_centre": 141.6,
+    "confidence": "high for the bar measurement (code, zoom-verified), model value is a sensitivity estimate"
+   },
+   "bar_scale_planform_cm": {
+    "root_to_tip_cm": 14.259,
+    "x_span_root_to_tip_cm": 14.174,
+    "span_axis_angle_deg_from_image_x": 6.289,
+    "wing_area_cm2": 78.306,
+    "mean_chord_cm": 5.492,
+    "AR_wing_only_2L2_over_A": 5.193,
+    "max_chord_extent_any_cm": 7.445,
+    "max_chord_extent_any_at_frac": 0.125,
+    "max_chord_extent_excl_inner10_cm": 7.445,
+    "max_chord_extent_excl_inner10_at_frac": 0.125,
+    "max_chord_area_based_excl_inner10_cm": 7.349,
+    "max_chord_area_based_excl_inner10_at_frac": 0.125,
+    "max_chord_over_root_to_tip_excl_inner10": 0.522,
+    "leading_edge_apex_frac": 0.125,
+    "leading_edge_apex_from_root_cm": 1.782,
+    "leading_edge_apex_n_cm": 3.856,
+    "tip_n_cm": 0.0,
+    "tip_drop_below_apex_cm": 3.856
+   },
+   "lens_model_planform_cm": {
+    "root_to_tip_cm": 14.091,
+    "x_span_root_to_tip_cm": 14.004,
+    "span_axis_angle_deg_from_image_x": 6.352,
+    "wing_area_cm2": 75.592,
+    "mean_chord_cm": 5.365,
+    "AR_wing_only_2L2_over_A": 5.253,
+    "max_chord_extent_any_cm": 7.328,
+    "max_chord_extent_any_at_frac": 0.125,
+    "max_chord_extent_excl_inner10_cm": 7.328,
+    "max_chord_extent_excl_inner10_at_frac": 0.125,
+    "max_chord_area_based_excl_inner10_cm": 7.216,
+    "max_chord_area_based_excl_inner10_at_frac": 0.125,
+    "max_chord_over_root_to_tip_excl_inner10": 0.52,
+    "leading_edge_apex_frac": 0.1,
+    "leading_edge_apex_from_root_cm": 1.409,
+    "leading_edge_apex_n_cm": 3.806,
+    "tip_n_cm": -0.0,
+    "tip_drop_below_apex_cm": 3.806
+   }
+  },
+  "PSM23166_female_a": {
+   "sex": "female",
+   "view": "dorsal",
+   "tip_side": "left",
+   "jstor_item": "23166a",
+   "root_point_px_original": [
+    1917.7,
+    683.4
+   ],
+   "scale_px_per_cm": {
+    "bar_tick": 152.44,
+    "bar_block": 152.74,
+    "lens_model_centre": 155.9,
+    "confidence": "high for the bar measurement (code, zoom-verified), model value is a sensitivity estimate"
+   },
+   "bar_scale_planform_cm": {
+    "root_to_tip_cm": 12.006,
+    "x_span_root_to_tip_cm": 11.946,
+    "span_axis_angle_deg_from_image_x": 5.737,
+    "wing_area_cm2": 61.741,
+    "mean_chord_cm": 5.142,
+    "AR_wing_only_2L2_over_A": 4.669,
+    "max_chord_extent_any_cm": 6.922,
+    "max_chord_extent_any_at_frac": 0.2,
+    "max_chord_extent_excl_inner10_cm": 6.922,
+    "max_chord_extent_excl_inner10_at_frac": 0.2,
+    "max_chord_area_based_excl_inner10_cm": 6.774,
+    "max_chord_area_based_excl_inner10_at_frac": 0.2,
+    "max_chord_over_root_to_tip_excl_inner10": 0.577,
+    "leading_edge_apex_frac": 0.15,
+    "leading_edge_apex_from_root_cm": 1.801,
+    "leading_edge_apex_n_cm": 3.519,
+    "tip_n_cm": 0.0,
+    "tip_drop_below_apex_cm": 3.519
+   },
+   "lens_model_planform_cm": {
+    "root_to_tip_cm": 11.903,
+    "x_span_root_to_tip_cm": 11.845,
+    "span_axis_angle_deg_from_image_x": 5.661,
+    "wing_area_cm2": 60.086,
+    "mean_chord_cm": 5.048,
+    "AR_wing_only_2L2_over_A": 4.716,
+    "max_chord_extent_any_cm": 6.822,
+    "max_chord_extent_any_at_frac": 0.2,
+    "max_chord_extent_excl_inner10_cm": 6.822,
+    "max_chord_extent_excl_inner10_at_frac": 0.2,
+    "max_chord_area_based_excl_inner10_cm": 6.679,
+    "max_chord_area_based_excl_inner10_at_frac": 0.15,
+    "max_chord_over_root_to_tip_excl_inner10": 0.573,
+    "leading_edge_apex_frac": 0.175,
+    "leading_edge_apex_from_root_cm": 2.083,
+    "leading_edge_apex_n_cm": 3.478,
+    "tip_n_cm": 0.0,
+    "tip_drop_below_apex_cm": 3.478
+   }
+  },
+  "PSM23166_female_ventral": {
+   "sex": "female",
+   "view": "ventral",
+   "tip_side": "right",
+   "jstor_item": "23166b",
+   "root_point_px_original": [
+    109.6,
+    653.9
+   ],
+   "scale_px_per_cm": {
+    "bar_tick": 152.64,
+    "bar_block": 152.9,
+    "lens_model_centre": 155.9,
+    "confidence": "high for the bar measurement (code, zoom-verified), model value is a sensitivity estimate"
+   },
+   "bar_scale_planform_cm": {
+    "root_to_tip_cm": 12.42,
+    "x_span_root_to_tip_cm": 12.379,
+    "span_axis_angle_deg_from_image_x": 4.664,
+    "wing_area_cm2": 64.772,
+    "mean_chord_cm": 5.215,
+    "AR_wing_only_2L2_over_A": 4.763,
+    "max_chord_extent_any_cm": 6.951,
+    "max_chord_extent_any_at_frac": 0.2,
+    "max_chord_extent_excl_inner10_cm": 6.951,
+    "max_chord_extent_excl_inner10_at_frac": 0.2,
+    "max_chord_area_based_excl_inner10_cm": 6.91,
+    "max_chord_area_based_excl_inner10_at_frac": 0.2,
+    "max_chord_over_root_to_tip_excl_inner10": 0.56,
+    "leading_edge_apex_frac": 0.175,
+    "leading_edge_apex_from_root_cm": 2.174,
+    "leading_edge_apex_n_cm": 3.754,
+    "tip_n_cm": 0.0,
+    "tip_drop_below_apex_cm": 3.754
+   },
+   "lens_model_planform_cm": {
+    "root_to_tip_cm": 12.307,
+    "x_span_root_to_tip_cm": 12.267,
+    "span_axis_angle_deg_from_image_x": 4.643,
+    "wing_area_cm2": 63.237,
+    "mean_chord_cm": 5.138,
+    "AR_wing_only_2L2_over_A": 4.79,
+    "max_chord_extent_any_cm": 6.846,
+    "max_chord_extent_any_at_frac": 0.2,
+    "max_chord_extent_excl_inner10_cm": 6.846,
+    "max_chord_extent_excl_inner10_at_frac": 0.2,
+    "max_chord_area_based_excl_inner10_cm": 6.82,
+    "max_chord_area_based_excl_inner10_at_frac": 0.2,
+    "max_chord_over_root_to_tip_excl_inner10": 0.556,
+    "leading_edge_apex_frac": 0.175,
+    "leading_edge_apex_from_root_cm": 2.154,
+    "leading_edge_apex_n_cm": 3.722,
+    "tip_n_cm": 0.0,
+    "tip_drop_below_apex_cm": 3.722
+   }
+  },
+  "_note": "Units cm. 'bar' = scale from the in-frame bar mean (measured); 'lens_model' = radial-distortion-corrected centre scale (model, 3-5 % smaller lengths, 6-10 % smaller areas). Root = centroid of the proximal 4 % of the x extent (no anatomical cut); root_cut_description in planform_stats.json. Only PSM 20907 is a complete adult wing; 21188 has sheathed outer primaries, 20462 is moulting, 23166 has P4-P9 still growing (JSTOR notes). Full outlines (41 stations) and ~400-point contours in derived/planform_stats.json and derived/planform_contours/.",
+  "_best_wing": {
+   "specimen": "PSM20907_male_dorsal (adult male, JSTOR 20907a)",
+   "mask": "derived/masks/PSM20907_male_dorsal_mask.png",
+   "overlay": "derived/overlays/PSM20907_male_dorsal_overlay.jpg",
+   "scale_px_per_cm": 123.36,
+   "scale_verification": "bar read on the original at 3.0x and 9.9x; label PSM 20907 read at 3.3x",
+   "root_to_tip_cm": 15.69,
+   "wing_area_cm2": 85.5,
+   "max_chord_cm": 7.49,
+   "max_chord_at_frac_of_L": 0.275,
+   "leading_edge_most_forward_frac_of_L": 0.1,
+   "leading_edge_apex_n_cm": 3.5,
+   "tip_drop_below_apex_cm": 3.5,
+   "AR_wing_only": 5.75,
+   "alula_base_estimate": {
+    "alula_base_xy_px_original": [
+     598,
+     232
+    ],
+    "alula_base_uncertainty_px": 30,
+    "tip_xy_px_original": [
+     2009,
+     545
+    ],
+    "alula_base_to_tip_px": 1445.3,
+    "alula_base_to_tip_cm_bar": 11.72,
+    "alula_base_to_tip_cm_lens_centre": 11.18,
+    "alula_base_fraction_along_root_to_tip": 0.282,
+    "published_wing_length_mm": "AVONET museum rows: male 129.0 +- 2.7 (n=17), female 127.3 +- 2.3 (n=11); BTO adults 131.3 max chord; ABSA/HANZAB male 119-130, female 115-127",
+    "note": "LOW confidence. alula-base-to-tip 11.2-11.7 cm; the carpal joint is ~0.5-1 cm proximal, so wrist-to-tip ~11.7-12.7 cm: consistent with published wing length 12.4-13.4 cm within the uncertainty (not an independent verification of the scale)."
+   }
+  }
+ },
+ "measured_naturalis_wings_CC0": {
+  "RMNH259388b_dorsal": {
+   "sex": "female",
+   "age": "adult (GBIF)",
+   "view": "dorsal",
+   "specimen": "RMNH.AVES.259388.b",
+   "scale_px_per_cm": 69.1,
+   "scale_note": "Naturalis cm bar: long ticks 1 cm apart read at 4.5x (69.06-69.17 px/cm); code fit 69.03",
+   "root_point_px_original": [
+    504.7,
+    461.8
+   ],
+   "tip_point_px_original": [
+    1470.0,
+    1172.1
+   ],
+   "planform_cm": {
+    "root_to_tip_cm": 17.344,
+    "x_span_root_to_tip_cm": 13.97,
+    "span_axis_angle_deg_from_image_x": -36.347,
+    "wing_area_cm2": 87.172,
+    "mean_chord_cm": 5.026,
+    "AR_wing_only_2L2_over_A": 6.902,
+    "max_chord_extent_any_cm": 8.391,
+    "max_chord_extent_any_at_frac": 0.275,
+    "max_chord_extent_excl_inner10_cm": 8.391,
+    "max_chord_extent_excl_inner10_at_frac": 0.275,
+    "max_chord_area_based_excl_inner10_cm": 8.247,
+    "max_chord_area_based_excl_inner10_at_frac": 0.25,
+    "max_chord_over_root_to_tip_excl_inner10": 0.484,
+    "leading_edge_apex_frac": 0.275,
+    "leading_edge_apex_from_root_cm": 4.77,
+    "leading_edge_apex_n_cm": 3.915,
+    "tip_n_cm": 0.0,
+    "tip_drop_below_apex_cm": 3.915
+   }
+  },
+  "RMNH259388b_ventral": {
+   "sex": "female",
+   "age": "adult (GBIF)",
+   "view": "ventral",
+   "specimen": "RMNH.AVES.259388.b",
+   "scale_px_per_cm": 69.1,
+   "scale_note": "Naturalis cm bar code fit 69.1 (same bar as the dorsal frame; not individually zoom-verified)",
+   "root_point_px_original": [
+    1252.6,
+    910.6
+   ],
+   "tip_point_px_original": [
+    195.8,
+    346.8
+   ],
+   "planform_cm": {
+    "root_to_tip_cm": 17.334,
+    "x_span_root_to_tip_cm": 15.294,
+    "span_axis_angle_deg_from_image_x": 28.08,
+    "wing_area_cm2": 89.12,
+    "mean_chord_cm": 5.141,
+    "AR_wing_only_2L2_over_A": 6.743,
+    "max_chord_extent_any_cm": 8.618,
+    "max_chord_extent_any_at_frac": 0.175,
+    "max_chord_extent_excl_inner10_cm": 8.618,
+    "max_chord_extent_excl_inner10_at_frac": 0.175,
+    "max_chord_area_based_excl_inner10_cm": 8.385,
+    "max_chord_area_based_excl_inner10_at_frac": 0.25,
+    "max_chord_over_root_to_tip_excl_inner10": 0.497,
+    "leading_edge_apex_frac": 0.2,
+    "leading_edge_apex_from_root_cm": 3.467,
+    "leading_edge_apex_n_cm": 4.201,
+    "tip_n_cm": 0.0,
+    "tip_drop_below_apex_cm": 4.201
+   }
+  },
+  "RMNH259485b_dorsal": {
+   "sex": "male",
+   "age": "not stated",
+   "view": "dorsal",
+   "specimen": "RMNH.AVES.259485.b",
+   "scale_px_per_cm": 88.61,
+   "scale_note": "TE263 ruler 0..180 mm baseline extent by code (te263_ends.py) = 88.61 px/cm, equals the tick fit",
+   "root_point_px_original": [
+    218.1,
+    336.2
+   ],
+   "tip_point_px_original": [
+    1600.1,
+    872.7
+   ],
+   "planform_cm": {
+    "root_to_tip_cm": 16.73,
+    "x_span_root_to_tip_cm": 15.596,
+    "span_axis_angle_deg_from_image_x": -21.216,
+    "wing_area_cm2": 85.219,
+    "mean_chord_cm": 5.094,
+    "AR_wing_only_2L2_over_A": 6.569,
+    "max_chord_extent_any_cm": 8.811,
+    "max_chord_extent_any_at_frac": 0.25,
+    "max_chord_extent_excl_inner10_cm": 8.811,
+    "max_chord_extent_excl_inner10_at_frac": 0.25,
+    "max_chord_area_based_excl_inner10_cm": 8.598,
+    "max_chord_area_based_excl_inner10_at_frac": 0.25,
+    "max_chord_over_root_to_tip_excl_inner10": 0.527,
+    "leading_edge_apex_frac": 0.25,
+    "leading_edge_apex_from_root_cm": 4.182,
+    "leading_edge_apex_n_cm": 3.784,
+    "tip_n_cm": 0.0,
+    "tip_drop_below_apex_cm": 3.784
+   },
+   "occlusion": "label card hides part of the leading edge near the wrist (x 715-950): area and leading edge there under-estimated"
+  },
+  "RMNH259485b_ventral": {
+   "sex": "male",
+   "age": "not stated",
+   "view": "ventral",
+   "specimen": "RMNH.AVES.259485.b",
+   "scale_px_per_cm": 88.39,
+   "scale_note": "TE263 ruler: 0 and 180 mm brackets read at 5.0x/5.5x and baseline extent by code (te263_ends.py) = 88.39 px/cm; the subagent tick fit (89.15) was 0.9 % high and is NOT used",
+   "root_point_px_original": [
+    1431.1,
+    691.8
+   ],
+   "tip_point_px_original": [
+    27.8,
+    181.8
+   ],
+   "planform_cm": {
+    "root_to_tip_cm": 16.892,
+    "x_span_root_to_tip_cm": 15.876,
+    "span_axis_angle_deg_from_image_x": 19.972,
+    "wing_area_cm2": 86.809,
+    "mean_chord_cm": 5.139,
+    "AR_wing_only_2L2_over_A": 6.574,
+    "max_chord_extent_any_cm": 8.456,
+    "max_chord_extent_any_at_frac": 0.25,
+    "max_chord_extent_excl_inner10_cm": 8.456,
+    "max_chord_extent_excl_inner10_at_frac": 0.25,
+    "max_chord_area_based_excl_inner10_cm": 8.319,
+    "max_chord_area_based_excl_inner10_at_frac": 0.25,
+    "max_chord_over_root_to_tip_excl_inner10": 0.501,
+    "leading_edge_apex_frac": 0.275,
+    "leading_edge_apex_from_root_cm": 4.645,
+    "leading_edge_apex_n_cm": 3.441,
+    "tip_n_cm": 0.0,
+    "tip_drop_below_apex_cm": 3.441
+   }
+  },
+  "_note": "CC0 spread wings with a verified ruler. Root = proximal 4 % along the root->tip axis (planform_stats.analyse root_mode='axis'); these preparations keep more shoulder/back-feather mass than the Slater wings, so root-to-tip L (16.7-17.3 cm) is not comparable with Slater L (15.7); single-wing area is (85-89 vs 85.5 cm2). Edge halo of the masks: 1-3 px (cream-background frames after tightening; 0.1-0.3 mm)."
+ },
+ "measured_study_skins": {
+  "RMNH.AVES.259485.a_dor": {
+   "bill_tip_to_tail_tip_cm": 19.89,
+   "px_per_cm_used": 89.1,
+   "wingtip_frac_along_axis": 0.963,
+   "wing_front_frac_low_confidence": null
+  },
+  "RMNH.AVES.259485.a_ven": {
+   "bill_tip_to_tail_tip_cm": 19.58,
+   "px_per_cm_used": 89.16,
+   "wingtip_frac_along_axis": null,
+   "wing_front_frac_low_confidence": null
+  },
+  "RMNH.AVES.259485.a_lat": {
+   "bill_tip_to_tail_tip_cm": 20.2,
+   "px_per_cm_used": 88.74,
+   "wingtip_frac_along_axis": 0.955,
+   "wing_front_frac_low_confidence": null
+  },
+  "RMNH.AVES.259388.a_dor": {
+   "bill_tip_to_tail_tip_cm": 21.46,
+   "px_per_cm_used": 69.18,
+   "wingtip_frac_along_axis": 1.033,
+   "wing_front_frac_low_confidence": null
+  },
+  "RMNH.AVES.259388.a_ven": {
+   "bill_tip_to_tail_tip_cm": 21.93,
+   "px_per_cm_used": 69.17,
+   "wingtip_frac_along_axis": null,
+   "wing_front_frac_low_confidence": null
+  },
+  "RMNH.AVES.259388.a_lat_left": {
+   "bill_tip_to_tail_tip_cm": 21.63,
+   "px_per_cm_used": 69.26,
+   "wingtip_frac_along_axis": 1.016,
+   "wing_front_frac_low_confidence": 0.436
+  },
+  "RMNH.5070087.a_dor": {
+   "bill_tip_to_tail_tip_cm": 20.0,
+   "px_per_cm_used": 89.4,
+   "wingtip_frac_along_axis": 1.046,
+   "wing_front_frac_low_confidence": 0.564
+  },
+  "RMNH.5070087.a_ven": {
+   "bill_tip_to_tail_tip_cm": 20.06,
+   "px_per_cm_used": 91.2,
+   "wingtip_frac_along_axis": null,
+   "wing_front_frac_low_confidence": null
+  },
+  "RMNH.5070087.a_lat": {
+   "bill_tip_to_tail_tip_cm": 20.05,
+   "px_per_cm_used": 89.4,
+   "wingtip_frac_along_axis": 0.944,
+   "wing_front_frac_low_confidence": 0.402
+  },
+  "EWOC_0396_D": {
+   "bill_tip_to_tail_tip_cm": 23.07,
+   "px_per_cm_used": 161.9,
+   "wingtip_frac_along_axis": null,
+   "wing_front_frac_low_confidence": null
+  },
+  "EWOC_0396_V": {
+   "bill_tip_to_tail_tip_cm": 22.72,
+   "px_per_cm_used": 161.9,
+   "wingtip_frac_along_axis": null,
+   "wing_front_frac_low_confidence": null
+  },
+  "EWOC_0396_LS": {
+   "bill_tip_to_tail_tip_cm": 22.29,
+   "px_per_cm_used": 162.0,
+   "wingtip_frac_along_axis": 1.057,
+   "wing_front_frac_low_confidence": 0.397
+  },
+  "_note": "Straight study skins, neck fully extended: bill-tip to tail-tip 19.6-23.1 cm, longer than a live bird with a retracted neck. Tail often fanned (tail tip partly estimated). Wing front (shoulder proxy) is LOW confidence (+-40-100 px). Scale valid in the ruler plane only; the skin top sits 2-3 cm above it (a few % magnification). 5070087 has no ruler (cutting-mat grid presumed 1 cm, unverified). Per-image detail in derived/skin_candidates.json."
+ },
+ "measured_feather_atlas_images": {
+  "EUST_primary_adult": {
+   "vane_length_cm": [
+    10.2,
+    10.45,
+    9.95,
+    9.32,
+    8.82,
+    8.43,
+    8.16,
+    7.79,
+    7.3
+   ],
+   "max_width_cm": [
+    1.18,
+    1.38,
+    1.47,
+    1.52,
+    1.67,
+    1.7,
+    1.6,
+    1.84,
+    1.55
+   ],
+   "area_cm2": [
+    8.47,
+    9.58,
+    9.8,
+    9.05,
+    9.36,
+    9.14,
+    8.5,
+    8.75,
+    8.08
+   ]
+  },
+  "EUST_primary_imm": {
+   "vane_length_cm": [
+    9.1,
+    9.6,
+    9.05,
+    8.32,
+    7.52,
+    7.43,
+    7.05,
+    6.74,
+    6.51
+   ],
+   "max_width_cm": [
+    1.25,
+    1.32,
+    1.46,
+    1.44,
+    1.56,
+    1.53,
+    1.6,
+    1.53,
+    1.39
+   ],
+   "area_cm2": [
+    7.29,
+    8.13,
+    8.35,
+    8.27,
+    7.86,
+    7.64,
+    7.66,
+    7.22,
+    6.48
+   ]
+  },
+  "EUST_secondary_adult": {
+   "vane_length_cm": [
+    6.53,
+    6.58,
+    6.21,
+    6.11,
+    5.87,
+    5.87,
+    5.5,
+    4.34,
+    3.61
+   ],
+   "max_width_cm": [
+    1.95,
+    1.84,
+    1.76,
+    1.79,
+    1.87,
+    1.76,
+    1.92,
+    1.79,
+    1.47
+   ],
+   "area_cm2": [
+    8.91,
+    8.98,
+    8.41,
+    8.59,
+    8.08,
+    7.94,
+    7.47,
+    5.96,
+    4.13
+   ]
+  },
+  "EUST_secondary_imm": {
+   "vane_length_cm": [
+    5.85,
+    5.92,
+    6.58,
+    6.2,
+    5.92,
+    5.92,
+    5.49,
+    4.47
+   ],
+   "max_width_cm": [
+    1.73,
+    1.76,
+    1.76,
+    1.78,
+    1.92,
+    1.88,
+    1.85,
+    1.69
+   ],
+   "area_cm2": [
+    7.39,
+    7.39,
+    7.77,
+    7.67,
+    7.72,
+    7.68,
+    7.44,
+    5.08
+   ]
+  },
+  "EUST_tail_adult": {
+   "vane_length_cm": [
+    6.91,
+    6.91,
+    6.75,
+    6.6,
+    6.37,
+    6.02
+   ],
+   "max_width_cm": [
+    1.17,
+    1.42,
+    1.44,
+    1.46,
+    1.46,
+    1.5
+   ],
+   "area_cm2": [
+    6.17,
+    7.28,
+    7.22,
+    7.21,
+    7.07,
+    6.17
+   ]
+  },
+  "EUST_tail_imm": {
+   "vane_length_cm": [
+    6.17,
+    6.4,
+    6.36,
+    6.28,
+    6.15,
+    5.84
+   ],
+   "max_width_cm": [
+    1.0,
+    1.26,
+    1.38,
+    1.31,
+    1.29,
+    1.17
+   ],
+   "area_cm2": [
+    4.53,
+    5.48,
+    5.56,
+    5.34,
+    5.52,
+    4.7
+   ]
+  },
+  "_note": "Image-measured per-feather vane length (vertical extent), max vane width (horizontal extent in any row, slightly over-reads tilted feathers) and area, left to right in the atlas layout. Scale: derived/atlas_scale_results.json; scripts atlas_scale.py, atlas_feathers.py. Table values (starling_records.json) are measured along the rachis and are the better length data."
+ },
+ "crosschecks": {
+  "slater_vs_naturalis_bar_scale": {
+   "PSM20907_male_dorsal": {
+    "root_to_tip_cm": 15.69,
+    "wing_area_cm2": 85.5,
+    "area_over_L2": 0.348,
+    "max_chord_cm": 7.49,
+    "max_chord_over_L": 0.478,
+    "max_chord_at_frac_of_L": 0.275,
+    "leading_edge_apex_frac": 0.1,
+    "AR_wing_only_2L2_over_A": 5.75
+   },
+   "PSM20907_male_b": {
+    "root_to_tip_cm": 16.37,
+    "wing_area_cm2": 91.1,
+    "area_over_L2": 0.34,
+    "max_chord_cm": 7.8,
+    "max_chord_over_L": 0.476,
+    "max_chord_at_frac_of_L": 0.225,
+    "leading_edge_apex_frac": 0.2,
+    "AR_wing_only_2L2_over_A": 5.88
+   },
+   "RMNH259388b_dorsal": {
+    "root_to_tip_cm": 17.34,
+    "wing_area_cm2": 87.2,
+    "area_over_L2": 0.29,
+    "max_chord_cm": 8.39,
+    "max_chord_over_L": 0.484,
+    "max_chord_at_frac_of_L": 0.275,
+    "leading_edge_apex_frac": 0.275,
+    "AR_wing_only_2L2_over_A": 6.9
+   },
+   "RMNH259388b_ventral": {
+    "root_to_tip_cm": 17.33,
+    "wing_area_cm2": 89.1,
+    "area_over_L2": 0.297,
+    "max_chord_cm": 8.62,
+    "max_chord_over_L": 0.497,
+    "max_chord_at_frac_of_L": 0.175,
+    "leading_edge_apex_frac": 0.2,
+    "AR_wing_only_2L2_over_A": 6.74
+   },
+   "RMNH259485b_dorsal": {
+    "root_to_tip_cm": 16.73,
+    "wing_area_cm2": 85.2,
+    "area_over_L2": 0.304,
+    "max_chord_cm": 8.81,
+    "max_chord_over_L": 0.527,
+    "max_chord_at_frac_of_L": 0.25,
+    "leading_edge_apex_frac": 0.25,
+    "AR_wing_only_2L2_over_A": 6.57
+   },
+   "RMNH259485b_ventral": {
+    "root_to_tip_cm": 16.89,
+    "wing_area_cm2": 86.8,
+    "area_over_L2": 0.304,
+    "max_chord_cm": 8.46,
+    "max_chord_over_L": 0.501,
+    "max_chord_at_frac_of_L": 0.25,
+    "leading_edge_apex_frac": 0.275,
+    "AR_wing_only_2L2_over_A": 6.57
+   }
+  },
+  "slater_vs_naturalis_note": "Single-wing AREA agrees across the two independent sources/scales (Slater 20907 male 85.5 dorsal / 91.1 ventral cm2; Naturalis male 85.2 dorsal (label hides part of the leading edge) / 86.8 ventral; Naturalis female 87.2 / 89.1), which supports the Slater bar scale (lens-model centre scale would shrink Slater areas by 6-7 %). Root-to-tip L differs (Slater 15.7/16.4 vs Naturalis 16.7-17.3 cm) because the Naturalis preparations keep more shoulder/back feather mass proximally, so L, area/L^2 and AR_wing_only are NOT comparable across the two sources; use the distal planform (primaries, secondaries) for shape.",
+  "live_bird_half_span_check": {
+   "ben_gida_2013_span_cm": 38.2,
+   "body_width_cm": 4.0,
+   "half_span_beyond_body_cm": 17.1,
+   "note": "(38.2-4.0)/2 = 17.1 cm from the body side to the tip; Naturalis root-to-tip 16.7-17.3 cm is the same; Slater 15.4-15.7 (dorsal) is 8-10 % less (root cut nearer the wrist side or less shoulder mass kept)."
+  },
+  "published_AR_and_loading_from_birdwingdata": [
+   {
+    "ref": "Viscor 1987",
+    "def_span": "?-?",
+    "span_cm": 39.1,
+    "area_cm2": 192.0,
+    "AR": 7.96,
+    "mass_g": 79.5,
+    "wing_loading_N_m2": 40.6
+   },
+   {
+    "ref": "Hambly 2004",
+    "def_span": "A-II",
+    "span_cm": 37.8,
+    "area_cm2": 230.2,
+    "AR": 6.21,
+    "mass_g": 70.11,
+    "wing_loading_N_m2": 29.9
+   },
+   {
+    "ref": "Alerstam 2007",
+    "def_span": "A-II",
+    "span_cm": 38.0,
+    "area_cm2": 244.0,
+    "AR": 5.92,
+    "mass_g": 83.0,
+    "wing_loading_N_m2": 33.4
+   },
+   {
+    "ref": "Pennycuick 2008",
+    "def_span": "A-II",
+    "span_cm": 38.4,
+    "area_cm2": 251.0,
+    "AR": 5.87,
+    "mass_g": 85.0,
+    "wing_loading_N_m2": 33.2
+   },
+   {
+    "ref": "Bruderer 2010",
+    "def_span": "A-II",
+    "span_cm": 38.0,
+    "area_cm2": 230.0,
+    "AR": 6.28,
+    "mass_g": 85.0,
+    "wing_loading_N_m2": 36.3
+   },
+   {
+    "ref": "V\u00e1g\u00e1si 2016",
+    "def_span": "A-II",
+    "span_cm": 42.4,
+    "area_cm2": 282.2,
+    "AR": 6.36,
+    "mass_g": 86.0,
+    "wing_loading_N_m2": 29.9
+   },
+   {
+    "ref": "V\u00e1g\u00e1si 2016",
+    "def_span": "B-II",
+    "span_cm": 35.9,
+    "area_cm2": 229.2,
+    "AR": 5.64,
+    "mass_g": 86.0,
+    "wing_loading_N_m2": 36.8
+   },
+   {
+    "ref": "Vincze 2019",
+    "def_span": "B-II?",
+    "span_cm": 35.9,
+    "area_cm2": 229.2,
+    "AR": 5.63,
+    "mass_g": null,
+    "wing_loading_N_m2": null
+   }
+  ],
+  "ben_gida_2013_bird": {
+   "span_cm": 38.2,
+   "AR": 6.4,
+   "implied_wing_area_cm2_two_wings": 228.0,
+   "mean_chord_cm": 5.97,
+   "mass_g": 78,
+   "wing_loading_N_m2": 33.6,
+   "mean_chord_published_cm": 6.0,
+   "note": "implied area = span^2/AR; matches published mean chord 6.0 cm (228/38.2 = 5.97)"
+  },
+  "two_wing_area_from_scans_cm2": {
+   "slater_20907_dorsal_x2": 171.0,
+   "naturalis_female_ventral_x2": 178.2,
+   "published_range_with_body": "230-282 (A-II definitions incl. body between the wings; Ben-Gida implied 228)",
+   "published_B_II_no_body": 229.2,
+   "note": "2 x single-wing scan area = 171-178 cm2, i.e. 22-25 % below the published 229-230 cm2 (two wings; body-between-wings included in the A-II numbers, roughly 4 cm x 6 cm = 24 cm2). Likely contributors (not separately tested): the isolated wing is cut at the shoulder so the root region between the joint and the body side is missing (~10-12 cm2 per wing if 2 cm x 5-6 cm), and pressed dried feathers do not fan out as far as in flight. Use the published area as the size target and the scans for shape."
+  }
+ },
+ "ratios": {
+  "wingspan_over_total_length": {
+   "value": 1.82,
+   "basis": "38.2 cm (live bird) / 21 cm (recommended total length); span/length 1.8 (literature ranges 31-44 / 19-23 give 1.4-2.3)",
+   "confidence": "medium"
+  },
+  "tail_over_total_length": {
+   "value": 0.31,
+   "basis": "AVONET tail 65.8 mm / 21 cm",
+   "confidence": "medium"
+  },
+  "wing_length_over_total_length": {
+   "value": 0.61,
+   "basis": "129 mm / 21 cm",
+   "confidence": "medium"
+  },
+  "bill_culmen_over_total_length": {
+   "value": 0.14,
+   "basis": "30.2 mm / 21 cm",
+   "confidence": "medium"
+  },
+  "tarsus_over_total_length": {
+   "value": 0.14,
+   "basis": "29 mm / 21 cm",
+   "confidence": "medium"
+  },
+  "secondary1_over_wing_length": {
+   "value": 0.617,
+   "basis": "AVONET species means (Secondary1 79.1 / Wing 128.3): the first secondary tip sits at 62 % of the wing length from the wrist",
+   "confidence": "high"
+  },
+  "kipps_over_wing_length": {
+   "value": 0.384,
+   "basis": "AVONET: primaries project 49 mm past the secondaries (38 % of wing length = hand-wing index 38.4)",
+   "confidence": "high"
+  },
+  "arm_bone_proportions_male_n1": {
+   "humerus_over_ulna": 0.82,
+   "carpometacarpus_over_ulna": 0.62,
+   "humerus_plus_ulna_plus_cmc_mm": 83,
+   "basis": "Armenia skeleton, whole-mm values",
+   "confidence": "medium"
+  },
+  "mean_chord_over_span_live_bird": {
+   "value": 0.157,
+   "basis": "Ben-Gida: mean chord 6.0 cm, span 38.2 cm (= 1/AR 1/6.4 = 0.156)",
+   "confidence": "high"
+  },
+  "scan_two_wing_area_over_published": {
+   "value": 0.75,
+   "basis": "2 x Slater 20907 dorsal 85.5 cm2 = 171 vs published 229: scans are ~22-25 % small in area (see notes.md)",
+   "confidence": "derived"
+  },
+  "primary_projection_study_skins": {
+   "wingtip_frac_along_bill_to_tail": [
+    0.944,
+    1.057
+   ],
+   "basis": "folded-wing tip sits at 0.94-1.06 of the bill-tip to tail-tip length: the primaries reach about the tail tip",
+   "confidence": "medium"
+  }
+ },
+ "not_found": [
+  "live head width / head depth",
+  "maximum body width and depth of the live bird (only one 'lateral body width' 4 cm)",
+  "humerus/ulna/carpometacarpus lengths from a second source or for the nominate subspecies",
+  "wing area by sex or season",
+  "published wing area of the single wing with the body-side root chord defined",
+  "tail fork depth / graduation (all rectrices similar: Atlas TF 6.4-7.1 cm adult)",
+  "Slater tail scans (the collection has none for the starling)",
+  "an openly licensed articulated skeleton photo with a scale"
+ ],
+ "unverified_leads": [
+  "Birds of the World (Cornell) species account: paywalled, not accessed, not bypassed",
+  "Feare & Craig (1998) Starlings and Mynas p.183 and Svensson Identification Guide: cited by Wikipedia but not read",
+  "Nudds R.L. (2007) Wing-bone length allometry in birds, J. Avian Biol. 38:515-519 and Wang et al. (2011) PLoS ONE 6:e28672 (supplement files returned HTML stubs): may hold humerus/ulna/CMC lengths for the starling",
+  "Swaddle & Lockwood (2003) Ibis 145:457 wingtip shape in the starling (wing length, area, pointedness): paywalled",
+  "Dial KP et al. (1991) J. Morphol. 207:327 functional anatomy of the shoulder in the starling",
+  "Ward S. et al. (2001) JEB 204:3311 and Pennycuick 'Modelling the Flying Bird' Wings database (BirdWingData cites Pennycuick 2008: 38.4 cm, 251 cm2)",
+  "other open skins: Concordia EWOC_0395/0547/0710/0792, Tall Timbers TTRS rulers, MCZ 182761/182763 (CC BY-NC-SA), Tampere museum spread-wing pairs, Auckland Museum - see manifest.json leads_not_downloaded"
+ ]
+}

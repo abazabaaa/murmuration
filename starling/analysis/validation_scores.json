@@ -1,0 +1,64 @@
+{
+ "model_glide_vs_glide_photos": {
+  "01": 0.6133,
+  "02": 0.6062,
+  "03": 0.5731,
+  "04": 0.7011,
+  "06": 0.6094
+ },
+ "model_flap_mid_vs_glide_photos": {
+  "01": 0.5994,
+  "02": 0.6072,
+  "03": 0.5783,
+  "04": 0.6373,
+  "06": 0.6443
+ },
+ "old_page_outline_vs_glide_photos": {
+  "01": 0.6945,
+  "02": 0.6305,
+  "03": 0.4287,
+  "04": 0.649,
+  "06": 0.4817
+ },
+ "model_flap_top_vs_photo_08": {
+  "08": 0.6347
+ },
+ "old_page_outline_vs_photo_08": {
+  "08": 0.618
+ },
+ "model_pose_matched_vs_own_photo": {
+  "P01": {
+   "pose": "P01_tf100",
+   "iou": 0.804
+  },
+  "P02": {
+   "pose": "P02_tf000",
+   "iou": 0.724
+  },
+  "P03": {
+   "pose": "P03_tf100",
+   "iou": 0.624
+  },
+  "P04": {
+   "pose": "P04_tf067",
+   "iou": 0.852
+  },
+  "P06": {
+   "pose": "P06_tf000",
+   "iou": 0.631
+  },
+  "P08": {
+   "pose": "P08_tf100",
+   "iou": 0.72
+  }
+ },
+ "means": {
+  "model_glide_vs_glide_photos": 0.621,
+  "model_flap_mid_vs_glide_photos": 0.613,
+  "old_page_outline_vs_glide_photos": 0.577,
+  "model_flap_top_vs_photo_08": 0.635,
+  "old_page_outline_vs_photo_08": 0.618,
+  "model_pose_matched_glide_photos": 0.727
+ },
+ "note": "IoU of normalised top-view masks (half-span = 1), best vertical shift; photos 01-04 and 06 are glides (05 dropped: tilted axis), 08 is the top of a downstroke. Overlays: analysis/validation/ (ignored)."
+}

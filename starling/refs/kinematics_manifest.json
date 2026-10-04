@@ -1,0 +1,87 @@
+{
+ "generated": "2026-10-03",
+ "root": "refs/kinematics (papers and figures from the two PLOS ONE CC BY articles only)",
+ "note": "CC BY needs attribution (authors + licence + source). Only open-access CC BY material is stored here. Everything else was read for numbers and is cited in poses.md but not redistributed: RA01, MR01, RH01, HE06, HGRS06, BA08, AT15 (arXiv non-exclusive licence or publisher copyright). Figure-derived numbers in poses.md were read at the zoom levels listed per item.",
+ "not_obtained": "Paywalled or abstract-only, no files stored: Tobalske 1995 (J Exp Biol 198:1259; mid-upstroke span numbers and bound percentages not obtained), Dial, Goslow & Jenkins 1991 (J Morphol 207:327; humerus convention not obtained), Ward et al. 2001 (J Exp Biol 204:3311), Rosen, Spedding & Hedenstrom 2004 (J Exp Biol 207:4255; thrush nightingale span ratios not obtained), Hedrick & Biewener 2007, Ros et al. 2011 (abstracts only). Read but copyrighted or non-exclusive, not stored: Rayner et al. 2001 (Am Zool 41:188), Maybury, Rayner & Couldrick 2001 (Proc R Soc B 268:1443, starling tail spread), Rosen & Hedenstrom 2001 (jackdaw glide), Hedenstrom, Rosen & Spedding 2006 (robin), Ballerini et al. 2008 (arXiv 0802.1667), Attanasi et al. 2015 (arXiv 1410.3330), Hildenbrandt et al. 2010 (arXiv 0908.2677). CC BY but not stored, no kinematic numbers used: Storms et al. 2019 (PMC6404399), PMC13448496, PMC11061643. No open-access source gives starling mid-upstroke or glide outlines, a starling bank angle, tail fan angles in flight, or dihedral.",
+ "items": [
+  {
+   "file": "figs/pone0080086_g001.png",
+   "source": "https://journals.plos.org/plosone/article/figure/image?size=large&id=10.1371/journal.pone.0080086.g001 (Fig 1, PLOS large-figure download; https://doi.org/10.1371/journal.pone.0080086)",
+   "license": "CC BY 4.0 (PLOS Creative Commons Attribution License); credit Ben-Gida, Kirchhefer, Taylor, Bezner-Kerr, Guglielmo, Kopp, Gurka 2013, PLOS ONE 8(11):e80086",
+   "shows": "Tunnel schematic: starling in the AFAR tunnel at U = 12 m/s, laser sheet and two high-speed cameras (1024x1024, 1000 Hz). Context only.",
+   "inspected": "viewed at the read tier (1.0x); no numbers taken",
+   "size": "2023x1106",
+   "bytes": 374252
+  },
+  {
+   "file": "figs/pone0080086_g002.png",
+   "source": "https://journals.plos.org/plosone/article/figure/image?size=large&id=10.1371/journal.pone.0080086.g002 (Fig 2, PLOS large-figure download; https://doi.org/10.1371/journal.pone.0080086)",
+   "license": "CC BY 4.0 (PLOS Creative Commons Attribution License); credit Ben-Gida, Kirchhefer, Taylor, Bezner-Kerr, Guglielmo, Kopp, Gurka 2013, PLOS ONE 8(11):e80086",
+   "shows": "Side-view frame of the starling in the tunnel with a 60 cm x 60 cm field of view bar and the 12 cm PIV box; wing hanging at late downstroke. Used for the length scale (BL = 0.229 m).",
+   "inspected": "bird crop zoom-inspected at 3.2x, 60 cm scale bar at 1.5x",
+   "size": "2060x1617",
+   "bytes": 3825057
+  },
+  {
+   "file": "figs/pone0080086_g004.png",
+   "source": "https://journals.plos.org/plosone/article/figure/image?size=large&id=10.1371/journal.pone.0080086.g004 (Fig 4, PLOS large-figure download; https://doi.org/10.1371/journal.pone.0080086)",
+   "license": "CC BY 4.0 (PLOS Creative Commons Attribution License); credit Ben-Gida, Kirchhefer, Taylor, Bezner-Kerr, Guglielmo, Kopp, Gurka 2013, PLOS ONE 8(11):e80086",
+   "shows": "Side-view photographs of four wingbeats: 'a' start of downstroke (wing at the top), 'b' start of upstroke (wing at the bottom). The key extremes for flap_top and flap_bottom.",
+   "inspected": "frames 1a and 1b zoom-inspected at 5.4x-6.5x (earlier pass: rows 1, 2, 4 at 2.6x); tip height, aft offset and body line read from these. Checksum matched the PLOS URL once; later re-checks were blocked.",
+   "size": "993x2486",
+   "bytes": 3151559
+  },
+  {
+   "file": "figs/pone0080086_g005.png",
+   "source": "https://journals.plos.org/plosone/article/figure/image?size=large&id=10.1371/journal.pone.0080086.g005 (Fig 5, PLOS large-figure download; https://doi.org/10.1371/journal.pone.0080086)",
+   "license": "CC BY 4.0 (PLOS Creative Commons Attribution License); credit Ben-Gida, Kirchhefer, Taylor, Bezner-Kerr, Guglielmo, Kopp, Gurka 2013, PLOS ONE 8(11):e80086",
+   "shows": "(a) Left wing pointing at the camera just after the tip passes below the shoulder, blue line = chord pitch at 2/3 semi-span; (b) velocity triangle: 12 m/s flow, 6.2 m/s vertical wing speed, chord pitch 13 deg, angle of attack 15 deg.",
+   "inspected": "both panels zoom-inspected at 1.55x",
+   "size": "2663x1140",
+   "bytes": 1206721
+  },
+  {
+   "file": "figs/pone0080086_g008.png",
+   "source": "https://journals.plos.org/plosone/article/figure/image?size=large&id=10.1371/journal.pone.0080086.g008 (Fig 8, PLOS large-figure download; https://doi.org/10.1371/journal.pone.0080086)",
+   "license": "CC BY 4.0 (PLOS Creative Commons Attribution License); credit Ben-Gida, Kirchhefer, Taylor, Bezner-Kerr, Guglielmo, Kopp, Gurka 2013, PLOS ONE 8(11):e80086",
+   "shows": "Wake reconstruction per wingbeat with the half-wavelength labels lambda_u and lambda_d (0.50/0.43, 0.43/0.38, 0.43/0.43, 0.58/0.43 m).",
+   "inspected": "the four label rows zoom-inspected at 1.5x (1.2x for beat 4); values confirmed",
+   "size": "2932x2002",
+   "bytes": 3875534
+  },
+  {
+   "file": "figs/pone0134582_g003.png",
+   "source": "https://journals.plos.org/plosone/article/figure/image?size=large&id=10.1371/journal.pone.0134582.g003 (Fig 3, PLOS large-figure download; https://doi.org/10.1371/journal.pone.0134582)",
+   "license": "CC BY 4.0 (PLOS Creative Commons Attribution License); credit Stalnov, Ben-Gida, Kirchhefer, Guglielmo, Kopp, Liberzon, Gurka 2015, PLOS ONE 10(9):e0134582",
+   "shows": "Side views of three wingbeats, panel labels 'upstroke' (left, wing down) and 'downstroke' (right, wing up), white dashed body line inclined 8.8 deg to the flow. NOTE: the caption text says left = start of downstroke, which contradicts the panel labels and the images; the labels are correct.",
+   "inspected": "panels (c) and (d) zoom-inspected at 1.9x and 2.2x; others at 1.8x grid view",
+   "size": "2081x3704",
+   "bytes": 2748088
+  },
+  {
+   "file": "figs/pone0134582_g004.png",
+   "source": "https://journals.plos.org/plosone/article/figure/image?size=large&id=10.1371/journal.pone.0134582.g004 (Fig 4, PLOS large-figure download; https://doi.org/10.1371/journal.pone.0134582)",
+   "license": "CC BY 4.0 (PLOS Creative Commons Attribution License); credit Stalnov, Ben-Gida, Kirchhefer, Guglielmo, Kopp, Liberzon, Gurka 2015, PLOS ONE 10(9):e0134582",
+   "shows": "Schematic defining the wing-tip flapping angle phi used by Stalnov et al. (range -55 to +19 deg quoted in the text).",
+   "inspected": "gridded view only; schematic, no numbers taken",
+   "size": "2079x394",
+   "bytes": 41696
+  },
+  {
+   "file": "papers/pone0080086_BenGida2013.pdf",
+   "source": "https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0080086&type=printable",
+   "license": "CC BY 4.0 (PLOS Creative Commons Attribution License); credit Ben-Gida, Kirchhefer, Taylor, Bezner-Kerr, Guglielmo, Kopp, Gurka 2013, PLOS ONE 8(11):e80086",
+   "shows": "Full text, 13 pages: bird morphology and 13.3 Hz mean (p3), Table 1 (p5), Fig 4 (p6), Fig 5 (p7), Fig 8 (p8).",
+   "inspected": "text extracted and read; figures read from the separate PNGs",
+   "bytes": 5369938
+  },
+  {
+   "file": "papers/pone0134582_Stalnov2015.pdf",
+   "source": "https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0134582&type=printable",
+   "license": "CC BY 4.0 (PLOS Creative Commons Attribution License); credit Stalnov, Ben-Gida, Kirchhefer, Guglielmo, Kopp, Liberzon, Gurka 2015, PLOS ONE 10(9):e0134582",
+   "shows": "Full text, 20 pages: bird mass 78 g (p8), Fig 3 (p10), flapping-angle range -55 to +19 deg (p11), Fig 4 (p11).",
+   "inspected": "text extracted and read; figures read from the separate PNGs",
+   "bytes": 2574417
+  }
+ ]
+}

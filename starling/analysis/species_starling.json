@@ -1,0 +1,46 @@
+{
+ "scan": "scan_planform_259388b_flight.json",
+ "joints": {
+  "shoulder": [
+   -0.2,
+   -0.6
+  ],
+  "elbow": [
+   2.4,
+   0.2
+  ],
+  "wrist": [
+   5.4,
+   1.9
+  ]
+ },
+ "blend": 1.5,
+ "root_blend": 1.1,
+ "flight_te": null,
+ "L": [
+  15,
+  24
+ ],
+ "shoulder_U": [
+  0.02,
+  0.12
+ ],
+ "shoulder_V": [
+  -0.46,
+  -0.14
+ ],
+ "cut_u": 0.12,
+ "hyst": 0.4,
+ "th_s": [
+  -50,
+  40
+ ],
+ "th_w": [
+  -60,
+  60
+ ],
+ "k": [
+  0.6,
+  1.0
+ ]
+}

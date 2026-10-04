@@ -251,5 +251,7 @@ if args.blend:
         if ob is not None: ob.hide_render = True; ob.hide_viewport = True
     bpy.context.scene.camera = g['CAMS']['top']
     bpy.context.scene.unit_settings.system = 'METRIC'
-    bpy.ops.wm.save_as_mainfile(filepath=os.path.abspath(args.blend), check_existing=False)
+    # write the scene and what it uses, without the window manager: a normal save records the user's config path there
+    ids = set(bpy.data.scenes) | set(bpy.data.objects) | set(bpy.data.collections)
+    bpy.data.libraries.write(os.path.abspath(args.blend), ids, path_remap='NONE', fake_user=False, compress=True)
     print('BLEND', args.blend, 'actions:', [a.name for a in bpy.data.actions])
