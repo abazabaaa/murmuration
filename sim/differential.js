@@ -14,7 +14,7 @@ function sameState(a,b) {
 const args=process.argv.slice(2);
 function flag(name,fallback) {const i=args.indexOf(`--${name}`);return i<0?fallback:args[i+1];}
 const current=path.resolve(flag('current',path.join(__dirname,'../murmuration.html')));
-const ref=flag('baseline-ref','0d3078f');
+const ref=flag('baseline-ref','a5dedcc');
 let base=flag('baseline',null),temp;
 
 const cases=flag('cases',null)?.split(',')||['seed=1&n=80&calm','seed=7&n=80&calm','seed=1&n=80&falcon','seed=7&n=80&falcon'];

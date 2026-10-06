@@ -56,7 +56,7 @@ node murmuration-check.js murmuration.html 40 'seed=1&calm&n=400'
 node murmuration-falcon.js 180 'seed=1&n=400'
 ```
 
-The differential runner obtains `0d3078f:murmuration.html` from Git by default,
+The differential runner obtains `a5dedcc:murmuration.html` from Git by default,
 or accepts `--baseline FILE` / `--baseline-ref REV`. It compares all six position
 and velocity arrays, every baseline falcon field and complete hunt events at
 every frame, reporting the first mismatch. Identical trajectories establish

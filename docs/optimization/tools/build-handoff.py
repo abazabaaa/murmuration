@@ -60,9 +60,9 @@ copy('docs/optimization/tools/glyph-compare.js', output / 'glyph-compare.js')
 (output / 'SOURCE_STATE.json').write_text(json.dumps(state, indent=2) + '\n')
 (output / 'TRACKED_CHANGES.patch').write_text(git('diff', '--binary'))
 
-oldmain = output / 'historical' / 'main-0d3078f'
+oldmain = output / 'historical' / 'main-a5dedcc'
 oldmain.mkdir(parents=True)
-(oldmain / 'murmuration.html').write_text(git('show', '0d3078f:murmuration.html'))
+(oldmain / 'murmuration.html').write_text(git('show', 'a5dedcc:murmuration.html'))
 copy('murmuration-sky.jpg', oldmain / 'murmuration-sky.jpg')
 if args.historical:
     earlier = args.historical.resolve()

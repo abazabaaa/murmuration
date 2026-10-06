@@ -1,7 +1,7 @@
 # First milestone: combined birds, hunts and headless simulation
 
 Completed 2026-10-05 in `~/prj/murmuration-milestone`, branch
-`codex/first-milestone-20261005`, based on merged main `0d3078f`.
+`codex/first-milestone-20261005`, based on merged main `a5dedcc`.
 Changes are local and uncommitted. The primary checkout and its Blender files
 were not edited. This milestone combines rendering and behavior; it does not
 implement the plan's later force-based flight controller or establish biological

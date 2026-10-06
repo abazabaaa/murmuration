@@ -1,4 +1,4 @@
-Historical entries below describe the earlier motion-only worktree at base 425fe07. Current merged-hunt integration evidence is appended below and recorded in docs/FIRST_MILESTONE.md; historical verdicts do not transfer to the new app automatically.
+Historical entries below describe the earlier motion-only worktree at base 668e2b5. Current merged-hunt integration evidence is appended below and recorded in docs/FIRST_MILESTONE.md; historical verdicts do not transfer to the new app automatically.
 
 observation: Published starling studies support intermittent flapping, with glides distinct from folded-wing bounds.
 status: verified
@@ -17,7 +17,7 @@ why non-obvious: Flattened PDF tables can omit dash-filled columns, so agreement
 
 observation: The new motion code preserved flight trajectories in two deterministic 20-second comparisons.
 status: verified
-chain: node motion/check.js /tmp/murmuration-before-motion.html compares commit425fe07's actual page script against the changed page with DOM stubs, same viewport/seed, calm and falcon queries. All px/py/pz/vx/vy/vz arrays and falcon position/prey matched exactly. Native Canvas separately rendered actual draw paths. Offline evidence only; browser controls are unobserved.
+chain: node motion/check.js /tmp/murmuration-before-motion.html compares commit 668e2b5's actual page script against the changed page with DOM stubs, same viewport/seed, calm and falcon queries. All px/py/pz/vx/vy/vz arrays and falcon position/prey matched exactly. Native Canvas separately rendered actual draw paths. Offline evidence only; browser controls are unobserved.
 why non-obvious: Adding individualized gait randomness can accidentally alter the simulation RNG; these streams are separate.
 
 observation: Baked XYZ interpolation approximates this Blender rig within 2.1 mm in sampled cycles and dive transitions.
@@ -32,7 +32,7 @@ why non-obvious: A rendered silhouette alone cannot distinguish true XYZ motion 
 
 observation: The combined XYZ app preserves merged main's flight and hunt traces in the declared first-milestone cases.
 status: verified
-chain: Current sim/differential.js compares actual frame callbacks against 0d3078f for seeds1/7, N100, calm/forced-falcon, 2400 frames each. All six arrays, every baseline falcon field and full hunt events match exactly; docs/verification/differential.json carries the script hashes. Input replay in XYZ and legacy modes also matches; a fresh Sol reviewer independently observed 2400 matching frames in each mode for a pointer-launched hunt. This is baseline-preservation evidence under the named clock/viewport, not empirical validity.
+chain: Current sim/differential.js compares actual frame callbacks against a5dedcc for seeds1/7, N100, calm/forced-falcon, 2400 frames each. All six arrays, every baseline falcon field and full hunt events match exactly; docs/verification/differential.json carries the script hashes. Input replay in XYZ and legacy modes also matches; a fresh Sol reviewer independently observed 2400 matching frames in each mode for a pointer-launched hunt. This is baseline-preservation evidence under the named clock/viewport, not empirical validity.
 why non-obvious: The two original worktrees separately had the new hunting behavior and the 3D motion; a wholesale stale-HTML port could have removed hunting improvements.
 
 observation: App drawing depends on rendering history as well as the current bird state.

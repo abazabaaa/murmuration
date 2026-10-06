@@ -1,6 +1,6 @@
 # Performance and fidelity runbook
 
-This is a handoff procedure for optimizing the current integrated murmuration page. The reference is the **frozen, dirty integrated page**, not Git `0d3078f` (which predates integration) and not a moving checkout. A faster candidate passes only when the same workload and quality gates pass. Preserve raw JSON, images, scripts, hashes, and any failure output.
+This is a handoff procedure for optimizing the current integrated murmuration page. The reference is the **frozen, dirty integrated page**, not Git `a5dedcc` (which predates integration) and not a moving checkout. A faster candidate passes only when the same workload and quality gates pass. Preserve raw JSON, images, scripts, hashes, and any failure output.
 
 ## Freeze and identify the comparison
 

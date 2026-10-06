@@ -3,7 +3,7 @@
 ## Scope and evidence
 
 This is a source-grounded triage for the dirty milestone worktree at base
-`0d3078f`, current page SHA
+`a5dedcc`, current page SHA
 `d24849dffb2feb6882cece1fa00f56852a5d22f3ddd840559ecd4e05aacf8646`.
 No simulation, wall-time profile, browser run, or product edit was made for
 this note. “Exact” below means preserving the current page's neighbor sets,

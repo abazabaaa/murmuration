@@ -2,7 +2,7 @@
 
 Scope: source-led triage for the dirty milestone worktree at
 `~/prj/murmuration-milestone`, branch
-`codex/first-milestone-20261005`, based on `0d3078f`. The page reviewed here is
+`codex/first-milestone-20261005`, based on `a5dedcc`. The page reviewed here is
 `murmuration.html` SHA-256
 `d24849dffb2feb6882cece1fa00f56852a5d22f3ddd840559ecd4e05aacf8646`.
 This note adds proposals only; it changes no product source.

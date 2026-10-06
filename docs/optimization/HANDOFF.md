@@ -8,7 +8,7 @@ left unchanged during this exploration.
 ## Start here
 
 Source checkout: `~/prj/murmuration-milestone`, branch
-`codex/first-milestone-20261005`, Git base `0d3078f2841f022a78fd6a1c478d9540fedab404`.
+`codex/first-milestone-20261005`, Git base `a5dedcc5962c10e3abe446c9c46f326bde12c077`.
 The integration is dirty and uncommitted: **Git HEAD alone cannot reconstruct it**.
 Primary `~/prj/murmuration` and its Blender files are separate;
 preserve them. Port 8765 serves this milestone checkout. Do not change other

@@ -37,6 +37,6 @@ node murmuration-assets.js
 node murmuration-check.js murmuration.html 40 'seed=1&calm&n=400'
 ```
 
-`node sim/differential.js --seconds 40` compares the actual page's frame callbacks against merged `0d3078f`, including every bird's positions/velocities, baseline falcon fields and complete hunt events. The earlier comparison to `425fe07` in `OBSERVATIONS.md` is historical and does not verify this newer hunt integration.
+`node sim/differential.js --seconds 40` compares the actual page's frame callbacks against merged `a5dedcc`, including every bird's positions/velocities, baseline falcon fields and complete hunt events. The earlier comparison to `668e2b5` in `OBSERVATIONS.md` is historical and does not verify this newer hunt integration.
 
 Bake-time 96 withheld phases bound XYZ atlas interpolation error against evaluated Blender meshes; recorded maxima were 1.54 mm starling flap, 1.50 mm falcon flap, 1.57 mm tuck and 2.09 mm pullout. These quantify interpolation of this rig, not accuracy against living birds. Earlier independent saved-file Blender readback matched all 37 starling action knots within 1.60 micrometres and seven falcon demonstration shape knots within 0.273 mm; those historical measurements are retained with their chain in `OBSERVATIONS.md`. Current integration checks and native Canvas raster evidence are recorded in [FIRST_MILESTONE.md](../docs/FIRST_MILESTONE.md). Browser layout and input delivery remain unobserved; offline rasterization does not substitute for them.
