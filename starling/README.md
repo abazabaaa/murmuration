@@ -102,9 +102,13 @@ This runs Blender 5.2 headless (`--background --factory-startup`) through `blend
 6. The page's embedded bird tables, via `node murmuration-assets.js --write`.
 
 Run `node murmuration-assets.js` from the repository root to check that the page
-uses the current `flap_mid` and `upstroke` shapes from `outline/starling-low15.json`
-and the current peregrine dive keys. Other starling poses remain model and
-validation assets; the page's wingbeat blends those two compact shapes.
+uses the current `flap_mid`, `upstroke`, `glide` and `bound` shapes from
+`outline/starling-low15.json` and the current peregrine dive keys. The page's
+wingbeat (10–14 Hz) blends `flap_mid` and `upstroke`. Between bursts of 10–16 beats
+each bird pauses for 0.5–1 s in `glide` or `bound`, following the flap-glide-bound
+schedule in `refs/pose_spec.md` (RA01 Table 1, TO95). The share of bounds rises with
+speed; that trend is from TO95, but the numbers are an estimate. Frightened birds
+flap without pausing. The schedule changes only the drawing, not the flight model.
 
 The Blender scripts are species-neutral copies of the falcon's: `bird_build.py`, `bird_render.py`, `bird_measure.py`, `bird_sheet.py`, `bird_beauty.py` and `bird_outline.py`. Their falcon-scale constants became parameters with the falcon's values as defaults, and the builder reproduces every falcon metric. `starling_look.py` holds the plumage, and `bird_tune.py` measures a batch of candidate poses in one run.
 

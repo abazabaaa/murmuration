@@ -212,6 +212,14 @@ const R_FLEE = 65;
 const R_FLOCK = 20 * Math.cbrt(N / 400), W_REJOIN = 2;   // beyond R_FLOCK (∝ N^⅓ at fixed density) birds head back, 1/s
 const FRAME_CAP = 20;                          // largest framing acceleration, u/s²
 const SPAN = 1.63;                             // u, full-spread span: about twice life size (0.382 m), like the falcon
+// Wingbeat and intermittent flight (starling/refs/pose_spec.md): 10–14 Hz (BG13, RA01). At 10–12 m/s a
+// starling flaps in bursts of about 12–15 beats, then pauses 0.6–1 s (RA01 Table 1); most pauses are
+// glides, and bounds with the wings folded get commoner with speed (TO95). P_BOUND is an estimate
+// fitted to that trend. A frightened bird flaps without pausing. This is drawing only: it uses its own
+// random stream, so a seeded run moves exactly as before.
+const BEAT_HZ = [10, 14], BURST = [10, 16], PAUSE = [.5, 1], ALARM_PAUSE = .2;
+const P_BOUND = v => clamp(.25 + (v * M - 10) / 16, .1, .6);   // v in u/s
+const wrand = rng((params.has('seed') ? +params.get('seed') ^ 0x9E3779B9 : Math.random() * 4294967296) >>> 0);
 // Behavioural noise: an Ornstein–Uhlenbeck acceleration per bird, stationary std NOISE (u/s²),
 // correlation time NOISE_TAU. The paper argues the noise level, not the rule, sets the order and
 // the correlation range, so ?noise=<factor> scales it. Measured on undisturbed flight (?calm, 400 birds):
@@ -229,6 +237,7 @@ const ax = new Float32Array(N), ay = new Float32Array(N), az = new Float32Array(
 const nzx = new Float32Array(N), nzy = new Float32Array(N), nzz = new Float32Array(N);   // OU noise state
 const bank = new Float32Array(N), alarm = new Float32Array(N);
 const phase = new Float32Array(N), freq = new Float32Array(N), size = new Float32Array(N);
+const paused = new Uint8Array(N), pkind = new Uint8Array(N), ptime = new Float32Array(N), pw = new Float32Array(N);   // pkind 1 glide, 2 bound; pw 0 flapping .. 1 in the pause pose
 const nbD = new Float32Array(K), nbI = new Int32Array(K);
 const tgt = { x: 0, y: 0, z: 0 }, tmp = { x: 0, y: 0, z: 0 };
 let gcx = 0, gcy = 0, gcz = 0, gvx = 0, gvy = 0, gvz = 0, lure = 0, lastMove = -1e9;
@@ -253,7 +262,8 @@ function initFlock() {
     const a = (rand() - .5) * .6, s = CRUISE * (.9 + .2 * rand());
     px[i] = tmp.x + (rand() - .5) * 46; py[i] = tmp.y + (rand() - .5) * 24; pz[i] = tmp.z + (rand() - .5) * 46;
     vx[i] = s * Math.cos(a); vy[i] = (rand() - .5) * 2; vz[i] = s * Math.sin(a);
-    phase[i] = rand() * TAU; freq[i] = 7 + rand() * 4; size[i] = .85 + .3 * rand();
+    phase[i] = rand() * TAU; freq[i] = BEAT_HZ[0] + rand() * (BEAT_HZ[1] - BEAT_HZ[0]); size[i] = .85 + .3 * rand();
+    paused[i] = 0; pkind[i] = 1; pw[i] = 0; ptime[i] = wrand() * BURST[1] / freq[i];   // birds start at random points in a burst
     nzx[i] = NOISE * gauss(); nzy[i] = NOISE * gauss(); nzz[i] = NOISE * gauss();
   }
 }
@@ -476,7 +486,16 @@ function step(dt, t) {
     const fx = vx[i] / s, fz = vz[i] / s, rl = Math.hypot(fx, fz) + 1e-6;
     const lat = (ax[i] * fz - az[i] * fx) / rl;                     // accel toward the bird's right
     bank[i] += (clamp(Math.atan(lat / 9), -1.1, 1.1) - bank[i]) * Math.min(1, dt * 6);
-    phase[i] += freq[i] * dt * TAU * (1 + .5 * alarm[i]);
+    if (paused[i] && alarm[i] > ALARM_PAUSE) ptime[i] = 0;          // a fright ends a pause at once
+    if ((ptime[i] -= dt) <= 0) {
+      if (paused[i] || alarm[i] > ALARM_PAUSE) {
+        paused[i] = 0; ptime[i] = (BURST[0] + wrand() * (BURST[1] - BURST[0])) / freq[i];
+      } else {
+        paused[i] = 1; pkind[i] = wrand() < P_BOUND(s) ? 2 : 1; ptime[i] = PAUSE[0] + wrand() * (PAUSE[1] - PAUSE[0]);
+      }
+    }
+    pw[i] += (paused[i] - pw[i]) * Math.min(1, dt * 12);             // about a wingbeat to settle into or out of the pause
+    phase[i] += freq[i] * dt * TAU * (1 + .25 * alarm[i]) * (1 - pw[i]);   // the stroke stops where it is during a pause
     alarm[i] = Math.max(0, alarm[i] - dt * .7);
     pvx += vx[i] / s; pvy += vy[i] / s; pvz += vz[i] / s;
   }
@@ -582,17 +601,22 @@ function birdFrame(x, y, z, fx, fy, fz, bk, th, s, span, len) {   // sets the ba
 // nose, then seven points down the right side (neck, wing leading-edge root, wrist, tip, wrist on the
 // trailing edge, trailing-edge root, tail corner) as [along the body, across the span] in full-spread
 // half-spans, a = 0 at the shoulders. spread is the mid-downstroke planform, flexed the mid-upstroke one,
-// vertex for vertex so they blend. The left side is the mirror image.
+// glide and bound the two pauses of intermittent flight, all vertex for vertex so they blend. The left
+// side is the mirror image.
 const STARLING = {
-  spread: [.291,0,.144,.037,.112,.074,.197,.554,.018,1.015,-.131,.626,-.309,.085,-.732,.131],
-  flexed: [.318,0,.148,.032,.134,.046,-.006,.386,-.406,.548,-.275,.331,-.353,.07,-.735,.126],
+  spread: [0.291,0,0.144,0.037,0.112,0.074,0.197,0.554,0.018,1.015,-0.131,0.626,-0.309,0.085,-0.732,0.131],
+  flexed: [0.318,0,0.148,0.032,0.134,0.046,-0.006,0.386,-0.406,0.548,-0.275,0.331,-0.353,0.07,-0.735,0.126],
+  glide: [0.315,0,0.146,0.035,0.121,0.067,0.089,0.594,-0.143,1,-0.24,0.591,-0.304,0.064,-0.731,0.149],
+  bound: [0.306,0,0.117,0.042,0.097,0.107,-0.096,0.171,-0.744,0.077,-0.744,0.002,-0.756,0.005,-0.757,0],
 };
 const _lx = new Float64Array(8), _ly = new Float64Array(8);
-function pushBird(path, body, x, y, z, fx, fy, fz, bk, th, flex, s, span) {
+// flex blends the wingbeat from spread to flexed; p (0..1) then blends that toward the pause pose Q.
+function pushBird(path, body, x, y, z, fx, fy, fz, bk, th, flex, s, span, p, Q) {
   birdFrame(x, y, z, fx, fy, fz, bk, 0, s, span, span * .5);        // a and w both in half-spans
   const A = STARLING.spread, B = STARLING.flexed, c = Math.cos(th), sn = Math.sin(th);
   for (let i = 0; i < 8; i++) {
-    const a = A[2 * i] + (B[2 * i] - A[2 * i]) * flex, w = A[2 * i + 1] + (B[2 * i + 1] - A[2 * i + 1]) * flex;
+    let a = A[2 * i] + (B[2 * i] - A[2 * i]) * flex, w = A[2 * i + 1] + (B[2 * i + 1] - A[2 * i + 1]) * flex;
+    a += (Q[2 * i] - a) * p; w += (Q[2 * i + 1] - w) * p;
     if (i > 2 && i < 6) { bC = c; bS = sn; } else { bC = 1; bS = 0; }   // only the wrist and tip swing with the wingbeat
     wp(a, -w); _lx[i] = _x; _ly[i] = _y;
     wp(a, w);
@@ -669,9 +693,10 @@ function draw() {
     if (_z < 10) continue;
     const b = clamp(((_z - ZMIN) / (ZMAX - ZMIN) * NB) | 0, 0, NB - 1);
     const s = 1 / Math.hypot(vx[i], vy[i], vz[i]);
-    const th = -.05 + .78 * Math.cos(phase[i]);                       // tip 42° above the shoulder at the top of the stroke, 48° below at the bottom
+    const p = pw[i], bound = pkind[i] === 2;
+    const th = (-.05 + .78 * Math.cos(phase[i])) * (1 - p) + (bound ? 0 : .1) * p;   // flapping: tip 42° above the shoulder at the top of the stroke, 48° below at the bottom; glide: 6° dihedral
     const flex = Math.max(0, -Math.sin(phase[i]));                    // wings spread on the way down, flexed on the way up
-    pushBird(fills[b], bodies[b], px[i], py[i], pz[i], vx[i] * s, vy[i] * s, vz[i] * s, bank[i], th, flex, size[i] * sizeK, SPAN);
+    pushBird(fills[b], bodies[b], px[i], py[i], pz[i], vx[i] * s, vy[i] * s, vz[i] * s, bank[i], th, flex, size[i] * sizeK, SPAN, p, bound ? STARLING.bound : STARLING.glide);
   }
   ctx.lineCap = 'round';
   for (let b = NB - 1; b >= 0; b--) {

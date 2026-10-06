@@ -48,8 +48,8 @@ node murmuration-assets.js
 
 After rebuilding either model's outline, run `node murmuration-assets.js --write`
 to refresh the page. The starling rebuild does this automatically. The page uses
-the starling's 15-point `flap_mid` and `upstroke` shapes and the peregrine's four
-dive keys; the Blender scenes are build assets and are not loaded by the browser.
+the starling's 15-point `flap_mid`, `upstroke`, `glide` and `bound` shapes and the
+peregrine's four dive keys; the Blender scenes are build assets and are not loaded by the browser.
 
 The headless checker reports distances and speeds in world units. The panel uses
 0.5 metres per world unit. Headless checks exercise simulation and drawing code
