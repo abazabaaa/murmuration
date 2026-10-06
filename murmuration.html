@@ -236,6 +236,20 @@ const vx = new Float32Array(N), vy = new Float32Array(N), vz = new Float32Array(
 const ax = new Float32Array(N), ay = new Float32Array(N), az = new Float32Array(N);
 const nzx = new Float32Array(N), nzy = new Float32Array(N), nzz = new Float32Array(N);   // OU noise state
 const bank = new Float32Array(N), alarm = new Float32Array(N);
+// Roll scatter (off by default; ?roll=30 to see it). Banking from lateral acceleration alone leaves birds in level
+// flight wings-level and drawn alike. Each bird's roll can also wander as an Ornstein-Uhlenbeck process with SD ATT_SD
+// and correlation time ATT_TAU (estimated). Against nine Commons photographs (sky/measure_attitude.py), 30 deg brings
+// the within-frame spread of wing angles from 26 to 35 deg (photos 35-38) and the median elongation from 1.99 to 1.85
+// (photos 1.75-1.87), but it also washes out the orientation waves: in a frame mid-wave the band's wing-area contrast
+// against the rest goes from 0.57 to 0.92, and the optical density rise before attacks from 1.11 to 1.02. Kept off
+// until real wave-band contrast and wave roll angle are measured (WAVE_ROLL is estimated). Drawing only, from its own
+// random stream: the flight is unchanged.
+let ATT_SD = (+params.get('roll') || 0) * Math.PI / 180;
+const ATT_TAU = .4;
+const att = new Float32Array(N);               // unit-SD state; the roll offset is ATT_SD * att[i]
+const arand = rng((params.has('seed') ? +params.get('seed') ^ 0xA77A : Math.random() * 4294967296) >>> 0);
+const agauss = () => Math.sqrt(-2 * Math.log(1 - arand())) * Math.cos(TAU * arand());
+for (let i = 0; i < N; i++) att[i] = agauss();
 const dodge = new Uint8Array(N);               // 1 while the bird is dodging the falcon (for the inset and the checks)
 const phase = new Float32Array(N), freq = new Float32Array(N), size = new Float32Array(N);
 const paused = new Uint8Array(N), pkind = new Uint8Array(N), ptime = new Float32Array(N), pw = new Float32Array(N);   // pkind 1 glide, 2 bound; pw 0 flapping .. 1 in the pause pose
@@ -691,6 +705,7 @@ function step(dt, t) {
     const fx = vx[i] / s, fz = vz[i] / s, rl = Math.hypot(fx, fz) + 1e-6;
     const lat = (ax[i] * fz - az[i] * fx) / rl;                     // accel toward the bird's right
     bank[i] += (clamp(Math.atan(lat / 9), -1.1, 1.1) - bank[i]) * Math.min(1, dt * 6);
+    att[i] = att[i] * Math.exp(-dt / ATT_TAU) + Math.sqrt(1 - Math.exp(-2 * dt / ATT_TAU)) * agauss();
     if (paused[i] && alarm[i] > ALARM_PAUSE) ptime[i] = 0;          // a fright ends a pause at once
     if ((ptime[i] -= dt) <= 0) {
       if (paused[i] || alarm[i] > ALARM_PAUSE) {
@@ -921,7 +936,7 @@ function draw(dt = 1 / 60) {
     const p = pw[i], bound = pkind[i] === 2;
     const th = (-.05 + .78 * Math.cos(phase[i])) * (1 - p) + (bound ? 0 : .1) * p;   // flapping: tip 42° above the shoulder at the top of the stroke, 48° below at the bottom; glide: 6° dihedral
     const flex = Math.max(0, -Math.sin(phase[i]));                    // wings spread on the way down, flexed on the way up
-    pushBird(fills[b][fills[b].length - 1], bodies[b][bodies[b].length - 1], px[i], py[i], pz[i], vx[i] * s, vy[i] * s, vz[i] * s, bank[i] + waveRoll(i), th, flex, size[i] * sizeK, SPAN, p, bound ? STARLING.bound : STARLING.glide);
+    pushBird(fills[b][fills[b].length - 1], bodies[b][bodies[b].length - 1], px[i], py[i], pz[i], vx[i] * s, vy[i] * s, vz[i] * s, bank[i] + ATT_SD * att[i] + waveRoll(i), th, flex, size[i] * sizeK, SPAN, p, bound ? STARLING.bound : STARLING.glide);
   }
   ctx.lineCap = 'round';
   for (let b = NB - 1; b >= 0; b--) {
@@ -1107,7 +1122,7 @@ let dbg = null;
 if (params.has('debug')) {
   dbg = document.createElement('pre'); dbg.id = 'dbg'; document.body.appendChild(dbg);
   window.murm = { step, analyse, draw, stats, corr, px, py, pz, vx, vy, vz, N, M, fal, huntLog, alarm, wT, wL, wP, wS, bank, size, dodge,
-    get batch() { return BATCH; }, set batch(v) { BATCH = v; },
+    get batch() { return BATCH; }, set batch(v) { BATCH = v; }, get attSD() { return ATT_SD; }, set attSD(v) { ATT_SD = v; }, att,
     get gc() { return [gcx, gcy, gcz]; }, get gv() { return [gvx, gvy, gvz]; }, get simT() { return simT; },
     consts: { SPAN, FALCON_SPAN, DODGE_W, DODGE_T, R_FLEE, CONTACT, WAVE_ROLL },
     cam: { get UM() { return UM; }, get VT() { return VT; }, get VB() { return VB; }, get ct() { return ct; }, get st() { return st; },

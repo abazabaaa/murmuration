@@ -99,7 +99,7 @@ function opticalDensity() {
     const rl = Math.hypot(fx, fz) + 1e-6, rx = fz / rl, rz = -fx / rl;
     const nx = fy * rz, ny = fz * rx - fx * rz, nz = -fy * rx;                     // wing normal before the roll (as birdFrame)
     const e = m.wT[i] < .25 ? m.wT[i] / .25 : m.wT[i] < .55 ? 1 - (m.wT[i] - .25) / .3 : 0;
-    const bk = m.bank[i] + (e > 0 ? m.wS[i] * K.WAVE_ROLL * m.wL[i] * e * e * (3 - 2 * e) : 0);
+    const bk = m.bank[i] + m.attSD * m.att[i] + (e > 0 ? m.wS[i] * K.WAVE_ROLL * m.wL[i] * e * e * (3 - 2 * e) : 0);
     const cb = Math.cos(bk), sb = Math.sin(bk);
     const Nx = nx * cb + rx * sb, Ny = ny * cb, Nz = nz * cb + rz * sb;
     const vl = Math.hypot(x, y - C.CAM_H, z);

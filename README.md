@@ -17,6 +17,7 @@ correlation panel and **I** for the view from above (see *Where was the falcon?*
 | `?painted` | painted sky instead of the photograph |
 | `?warm=20` | simulate 20 s before the first frame |
 | `?inset` | open the views from above and from the side |
+| `?roll=30` | give each bird a wandering roll with this SD in degrees (off by default: it fits photographs at 30 but hides the orientation waves; see the note at `ATT_SD`) |
 | `?trail` | leave fading ghosts behind moving birds (the old default; `?trail=.3` for longer ones) |
 | `?batch=40` | birds per drawing path (default 40; 0 draws each depth bin as one path, the old and much slower way) |
 
