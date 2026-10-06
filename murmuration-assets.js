@@ -12,7 +12,10 @@ const round = value => Array.isArray(value) ? value.map(round) : Number(value.to
 const falcon = read('falcon/outline/peregrine-outline.json');
 const starling = read('starling/outline/starling-low15.json');
 const expected = {
-  STARLING: { spread: round(starling.pose.flap_mid), flexed: round(starling.pose.upstroke) },
+  STARLING: {
+    spread: round(starling.pose.flap_mid), flexed: round(starling.pose.upstroke),
+    glide: round(starling.pose.glide), bound: round(starling.pose.bound),
+  },
   FALCON: {
     halfSpanM: falcon.halfSpanM, aOriginM: falcon.aOriginM,
     keys: falcon.keys, knots: round(falcon.knots),
