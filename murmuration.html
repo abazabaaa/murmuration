@@ -820,8 +820,11 @@ const STARLING = {
   glide: [0.315,0,0.146,0.035,0.121,0.067,0.089,0.594,-0.143,1,-0.24,0.591,-0.304,0.064,-0.731,0.149],
   bound: [0.306,0,0.117,0.042,0.097,0.107,-0.096,0.171,-0.744,0.077,-0.744,0.002,-0.756,0.005,-0.757,0],
 };
-const _lx = new Float64Array(8), _ly = new Float64Array(8);
+const _lx = new Float64Array(8), _ly = new Float64Array(8), _ox = new Float64Array(15), _oy = new Float64Array(15);
 // flex blends the wingbeat from spread to flexed; p (0..1) then blends that toward the pause pose Q.
+// Many birds share one path, filled with the non-zero rule, so every outline must wind the same way on screen:
+// a bird seen from below winds opposite to one seen from above, and where two such birds overlapped they cancelled
+// and the sky showed through. The outline is reversed when its signed area is negative.
 function pushBird(path, body, x, y, z, fx, fy, fz, bk, th, flex, s, span, p, Q) {
   birdFrame(x, y, z, fx, fy, fz, bk, 0, s, span, span * .5);        // a and w both in half-spans
   const A = STARLING.spread, B = STARLING.flexed, c = Math.cos(th), sn = Math.sin(th);
@@ -830,12 +833,15 @@ function pushBird(path, body, x, y, z, fx, fy, fz, bk, th, flex, s, span, p, Q) 
     a += (Q[2 * i] - a) * p; w += (Q[2 * i + 1] - w) * p;
     if (i > 2 && i < 6) { bC = c; bS = sn; } else { bC = 1; bS = 0; }   // only the wrist and tip swing with the wingbeat
     wp(a, -w); _lx[i] = _x; _ly[i] = _y;
-    wp(a, w);
-    if (i) path.lineTo(_x, _y); else path.moveTo(_x, _y);
+    wp(a, w); _ox[i] = _x; _oy[i] = _y;
   }
-  for (let i = 7; i > 0; i--) path.lineTo(_lx[i], _ly[i]);
+  for (let i = 7; i > 0; i--) { _ox[15 - i] = _lx[i]; _oy[15 - i] = _ly[i]; }   // nose, right side, back up the left
+  let area = 0;
+  for (let i = 0, j = 14; i < 15; j = i++) area += (_ox[j] - _ox[i]) * (_oy[j] + _oy[i]);
+  if (area >= 0) { path.moveTo(_ox[0], _oy[0]); for (let i = 1; i < 15; i++) path.lineTo(_ox[i], _oy[i]); }
+  else { path.moveTo(_ox[14], _oy[14]); for (let i = 13; i >= 0; i--) path.lineTo(_ox[i], _oy[i]); }
   path.closePath();
-  if (body) { body.moveTo(_lx[0], _ly[0]); body.lineTo((_x + _lx[7]) / 2, (_y + _ly[7]) / 2); }
+  if (body) { body.moveTo(_lx[0], _ly[0]); body.lineTo((_ox[7] + _lx[7]) / 2, (_oy[7] + _ly[7]) / 2); }
 }
 
 // Falcon outline read off the measured peregrine model in falcon/ (falcon/blender/export_outline.py →
@@ -890,30 +896,37 @@ function pushFalcon(parts, x, y, z, fx, fy, fz, th, s, tuck, fan) {
   path.closePath();
 }
 
-const fills = Array.from({ length: NB }, () => null), bodies = Array.from({ length: NB }, () => null);
+// Birds go into one path per BATCH birds within each depth bin: one path holding thousands of birds rasterises
+// several times slower than the same birds split into small paths (same pixels; ?batch=0 draws one path per bin).
+let BATCH = params.has('batch') ? +params.get('batch') : 40;
+const fills = Array.from({ length: NB }, () => []), bodies = Array.from({ length: NB }, () => []), binN = new Int32Array(NB);
 
-function draw() {
+function draw(dt = 1 / 60) {
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  ctx.globalAlpha = fresh ? 1 : TRAIL; fresh = false;
+  // The sky is laid over the last frame at TRAIL opacity per 1/60 s, leaving fading ghosts of moving birds. Scaled by
+  // the frame's duration so the ghosts last as long on a 120 Hz display (or in a capture) as at 60 Hz.
+  ctx.globalAlpha = fresh ? 1 : 1 - (1 - TRAIL) ** (dt * 60); fresh = false;
   ctx.drawImage(sky, 0, 0, W, H);
   ctx.globalAlpha = 1;
 
-  for (let b = 0; b < NB; b++) { fills[b] = new Path2D(); bodies[b] = new Path2D(); }
+  for (let b = 0; b < NB; b++) { fills[b].length = 0; bodies[b].length = 0; binN[b] = 0; }
   for (let i = 0; i < N; i++) {
     P(px[i], py[i], pz[i]);
     if (_z < 10) continue;
     const b = clamp(((_z - ZMIN) / (ZMAX - ZMIN) * NB) | 0, 0, NB - 1);
+    if (binN[b]++ % (BATCH || Infinity) === 0) { fills[b].push(new Path2D()); bodies[b].push(new Path2D()); }
     const s = 1 / Math.hypot(vx[i], vy[i], vz[i]);
     const p = pw[i], bound = pkind[i] === 2;
     const th = (-.05 + .78 * Math.cos(phase[i])) * (1 - p) + (bound ? 0 : .1) * p;   // flapping: tip 42° above the shoulder at the top of the stroke, 48° below at the bottom; glide: 6° dihedral
     const flex = Math.max(0, -Math.sin(phase[i]));                    // wings spread on the way down, flexed on the way up
-    pushBird(fills[b], bodies[b], px[i], py[i], pz[i], vx[i] * s, vy[i] * s, vz[i] * s, bank[i] + waveRoll(i), th, flex, size[i] * sizeK, SPAN, p, bound ? STARLING.bound : STARLING.glide);
+    pushBird(fills[b][fills[b].length - 1], bodies[b][bodies[b].length - 1], px[i], py[i], pz[i], vx[i] * s, vy[i] * s, vz[i] * s, bank[i] + waveRoll(i), th, flex, size[i] * sizeK, SPAN, p, bound ? STARLING.bound : STARLING.glide);
   }
   ctx.lineCap = 'round';
   for (let b = NB - 1; b >= 0; b--) {
     ctx.fillStyle = ctx.strokeStyle = (skyReady ? PHOTO_COL : fillCol)[b];
     ctx.lineWidth = lineW[b] * Math.max(.8, f / 1272);
-    ctx.fill(fills[b]); ctx.stroke(bodies[b]);
+    for (const q of fills[b]) ctx.fill(q);
+    for (const q of bodies[b]) ctx.stroke(q);
   }
 
   P(fal.x, fal.y, fal.z);
@@ -1092,6 +1105,7 @@ let dbg = null;
 if (params.has('debug')) {
   dbg = document.createElement('pre'); dbg.id = 'dbg'; document.body.appendChild(dbg);
   window.murm = { step, analyse, draw, stats, corr, px, py, pz, vx, vy, vz, N, M, fal, huntLog, alarm, wT, wL, wP, wS, bank, size, dodge,
+    get batch() { return BATCH; }, set batch(v) { BATCH = v; },
     get gc() { return [gcx, gcy, gcz]; }, get gv() { return [gvx, gvy, gvz]; }, get simT() { return simT; },
     consts: { SPAN, FALCON_SPAN, DODGE_W, DODGE_T, R_FLEE, CONTACT, WAVE_ROLL },
     cam: { get UM() { return UM; }, get VT() { return VT; }, get VB() { return VB; }, get ct() { return ct; }, get st() { return st; },
@@ -1106,7 +1120,7 @@ function loop(ms) {
   if (stepOnce) { simT += 1 / 60; step(1 / 60, simT); stepOnce = false; }
   else if (dt > 0 && !halted) { simT += dt; step(dt, simT); }
   if (showPanel && simT - corr.t >= ANALYSE_EVERY) analyse(simT);
-  draw();
+  draw(dt);
   if (dbg) {
     frames++; fpsT += dt;
     if (fpsT > .5) { fps = frames / fpsT; frames = 0; fpsT = 0; }
