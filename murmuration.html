@@ -788,7 +788,7 @@ for (let b = 0; b < NB; b++) {
 // Near-neutral near-black; real birds 37-100 m away show almost no aerial perspective.
 const PHOTO_COL = [[12, 12, 12], [13, 13, 12], [13, 13, 12], [13, 13, 13], [14, 14, 13], [14, 14, 14]].map(c => `rgb(${c})`);
 let fresh = true;
-const TRAIL = .5;
+const TRAIL = params.has('trail') ? (+params.get('trail') || .5) : 1;   // 1: a clean frame each time; ?trail keeps ghosts
 
 let bX, bY, bZ, bFx, bFy, bFz, bRx, bRy, bRz, bNx, bNy, bNz, bL, bH, bC, bS;
 function wp(a, w) {                            // point on the bird: a along the body, w across the wings
@@ -903,8 +903,10 @@ const fills = Array.from({ length: NB }, () => []), bodies = Array.from({ length
 
 function draw(dt = 1 / 60) {
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  // The sky is laid over the last frame at TRAIL opacity per 1/60 s, leaving fading ghosts of moving birds. Scaled by
-  // the frame's duration so the ghosts last as long on a 120 Hz display (or in a capture) as at 60 Hz.
+  // The sky is laid over the last frame at TRAIL opacity per 1/60 s. At the default 1 every frame starts clean; with
+  // ?trail (.5) moving birds leave fading ghosts. Those were dropped as the default: they were 37-52 % of the bird ink
+  // on screen and stepped copies were the commonest tell against real photographs, where a moving bird is one
+  // continuous smear. Scaled by the frame's duration so ghosts last as long at any frame rate.
   ctx.globalAlpha = fresh ? 1 : 1 - (1 - TRAIL) ** (dt * 60); fresh = false;
   ctx.drawImage(sky, 0, 0, W, H);
   ctx.globalAlpha = 1;
