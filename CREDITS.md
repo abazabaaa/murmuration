@@ -16,6 +16,9 @@
 - **`starling/analysis/planforms/PSM20907_male_dorsal.json`**: planform measured from an image of
   specimen PSM 20907, Slater Museum of Natural History, University of Puget Sound. The image is
   © Slater Museum and is not included.
+- **`sky/haze_samples.npz`, `sky/haze.json`**: distances to woodland measured from OpenStreetMap data,
+  © OpenStreetMap contributors, ODbL 1.0 (https://www.openstreetmap.org/copyright).
+- **`sky/*.json`**: measured from the HDRI "Scythian Tombs 2" (above).
 - **`falcon/refs/storms2019/`**: the article, its electronic supplementary material, and crops
   of its seven figures (pages rendered at 600 dpi), from Storms RF, Carere C, Zoratto F,
   Hemelrijk CK (2019) Complex patterns of collective escape in starling flocks under

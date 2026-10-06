@@ -156,6 +156,7 @@ with canvas stubs; check the page in a browser to validate appearance and contro
 - `murmuration.html`, `murmuration-sky.jpg`: the page. `murmuration-check.js`,
   `murmuration-falcon.js`, `murmuration-assets.js`: headless checks.
 - `replay/replay_build.py`: Blender replay of an exported stretch of a run (output in `replay/out/`, not tracked).
+- `sky/`: bird colours over the photographed sky, measured from the HDRI, Cycles renders of the starling model and the treelines' haze (`sky/README.md`).
 - `blender/`: an earlier rigged falcon; the page no longer uses it.
 - `starling/`: the measured starling model the page's starling outline comes from.
 - `falcon/`: a peregrine model with measured proportions, its build scripts,

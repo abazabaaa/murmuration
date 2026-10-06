@@ -782,6 +782,11 @@ for (let b = 0; b < NB; b++) {
   fillCol.push(`rgba(${Math.round(9 + 30 * t)},${Math.round(7 + 20 * t)},${Math.round(18 + 34 * t)},${(.97 - .2 * t).toFixed(2)})`);
   lineW.push(1.7 - .8 * t);
 }
+// Over the photographed sky, bird colours are measured (sky/page_colours.py): the starling model rendered in Cycles
+// under the same HDRI, mean over 113 random poses and orientations (sun glints left out), plus haze toward the sky
+// behind the flock at half the upper bound the treelines allow, through the tone curve recovered from the sky JPEG.
+// Near-neutral near-black; real birds 37-100 m away show almost no aerial perspective.
+const PHOTO_COL = [[12, 12, 12], [13, 13, 12], [13, 13, 12], [13, 13, 13], [14, 14, 13], [14, 14, 14]].map(c => `rgb(${c})`);
 let fresh = true;
 const TRAIL = .5;
 
@@ -906,7 +911,7 @@ function draw() {
   }
   ctx.lineCap = 'round';
   for (let b = NB - 1; b >= 0; b--) {
-    ctx.fillStyle = ctx.strokeStyle = fillCol[b];
+    ctx.fillStyle = ctx.strokeStyle = (skyReady ? PHOTO_COL : fillCol)[b];
     ctx.lineWidth = lineW[b] * Math.max(.8, f / 1272);
     ctx.fill(fills[b]); ctx.stroke(bodies[b]);
   }

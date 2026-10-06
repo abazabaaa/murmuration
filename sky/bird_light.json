@@ -1,0 +1,43 @@
+{
+ "n": 113,
+ "glints_left_out": {
+  "n": 7,
+  "share": 0.058,
+  "threshold_luminance": 0.3
+ },
+ "k": 8,
+ "params": {
+  "a": 0.18168,
+  "b": 0.05211,
+  "c": 0.65112,
+  "d": 0.09697,
+  "g": 0.13218,
+  "fr": -0.22454
+ },
+ "cv_rms_radiance": 0.05237,
+ "spread_of_renders_rms": 0.05703,
+ "cv_rms_code": 8.76,
+ "cv_p90_abs_code": 12.79,
+ "cv_median_abs_code": 4.24,
+ "mean_render_code": [
+  10.1,
+  10.1,
+  10.0
+ ],
+ "look": {
+  "effective_albedo": 0.0675,
+  "rms_code": 8.13
+ },
+ "albedo_sensitivity": {
+  "code_at_003": [
+   7.8,
+   8.6,
+   9.1
+  ],
+  "code_at_010": [
+   10.7,
+   12.3,
+   13.0
+  ]
+ }
+}
