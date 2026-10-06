@@ -12,7 +12,7 @@ const args = process.argv.slice(2), json = args.includes('--json');
 const pos = args.filter(a => !a.startsWith('--'));
 const merge = args.includes('--merge');
 const secs = merge ? 0 : +(pos[0] || 300), query = merge ? '' : pos[1] || 'seed=1&n=400';
-const LISTS = ['strikes', 'stoops', 'hunts', 'gaps', 'waveSpeeds', 'waveReach', 'control', 'flythrough', 'posNear', 'density'];
+const LISTS = ['strikes', 'stoops', 'hunts', 'gaps', 'waveSpeeds', 'waveReach', 'control', 'flythrough', 'posNear', 'density', 'camDepth'];
 const raw = merge ? pool(pos.map(f => JSON.parse(fs.readFileSync(f, 'utf8')))) : simulate();
 report(raw);
 
@@ -155,6 +155,7 @@ function flockShape() {                          // radius of gyration, polariza
 const dt = 1 / 60;
 let simT = 0, seen = 0;
 const strikes = [], stoops = [], hunts = [], pulses = [], pending = [];
+const camDepth = [];                             // falcon depth along the camera axis (u) and mode, twice a second
 const posNear = [];                              // falcon to nearest bird while it waits in position, twice a second (u)
 const dens = [];                                 // optical density twice a second
 const shapeLog = [];                             // flock shape twice a second
@@ -182,6 +183,7 @@ for (let s = 0; s < secs * 60; s++) {
   if (m.fal.on) flyFrame(simT);
   if (s % 30 === 0) {
     dens.push([simT, m.fal.on, opticalDensity()]);
+    if (m.fal.on) camDepth.push([proj(m.fal.x, m.fal.y, m.fal.z)[2], m.fal.mode, simT]);
     if (m.fal.on && m.fal.mode === 'position') {
       let d = 1e9;
       for (let i = 0; i < N; i++) d = Math.min(d, Math.hypot(m.px[i] - m.fal.x, m.py[i] - m.fal.y, m.pz[i] - m.fal.z));
@@ -272,10 +274,10 @@ if (rec) {
   }));
   console.error(`wrote ${file} (${rec.t.length} frames)`);
 }
-return { run: { secs, query }, strikes, stoops, hunts, gaps, waveSpeeds, waveReach, control, flythrough, posNear, density, pulses: pulses.length };
+return { run: { secs, query }, strikes, stoops, hunts, gaps, waveSpeeds, waveReach, control, flythrough, posNear, density, camDepth, pulses: pulses.length };
 }
 
-function report({ strikes, stoops = [], hunts, gaps, waveSpeeds, waveReach, control, flythrough = [], posNear = [], density = [], pulses, runs }) {
+function report({ strikes, stoops = [], hunts, gaps, waveSpeeds, waveReach, control, flythrough = [], posNear = [], density = [], camDepth = [], pulses, runs }) {
 const mean = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : NaN;
 const median = a => { if (!a.length) return NaN; const b = [...a].sort((x, y) => x - y); return b[b.length >> 1]; };
 const frac = (a, f) => a.length ? a.filter(f).length / a.length : NaN;
@@ -305,7 +307,7 @@ const res = {
   waveSpeed_ms: { mean: mean(waveSpeeds) * .5, min: Math.min(...waveSpeeds) * .5, max: Math.max(...waveSpeeds) * .5, n: waveSpeeds.length },
   waveReach: median(waveReach),
 };
-if (json) { console.log(JSON.stringify({ strikes, stoops, hunts, gaps, waveSpeeds, waveReach, control, flythrough, posNear, density, pulses, run: { secs, query } })); return; }
+if (json) { console.log(JSON.stringify({ strikes, stoops, hunts, gaps, waveSpeeds, waveReach, control, flythrough, posNear, density, camDepth, pulses, run: { secs, query } })); return; }
 const byKind = k => frac(strikes.filter(e => e.kind === k), e => e.flash);
 const bySpd = k => frac(strikes.filter(e => (e.spd ?? 1) === k), e => e.flash);
 const att = density.filter(d => d.kind === 'attack' && Number.isFinite(d.pre) && Number.isFinite(d.base));
@@ -341,6 +343,8 @@ const rows = [
   ['attacks with a wave pulse in the 5 s before', f(frac(stoops, e => e.pulseBefore)), '0.28 (Storms 2019 Fig 3)'],
   ['optical density vs 10–15 s earlier, 5 s before attack', `${f(ratio(att, 'pre'))} (control ${f(ratio(ctl, 'pre'))})`, 'blackening clusters −4…+2 s (Storms 2019); timing only'],
   ['  same, 2 s after the attack begins', `${f(ratio(att, 'post'))} (control ${f(ratio(ctl, 'post'))})`, ''],
+  ['falcon beside or behind the camera (all / positioned)', `${f(frac(camDepth, x => x[0] < 10))} / ${f(frac(camDepth.filter(x => x[1] === 'position'), x => x[0] < 10))}`, 'share of time; not drawn then'],
+  ['falcon within 37 m of the camera (all / positioned)', `${f(frac(camDepth, x => x[0] < 75))} / ${f(frac(camDepth.filter(x => x[1] === 'position'), x => x[0] < 75))}`, '—'],
   ['falcon to nearest bird while positioned, m', `${f(median(posNear) * .5, 0)} (10–90 %: ${f(quant(posNear, .1) * .5, 0)}–${f(quant(posNear, .9) * .5, 0)})`, '—'],
 ];
 console.log(`${runs ? runs.length + ' runs' : secs + ' s, ' + query}: ${strikes.length} strikes in ${hunts.length} hunts, ${pulses} wave pulses`);

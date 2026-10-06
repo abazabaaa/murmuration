@@ -294,6 +294,7 @@ const TURN_IN = .8;                            // cos of the angle off the line 
 const PN_ACC = 49;                             // u/s²: turns of at most about 2.5 g, as measured in stoops (Brighton 2017)
 const STAGE_OFF = 110, STAGE_UP = [90, 0, -50];   // u: where the falcon waits, 55 m beside the flock on its own side and 45 m above, level, or 25 m below;
                                                // it gives a guided final approach of about 75 m (47–114 m measured, Brighton 2017)
+const STAGE_ZMIN = ZMIN;                       // u: the waiting spot stays at least this far in front of the camera (as near as the flock may come)
 const CONTACT = .4;                            // u: a pass within 0.2 m counts as a catch, as in Mills 2018
 // Each stoop is slow, medium or fast as often as in Storms 2019 (16/144/15 of 175 attacks). The paper gives no
 // speeds for its classes, so STOOP_K, the factor on the stoop's target speed, is an estimate; 78 u/s (39 m/s) is
@@ -396,6 +397,8 @@ function seedPulse(t) {                        // the wave starts at the bird ne
   logEvent({ type: 'pulse', t, id: pulseId, bird: k, x: px[k], y: py[k], z: pz[k] });
 }
 
+const falDepth = () => (fal.y - CAM_H) * st + fal.z * ct;   // the falcon's distance in front of the camera, u
+
 // Steering toward a velocity: the falcon's own flight between stoops (not PN).
 function seek(vxT, vyT, vzT, rate, cap) {
   let aX = (vxT - fal.vx) * rate, aY = (vyT - fal.vy) * rate, aZ = (vzT - fal.vz) * rate;
@@ -458,7 +461,7 @@ function updateFalcon(dt, t) {
     [aX, aY, aZ, turn] = seek(fal.vx / hl * c * FAL_CRUISE, s * FAL_CRUISE, fal.vz / hl * c * FAL_CRUISE, 1.5, 55);
     if (fal.mt > (fal.chain ? 1.2 : 2)) {        // a chained strike mounts briefly and swoops again
       if (fal.strikes >= fal.quota || fal.age > 60) { fal.mode = 'leave'; logEvent({ type: 'hunt', t, strikes: fal.strikes, waves: fal.waves, minMiss: fal.minMiss, contact: fal.minMiss < CONTACT }); }
-      else if (fal.chain) startStoop(t);
+      else if (fal.chain && falDepth() > STAGE_ZMIN / 2) startStoop(t);   // not from over the observer's head
       else startPosition();
     }
   } else if (fal.mode === 'position') {        // wait beside the flock on the falcon's side, a little ahead of it
@@ -466,11 +469,15 @@ function updateFalcon(dt, t) {
     let lx = -hz, lz = hx;
     if ((fal.x - gcx) * lx + (fal.z - gcz) * lz < 0) { lx = -lx; lz = -lz; }
     stage.x = gcx + lx * STAGE_OFF + hx * 30; stage.y = gcy + STAGE_UP[fal.kind]; stage.z = gcz + lz * STAGE_OFF + hz * 30;
+    {                                          // never over the observer's head: push the spot out along the line of sight, by
+      const zs = (stage.y - CAM_H) * st + stage.z * ct;   // just the shortfall, so it moves continuously and the turn stays smooth
+      if (zs < STAGE_ZMIN) { stage.y += (STAGE_ZMIN - zs) * st; stage.z += (STAGE_ZMIN - zs) * ct; }
+    }
     const dx = stage.x - fal.x, dy = stage.y - fal.y, dz = stage.z - fal.z, d = Math.hypot(dx, dy, dz) + 1e-6;
     const v = FAL_CRUISE * clamp(d / 40, .8, 1.4);
     [aX, aY, aZ, turn] = seek(gvx + dx / d * v, gvy + dy / d * v, gvz + dz / d * v, 2.4, 55);
     if (fal.mt > PRE_WAVE_T && fal.pulses < fal.pulseN && t - fal.pulseT > PULSE_GAP) seedPulse(t);
-    if ((d < 20 || fal.mt > 6) && t - fal.lastPass > 5) startStoop(t);
+    if ((d < 20 || fal.mt > 6) && t - fal.lastPass > 5 && falDepth() > STAGE_ZMIN / 2) startStoop(t);
   } else {                                     // leave
     screenToWorld(fal.side > 0 ? -W * .35 : W * 1.35, H * .1, 200, tmp);
     const dx = tmp.x - fal.x, dy = tmp.y - fal.y, dz = tmp.z - fal.z, d = Math.hypot(dx, dy, dz) + 1e-6;
@@ -905,13 +912,16 @@ function draw() {
   }
 
   P(fal.x, fal.y, fal.z);
-  if (fal.on && _z > 10) {                     // as for the birds: a falcon beside or behind the camera is not drawn (it would project huge)
+  const fz = _z;
+  if (fal.on && fz > 10) {                     // as for the birds: a falcon beside or behind the camera is not drawn (it would project huge)
     const s = 1 / Math.hypot(fal.vx, fal.vy, fal.vz);
     const dive = clamp(-fal.vy * s * 2, 0, 1);
     const fp = [new Path2D(), new Path2D(), new Path2D()];           // right wing, left wing, body
     pushFalcon(fp, fal.x, fal.y, fal.z, fal.vx * s, fal.vy * s, fal.vz * s, .2 + .5 * Math.sin(fal.phase) * fal.flap * (1 - dive), FALCON_SPAN * sizeK, dive, fal.fan * (1 - dive));
     ctx.fillStyle = ctx.strokeStyle = '#170a10'; ctx.lineWidth = Math.max(.8, f / 1272); ctx.lineJoin = 'round';
+    ctx.globalAlpha = clamp((fz - 10) / 20, 0, 1);   // fades out over its last 5 m toward the camera instead of popping
     for (const part of fp) { ctx.fill(part); ctx.stroke(part); }
+    ctx.globalAlpha = 1;
   }
 
   if (showPanel) drawPanel();

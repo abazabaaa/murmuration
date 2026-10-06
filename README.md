@@ -49,33 +49,34 @@ The peregrine hunts as described in `falcon/refs/hunting_notes.md`:
   roll, during the stoop and also while the falcon waits beside the flock beforehand.
 
 `murmuration-falcon.js` measures hunts headless. Pooled over 32 seeds × 300 s, 400
-birds (370 strikes, 128 hunts), against the measured values:
+birds (388 strikes, 131 hunts), against the measured values:
 
 | observable | page | measured |
 |---|---|---|
 | strikes per hunt | 2.8 | ~3 |
-| strikes within 5 s of the last | 22 % | 31 % |
-| attacks from above / side / below | 43 / 46 / 11 % | 69/21/10 % and 30/57/13 % (two tallies of the Rome footage) |
-| peak speed of stoops from above | 34.6 m/s | 31–39 m/s |
-| guided (PN) final approach | 68 m, 3.1 s | 47–114 m, median 4.9 s |
-| flash expansion | 23 % of strikes (20 % expand >20 % in 3 s) | 34 % within 5 s (Fig. 6); 25 % as the next event (Fig. 3) |
-| flash expansion by direction above / side / below | 36 / 12 / 15 % | 42 / 11 / 22 % |
-| flash expansion by speed slow / medium / fast | 0 / 23 / 39 % | 0 / 36 / 47 % |
-| split after a flash expansion | 51 % | 22 % |
-| attacks with a wave in the 5 s before | 28 % | 28 % |
-| wave speed | 14.5 m/s (3.1–24) | 13 m/s (3.7–25) |
-| hunts with waves | 39 % | 36–42 % |
-| hunts with a catch (pass within 0.2 m) | 46 % | 23–24 % |
+| strikes within 5 s of the last | 25 % | 31 % |
+| attacks from above / side / below | 53 / 38 / 10 % | 69/21/10 % and 30/57/13 % (two tallies of the Rome footage) |
+| peak speed of stoops from above | 34.0 m/s | 31–39 m/s |
+| guided (PN) final approach | 60 m, 2.8 s | 47–114 m, median 4.9 s |
+| flash expansion | 26 % of strikes (22 % expand >20 % in 3 s) | 34 % within 5 s (Fig. 6); 25 % as the next event (Fig. 3) |
+| flash expansion by direction above / side / below | 40 / 10 / 18 % | 42 / 11 / 22 % |
+| flash expansion by speed slow / medium / fast | 0 / 27 / 44 % | 0 / 36 / 47 % |
+| split after a flash expansion | 45 % | 22 % |
+| attacks with a wave in the 5 s before | 30 % | 28 % |
+| wave speed | 14.1 m/s (3.6–26) | 13 m/s (3.7–25) |
+| hunts with waves | 41 % | 36–42 % |
+| hunts with a catch (pass within 0.2 m) | 47 % | 23–24 % |
 
 Storms et al. 2019 counts are in `falcon/refs/hunting_notes.md` §3.5. The flash table
 reproduces Fig. 6 cell by cell (per-class shares above are within sampling noise of it).
 The page's overall share stays below 34 % because it attacks from the side more often than
-Storms saw; with Storms' 69/21/10 mix the same table gives 34 %. Two gaps remain open:
+Storms saw; with Storms' 69/21/10 mix the same table gives 34 %. The falcon waits and starts its stoops at least 37 m in front of the observer, so it
+never lines up over the observer's head. Two gaps remain open:
 the flock splits after too many flash expansions, and the catch rate is high.
 
 **Catch rate.** The page never draws a catch. Its catch rate matches simulated attacks
 better than field hunts: Mills et al. reach 26–31 % per attack, and the page catches
-on 22 % of strikes. Field success is lower than either.
+on 20 % of strikes. Field success is lower than either.
 
 **Not modelled.** Blackening, the flock darkening before and around attacks (the
 commonest response in Storms et al. 2019). A mild alarm in birds near a falcon that is
