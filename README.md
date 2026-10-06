@@ -31,6 +31,43 @@ means), and the behavioural noise is persistent while alignment is stiff. The
 fluctuations are smaller than in real flocks: about 1.1–1.5 m/s rms against
 roughly 2 m/s, with polarization 0.99 against 0.96.
 
+## The falcon
+
+The peregrine hunts as described in `falcon/refs/hunting_notes.md`:
+- **The hunt:** 1–4 strikes per hunt. Before each strike the falcon takes up a
+  position above, beside or below the flock.
+- **The dive:** it tips over toward the nearest starling and steers the last stretch
+  by proportional navigation (gain 2.6, Brighton et al. 2017). Mills et al. (2018)
+  supply its 50 ms sensing delay and line-of-sight error. Turns are capped at 2.5 g.
+- **After the pass:** a zoom climb. About a third of strikes follow within 5 s.
+- **The flock:** flash expansions follow about a quarter of strikes. Starlings in the
+  falcon's path dodge at 3.4 g. In some hunts, orientation waves spread by each bird
+  copying its nearest neighbours' roll.
+
+`murmuration-falcon.js` measures hunts headless. Pooled over 16 seeds × 300 s, 400
+birds (179 strikes, 62 hunts), against the measured values:
+
+| observable | page | measured |
+|---|---|---|
+| strikes per hunt | 2.8 | ~3 |
+| strikes within 5 s of the last | 22 % | 31 % |
+| attacks from above / side / below | 54 / 34 / 12 % | 69/21/10 % and 30/57/13 % (two tallies of the Rome footage) |
+| peak speed of stoops from above | 34.6 m/s | 31–39 m/s |
+| guided (PN) final approach | 75 m, 3.2 s | 47–114 m, median 4.9 s |
+| flash expansion (>20 % in 3 s) | 22 % | 25 % |
+| flock split after a strike | 21 % | 22 % |
+| wave speed | 16 m/s (3.6–24) | 13 m/s (3.7–25) |
+| hunts with waves | 29 % | 36–42 % |
+| hunts with a catch (pass within 0.2 m) | 48 % | 23–24 % |
+
+**Catch rate.** The page never draws a catch. Its catch rate matches simulated attacks
+better than field hunts: Mills et al. reach 26–31 % per attack, and the page catches
+on 21 % of strikes. Field success is lower than either.
+
+**Estimated parameters.** These are not measured: the dodge timing and width,
+the waiting position, and the bound share of starling pauses. Their values and
+reasons are in the comments in `murmuration.html`.
+
 ## Checking it
 
 ```
@@ -39,6 +76,13 @@ node murmuration-check.js murmuration.html 40 "seed=1&calm&n=800"
 
 runs the page headless and measures the same observables with an independent
 implementation.
+
+```
+node murmuration-falcon.js 300 "seed=1&n=400"
+```
+
+measures hunts against the field data above (`--json` per run, `--merge a.json b.json …`
+pools runs).
 
 Check that both embedded bird tables match the latest model exports:
 
@@ -57,7 +101,8 @@ with canvas stubs; check the page in a browser to validate appearance and contro
 
 ## Layout
 
-- `murmuration.html`, `murmuration-check.js`, `murmuration-sky.jpg`: the page.
+- `murmuration.html`, `murmuration-sky.jpg`: the page. `murmuration-check.js`,
+  `murmuration-falcon.js`, `murmuration-assets.js`: headless checks.
 - `blender/`: an earlier rigged falcon; the page no longer uses it.
 - `starling/`: the measured starling model the page's starling outline comes from.
 - `falcon/`: a peregrine model with measured proportions, its build scripts,

@@ -269,62 +269,212 @@ function initFlock() {
 }
 
 // ---------------------------------------------------------------- falcon
-const fal = { on: false, x: 0, y: 0, z: 0, vx: 0, vy: 0, vz: 0, age: 0, ret: 0, prey: 0, leaving: false, side: 1, phase: 0, fan: 0 };
+// The hunt follows falcon/refs/hunting_notes.md (§6 maps each finding onto this code). A hunt is 1–4
+// strikes, about 3 on average (Rome roost; Procaccini 2011, Zoratto 2010). Each strike: take up a
+// position above, beside or below the flock (50/39/11 %, between the Storms 2019 and Procaccini 2011
+// tallies), stoop on the nearest bird steered by proportional navigation, a = N λ̇ × v (Brighton 2017:
+// no lead and no range needed), then zoom-climb, trading the speed back for height (Dekker 2009).
+// About 30 % of strikes follow the last within 5 s. A strike is logged but never takes a bird.
+const fal = {
+  on: false, x: 0, y: 0, z: 0, vx: 0, vy: 0, vz: 0, age: 0, prey: 0, side: 1, phase: 0, fan: 0, flap: 1,
+  mode: 'leave', mt: 0, kind: 0, strikes: 0, quota: 0, chain: false, lastPass: -1e9, clickPrey: -1,
+  range: 1e9, pn: false, pnT: 0, pnPath: 0, peak: 0, nSum: 0, nCnt: 0, flash: false, fleeK: 0, waves: false, pulses: 0, pulseN: 0, pulseT: -1e9,
+  minMiss: 1e9,
+};
 const CALM = params.has('calm');               // ?calm: no spontaneous attacks (clicks still work)
 let nextFalcon = CALM ? Infinity : 14 + rand() * 6;
+const FAL_CRUISE = 30;                         // u/s, 15 m/s: shadowing flight, 1.3× the flock as in StarEscape and Mills 2018
+const FAL_STOOP = [72, 52, 40];                // u/s, target speed from above (36 m/s, inside Alerstam's 31–39 m/s radar stoops), beside, below
+const FAL_G = 19.6, FAL_THRUST = 6, FAL_DRAG = 15;   // u/s²: gravity at 0.5 m/u; flapping gain and braking along the path (estimates)
+const PN_N = 2.6, PN_DELAY = .05, LOS_ERR = .007;   // median gain of wild peregrines (Brighton 2017). As in Mills 2018: the line of sight is seen
+                                               // with an error of up to 0.007 rad and its rate is the difference of two sightings PN_DELAY apart, used PN_DELAY late
+const TURN_IN = .8;                            // cos of the angle off the line of sight below which the falcon first turns in by pure pursuit
+const PN_ACC = 49;                             // u/s²: turns of at most about 2.5 g, as measured in stoops (Brighton 2017)
+const STAGE_OFF = 110, STAGE_UP = [90, 0, -50];   // u: where the falcon waits, 55 m beside the flock on its own side and 45 m above, level, or 25 m below;
+                                               // it gives a guided final approach of about 75 m (47–114 m measured, Brighton 2017)
+const CONTACT = .4;                            // u: a pass within 0.2 m counts as a catch, as in Mills 2018
+const P_FLASH = [.35, .15, .15];               // flash expansion after ~25 % of attacks, mostly fast ones from above (Storms 2019)
+const FLEE_QUIET = 0;                          // no general flight from the falcon without a flash expansion: only birds in its path dodge
+// Last-moment dodge: a bird in the stooping falcon's path (within DODGE_W of its line of flight) that it
+// would reach within DODGE_T turns off that line at 3.4 g, the load factor of Mills 2018's model starling.
+// DODGE_T and DODGE_W are not measured. With them about 20 % of strikes and 45–50 % of hunts would end in a
+// catch: above the 23 % of hunts seen in Rome, close to the 26–31 % per attack of Mills 2018's simulations.
+// No catch is drawn; murmuration-falcon.js reports the rate.
+const DODGE_T = .5, DODGE_ACC = 67, DODGE_W = 4;
+const P_CHAIN = .3;                            // chance the next strike follows straight after the climb
+const P_WAVES = .4, PULSE_GAP = .8;            // orientation waves in 36–42 % of hunts, pulses ~0.8 s apart (Procaccini 2011)
+const huntLog = [];                            // strikes, pulses and hunts, for murmuration-falcon.js
+const logEvent = e => { huntLog.push(e); if (huntLog.length > 400) huntLog.shift(); };
+const losQ = Array.from({ length: 32 }, () => ({ t: -1e9, x: 0, y: 0, z: 0 }));
+let losHead = 0, pulseId = 0;
+const stage = { x: 0, y: 0, z: 0 };
 
 function launchFalcon(clickX, clickY) {
   if (fal.on) return;
-  fal.on = true; fal.age = 0; fal.ret = 0; fal.leaving = false; fal.phase = 0;
+  fal.on = true; fal.age = 0; fal.phase = 0; fal.strikes = 0; fal.fan = 0; fal.flap = 1; fal.minMiss = 1e9;
+  const q = rand(); fal.quota = q < .1 ? 1 : q < .35 ? 2 : q < .7 ? 3 : 4;   // 1–4 strikes, mean 2.85
+  fal.waves = rand() < P_WAVES;
   fal.side = clickX == null ? (rand() < .5 ? -1 : 1) : (clickX < cx ? 1 : -1);
   screenToWorld(fal.side > 0 ? W * 1.12 : -W * .12, H * (.18 + .12 * rand()), 190 + 30 * rand(), tmp);
   fal.x = tmp.x; fal.y = tmp.y; fal.z = tmp.z;
   const dx = gcx - fal.x, dy = gcy - fal.y, dz = gcz - fal.z, d = Math.hypot(dx, dy, dz);
-  fal.vx = dx / d * 28; fal.vy = dy / d * 28; fal.vz = dz / d * 28;
-  if (clickX != null) {                        // first strike goes for the bird nearest the click
+  fal.vx = dx / d * FAL_CRUISE; fal.vy = dy / d * FAL_CRUISE; fal.vz = dz / d * FAL_CRUISE;
+  fal.clickPrey = -1;
+  if (clickX != null) {                        // a click sends the falcon straight at the bird nearest the click
     let best = 1e9;
     for (let i = 0; i < N; i++) {
       P(px[i], py[i], pz[i]);
       const d2 = (_x - clickX) ** 2 + (_y - clickY) ** 2;
-      if (d2 < best) { best = d2; fal.prey = i; }
+      if (d2 < best) { best = d2; fal.clickPrey = i; }
     }
-    fal.ret = 1.6;
+    fal.kind = fal.y > gcy + 15 ? 0 : fal.y < gcy - 15 ? 2 : 1;
+    startStoop(0);
+  } else startPosition();
+}
+
+function startPosition() {
+  const r = rand();
+  fal.kind = r < .5 ? 0 : r < .89 ? 1 : 2;
+  fal.mode = 'position'; fal.mt = 0;
+}
+
+function startStoop(t) {
+  let best = 1e9;
+  if (fal.clickPrey >= 0) { fal.prey = fal.clickPrey; fal.clickPrey = -1; }
+  else for (let i = 0; i < N; i++) {           // lock on to the nearest bird and keep it for the whole pass
+    const dd = (px[i] - fal.x) ** 2 + (py[i] - fal.y) ** 2 + (pz[i] - fal.z) ** 2;
+    if (dd < best) { best = dd; fal.prey = i; }
   }
+  fal.mode = 'stoop'; fal.mt = 0; fal.pn = false; fal.pnT = 0; fal.pnPath = 0; fal.range = 1e9; fal.peak = 0; fal.nSum = 0; fal.nCnt = 0;
+  fal.flash = rand() < P_FLASH[fal.kind];
+  fal.pulses = 0; fal.pulseN = fal.waves ? 2 + (rand() < .5 ? 1 : 0) : 0;
+  for (const q of losQ) q.t = -1e9;
+  logEvent({ type: 'stoop', t, kind: fal.kind, prey: fal.prey, flash: fal.flash });
+}
+
+function endStoop(t) {
+  const sp = Math.hypot(fal.vx, fal.vy, fal.vz);
+  logEvent({ type: 'strike', t, kind: fal.kind, miss: fal.range, peak: fal.peak, n: fal.nCnt ? fal.nSum / fal.nCnt : NaN,
+    contact: fal.range < CONTACT, dur: fal.mt, pnDur: fal.pnT, pnPath: fal.pnPath, flash: fal.flash, speedAtPass: sp });
+  fal.minMiss = Math.min(fal.minMiss, fal.range);
+  fal.strikes++; fal.lastPass = t;
+  fal.mode = 'climb'; fal.mt = 0; fal.chain = rand() < P_CHAIN;
+}
+
+function seedPulse(t) {                        // the wave starts at the bird nearest the falcon
+  let best = 1e9, k = 0;
+  for (let i = 0; i < N; i++) {
+    const dd = (px[i] - fal.x) ** 2 + (py[i] - fal.y) ** 2 + (pz[i] - fal.z) ** 2;
+    if (dd < best) { best = dd; k = i; }
+  }
+  triggerWave(k, 1, ++pulseId);
+  fal.pulses++; fal.pulseT = t;
+  logEvent({ type: 'pulse', t, id: pulseId, bird: k, x: px[k], y: py[k], z: pz[k] });
+}
+
+// Steering toward a velocity: the falcon's own flight between stoops (not PN).
+function seek(vxT, vyT, vzT, rate, cap) {
+  let aX = (vxT - fal.vx) * rate, aY = (vyT - fal.vy) * rate, aZ = (vzT - fal.vz) * rate;
+  const am = Math.hypot(aX, aY, aZ);
+  if (am > cap) { aX *= cap / am; aY *= cap / am; aZ *= cap / am; }
+  return [aX, aY, aZ, am];
 }
 
 function updateFalcon(dt, t) {
   if (!fal.on) { if (t > nextFalcon) launchFalcon(null); return; }
-  fal.age += dt; fal.ret -= dt; fal.phase += dt * 11;
-  if (fal.age > 9) fal.leaving = true;
-  let tx, ty, tz;
-  if (fal.leaving) {
-    screenToWorld(fal.side > 0 ? -W * .35 : W * 1.35, H * .1, 200, tmp);
-    tx = tmp.x; ty = tmp.y; tz = tmp.z;
-  } else {
-    let d = Math.hypot(px[fal.prey] - fal.x, py[fal.prey] - fal.y, pz[fal.prey] - fal.z);
-    if (fal.ret <= 0 || d < 3) {               // strike on the nearest bird we didn't just pass through
-      let best = 1e9;
-      for (let i = 0; i < N; i++) {
-        const dd = (px[i] - fal.x) ** 2 + (py[i] - fal.y) ** 2 + (pz[i] - fal.z) ** 2;
-        if (dd > 196 && dd < best) { best = dd; fal.prey = i; }
-      }
-      fal.ret = 1.2 + rand() * .6;
-    }
+  fal.age += dt; fal.mt += dt;
+  const sp = Math.hypot(fal.vx, fal.vy, fal.vz) + 1e-6;
+  let aX = 0, aY = 0, aZ = 0, turn = 0;
+
+  if (fal.mode === 'stoop') {
     const i = fal.prey;
-    tx = px[i] + vx[i] * .35; ty = py[i] + vy[i] * .35; tz = pz[i] + vz[i] * .35;
+    const rx = px[i] - fal.x, ry = py[i] - fal.y, rz = pz[i] - fal.z, r2 = rx * rx + ry * ry + rz * rz + 1e-6, r = Math.sqrt(r2);
+    const wx = vx[i] - fal.vx, wy = vy[i] - fal.vy, wz = vz[i] - fal.vz;
+    {                                          // a noisy sighting of the line of sight
+      let ex = rand() - .5, ey = rand() - .5, ez = rand() - .5;
+      const ux = rx / r, uy = ry / r, uz = rz / r, ed = ex * ux + ey * uy + ez * uz;
+      ex -= ed * ux; ey -= ed * uy; ez -= ed * uz;
+      const e = LOS_ERR * rand() / (Math.hypot(ex, ey, ez) + 1e-9);
+      const q = losQ[losHead = (losHead + 1) % losQ.length], qx = ux + ex * e, qy = uy + ey * e, qz = uz + ez * e, ql = Math.hypot(qx, qy, qz);
+      q.t = t; q.x = qx / ql; q.y = qy / ql; q.z = qz / ql;
+    }
+    const sighting = age => {                  // the latest sighting at least `age` seconds old
+      for (let k = 0; k < losQ.length; k++) { const q = losQ[(losHead - k + losQ.length) % losQ.length]; if (q.t <= t - age) return q; }
+      return null;
+    };
+    const A = sighting(2 * PN_DELAY), B = sighting(PN_DELAY);   // λ̇ ≈ û₁ × û₂ / Δt
+    const L = A && B ? { x: (A.y * B.z - A.z * B.y) / PN_DELAY, y: (A.z * B.x - A.x * B.z) / PN_DELAY, z: (A.x * B.y - A.y * B.x) / PN_DELAY } : null;
+    // The stoop opens by tipping over toward the prey (pure pursuit) until the falcon heads within
+    // ~37° of the line of sight; from then on it holds proportional navigation to the end.
+    const cosd = (rx * fal.vx + ry * fal.vy + rz * fal.vz) / (r * sp);
+    if (!fal.pn && cosd > TURN_IN) fal.pn = true;
+    if (!fal.pn) {
+      aX = (rx / r * sp - fal.vx) * 3; aY = (ry / r * sp - fal.vy) * 3; aZ = (rz / r * sp - fal.vz) * 3;
+    } else if (L) {
+      aX = PN_N * (L.y * fal.vz - L.z * fal.vy); aY = PN_N * (L.z * fal.vx - L.x * fal.vz); aZ = PN_N * (L.x * fal.vy - L.y * fal.vx);
+      fal.nSum += PN_N; fal.nCnt++; fal.pnT += dt; fal.pnPath += sp * dt;
+    }
+    turn = Math.hypot(aX, aY, aZ);
+    if (turn > PN_ACC) { aX *= PN_ACC / turn; aY *= PN_ACC / turn; aZ *= PN_ACC / turn; turn = PN_ACC; }
+    // Speed along the path: gravity in the dive, a little flapping, braking above the target speed.
+    const descent = -fal.vy / sp;
+    const along = clamp((FAL_STOOP[fal.kind] - sp) * 1.5, -FAL_DRAG, FAL_THRUST + FAL_G * descent);
+    aX += along * fal.vx / sp; aY += along * fal.vy / sp; aZ += along * fal.vz / sp;
+    fal.peak = Math.max(fal.peak, sp);
+    if (fal.pulses < fal.pulseN && r < R_FLEE && t - fal.pulseT > PULSE_GAP) seedPulse(t);
+    if (r < fal.range) fal.range = r;
+    else if ((fal.range < 40 && r > fal.range + 3 && fal.mt > 1) || fal.mt > 8) endStoop(t);   // past the closest approach
+  } else if (fal.mode === 'climb') {           // zoom climb: pitch up 40° along the current heading, shedding speed
+    const hl = Math.hypot(fal.vx, fal.vz) + 1e-6, c = Math.cos(.7), s = Math.sin(.7);
+    [aX, aY, aZ, turn] = seek(fal.vx / hl * c * FAL_CRUISE, s * FAL_CRUISE, fal.vz / hl * c * FAL_CRUISE, 1.5, 55);
+    if (fal.mt > (fal.chain ? 1.2 : 2)) {        // a chained strike mounts briefly and swoops again
+      if (fal.strikes >= fal.quota || fal.age > 60) { fal.mode = 'leave'; logEvent({ type: 'hunt', t, strikes: fal.strikes, waves: fal.waves, minMiss: fal.minMiss, contact: fal.minMiss < CONTACT }); }
+      else if (fal.chain) startStoop(t);
+      else startPosition();
+    }
+  } else if (fal.mode === 'position') {        // wait beside the flock on the falcon's side, a little ahead of it
+    let hx = gvx, hz = gvz; const hl = Math.hypot(hx, hz) + 1e-6; hx /= hl; hz /= hl;
+    let lx = -hz, lz = hx;
+    if ((fal.x - gcx) * lx + (fal.z - gcz) * lz < 0) { lx = -lx; lz = -lz; }
+    stage.x = gcx + lx * STAGE_OFF + hx * 30; stage.y = gcy + STAGE_UP[fal.kind]; stage.z = gcz + lz * STAGE_OFF + hz * 30;
+    const dx = stage.x - fal.x, dy = stage.y - fal.y, dz = stage.z - fal.z, d = Math.hypot(dx, dy, dz) + 1e-6;
+    const v = FAL_CRUISE * clamp(d / 40, .8, 1.4);
+    [aX, aY, aZ, turn] = seek(gvx + dx / d * v, gvy + dy / d * v, gvz + dz / d * v, 2.4, 55);
+    if ((d < 20 || fal.mt > 6) && t - fal.lastPass > 5) startStoop(t);
+  } else {                                     // leave
+    screenToWorld(fal.side > 0 ? -W * .35 : W * 1.35, H * .1, 200, tmp);
+    const dx = tmp.x - fal.x, dy = tmp.y - fal.y, dz = tmp.z - fal.z, d = Math.hypot(dx, dy, dz) + 1e-6;
+    [aX, aY, aZ, turn] = seek(dx / d * 32, dy / d * 32, dz / d * 32, 2.4, 55);
   }
-  let dx = tx - fal.x, dy = ty - fal.y, dz = tz - fal.z;
-  const d = Math.hypot(dx, dy, dz) + 1e-6, sp = 32;
-  let aX = (dx / d * sp - fal.vx) * 2.4, aY = (dy / d * sp - fal.vy) * 2.4, aZ = (dz / d * sp - fal.vz) * 2.4;
-  const am = Math.hypot(aX, aY, aZ);
-  if (am > 55) { aX *= 55 / am; aY *= 55 / am; aZ *= 55 / am; }
-  fal.fan += (Math.min(1, am / 55) - fal.fan) * Math.min(1, dt * 4);   // tail spreads in hard turns
+
+  fal.fan += (Math.min(1, turn / 55) - fal.fan) * Math.min(1, dt * 4);   // tail spreads in hard turns
+  fal.flap += ((fal.mode === 'position' || fal.mode === 'leave' ? 1 : 0) - fal.flap) * Math.min(1, dt * 3);   // flaps between stoops, glides and dives in them
+  fal.phase += dt * TAU * 5.1;                 // 5.1 Hz wingbeat (falcon/refs/pose_spec.md)
+  fal.fleeK += ((fal.mode === 'stoop' && fal.flash ? 1 : FLEE_QUIET) - fal.fleeK) * Math.min(1, dt * 6);
   fal.vx += aX * dt; fal.vy += aY * dt; fal.vz += aZ * dt;
   fal.x += fal.vx * dt; fal.y += fal.vy * dt; fal.z += fal.vz * dt;
   P(fal.x, fal.y, fal.z);
-  if (fal.age > 17 || (fal.leaving && (_x < -W * .1 || _x > W * 1.1))) {
+  if (fal.age > 75 || (fal.mode === 'leave' && (_x < -W * .1 || _x > W * 1.1))) {
+    if (fal.mode !== 'leave') logEvent({ type: 'hunt', t, strikes: fal.strikes, waves: fal.waves, minMiss: fal.minMiss, contact: fal.minMiss < CONTACT, cut: true });
     fal.on = false; nextFalcon = CALM ? Infinity : t + 28 + rand() * 24;
   }
+}
+
+// Orientation waves (Procaccini 2011, Hemelrijk 2015): a bird rolls away from the falcon and back
+// (0.25 s out, 0.30 s back), and each neighbour copies the roll WAVE_HOP later: 76 ms reaction plus
+// about 50 ms to identify the cue. A bird that has rolled ignores the wave for WAVE_REFRACT.
+const WAVE_HOP = .126, WAVE_REFRACT = 1, WAVE_DECAY = .97, WAVE_MIN = .3, WAVE_ROLL = .8, WAVE_ALARM = .3;
+const wT = new Float32Array(N).fill(1e3), wL = new Float32Array(N), wS = new Int8Array(N), wP = new Int32Array(N);   // wP: which pulse
+function triggerWave(i, level, pulse) {
+  wT[i] = 0; wL[i] = level; wP[i] = pulse;
+  const s = Math.hypot(vx[i], vz[i]) + 1e-6;   // roll away from the falcon: right wing down if it is on the left
+  wS[i] = (fal.x - px[i]) * vz[i] / s - (fal.z - pz[i]) * vx[i] / s > 0 ? -1 : 1;
+  if (WAVE_ALARM * level > alarm[i]) alarm[i] = WAVE_ALARM * level;
+}
+function waveRoll(i) {                         // radians, drawing only
+  const u = wT[i];
+  const e = u < .25 ? u / .25 : u < .55 ? 1 - (u - .25) / .3 : 0;
+  return e > 0 ? wS[i] * WAVE_ROLL * wL[i] * e * e * (3 - 2 * e) : 0;
 }
 
 // ---------------------------------------------------------------- simulation
@@ -391,6 +541,11 @@ function step(dt, t) {
       }
     }
     if (nb) nn += Math.sqrt(nbD[0]);
+    if (wT[i] > WAVE_REFRACT) {                // copy a neighbour's roll once it has been rolling WAVE_HOP
+      let best = 0, bj = 0;
+      for (let n = 0; n < nb; n++) { const j = nbI[n]; if (wT[j] >= WAVE_HOP && wT[j] < WAVE_HOP + .2 && wL[j] > best) { best = wL[j]; bj = j; } }
+      if (best * WAVE_DECAY > WAVE_MIN) triggerWave(i, best * WAVE_DECAY, wP[bj]);
+    }
     if (m) {
       const inv = 1 / m;
       const wa = W_ALI * (1 + alarm[i]), wc = W_COH * (1 + 2 * alarm[i]);
@@ -447,13 +602,24 @@ function step(dt, t) {
       const dx = x - fal.x, dy = y - fal.y, dz = z - fal.z, d = Math.hypot(dx, dy, dz) + 1e-4;
       if (d < R_FLEE) {
         fear = 1 - d / R_FLEE;
-        const k = W_FLEE * fear * fear / d;
+        const k = W_FLEE * fal.fleeK * fear * fear / d;   // full strength only in a flash expansion
         aX += dx * k; aY += dy * k; aZ += dz * k;
         if (fear > alarm[i]) alarm[i] = fear;
       }
     }
 
-    const cap = MAX_ACC * (1 + 1.3 * alarm[i]), am = Math.hypot(aX, aY, aZ);
+    let cap = MAX_ACC * (1 + 1.3 * alarm[i]);
+    if (fal.on && fal.mode === 'stoop') {
+      const dx = x - fal.x, dy = y - fal.y, dz = z - fal.z, d = Math.hypot(dx, dy, dz);
+      const fs = Math.hypot(fal.vx, fal.vy, fal.vz) + 1e-6, ux = fal.vx / fs, uy = fal.vy / fs, uz = fal.vz / fs, along = dx * ux + dy * uy + dz * uz;
+      let ox = dx - along * ux, oy = dy - along * uy, oz = dz - along * uz, ol = Math.hypot(ox, oy, oz);
+      if (along > -1 && along < DODGE_T * fs && ol < DODGE_W) {   // ahead of the falcon (or level with it), in its path
+        if (ol < 1e-3) { ox = -uz; oy = 0; oz = ux; ol = Math.hypot(ox, oz) + 1e-6; }
+        aX += ox / ol * DODGE_ACC; aY += oy / ol * DODGE_ACC; aZ += oz / ol * DODGE_ACC;
+        cap = Math.max(cap, DODGE_ACC);
+      }
+    }
+    const am = Math.hypot(aX, aY, aZ);
     if (am > cap) { const s = cap / am; aX *= s; aY *= s; aZ *= s; }
     ax[i] = aX; ay[i] = aY; az[i] = aZ;
 
@@ -497,6 +663,7 @@ function step(dt, t) {
     pw[i] += (paused[i] - pw[i]) * Math.min(1, dt * 12);             // about a wingbeat to settle into or out of the pause
     phase[i] += freq[i] * dt * TAU * (1 + .25 * alarm[i]) * (1 - pw[i]);   // the stroke stops where it is during a pause
     alarm[i] = Math.max(0, alarm[i] - dt * .7);
+    wT[i] += dt;
     pvx += vx[i] / s; pvy += vy[i] / s; pvz += vz[i] / s;
   }
   stats.pol = Math.hypot(pvx, pvy, pvz) / N; stats.nn = nn / N; stats.out = outside;   // Eq 1
@@ -696,7 +863,7 @@ function draw() {
     const p = pw[i], bound = pkind[i] === 2;
     const th = (-.05 + .78 * Math.cos(phase[i])) * (1 - p) + (bound ? 0 : .1) * p;   // flapping: tip 42° above the shoulder at the top of the stroke, 48° below at the bottom; glide: 6° dihedral
     const flex = Math.max(0, -Math.sin(phase[i]));                    // wings spread on the way down, flexed on the way up
-    pushBird(fills[b], bodies[b], px[i], py[i], pz[i], vx[i] * s, vy[i] * s, vz[i] * s, bank[i], th, flex, size[i] * sizeK, SPAN, p, bound ? STARLING.bound : STARLING.glide);
+    pushBird(fills[b], bodies[b], px[i], py[i], pz[i], vx[i] * s, vy[i] * s, vz[i] * s, bank[i] + waveRoll(i), th, flex, size[i] * sizeK, SPAN, p, bound ? STARLING.bound : STARLING.glide);
   }
   ctx.lineCap = 'round';
   for (let b = NB - 1; b >= 0; b--) {
@@ -709,7 +876,7 @@ function draw() {
     const s = 1 / Math.hypot(fal.vx, fal.vy, fal.vz);
     const dive = clamp(-fal.vy * s * 2, 0, 1);
     const fp = [new Path2D(), new Path2D(), new Path2D()];           // right wing, left wing, body
-    pushFalcon(fp, fal.x, fal.y, fal.z, fal.vx * s, fal.vy * s, fal.vz * s, .2 + .5 * Math.sin(fal.phase) * (1 - dive), FALCON_SPAN * sizeK, dive, fal.fan * (1 - dive));
+    pushFalcon(fp, fal.x, fal.y, fal.z, fal.vx * s, fal.vy * s, fal.vz * s, .2 + .5 * Math.sin(fal.phase) * fal.flap * (1 - dive), FALCON_SPAN * sizeK, dive, fal.fan * (1 - dive));
     ctx.fillStyle = ctx.strokeStyle = '#170a10'; ctx.lineWidth = Math.max(.8, f / 1272); ctx.lineJoin = 'round';
     for (const part of fp) { ctx.fill(part); ctx.stroke(part); }
   }
@@ -806,7 +973,7 @@ if (params.has('falcon')) launchFalcon(null);
 let dbg = null;
 if (params.has('debug')) {
   dbg = document.createElement('pre'); dbg.id = 'dbg'; document.body.appendChild(dbg);
-  window.murm = { step, analyse, draw, stats, corr, px, py, pz, vx, vy, vz, N, M, fal, get simT() { return simT; },
+  window.murm = { step, analyse, draw, stats, corr, px, py, pz, vx, vy, vz, N, M, fal, huntLog, alarm, wT, wL, wP, get gc() { return [gcx, gcy, gcz]; }, get simT() { return simT; },
     cam: { get UM() { return UM; }, get VT() { return VT; }, get VB() { return VB; }, get ct() { return ct; }, get st() { return st; }, CAM_H, ZMIN, ZMAX } };
 }
 
