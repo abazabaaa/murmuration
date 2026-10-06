@@ -236,6 +236,7 @@ const vx = new Float32Array(N), vy = new Float32Array(N), vz = new Float32Array(
 const ax = new Float32Array(N), ay = new Float32Array(N), az = new Float32Array(N);
 const nzx = new Float32Array(N), nzy = new Float32Array(N), nzz = new Float32Array(N);   // OU noise state
 const bank = new Float32Array(N), alarm = new Float32Array(N);
+const dodge = new Uint8Array(N);               // 1 while the bird is dodging the falcon (for the inset and the checks)
 const phase = new Float32Array(N), freq = new Float32Array(N), size = new Float32Array(N);
 const paused = new Uint8Array(N), pkind = new Uint8Array(N), ptime = new Float32Array(N), pw = new Float32Array(N);   // pkind 1 glide, 2 bound; pw 0 flapping .. 1 in the pause pose
 const nbD = new Float32Array(K), nbI = new Int32Array(K);
@@ -279,8 +280,9 @@ const fal = {
   on: false, x: 0, y: 0, z: 0, vx: 0, vy: 0, vz: 0, age: 0, prey: 0, side: 1, phase: 0, fan: 0, flap: 1,
   mode: 'leave', mt: 0, kind: 0, strikes: 0, quota: 0, chain: false, lastPass: -1e9, clickPrey: -1,
   range: 1e9, pn: false, pnT: 0, pnPath: 0, peak: 0, nSum: 0, nCnt: 0, flash: false, fleeK: 0, waves: false, pulses: 0, pulseN: 0, pulseT: -1e9,
-  minMiss: 1e9,
+  minMiss: 1e9, spd: 1, nearAny: 1e9, caAlong: 0, caLat: 0, caUp: 0,
 };
+let flockRg = 1;                               // radius of gyration, from the last step
 const CALM = params.has('calm');               // ?calm: no spontaneous attacks (clicks still work)
 let nextFalcon = CALM ? Infinity : 14 + rand() * 6;
 const FAL_CRUISE = 30;                         // u/s, 15 m/s: shadowing flight, 1.3× the flock as in StarEscape and Mills 2018
@@ -293,16 +295,35 @@ const PN_ACC = 49;                             // u/s²: turns of at most about 
 const STAGE_OFF = 110, STAGE_UP = [90, 0, -50];   // u: where the falcon waits, 55 m beside the flock on its own side and 45 m above, level, or 25 m below;
                                                // it gives a guided final approach of about 75 m (47–114 m measured, Brighton 2017)
 const CONTACT = .4;                            // u: a pass within 0.2 m counts as a catch, as in Mills 2018
-const P_FLASH = [.35, .15, .15];               // flash expansion after ~25 % of attacks, mostly fast ones from above (Storms 2019)
+// Each stoop is slow, medium or fast as often as in Storms 2019 (16/144/15 of 175 attacks). The paper gives no
+// speeds for its classes, so STOOP_K, the factor on the stoop's target speed, is an estimate; 78 u/s (39 m/s) is
+// the fastest wild stoop measured (Alerstam 1987).
+const SPD_MIX = [.09, .82, .09], STOOP_K = [.8, 1, 1.12], STOOP_MAX = 78;
+// Chance of a flash expansion, by [above, side, below][slow, medium, fast]. Storms 2019 Fig. 6 gives the share of
+// attacks followed by one within 5 s for each direction (42/11/22 %) and each speed (0/36/47 %), and Table S2 finds
+// the two effects additive (no interaction). These are the cells of an additive logistic model that reproduces all
+// six shares exactly, assuming direction and speed independent (the joint table is not published). Slow attacks
+// were never followed by one.
+const P_FLASH = [[0, .453, .572], [0, .117, .177], [0, .235, .332]];
+const srand = rng((params.has('seed') ? +params.get('seed') ^ 0x51ED : Math.random() * 4294967296) >>> 0);   // stoop speed and flash only, so ?calm runs are unchanged
 const FLEE_QUIET = 0;                          // no general flight from the falcon without a flash expansion: only birds in its path dodge
-// Last-moment dodge: a bird in the stooping falcon's path (within DODGE_W of its line of flight) that it
-// would reach within DODGE_T turns off that line at 3.4 g, the load factor of Mills 2018's model starling.
+// Blackening (Storms 2019: the flock darkens, often 5–15 s before an attack) is not modelled. A mild alarm in
+// birds within 70 m of a falcon that was not stooping tightened the flock, but the optical density measured by
+// murmuration-falcon.js did not rise before attacks any more than without it, so it was left out.
+// Last-moment dodge: a bird in the falcon's path (within DODGE_W of its line of flight) that it would reach
+// within DODGE_T turns off that line at 3.4 g, the load factor of Mills 2018's model starling. It applies in
+// every mode, not only the stoop: the falcon carries its speed on through the flock after the pass.
 // DODGE_T and DODGE_W are not measured. With them about 20 % of strikes and 45–50 % of hunts would end in a
 // catch: above the 23 % of hunts seen in Rome, close to the 26–31 % per attack of Mills 2018's simulations.
 // No catch is drawn; murmuration-falcon.js reports the rate.
 const DODGE_T = .5, DODGE_ACC = 67, DODGE_W = 4;
 const P_CHAIN = .3;                            // chance the next strike follows straight after the climb
-const P_WAVES = .4, PULSE_GAP = .8;            // orientation waves in 36–42 % of hunts, pulses ~0.8 s apart (Procaccini 2011)
+const P_WAVES = .4, PULSE_GAP = .86;           // orientation waves in 36–42 % of hunts (Procaccini 2011), pulses 0.86 s apart at one spot (Storms 2019)
+// Waves come before attacks as well as after them: 28 % of attacks are preceded by one (Storms 2019 Fig. 3), on
+// average 13.9 s before (Table S1). In a wave hunt the flock starts 2–3 pulses while the falcon takes up its
+// position (from PRE_WAVE_T s in), in P_PRE_WAVE of those waits (fitted to the 28 %). Waves were likeliest around medium-speed attacks (Table S3, no rates given), so
+// slow and fast stoops carry them half as often. Both are estimates.
+const PRE_WAVE_T = 1, P_PRE_WAVE = .7;
 const huntLog = [];                            // strikes, pulses and hunts, for murmuration-falcon.js
 const logEvent = e => { huntLog.push(e); if (huntLog.length > 400) huntLog.shift(); };
 const losQ = Array.from({ length: 32 }, () => ({ t: -1e9, x: 0, y: 0, z: 0 }));
@@ -336,6 +357,7 @@ function startPosition() {
   const r = rand();
   fal.kind = r < .5 ? 0 : r < .89 ? 1 : 2;
   fal.mode = 'position'; fal.mt = 0;
+  fal.pulses = 0; fal.pulseN = fal.waves && srand() < P_PRE_WAVE ? 2 + (srand() < .5 ? 1 : 0) : 0;
 }
 
 function startStoop(t) {
@@ -345,17 +367,19 @@ function startStoop(t) {
     const dd = (px[i] - fal.x) ** 2 + (py[i] - fal.y) ** 2 + (pz[i] - fal.z) ** 2;
     if (dd < best) { best = dd; fal.prey = i; }
   }
-  fal.mode = 'stoop'; fal.mt = 0; fal.pn = false; fal.pnT = 0; fal.pnPath = 0; fal.range = 1e9; fal.peak = 0; fal.nSum = 0; fal.nCnt = 0;
-  fal.flash = rand() < P_FLASH[fal.kind];
-  fal.pulses = 0; fal.pulseN = fal.waves ? 2 + (rand() < .5 ? 1 : 0) : 0;
+  fal.mode = 'stoop'; fal.mt = 0; fal.pn = false; fal.pnT = 0; fal.pnPath = 0; fal.range = 1e9; fal.peak = 0; fal.nSum = 0; fal.nCnt = 0; fal.nearAny = 1e9;
+  const q = srand(); fal.spd = q < SPD_MIX[0] ? 0 : q < SPD_MIX[0] + SPD_MIX[1] ? 1 : 2;
+  fal.flash = srand() < P_FLASH[fal.kind][fal.spd];
+  fal.pulses = 0; fal.pulseN = fal.waves && (fal.spd === 1 || srand() < .5) ? 2 + (rand() < .5 ? 1 : 0) : 0;
   for (const q of losQ) q.t = -1e9;
-  logEvent({ type: 'stoop', t, kind: fal.kind, prey: fal.prey, flash: fal.flash });
+  logEvent({ type: 'stoop', t, kind: fal.kind, spd: fal.spd, prey: fal.prey, flash: fal.flash });
 }
 
 function endStoop(t) {
   const sp = Math.hypot(fal.vx, fal.vy, fal.vz);
-  logEvent({ type: 'strike', t, kind: fal.kind, miss: fal.range, peak: fal.peak, n: fal.nCnt ? fal.nSum / fal.nCnt : NaN,
-    contact: fal.range < CONTACT, dur: fal.mt, pnDur: fal.pnT, pnPath: fal.pnPath, flash: fal.flash, speedAtPass: sp });
+  logEvent({ type: 'strike', t, kind: fal.kind, spd: fal.spd, miss: fal.range, peak: fal.peak, n: fal.nCnt ? fal.nSum / fal.nCnt : NaN,
+    contact: fal.range < CONTACT, dur: fal.mt, pnDur: fal.pnT, pnPath: fal.pnPath, flash: fal.flash, speedAtPass: sp,
+    nearAny: fal.nearAny, caAlong: fal.caAlong, caLat: fal.caLat, caUp: fal.caUp });
   fal.minMiss = Math.min(fal.minMiss, fal.range);
   fal.strikes++; fal.lastPass = t;
   fal.mode = 'climb'; fal.mt = 0; fal.chain = rand() < P_CHAIN;
@@ -418,12 +442,17 @@ function updateFalcon(dt, t) {
     if (turn > PN_ACC) { aX *= PN_ACC / turn; aY *= PN_ACC / turn; aZ *= PN_ACC / turn; turn = PN_ACC; }
     // Speed along the path: gravity in the dive, a little flapping, braking above the target speed.
     const descent = -fal.vy / sp;
-    const along = clamp((FAL_STOOP[fal.kind] - sp) * 1.5, -FAL_DRAG, FAL_THRUST + FAL_G * descent);
+    const along = clamp((Math.min(FAL_STOOP[fal.kind] * STOOP_K[fal.spd], STOOP_MAX) - sp) * 1.5, -FAL_DRAG, FAL_THRUST + FAL_G * descent);
     aX += along * fal.vx / sp; aY += along * fal.vy / sp; aZ += along * fal.vz / sp;
     fal.peak = Math.max(fal.peak, sp);
     if (fal.pulses < fal.pulseN && r < R_FLEE && t - fal.pulseT > PULSE_GAP) seedPulse(t);
-    if (r < fal.range) fal.range = r;
-    else if ((fal.range < 40 && r > fal.range + 3 && fal.mt > 1) || fal.mt > 8) endStoop(t);   // past the closest approach
+    if (r < fal.range) {
+      fal.range = r;
+      // Where the closest approach happens relative to the flock, in radii of gyration along the flock's
+      // heading, across it and up: a large caAlong means the falcon passed ahead of the flock.
+      const gl = Math.hypot(gvx, gvz) + 1e-6, hx = gvx / gl, hz = gvz / gl, ox = fal.x - gcx, oz = fal.z - gcz;
+      fal.caAlong = (ox * hx + oz * hz) / flockRg; fal.caLat = (oz * hx - ox * hz) / flockRg; fal.caUp = (fal.y - gcy) / flockRg;
+    } else if ((fal.range < 40 && r > fal.range + 3 && fal.mt > 1) || fal.mt > 8) endStoop(t);   // past the closest approach
   } else if (fal.mode === 'climb') {           // zoom climb: pitch up 40° along the current heading, shedding speed
     const hl = Math.hypot(fal.vx, fal.vz) + 1e-6, c = Math.cos(.7), s = Math.sin(.7);
     [aX, aY, aZ, turn] = seek(fal.vx / hl * c * FAL_CRUISE, s * FAL_CRUISE, fal.vz / hl * c * FAL_CRUISE, 1.5, 55);
@@ -440,6 +469,7 @@ function updateFalcon(dt, t) {
     const dx = stage.x - fal.x, dy = stage.y - fal.y, dz = stage.z - fal.z, d = Math.hypot(dx, dy, dz) + 1e-6;
     const v = FAL_CRUISE * clamp(d / 40, .8, 1.4);
     [aX, aY, aZ, turn] = seek(gvx + dx / d * v, gvy + dy / d * v, gvz + dz / d * v, 2.4, 55);
+    if (fal.mt > PRE_WAVE_T && fal.pulses < fal.pulseN && t - fal.pulseT > PULSE_GAP) seedPulse(t);
     if ((d < 20 || fal.mt > 6) && t - fal.lastPass > 5) startStoop(t);
   } else {                                     // leave
     screenToWorld(fal.side > 0 ? -W * .35 : W * 1.35, H * .1, 200, tmp);
@@ -500,7 +530,7 @@ function step(dt, t) {
   {
     let r2 = 0;
     for (let i = 0; i < N; i++) r2 += (px[i] - gcx) ** 2 + (py[i] - gcy) ** 2 + (pz[i] - gcz) ** 2;
-    const Rg = Math.sqrt(r2 / N);
+    const Rg = flockRg = Math.sqrt(r2 / N);
     const yr = gcy - CAM_H, zc = yr * st + gcz * ct, yc = yr * ct - gcz * st, u = gcx / zc, v = yc / zc;
     const mu = Math.min(1.1 * Rg / zc, .4 * UM, .4 * (VT - VB)), mz = Math.min(1.1 * Rg, .4 * (ZMAX - ZMIN) / 2);
     const um = UM - mu, vt = VT - mu, vb = VB + mu, zmax = ZMAX - mz, zmin = ZMIN + mz;
@@ -609,14 +639,16 @@ function step(dt, t) {
     }
 
     let cap = MAX_ACC * (1 + 1.3 * alarm[i]);
-    if (fal.on && fal.mode === 'stoop') {
+    dodge[i] = 0;
+    if (fal.on) {                              // in every mode: a falcon climbing out through the flock after a pass is dodged too
       const dx = x - fal.x, dy = y - fal.y, dz = z - fal.z, d = Math.hypot(dx, dy, dz);
+      if (fal.mode === 'stoop' && d < fal.nearAny) fal.nearAny = d;
       const fs = Math.hypot(fal.vx, fal.vy, fal.vz) + 1e-6, ux = fal.vx / fs, uy = fal.vy / fs, uz = fal.vz / fs, along = dx * ux + dy * uy + dz * uz;
       let ox = dx - along * ux, oy = dy - along * uy, oz = dz - along * uz, ol = Math.hypot(ox, oy, oz);
       if (along > -1 && along < DODGE_T * fs && ol < DODGE_W) {   // ahead of the falcon (or level with it), in its path
         if (ol < 1e-3) { ox = -uz; oy = 0; oz = ux; ol = Math.hypot(ox, oz) + 1e-6; }
         aX += ox / ol * DODGE_ACC; aY += oy / ol * DODGE_ACC; aZ += oz / ol * DODGE_ACC;
-        cap = Math.max(cap, DODGE_ACC);
+        cap = Math.max(cap, DODGE_ACC); dodge[i] = 1;
       }
     }
     const am = Math.hypot(aX, aY, aZ);
@@ -882,6 +914,67 @@ function draw() {
   }
 
   if (showPanel) drawPanel();
+  if (showInset) drawInset();
+}
+
+// Study inset (?inset; I toggles it, P pauses, . steps one frame). The picture is a single perspective view,
+// so a falcon that overlaps the flock on screen may be far in front of or behind it. The inset shows the
+// same moment from above (x across, depth up) and from the side (depth across, height up), with the line
+// of sight through the falcon: birds on that line are the ones it covers on screen. Drawing only.
+let showInset = params.has('inset');
+const trail = [];                              // the falcon's last 3 s: [x, y, z, mode, t]
+const MODE_COL = { stoop: '#ff5a4a', climb: '#ffa040', position: '#5ad2ff', leave: '#b8b8c8' };
+function falconNearest() {
+  let d = 1e9;
+  for (let i = 0; i < N; i++) d = Math.min(d, Math.hypot(px[i] - fal.x, py[i] - fal.y, pz[i] - fal.z));
+  return d;
+}
+function drawInset() {
+  const sz = Math.round(clamp(Math.min(W, H) * .26, 130, 230)), pad = 14, x0 = pad;   // top left: the flock is framed toward the right
+  if (fal.on) { trail.push([fal.x, fal.y, fal.z, fal.mode, simT]); while (trail.length && trail[0][4] < simT - 3) trail.shift(); }
+  else trail.length = 0;
+  const R = fal.on ? clamp(1.25 * Math.hypot(fal.x - gcx, fal.y - gcy, fal.z - gcz), 60, 260) : 60;
+  const d3 = fal.on ? falconNearest() : NaN;
+  const views = [   // [label, horizontal, vertical, line of sight from the camera in this plane]
+    ['FROM ABOVE  x → · depth ↑', (x, y, z) => x - gcx, (x, y, z) => z - gcz, [fal.x, fal.z]],
+    ['FROM THE SIDE  depth → · height ↑', (x, y, z) => z - gcz, (x, y, z) => y - gcy, [fal.z, fal.y - CAM_H]],
+  ];
+  ctx.save();
+  ctx.font = FONT; ctx.textBaseline = 'middle';
+  views.forEach(([label, U, V, los], k) => {
+    const y0 = pad + k * (sz + pad), mx = x0 + sz / 2, my = y0 + sz / 2, s = sz / 2 / R;
+    ctx.fillStyle = 'rgba(8,6,20,.72)'; ctx.beginPath(); ctx.roundRect(x0, y0, sz, sz, 6); ctx.fill();
+    ctx.save(); ctx.beginPath(); ctx.rect(x0, y0, sz, sz); ctx.clip();
+    if (fal.on) {                              // line of sight through the falcon
+      const l = Math.hypot(los[0], los[1]) + 1e-6, fx = mx + U(fal.x, fal.y, fal.z) * s, fy = my - V(fal.x, fal.y, fal.z) * s;
+      ctx.strokeStyle = 'rgba(255,238,220,.25)'; ctx.setLineDash([4, 4]); ctx.beginPath();
+      ctx.moveTo(fx - los[0] / l * 2 * sz, fy + los[1] / l * 2 * sz); ctx.lineTo(fx + los[0] / l * 2 * sz, fy - los[1] / l * 2 * sz); ctx.stroke(); ctx.setLineDash([]);
+    }
+    for (let i = 0; i < N; i++) {
+      ctx.fillStyle = dodge[i] ? '#ff4040' : alarm[i] > .3 ? '#ffd24a' : wT[i] < .55 ? '#6aa8ff' : 'rgba(220,220,235,.6)';
+      ctx.fillRect(mx + U(px[i], py[i], pz[i]) * s - .75, my - V(px[i], py[i], pz[i]) * s - .75, 1.5, 1.5);
+    }
+    for (let j = 1; j < trail.length; j++) {
+      const a = trail[j - 1], b = trail[j];
+      ctx.strokeStyle = MODE_COL[b[3]] || '#fff'; ctx.lineWidth = 1.5; ctx.beginPath();
+      ctx.moveTo(mx + U(a[0], a[1], a[2]) * s, my - V(a[0], a[1], a[2]) * s); ctx.lineTo(mx + U(b[0], b[1], b[2]) * s, my - V(b[0], b[1], b[2]) * s); ctx.stroke();
+    }
+    if (fal.on) { ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(mx + U(fal.x, fal.y, fal.z) * s, my - V(fal.x, fal.y, fal.z) * s, 3, 0, TAU); ctx.fill(); }
+    ctx.restore();
+    ctx.fillStyle = 'rgba(255,238,220,.6)'; ctx.textAlign = 'left'; ctx.fillText(label, x0 + 8, y0 + 10);
+    ctx.textAlign = 'right'; ctx.fillText(`${fmt(2 * R * M, 0)} m`, x0 + sz - 8, y0 + sz - 10);
+  });
+  const ty = 2 * (sz + pad) + 8;
+  ctx.textAlign = 'left'; ctx.fillStyle = 'rgba(255,238,220,.85)';
+  if (fal.on) {
+    const zf = (fal.y - CAM_H) * st + fal.z * ct, zg = (gcy - CAM_H) * st + gcz * ct;
+    ctx.fillText(`${fal.mode}  ·  nearest bird ${fmt(d3 * M, 1)} m  ·  ${fmt(Math.abs(zf - zg) * M, 0)} m ${zf < zg ? 'in front of' : 'behind'} the flock centre`, x0, ty);
+    P(fal.x, fal.y, fal.z);                    // ring on the main view: red within 2 m of a bird, amber within 6 m
+    ctx.strokeStyle = d3 < 4 ? '#ff4040' : d3 < 12 ? '#ffb040' : 'rgba(255,255,255,.7)'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.arc(_x, _y, FALCON_SPAN * sizeK * f / _z * .6 + 6, 0, TAU); ctx.stroke();
+  } else ctx.fillText('no falcon  ·  red dodging · yellow alarmed · blue rolling', x0, ty);
+  if (halted) { ctx.textAlign = 'left'; ctx.fillText(`PAUSED t ${fmt(simT, 2)} s  ·  P resume  ·  . step`, x0, ty + 16); }
+  ctx.restore();
 }
 
 // Correlation panel, laid out like Fig 2A/B of the paper: C(r) (orientation, red) and C_sp(r)
@@ -957,9 +1050,16 @@ addEventListener('pointerdown', e => {
   ptr.x = e.clientX; ptr.y = e.clientY; lastMove = performance.now();
   launchFalcon(e.clientX, e.clientY);
 });
-addEventListener('keydown', e => { if (e.key === 'c' || e.key === 'C') showPanel = !showPanel; });
+let halted = false, stepOnce = false;
+addEventListener('keydown', e => {
+  const k = e.key.toLowerCase();
+  if (k === 'c') showPanel = !showPanel;
+  else if (k === 'i') showInset = !showInset;
+  else if (k === 'p') halted = !halted;
+  else if (k === '.' && halted) stepOnce = true;
+});
 
-document.getElementById('hint').textContent = `${N} starlings · move to lure · click to loose a falcon · C for correlations`;
+document.getElementById('hint').textContent = `${N} starlings · move to lure · click to loose a falcon · C for correlations · I for the view from above`;
 setTimeout(() => document.getElementById('hud').classList.add('dim'), 9000);
 
 layout();
@@ -973,15 +1073,20 @@ if (params.has('falcon')) launchFalcon(null);
 let dbg = null;
 if (params.has('debug')) {
   dbg = document.createElement('pre'); dbg.id = 'dbg'; document.body.appendChild(dbg);
-  window.murm = { step, analyse, draw, stats, corr, px, py, pz, vx, vy, vz, N, M, fal, huntLog, alarm, wT, wL, wP, get gc() { return [gcx, gcy, gcz]; }, get simT() { return simT; },
-    cam: { get UM() { return UM; }, get VT() { return VT; }, get VB() { return VB; }, get ct() { return ct; }, get st() { return st; }, CAM_H, ZMIN, ZMAX } };
+  window.murm = { step, analyse, draw, stats, corr, px, py, pz, vx, vy, vz, N, M, fal, huntLog, alarm, wT, wL, wP, wS, bank, size, dodge,
+    get gc() { return [gcx, gcy, gcz]; }, get gv() { return [gvx, gvy, gvz]; }, get simT() { return simT; },
+    consts: { SPAN, FALCON_SPAN, DODGE_W, DODGE_T, R_FLEE, CONTACT, WAVE_ROLL },
+    cam: { get UM() { return UM; }, get VT() { return VT; }, get VB() { return VB; }, get ct() { return ct; }, get st() { return st; },
+      get f() { return f; }, get cx() { return cx; }, get cy() { return cy; }, get W() { return W; }, get H() { return H; }, get sizeK() { return sizeK; },
+      get HORIZON() { return HORIZON; }, CAM_H, ZMIN, ZMAX } };
 }
 
 const ANALYSE_EVERY = N > 1500 ? 1 : .5;       // seconds of simulated time between O(N²) correlation passes
 let last = performance.now() / 1000, frames = 0, fpsT = 0, fps = 0;
 function loop(ms) {
   const now = ms / 1000, dt = Math.min(now - last, 1 / 30); last = now;
-  if (dt > 0) { simT += dt; step(dt, simT); }
+  if (stepOnce) { simT += 1 / 60; step(1 / 60, simT); stepOnce = false; }
+  else if (dt > 0 && !halted) { simT += dt; step(dt, simT); }
   if (showPanel && simT - corr.t >= ANALYSE_EVERY) analyse(simT);
   draw();
   if (dbg) {

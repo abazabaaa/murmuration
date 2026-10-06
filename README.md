@@ -5,7 +5,7 @@ A starling flock in a single HTML page, with the observables of Cavagna et al.,
 
 Open `murmuration.html` in a browser (keep `murmuration-sky.jpg` next to it).
 Move the pointer to lure the flock, click to loose a falcon, press **C** for the
-correlation panel.
+correlation panel and **I** for the view from above (see *Where was the falcon?* below).
 
 | URL option | effect |
 |---|---|
@@ -16,6 +16,7 @@ correlation panel.
 | `?stats` | open the correlation panel |
 | `?painted` | painted sky instead of the photograph |
 | `?warm=20` | simulate 20 s before the first frame |
+| `?inset` | open the views from above and from the side |
 
 ## What it reproduces
 
@@ -40,33 +41,83 @@ The peregrine hunts as described in `falcon/refs/hunting_notes.md`:
   by proportional navigation (gain 2.6, Brighton et al. 2017). Mills et al. (2018)
   supply its 50 ms sensing delay and line-of-sight error. Turns are capped at 2.5 g.
 - **After the pass:** a zoom climb. About a third of strikes follow within 5 s.
-- **The flock:** flash expansions follow about a quarter of strikes. Starlings in the
-  falcon's path dodge at 3.4 g. In some hunts, orientation waves spread by each bird
-  copying its nearest neighbours' roll.
+- **The flock:** each stoop is slow, medium or fast (9/82/9 %, Storms et al. 2019).
+  Whether a flash expansion follows depends on the stoop's direction and speed as in
+  Storms' Fig. 6; slow stoops never cause one. Starlings in the falcon's path dodge at
+  3.4 g, in every phase of the hunt, including the climb back out through the flock.
+  In some hunts, orientation waves spread by each bird copying its nearest neighbours'
+  roll, during the stoop and also while the falcon waits beside the flock beforehand.
 
-`murmuration-falcon.js` measures hunts headless. Pooled over 16 seeds × 300 s, 400
-birds (179 strikes, 62 hunts), against the measured values:
+`murmuration-falcon.js` measures hunts headless. Pooled over 32 seeds × 300 s, 400
+birds (370 strikes, 128 hunts), against the measured values:
 
 | observable | page | measured |
 |---|---|---|
 | strikes per hunt | 2.8 | ~3 |
 | strikes within 5 s of the last | 22 % | 31 % |
-| attacks from above / side / below | 54 / 34 / 12 % | 69/21/10 % and 30/57/13 % (two tallies of the Rome footage) |
+| attacks from above / side / below | 43 / 46 / 11 % | 69/21/10 % and 30/57/13 % (two tallies of the Rome footage) |
 | peak speed of stoops from above | 34.6 m/s | 31–39 m/s |
-| guided (PN) final approach | 75 m, 3.2 s | 47–114 m, median 4.9 s |
-| flash expansion (>20 % in 3 s) | 22 % | 25 % |
-| flock split after a strike | 21 % | 22 % |
-| wave speed | 16 m/s (3.6–24) | 13 m/s (3.7–25) |
-| hunts with waves | 29 % | 36–42 % |
-| hunts with a catch (pass within 0.2 m) | 48 % | 23–24 % |
+| guided (PN) final approach | 68 m, 3.1 s | 47–114 m, median 4.9 s |
+| flash expansion | 23 % of strikes (20 % expand >20 % in 3 s) | 34 % within 5 s (Fig. 6); 25 % as the next event (Fig. 3) |
+| flash expansion by direction above / side / below | 36 / 12 / 15 % | 42 / 11 / 22 % |
+| flash expansion by speed slow / medium / fast | 0 / 23 / 39 % | 0 / 36 / 47 % |
+| split after a flash expansion | 51 % | 22 % |
+| attacks with a wave in the 5 s before | 28 % | 28 % |
+| wave speed | 14.5 m/s (3.1–24) | 13 m/s (3.7–25) |
+| hunts with waves | 39 % | 36–42 % |
+| hunts with a catch (pass within 0.2 m) | 46 % | 23–24 % |
+
+Storms et al. 2019 counts are in `falcon/refs/hunting_notes.md` §3.5. The flash table
+reproduces Fig. 6 cell by cell (per-class shares above are within sampling noise of it).
+The page's overall share stays below 34 % because it attacks from the side more often than
+Storms saw; with Storms' 69/21/10 mix the same table gives 34 %. Two gaps remain open:
+the flock splits after too many flash expansions, and the catch rate is high.
 
 **Catch rate.** The page never draws a catch. Its catch rate matches simulated attacks
 better than field hunts: Mills et al. reach 26–31 % per attack, and the page catches
-on 21 % of strikes. Field success is lower than either.
+on 22 % of strikes. Field success is lower than either.
+
+**Not modelled.** Blackening, the flock darkening before and around attacks (the
+commonest response in Storms et al. 2019). A mild alarm in birds near a falcon that is
+not stooping was tried; the optical density measured headless did not rise before
+attacks, so it was left out.
 
 **Estimated parameters.** These are not measured: the dodge timing and width,
-the waiting position, and the bound share of starling pauses. Their values and
-reasons are in the comments in `murmuration.html`.
+the waiting position, the stoop-speed factors of the three speed classes, how often
+waves start before an attack (fitted to the 28 %) and their halving for slow and fast
+stoops, and the bound share of starling pauses. Their values and reasons are in the
+comments in `murmuration.html`.
+
+### Where was the falcon?
+
+The page is one perspective view, so a falcon that overlaps the flock on screen may be
+tens of metres in front of or behind it. Press **I** (or open with `?inset`) for the same
+moment from above and from the side, with the line of sight through the falcon, birds
+coloured by state (red dodging, yellow alarmed, blue rolling in a wave) and the falcon's
+last 3 s coloured by phase. A ring marks the falcon: red within 2 m of a bird, amber
+within 6 m. **P** pauses, **.** steps one frame.
+
+`murmuration-falcon.js` sorts every on-screen overlap by what really happened. Over the
+32 runs above (684 episodes), 14 % were depth illusions (median 19 m from the nearest
+bird), 3 % passed within 6 m with no bird reacting, and the rest passed through birds
+that dodged, fled or expanded. Before the falcon was dodged in every phase, 36 % passed
+with no reaction, almost all of them the climb back out through the flock after a stoop.
+
+```
+node murmuration-falcon.js 300 "seed=1&n=400" --flythrough --view=1728x820
+```
+
+lists each episode with a URL that replays it; the run depends on the window size, so
+pass your browser's (`innerWidth`×`innerHeight`). For a 3D replay in Blender:
+
+```
+node murmuration-falcon.js 80 "seed=1&n=400" --export=75.5:80
+blender --background --factory-startup --python replay/replay_build.py -- "replay/out/replay_seed=1_n=400_75.5-80.json" --at=77.6
+```
+
+writes a `.blend` to scrub and orbit, and stills from the page's camera, from above,
+from the side and from an orbit, with shadows on a 10 m grid (`--anim` adds an orbit
+video). The script checks that its page camera reproduces the page's projection.
 
 ## Checking it
 
@@ -82,7 +133,7 @@ node murmuration-falcon.js 300 "seed=1&n=400"
 ```
 
 measures hunts against the field data above (`--json` per run, `--merge a.json b.json …`
-pools runs).
+pools runs; `--flythrough`, `--view` and `--export` as in *Where was the falcon?*).
 
 Check that both embedded bird tables match the latest model exports:
 
@@ -103,6 +154,7 @@ with canvas stubs; check the page in a browser to validate appearance and contro
 
 - `murmuration.html`, `murmuration-sky.jpg`: the page. `murmuration-check.js`,
   `murmuration-falcon.js`, `murmuration-assets.js`: headless checks.
+- `replay/replay_build.py`: Blender replay of an exported stretch of a run (output in `replay/out/`, not tracked).
 - `blender/`: an earlier rigged falcon; the page no longer uses it.
 - `starling/`: the measured starling model the page's starling outline comes from.
 - `falcon/`: a peregrine model with measured proportions, its build scripts,

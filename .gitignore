@@ -15,3 +15,5 @@ falcon/analysis/validation/
 starling/HANDOVER.md
 starling/analysis/photo_fits/*.png
 starling/analysis/validation/
+# replay exports and renders (murmuration-falcon.js --export, replay/replay_build.py)
+replay/out/
