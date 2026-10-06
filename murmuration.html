@@ -14,13 +14,16 @@
     pointer-events: none; user-select: none; transition: opacity 2.4s ease;
   }
   .hud b { display: block; font-size: 13px; font-weight: 600; letter-spacing: .34em; color: rgba(255, 238, 220, .95); }
+  .hud a { pointer-events: auto; color: inherit; text-decoration: underline; display: block; margin-top: 5px; }
   .hud.dim { opacity: .38; }
   #dbg { position: fixed; top: 8px; left: 8px; margin: 0; font: 11px/1.4 ui-monospace, monospace; color: #fff; pointer-events: none; }
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
-<div class="hud" id="hud"><b>Murmuration</b><span id="hint"></span></div>
+<div class="hud" id="hud"><b>Murmuration</b><span id="hint"></span><a href="motion-lab.html" target="_blank">Explore bird motion ↗</a></div>
+<script src="motion/motion-data.js"></script>
+<script src="motion/motion.js"></script>
 <script>
 (() => {
 'use strict';
@@ -42,6 +45,17 @@
 // Press C to toggle the correlation panel (?stats opens it; ?debug adds the frame counter).
 
 const params = new URLSearchParams(location.search);
+const Motion = MurmurationMotion, legacyMotion = params.get('motion') === 'legacy';
+const gaits = [];
+const revision = Object.freeze({ base: '0d3078f2841f022a78fd6a1c478d9540fedab404', worktree: '~/prj/murmuration-milestone' });
+const motionAssets = Object.freeze({ starling: Motion.data.species.starling.inputs, falcon: Motion.data.species.falcon.inputs });
+const motionExports = Object.freeze({
+  'motion-data.js': '744e92d6f4a41b651723e499025a25b05e1eaef2d77f02d89a81bca57072e1aa',
+  'motion.js': 'ce19dd0dd8eacfdb710ad6cb928735e70c296a8ae689b32ca224502c1e353351',
+  'starling-motion.json': 'd20c334027408e39f66486e80d772fe9d2ee7ba174bca0e1a5627079d507e6e7',
+  'falcon-motion.json': 'f93b76dc90e9b56e91a56b94c53e010a87f51a3f0f022f7247480f933bde139e',
+  'birds-motion.blend': 'da126a4d14e2b646d428941c320b3a771a43426ca2bb0beb183e6286a9d457f8',
+});
 const N = Math.min(3000, Math.max(20, +params.get('n') || 400));
 const K = 7;                                   // topological neighbours (Ballerini et al. 2008: 6–7, not a radius)
 const TAU = Math.PI * 2;
@@ -52,7 +66,8 @@ const rng = s => () => {                       // mulberry32
   t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
   return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
 };
-const rand = rng(params.has('seed') ? +params.get('seed') : (Math.random() * 4294967296) >>> 0);
+const seed = params.has('seed') ? +params.get('seed') : (Math.random() * 4294967296) >>> 0;
+const rand = rng(seed);
 let gSpare = NaN;
 const gauss = () => {                          // Box–Muller, N(0,1)
   if (!Number.isNaN(gSpare)) { const v = gSpare; gSpare = NaN; return v; }
@@ -281,6 +296,7 @@ const fal = {
   range: 1e9, pn: false, pnT: 0, pnPath: 0, peak: 0, nSum: 0, nCnt: 0, flash: false, fleeK: 0, waves: false, pulses: 0, pulseN: 0, pulseT: -1e9,
   minMiss: 1e9,
 };
+fal.motion = Motion.falconState(); fal.motionBank = 0;
 const CALM = params.has('calm');               // ?calm: no spontaneous attacks (clicks still work)
 let nextFalcon = CALM ? Infinity : 14 + rand() * 6;
 const FAL_CRUISE = 30;                         // u/s, 15 m/s: shadowing flight, 1.3× the flock as in StarEscape and Mills 2018
@@ -312,6 +328,7 @@ const stage = { x: 0, y: 0, z: 0 };
 function launchFalcon(clickX, clickY) {
   if (fal.on) return;
   fal.on = true; fal.age = 0; fal.phase = 0; fal.strikes = 0; fal.fan = 0; fal.flap = 1; fal.minMiss = 1e9;
+  fal.motion = Motion.falconState(); fal.motionBank = 0;
   const q = rand(); fal.quota = q < .1 ? 1 : q < .35 ? 2 : q < .7 ? 3 : 4;   // 1–4 strikes, mean 2.85
   fal.waves = rand() < P_WAVES;
   fal.side = clickX == null ? (rand() < .5 ? -1 : 1) : (clickX < cx ? 1 : -1);
@@ -453,6 +470,10 @@ function updateFalcon(dt, t) {
   fal.fleeK += ((fal.mode === 'stoop' && fal.flash ? 1 : FLEE_QUIET) - fal.fleeK) * Math.min(1, dt * 6);
   fal.vx += aX * dt; fal.vy += aY * dt; fal.vz += aZ * dt;
   fal.x += fal.vx * dt; fal.y += fal.vy * dt; fal.z += fal.vz * dt;
+  const horizontal = Math.hypot(fal.vx, fal.vz) + 1e-6;
+  const lateral = (aX * fal.vz - aZ * fal.vx) / horizontal;
+  fal.motionBank += (clamp(Math.atan(lateral / 9), -1.1, 1.1) - fal.motionBank) * (1 - Math.exp(-dt * 6));
+  Motion.updateFalcon(fal.motion, dt, fal.mode, Math.hypot(fal.vx, fal.vy, fal.vz) * M, turn / 55);
   P(fal.x, fal.y, fal.z);
   if (fal.age > 75 || (fal.mode === 'leave' && (_x < -W * .1 || _x > W * 1.1))) {
     if (fal.mode !== 'leave') logEvent({ type: 'hunt', t, strikes: fal.strikes, waves: fal.waves, minMiss: fal.minMiss, contact: fal.minMiss < CONTACT, cut: true });
@@ -652,16 +673,18 @@ function step(dt, t) {
     const fx = vx[i] / s, fz = vz[i] / s, rl = Math.hypot(fx, fz) + 1e-6;
     const lat = (ax[i] * fz - az[i] * fx) / rl;                     // accel toward the bird's right
     bank[i] += (clamp(Math.atan(lat / 9), -1.1, 1.1) - bank[i]) * Math.min(1, dt * 6);
-    if (paused[i] && alarm[i] > ALARM_PAUSE) ptime[i] = 0;          // a fright ends a pause at once
-    if ((ptime[i] -= dt) <= 0) {
-      if (paused[i] || alarm[i] > ALARM_PAUSE) {
-        paused[i] = 0; ptime[i] = (BURST[0] + wrand() * (BURST[1] - BURST[0])) / freq[i];
-      } else {
-        paused[i] = 1; pkind[i] = wrand() < P_BOUND(s) ? 2 : 1; ptime[i] = PAUSE[0] + wrand() * (PAUSE[1] - PAUSE[0]);
+    if (legacyMotion) {
+      if (paused[i] && alarm[i] > ALARM_PAUSE) ptime[i] = 0;
+      if ((ptime[i] -= dt) <= 0) {
+        if (paused[i] || alarm[i] > ALARM_PAUSE) {
+          paused[i] = 0; ptime[i] = (BURST[0] + wrand() * (BURST[1] - BURST[0])) / freq[i];
+        } else {
+          paused[i] = 1; pkind[i] = wrand() < P_BOUND(s) ? 2 : 1; ptime[i] = PAUSE[0] + wrand() * (PAUSE[1] - PAUSE[0]);
+        }
       }
-    }
-    pw[i] += (paused[i] - pw[i]) * Math.min(1, dt * 12);             // about a wingbeat to settle into or out of the pause
-    phase[i] += freq[i] * dt * TAU * (1 + .25 * alarm[i]) * (1 - pw[i]);   // the stroke stops where it is during a pause
+      pw[i] += (paused[i] - pw[i]) * Math.min(1, dt * 12);
+      phase[i] += freq[i] * dt * TAU * (1 + .25 * alarm[i]) * (1 - pw[i]);
+    } else Motion.updateGait(gaits[i], dt, s * c * M, alarm[i]);
     alarm[i] = Math.max(0, alarm[i] - dt * .7);
     wT[i] += dt;
     pvx += vx[i] / s; pvy += vy[i] / s; pvz += vz[i] / s;
@@ -846,6 +869,111 @@ function pushFalcon(parts, x, y, z, fx, fy, fz, th, s, tuck, fan) {
   path.closePath();
 }
 
+// Project baked XYZ surfaces through the same bird frame as the comparison outlines.
+const motionVertices = new Float32Array(948), motionX = new Float64Array(316), motionY = new Float64Array(316);
+// Compile disconnected surface parts once. Far wings/tail use their mesh boundary;
+// convex body/bill hulls avoid drawing hidden facets at sub-26-pixel presentation sizes.
+// Unknown future topology retains the original triangle renderer.
+function farParts(model) {
+  const parent = Array.from({ length: 316 }, (_, i) => i);
+  const find = i => { while (parent[i] !== i) { parent[i] = parent[parent[i]]; i = parent[i]; } return i; };
+  for (const face of model.faces.far) for (let j = 1; j < 3; j++) parent[find(face[j])] = find(face[0]);
+  const groups = new Map();
+  for (const face of model.faces.far) {
+    const k = find(face[0]); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(face);
+  }
+  const parts = [];
+  for (const faces of groups.values()) {
+    const vertices = [...new Set(faces.flat())], hull = faces.length === 28 && vertices.length === 20 || faces.length === 4 && vertices.length === 5;
+    if (!hull && !(faces.length === 6 && vertices.length === 8 || faces.length === 4 && vertices.length === 6)) return null;
+    const edges = new Map();
+    for (const face of faces) for (let j = 0; j < 3; j++) {
+      const a = face[j], b = face[(j + 1) % 3], key = Math.min(a, b) * 316 + Math.max(a, b);
+      if (edges.has(key)) edges.delete(key); else edges.set(key, [a, b]);
+    }
+    const boundary = [];
+    if (!hull) {
+      const links = new Map();
+      for (const [a, b] of edges.values()) {
+        if (!links.has(a)) links.set(a, []); if (!links.has(b)) links.set(b, []);
+        links.get(a).push(b); links.get(b).push(a);
+      }
+      if ([...links.values()].some(v => v.length !== 2)) return null;
+      const start = links.keys().next().value; let previous = -1, current = start;
+      do {
+        boundary.push(current); const next = links.get(current).find(v => v !== previous);
+        previous = current; current = next;
+      } while (current !== start && boundary.length <= vertices.length);
+      if (current !== start || boundary.length !== links.size) return null;
+    }
+    parts.push({ faces, vertices, hull, boundary, sorted: vertices.slice(), chain: [] });
+  }
+  return parts.length === 5 ? parts : null;
+}
+const motionParts = Object.fromEntries(Object.entries(Motion.data.species).map(([name, model]) => [name, farParts(model)]));
+function faceArea(a, b, c) {
+  return (motionX[b] - motionX[a]) * (motionY[c] - motionY[a]) - (motionY[b] - motionY[a]) * (motionX[c] - motionX[a]);
+}
+function appendFaces(path, faces) {
+  for (const face of faces) {
+    const a = face[0], b = face[1], c = face[2], positive = faceArea(a, b, c) >= 0;
+    path.moveTo(motionX[a], motionY[a]);
+    path.lineTo(motionX[positive ? b : c], motionY[positive ? b : c]);
+    path.lineTo(motionX[positive ? c : b], motionY[positive ? c : b]); path.closePath();
+  }
+}
+function appendLoop(path, vertices) {
+  let area = 0;
+  for (let i = 0, j = vertices.length - 1; i < vertices.length; j = i++) area += motionX[vertices[j]] * motionY[vertices[i]] - motionX[vertices[i]] * motionY[vertices[j]];
+  const n = vertices.length;
+  for (let i = 0; i < n; i++) {
+    const v = vertices[area >= 0 ? i : n - 1 - i];
+    if (i) path.lineTo(motionX[v], motionY[v]); else path.moveTo(motionX[v], motionY[v]);
+  }
+  path.closePath();
+}
+function appendFar(path, parts) {
+  for (const part of parts) {
+    if (part.hull) {
+      const sorted = part.sorted, chain = part.chain;
+      sorted.sort((a, b) => motionX[a] - motionX[b] || motionY[a] - motionY[b]); chain.length = 0;
+      for (const v of sorted) {
+        while (chain.length >= 2 && faceArea(chain[chain.length - 2], chain[chain.length - 1], v) <= 0) chain.pop();
+        chain.push(v);
+      }
+      const lower = chain.length;
+      for (let j = sorted.length - 2; j >= 0; j--) {
+        const v = sorted[j];
+        while (chain.length > lower && faceArea(chain[chain.length - 2], chain[chain.length - 1], v) <= 0) chain.pop();
+        chain.push(v);
+      }
+      chain.pop(); appendLoop(path, chain);
+    } else {
+      let positive = false, negative = false;
+      for (const face of part.faces) {
+        const area = faceArea(face[0], face[1], face[2]); positive ||= area > 1e-9; negative ||= area < -1e-9;
+      }
+      // A folded sheet can overlap itself in projection. Keep its triangles in that case.
+      if (positive && negative) appendFaces(path, part.faces); else appendLoop(path, part.boundary);
+    }
+  }
+}
+function pushMotion(path, species, state, x, y, z, fx, fy, fz, bk, scale, span) {
+  P(x, y, z);
+  const model = Motion.data.species[species], lod = f * span * scale / _z > 26 ? 'near' : 'far';
+  const indices = model.indices[lod];
+  if (species === 'starling') Motion.sampleGait(state, motionVertices, indices);
+  else Motion.sampleFalcon(state, motionVertices, indices);
+  birdFrame(x, y, z, fx, fy, fz, bk, 0, scale, span, span * .5);
+  for (const vi of indices) {
+    const j = vi * 3, a = motionVertices[j] * bL, w = motionVertices[j + 1] * bH, h = motionVertices[j + 2] * bH;
+    P(bX + bFx * a + bRx * w + bNx * h, bY + bFy * a + bRy * w + bNy * h, bZ + bFz * a + bRz * w + bNz * h);
+    motionX[vi] = _x; motionY[vi] = _y;
+  }
+  if (lod === 'far' && motionParts[species]) appendFar(path, motionParts[species]);
+  else appendFaces(path, model.faces[lod]);
+}
+
 const fills = Array.from({ length: NB }, () => null), bodies = Array.from({ length: NB }, () => null);
 
 function draw() {
@@ -860,10 +988,12 @@ function draw() {
     if (_z < 10) continue;
     const b = clamp(((_z - ZMIN) / (ZMAX - ZMIN) * NB) | 0, 0, NB - 1);
     const s = 1 / Math.hypot(vx[i], vy[i], vz[i]);
-    const p = pw[i], bound = pkind[i] === 2;
-    const th = (-.05 + .78 * Math.cos(phase[i])) * (1 - p) + (bound ? 0 : .1) * p;   // flapping: tip 42° above the shoulder at the top of the stroke, 48° below at the bottom; glide: 6° dihedral
-    const flex = Math.max(0, -Math.sin(phase[i]));                    // wings spread on the way down, flexed on the way up
-    pushBird(fills[b], bodies[b], px[i], py[i], pz[i], vx[i] * s, vy[i] * s, vz[i] * s, bank[i] + waveRoll(i), th, flex, size[i] * sizeK, SPAN, p, bound ? STARLING.bound : STARLING.glide);
+    if (legacyMotion) {
+      const p = pw[i], bound = pkind[i] === 2;
+      const th = (-.05 + .78 * Math.cos(phase[i])) * (1 - p) + (bound ? 0 : .1) * p;
+      const flex = Math.max(0, -Math.sin(phase[i]));
+      pushBird(fills[b], bodies[b], px[i], py[i], pz[i], vx[i] * s, vy[i] * s, vz[i] * s, bank[i] + waveRoll(i), th, flex, size[i] * sizeK, SPAN, p, bound ? STARLING.bound : STARLING.glide);
+    } else pushMotion(fills[b], 'starling', gaits[i], px[i], py[i], pz[i], vx[i] * s, vy[i] * s, vz[i] * s, bank[i] + waveRoll(i), size[i] * sizeK, SPAN);
   }
   ctx.lineCap = 'round';
   for (let b = NB - 1; b >= 0; b--) {
@@ -876,9 +1006,10 @@ function draw() {
     const s = 1 / Math.hypot(fal.vx, fal.vy, fal.vz);
     const dive = clamp(-fal.vy * s * 2, 0, 1);
     const fp = [new Path2D(), new Path2D(), new Path2D()];           // right wing, left wing, body
-    pushFalcon(fp, fal.x, fal.y, fal.z, fal.vx * s, fal.vy * s, fal.vz * s, .2 + .5 * Math.sin(fal.phase) * fal.flap * (1 - dive), FALCON_SPAN * sizeK, dive, fal.fan * (1 - dive));
+    if (legacyMotion) pushFalcon(fp, fal.x, fal.y, fal.z, fal.vx * s, fal.vy * s, fal.vz * s, .2 + .5 * Math.sin(fal.phase) * fal.flap * (1 - dive), FALCON_SPAN * sizeK, dive, fal.fan * (1 - dive));
+    else pushMotion(fp[0], 'falcon', fal.motion, fal.x, fal.y, fal.z, fal.vx * s, fal.vy * s, fal.vz * s, fal.motionBank, sizeK, FALCON_SPAN);
     ctx.fillStyle = ctx.strokeStyle = '#170a10'; ctx.lineWidth = Math.max(.8, f / 1272); ctx.lineJoin = 'round';
-    for (const part of fp) { ctx.fill(part); ctx.stroke(part); }
+    for (const part of fp) { ctx.fill(part); if (legacyMotion) ctx.stroke(part); }
   }
 
   if (showPanel) drawPanel();
@@ -954,6 +1085,7 @@ addEventListener('pointermove', e => {
   ptr.x = e.clientX; ptr.y = e.clientY; lastMove = performance.now();
 }, { passive: true });
 addEventListener('pointerdown', e => {
+  if (e.target?.closest?.('a')) return;
   ptr.x = e.clientX; ptr.y = e.clientY; lastMove = performance.now();
   launchFalcon(e.clientX, e.clientY);
 });
@@ -964,6 +1096,7 @@ setTimeout(() => document.getElementById('hud').classList.add('dim'), 9000);
 
 layout();
 initFlock();
+for (let i = 0; i < N; i++) gaits.push(Motion.gait(i, phase[i] / TAU, (freq[i] - BEAT_HZ[0]) / (BEAT_HZ[1] - BEAT_HZ[0])));
 
 let simT = 0;
 const warm = +params.get('warm') || 0;
@@ -973,21 +1106,25 @@ if (params.has('falcon')) launchFalcon(null);
 let dbg = null;
 if (params.has('debug')) {
   dbg = document.createElement('pre'); dbg.id = 'dbg'; document.body.appendChild(dbg);
-  window.murm = { step, analyse, draw, stats, corr, px, py, pz, vx, vy, vz, N, M, fal, huntLog, alarm, wT, wL, wP, get gc() { return [gcx, gcy, gcz]; }, get simT() { return simT; },
+  window.murm = { step, analyse, draw, stats, corr, px, py, pz, vx, vy, vz, N, M, fal, huntLog, alarm, wT, wL, wP,
+    gaits, Motion, motionMode: legacyMotion ? 'legacy' : 'xyz', motionAssets, motionExports, revision, seed, launchFalcon, pushMotion,
+    get gc() { return [gcx, gcy, gcz]; }, get simT() { return simT; },
     cam: { get UM() { return UM; }, get VT() { return VT; }, get VB() { return VB; }, get ct() { return ct; }, get st() { return st; }, CAM_H, ZMIN, ZMAX } };
 }
 
 const ANALYSE_EVERY = N > 1500 ? 1 : .5;       // seconds of simulated time between O(N²) correlation passes
 let last = performance.now() / 1000, frames = 0, fpsT = 0, fps = 0;
 function loop(ms) {
-  const now = ms / 1000, dt = Math.min(now - last, 1 / 30); last = now;
+  const now = ms / 1000, elapsed = now - last, dt = Math.min(elapsed, 1 / 30); last = now;
   if (dt > 0) { simT += dt; step(dt, simT); }
   if (showPanel && simT - corr.t >= ANALYSE_EVERY) analyse(simT);
   draw();
   if (dbg) {
-    frames++; fpsT += dt;
+    frames++; fpsT += elapsed;
     if (fpsT > .5) { fps = frames / fpsT; frames = 0; fpsT = 0; }
-    dbg.textContent = `t ${simT.toFixed(1)}  fps ${fps.toFixed(0)}  pol ${stats.pol.toFixed(2)}  nn ${stats.nn.toFixed(1)}  out ${stats.out}  falcon ${fal.on}`;
+    const inputs = Object.entries(motionAssets).flatMap(([species, files]) => Object.entries(files).map(([file, hash]) => `${species}/${file}:${hash.slice(0, 12)}`));
+    const exports = Object.entries(motionExports).map(([file, hash]) => `${file}:${hash.slice(0, 12)}`);
+    dbg.textContent = `base ${revision.base.slice(0, 12)}  seed ${seed}  motion ${legacyMotion ? 'legacy' : 'xyz'}  worktree ${revision.worktree}\nexports ${exports.join('  ')}\ninputs ${inputs.join('  ')}\nt ${simT.toFixed(1)}  fps ${fps.toFixed(0)}  pol ${stats.pol.toFixed(2)}  nn ${stats.nn.toFixed(1)}  out ${stats.out}  falcon ${fal.on ? `${fal.mode}/${fal.motion.pose}` : 'off'}`;
   }
   requestAnimationFrame(loop);
 }

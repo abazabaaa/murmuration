@@ -1,34 +1,17 @@
-// Headless check for murmuration.html: runs the page script under node with DOM stubs, then
+// Headless check for murmuration.html: runs actual page scripts and frame callbacks under
+// the deterministic strict-canvas host, then
 // measures the Cavagna et al. (2010) observables with an independent implementation and
 // cross-checks the in-page analysis against it.
 //   node murmuration-check.js murmuration.html [seconds=40] [query="seed=1"]
 //   SERIES=1 ...              per-second time series (Φ, L, nn, |u|, clusters, out-of-frame)
 //   DETAIL=30,40 ...          per-cluster breakdown at those simulated seconds
 // Query is the page URL query, e.g. "seed=2&n=1000&calm&noise=1.5".
+// Requires the page's ?debug state interface; baseline comparisons live in sim/differential.js.
 
-const fs = require('fs'), vm = require('vm');
+const {host}=require('./sim/page');
 const file = process.argv[2], secs = +(process.argv[3] || 40), query = process.argv[4] || 'seed=1';
-
-let src = fs.readFileSync(file, 'utf8');
-src = src.slice(src.indexOf('<script>') + 8, src.lastIndexOf('</script>'));
-if (!/window\.murm\s*=/.test(src)) {          // legacy file: expose internals by patching
-  src = src.replace(/\}\)\(\);\s*$/, 'window.murm = { step, stats, px, py, pz, vx, vy, vz, N, get simT() { return simT; } };\n})();');
-}
-
-const noop = () => {};
-const canvasProxy = () => new Proxy({}, { get: (t, p) => (p in t ? t[p] : (p === 'data' ? [] : (...a) => canvasProxy())), set: (t, p, v) => (t[p] = v, true) });
-const el = () => ({ textContent: '', classList: { add: noop, toggle: noop, remove: noop, contains: () => false }, getContext: () => canvasProxy(), width: 0, height: 0, style: {}, appendChild: noop });
-const doc = { getElementById: el, createElement: el, body: { appendChild: noop }, addEventListener: noop };
-const win = {
-  document: doc, innerWidth: 1440, innerHeight: 900, devicePixelRatio: 1,
-  location: { search: '?' + query + '&debug' }, URLSearchParams, performance, Math, console,
-  requestAnimationFrame: noop, addEventListener: noop, setTimeout: noop, clearTimeout: noop,
-  Float32Array, Float64Array, Int32Array, Uint32Array, Uint8Array, Array, Path2D: class { moveTo() {} lineTo() {} closePath() {} },
-};
-win.window = win;
-vm.createContext(win);
-vm.runInContext(src, win, { filename: file });
-const m = win.murm;
+const page=host(file,{query});
+const m=page.state;
 if (!m) throw new Error('window.murm not exposed');
 
 // -------- reference implementation of the paper's observables (all in world units)
@@ -156,7 +139,7 @@ const detailAt = (process.env.DETAIL || '').split(',').filter(Boolean).map(Numbe
 const series = process.env.SERIES;
 let t0 = Date.now(), samples = [], maxDiff = 0, maxXiDiff = 0, simT = 0;
 for (let s = 0; s < secs * 60; s++) {
-  simT += dt; m.step(dt, simT);
+  page.frame(dt*1000); simT=m.simT;
   if (detailAt.length && s % 60 === 0 && detailAt.includes(Math.round(simT))) {
     console.log(`t=${Math.round(simT)} falcon=${m.fal.on} clusters: ` + clusterDetail(12).map(c => `[n${c.n} along${c.along} perp${c.perp} hdg${c.headingDeg}° v${c.speed} pol${c.pol}]`).join(' '));
   }
@@ -178,7 +161,7 @@ for (let s = 0; s < secs * 60; s++) {
     }
     if (m.analyse) {                          // cross-check the in-page implementation against this one
       m.analyse(simT);
-      if (m.draw) m.draw();                    // exercise the drawing + panel code against the canvas stub
+      // The scheduled page frame has already exercised drawing and panel code.
       const c = m.corr;
       // same bins only if NBIN matches; compare scalar observables instead
       maxDiff = Math.max(maxDiff, Math.abs(c.phi - a.phi), Math.abs(c.L - a.L) / a.L, Math.abs(c.speed - a.S) / a.S, Math.abs(c.rmsU - a.rmsU) / a.rmsU, Math.abs(c.sigSpeed - a.sigS) / a.sigS);

@@ -1,0 +1,220 @@
+{
+  "kind": "actual-page-vm-simulation",
+  "metadata": {
+    "file": "~/prj/murmuration-milestone/murmuration.html",
+    "htmlSha256": "48277251e24ae20a617716a920ffa9e6cad1de4c5a91065afc34751c6cf0abf8",
+    "scriptAssets": [
+      {
+        "file": "motion/motion-data.js",
+        "sha256": "744e92d6f4a41b651723e499025a25b05e1eaef2d77f02d89a81bca57072e1aa"
+      },
+      {
+        "file": "motion/motion.js",
+        "sha256": "ce19dd0dd8eacfdb710ad6cb928735e70c296a8ae689b32ca224502c1e353351"
+      },
+      {
+        "file": "<inline-1>",
+        "sha256": "8745c39eb25bd71569eedf5167d054f707cd186421416b3ff3642f66a9f59076"
+      }
+    ],
+    "query": "seed=7&n=40&calm=&painted=&debug=",
+    "seed": 7,
+    "seconds": 8,
+    "dtMs": 16.666666666666668,
+    "frames": 480,
+    "clock": "virtual",
+    "canvas": "strict-stub",
+    "node": "v20.20.1",
+    "inputs": {
+      "file": "~/prj/murmuration-milestone/sim/example-inputs.json",
+      "sha256": "0c9f5623b0847022ab5a113af2a1ee8610fc504f36c4e41e553b78f79e81b082",
+      "count": 3,
+      "policy": "dispatch before first frame whose end time reaches atMs",
+      "events": [
+        {
+          "atMs": 1000,
+          "type": "pointermove",
+          "clientX": 650,
+          "clientY": 300
+        },
+        {
+          "atMs": 2000,
+          "type": "pointerdown",
+          "clientX": 650,
+          "clientY": 300
+        },
+        {
+          "atMs": 4000,
+          "type": "keydown",
+          "key": "c"
+        }
+      ]
+    }
+  },
+  "summary": {
+    "traceSha256": "01ff567baca21838ec339ee1ab723b79115b07b3b23cfe5aefc5bc4488dfee0f",
+    "simT": 8.000000000000057,
+    "drawCalls": {
+      "setTransform": 481,
+      "createLinearGradient": 3,
+      "addColorStop": 227,
+      "fillRect": 155,
+      "createRadialGradient": 107,
+      "beginPath": 8403,
+      "arc": 6301,
+      "fill": 10514,
+      "save": 343,
+      "translate": 104,
+      "scale": 104,
+      "restore": 343,
+      "moveTo": 1863,
+      "lineTo": 8308,
+      "closePath": 3,
+      "quadraticCurveTo": 496,
+      "stroke": 4732,
+      "createImageData": 1,
+      "putImageData": 1,
+      "createPattern": 1,
+      "drawImage": 480,
+      "Path2D.moveTo": 985576,
+      "Path2D.lineTo": 1971152,
+      "Path2D.closePath": 985576,
+      "roundRect": 239,
+      "fillText": 4780,
+      "setLineDash": 1310
+    },
+    "fullHunts": [
+      {
+        "type": "stoop",
+        "t": 0,
+        "kind": 0,
+        "prey": 36,
+        "flash": true
+      },
+      {
+        "type": "strike",
+        "t": 4.833333333333332,
+        "kind": 0,
+        "miss": 1.2280349650213442,
+        "peak": 65.36065607994962,
+        "n": 2.6000000000000076,
+        "contact": false,
+        "dur": 2.849999999999995,
+        "pnDur": 2.849999999999995,
+        "pnPath": 138.46954344699844,
+        "flash": true,
+        "speedAtPass": 65.36065507994962
+      }
+    ]
+  },
+  "rows": [
+    {
+      "frame": 1,
+      "timeMs": 16.666666666666668,
+      "simT": 0.016666666666666666,
+      "polarization": 0.9836191200744071,
+      "nearest": 7.120038976370713,
+      "out": 0,
+      "falconOn": false,
+      "mode": "leave",
+      "hunts": 0,
+      "strikes": 0
+    },
+    {
+      "frame": 60,
+      "timeMs": 999.9999999999991,
+      "simT": 0.9999999999999991,
+      "polarization": 0.9726680523626001,
+      "nearest": 5.720409333537526,
+      "out": 0,
+      "falconOn": false,
+      "mode": "leave",
+      "hunts": 0,
+      "strikes": 0
+    },
+    {
+      "frame": 120,
+      "timeMs": 2000.0000000000034,
+      "simT": 2.0000000000000036,
+      "polarization": 0.9925767408659603,
+      "nearest": 4.032857459214965,
+      "out": 0,
+      "falconOn": true,
+      "mode": "stoop",
+      "hunts": 0,
+      "strikes": 0
+    },
+    {
+      "frame": 180,
+      "timeMs": 2999.999999999995,
+      "simT": 2.999999999999995,
+      "polarization": 0.9969165000498794,
+      "nearest": 3.2132378607846745,
+      "out": 0,
+      "falconOn": true,
+      "mode": "stoop",
+      "hunts": 0,
+      "strikes": 0
+    },
+    {
+      "frame": 240,
+      "timeMs": 3999.999999999986,
+      "simT": 3.999999999999986,
+      "polarization": 0.9974089153223267,
+      "nearest": 2.645667817550133,
+      "out": 0,
+      "falconOn": true,
+      "mode": "stoop",
+      "hunts": 0,
+      "strikes": 0
+    },
+    {
+      "frame": 300,
+      "timeMs": 5000.000000000002,
+      "simT": 5.000000000000002,
+      "polarization": 0.9321860215250375,
+      "nearest": 2.4924713266577085,
+      "out": 0,
+      "falconOn": true,
+      "mode": "climb",
+      "hunts": 0,
+      "strikes": 1
+    },
+    {
+      "frame": 360,
+      "timeMs": 6000.00000000002,
+      "simT": 6.00000000000002,
+      "polarization": 0.9841646960980066,
+      "nearest": 2.419923869812892,
+      "out": 0,
+      "falconOn": true,
+      "mode": "climb",
+      "hunts": 0,
+      "strikes": 1
+    },
+    {
+      "frame": 420,
+      "timeMs": 7000.000000000038,
+      "simT": 7.000000000000038,
+      "polarization": 0.9727827308827288,
+      "nearest": 2.515675180156479,
+      "out": 0,
+      "falconOn": true,
+      "mode": "position",
+      "hunts": 0,
+      "strikes": 1
+    },
+    {
+      "frame": 480,
+      "timeMs": 8000.000000000056,
+      "simT": 8.000000000000057,
+      "polarization": 0.9972176170959164,
+      "nearest": 2.6171822503396625,
+      "out": 0,
+      "falconOn": true,
+      "mode": "position",
+      "hunts": 0,
+      "strikes": 1
+    }
+  ]
+}

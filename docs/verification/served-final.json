@@ -1,0 +1,44 @@
+{
+  "status": "matched-worktree",
+  "port": 8765,
+  "oldPid": 20020,
+  "pid": 86937,
+  "directory": "~/prj/murmuration-milestone",
+  "checks": [
+    {
+      "file": "murmuration.html",
+      "status": 200,
+      "contentType": "text/html",
+      "sha256": "48277251e24ae20a617716a920ffa9e6cad1de4c5a91065afc34751c6cf0abf8",
+      "bytes": 65507
+    },
+    {
+      "file": "motion-lab.html",
+      "status": 200,
+      "contentType": "text/html",
+      "sha256": "a1e8dba03c948e4d0cd9b47e601d7ef414b31842e8ce7a769901eaa14bd3fb7e",
+      "bytes": 4624
+    },
+    {
+      "file": "motion/motion.js",
+      "status": 200,
+      "contentType": "text/javascript",
+      "sha256": "ce19dd0dd8eacfdb710ad6cb928735e70c296a8ae689b32ca224502c1e353351",
+      "bytes": 6769
+    },
+    {
+      "file": "motion/motion-data.js",
+      "status": 200,
+      "contentType": "text/javascript",
+      "sha256": "744e92d6f4a41b651723e499025a25b05e1eaef2d77f02d89a81bca57072e1aa",
+      "bytes": 1363930
+    },
+    {
+      "file": "murmuration-sky.jpg",
+      "status": 200,
+      "contentType": "image/jpeg",
+      "sha256": "10f07af52127180845f0667137c17a3f77cbcd348edb98193a9ed8599a216f09",
+      "bytes": 434436
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "wallClockFPS": 10,
+  "frameIntervalMs": 100,
+  "frames": 6,
+  "nestedMotionSentinelRejected": true,
+  "rawMismatch": "Error: seed=1&n=20&calm&painted frame 1 fal.motion [object Object] != [object Object]"
+}

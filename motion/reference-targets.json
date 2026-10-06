@@ -1,0 +1,82 @@
+{
+  "starling": {
+    "sources": [
+      "https://doi.org/10.1371/journal.pone.0080086",
+      "https://doi.org/10.1371/journal.pone.0134582",
+      "starling/refs/pose_spec.md",
+      "starling/analysis/photo_fits/",
+      "https://doi.org/10.1242/jeb.198.6.1259",
+      "https://doi.org/10.1093/icb/41.2.188",
+      "https://doi.org/10.1073/pnas.2319971121"
+    ],
+    "stroke": {
+      "topHeightM": 0.13,
+      "bottomHeightM": -0.15,
+      "peakToPeakM": 0.28,
+      "endpointToleranceM": 0.015,
+      "downstrokeFraction": 0.46,
+      "nominalHz": 12,
+      "note": "Tip heights are shoulder-relative, derived from the existing side-view figure measurements. 0.28 m is reported for one bird at 12 m/s. Phase fraction is inferred from wake wavelengths; it is not a measured 3D joint time series."
+    },
+    "confidence": {
+      "strokeEndpoints": "species-specific figure measurements and reported amplitude",
+      "upstroke": "estimated; robin span proxy and starling joint-sequence prior",
+      "glide": "flight-photo fits; dihedral and tail spread estimated",
+      "bound": "Tobalske 1995 observed glide/partial-bound/bound at 8\u201318 m/s; speed trend supported, probability and duration estimated",
+      "transitions": "bounded smooth interpolation; not captured motion",
+      "gaitSchedule": "Rayner 2001 Table 1 mean bout timings, one tunnel bird; interpolation and variation estimated",
+      "phase": "Independent phases are a modeling default; no direct wild-starling phase-locking evidence found"
+    },
+    "intermittentFlight": {
+      "source": "https://doi.org/10.1093/icb/41.2.188",
+      "table": "Table 1, printed page 197, bird 19; wind tunnel, one individual",
+      "rows": [
+        {
+          "speedMps": 8.5,
+          "flapSeconds": 1.14,
+          "glideSeconds": 0.64,
+          "reportedDuty": 0.65,
+          "meanHz": 10.7
+        },
+        {
+          "speedMps": 10.2,
+          "flapSeconds": 1.05,
+          "glideSeconds": 1.01,
+          "reportedDuty": 0.55,
+          "meanHz": 11.2
+        },
+        {
+          "speedMps": 12.4,
+          "flapSeconds": 1.35,
+          "glideSeconds": 0.58,
+          "reportedDuty": 0.7,
+          "meanHz": 11.1
+        },
+        {
+          "speedMps": 14.1,
+          "flapSeconds": 2.06,
+          "glideSeconds": 0.23,
+          "reportedDuty": 0.83,
+          "meanHz": 11.1
+        }
+      ],
+      "limitations": "Linear speed interpolation, individual variation, bound probabilities and alarm response are simulation choices. Reported mean duty factors need not equal the ratio of mean bout durations. No natural murmuration phase measurements. Continuous flapping at 6.2 m/s; intermittent above about 7.5 m/s in this tunnel."
+    }
+  },
+  "falcon": {
+    "sources": [
+      "https://doi.org/10.1371/journal.pone.0086506",
+      "https://arxiv.org/abs/2008.03948",
+      "falcon/refs/pose_spec.md",
+      "falcon/analysis/photo_fits/"
+    ],
+    "confidence": {
+      "glide": "flight-photo fitted outline",
+      "stoop_tuck": "Ponitz figure width/length target; experiment reached 22.5 m/s, not maximum-speed tuck",
+      "stoop_m": "photo and CAD landmarks; front-view hand droop remains approximate",
+      "pullout_early": "Selim figure target; existing pose has residual landmark error",
+      "flap": "mixed peregrine amplitude and generic upstroke estimates",
+      "transitions": "estimated timing; not captured motion"
+    }
+  }
+}
