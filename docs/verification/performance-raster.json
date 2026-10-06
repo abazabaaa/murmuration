@@ -1,0 +1,129 @@
+{
+  "verdict": "TARGET_PASS",
+  "scope": "actual-page native Canvas drawing and viewer JavaScript; browser DOM/CSS unobserved",
+  "node": "v20.20.1",
+  "canvasModule": "~/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/@napi-rs/canvas",
+  "page": "d24849dffb2feb6882cece1fa00f56852a5d22f3ddd840559ecd4e05aacf8646",
+  "assets": [
+    {
+      "file": "motion/motion-data.js",
+      "sha256": "744e92d6f4a41b651723e499025a25b05e1eaef2d77f02d89a81bca57072e1aa"
+    },
+    {
+      "file": "motion/motion.js",
+      "sha256": "ce19dd0dd8eacfdb710ad6cb928735e70c296a8ae689b32ca224502c1e353351"
+    },
+    {
+      "file": "<inline-1>",
+      "sha256": "acd991f29117c5bdeba6e09bbd97d154667f1a72db3b2d9fec5dacef5295dc82"
+    }
+  ],
+  "samples": 400,
+  "artifacts": [
+    {
+      "name": "flock.png",
+      "sha256": "d17566937aadcd8eab9d984f349326209ff2246a98c1c9e842476f77801f527b",
+      "bytes": 1345439,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "name": "flock-repeat.png",
+      "sha256": "d17566937aadcd8eab9d984f349326209ff2246a98c1c9e842476f77801f527b",
+      "bytes": 1345439,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "name": "flattened-z-sentinel.png",
+      "sha256": "2f2f01237012b73466ee0e02c6ecce656b449d3efb7e240cb3170c7066fffc01",
+      "bytes": 1346211,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "name": "attack.png",
+      "sha256": "d2fb74fc4e2aabfa82360718a1679a65afe41845ec3bc8784e782b675cf9d717",
+      "bytes": 1382868,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "name": "starling-front-phase0.png",
+      "sha256": "27e59e560bec6d24a9762e8a2a400e5480aa9c4f36815de3146f66bca72ac79f",
+      "bytes": 15712,
+      "width": 1100,
+      "height": 650
+    },
+    {
+      "name": "starling-front-phase46.png",
+      "sha256": "55767747588da137f83fc0159d9d149a2294779adaa3b396d46ff52f11a90dee",
+      "bytes": 12822,
+      "width": 1100,
+      "height": 650
+    },
+    {
+      "name": "starling-top.png",
+      "sha256": "dcb9f06863ebfdf257fa2a4216c6970b8b3b3c2013b75eba31ff93b5680960f3",
+      "bytes": 14096,
+      "width": 1100,
+      "height": 650
+    },
+    {
+      "name": "starling-front.png",
+      "sha256": "27e59e560bec6d24a9762e8a2a400e5480aa9c4f36815de3146f66bca72ac79f",
+      "bytes": 15712,
+      "width": 1100,
+      "height": 650
+    },
+    {
+      "name": "starling-side.png",
+      "sha256": "c4f5ad3a9befeb25cc1664488ef9ea0dd06f3c5fc9680d977dfa88ae8414fc55",
+      "bytes": 10325,
+      "width": 1100,
+      "height": 650
+    },
+    {
+      "name": "starling-quarter.png",
+      "sha256": "d7c382095e8d046429d0c422021e56482bcac9ae9f1a219a114b47707b6597d0",
+      "bytes": 15984,
+      "width": 1100,
+      "height": 650
+    },
+    {
+      "name": "falcon-top.png",
+      "sha256": "1309029f55da8ac7bcd98325f78144bc60f2e209b1b50667e2b1bbb7380ecd9f",
+      "bytes": 12637,
+      "width": 1100,
+      "height": 650
+    },
+    {
+      "name": "falcon-front.png",
+      "sha256": "bbcb440f2db9d3b87a697dcf2f4e3ba03160a3a3090a2dae79af471731e36d9a",
+      "bytes": 15574,
+      "width": 1100,
+      "height": 650
+    },
+    {
+      "name": "falcon-side.png",
+      "sha256": "0a81b101dfa115a648b5d9325647c1ccc2ff2daeccae59777fac4816a273cc01",
+      "bytes": 8807,
+      "width": 1100,
+      "height": 650
+    },
+    {
+      "name": "falcon-quarter.png",
+      "sha256": "54064220a592dbe4e4c19d7b9aa9c178f6a1cdffab5a770e82d642740e50695f",
+      "bytes": 16251,
+      "width": 1100,
+      "height": 650
+    },
+    {
+      "name": "falcon-pullout.png",
+      "sha256": "bfc81709a3f69606424ed68550fa08acde14b146f8681230c0d3c36c6b70c11d",
+      "bytes": 10613,
+      "width": 1100,
+      "height": 650
+    }
+  ]
+}

@@ -6,6 +6,7 @@ blender-mcp/
 *.blend1
 .DS_Store
 node_modules/
+sim-output/
 __pycache__/
 # internal handover notes (contain local paths)
 falcon/HANDOVER.md
@@ -15,3 +16,5 @@ falcon/analysis/validation/
 starling/HANDOVER.md
 starling/analysis/photo_fits/*.png
 starling/analysis/validation/
+# names checked by murmuration-privacy.js; never commit
+.private-words

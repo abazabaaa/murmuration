@@ -14,13 +14,16 @@
     pointer-events: none; user-select: none; transition: opacity 2.4s ease;
   }
   .hud b { display: block; font-size: 13px; font-weight: 600; letter-spacing: .34em; color: rgba(255, 238, 220, .95); }
+  .hud a { pointer-events: auto; color: inherit; text-decoration: underline; display: block; margin-top: 5px; }
   .hud.dim { opacity: .38; }
   #dbg { position: fixed; top: 8px; left: 8px; margin: 0; font: 11px/1.4 ui-monospace, monospace; color: #fff; pointer-events: none; }
 </style>
 </head>
 <body>
 <canvas id="c"></canvas>
-<div class="hud" id="hud"><b>Murmuration</b><span id="hint"></span></div>
+<div class="hud" id="hud"><b>Murmuration</b><span id="hint"></span><a href="motion-lab.html" target="_blank">Explore bird motion ↗</a></div>
+<script src="motion/motion-data.js"></script>
+<script src="motion/motion.js"></script>
 <script>
 (() => {
 'use strict';
@@ -42,6 +45,17 @@
 // Press C to toggle the correlation panel (?stats opens it; ?debug adds the frame counter).
 
 const params = new URLSearchParams(location.search);
+const Motion = MurmurationMotion, legacyMotion = params.get('motion') === 'legacy';
+const gaits = [];
+const revision = Object.freeze({ base: 'a5dedcc5962c10e3abe446c9c46f326bde12c077', worktree: '~/prj/murmuration-milestone' });
+const motionAssets = Object.freeze({ starling: Motion.data.species.starling.inputs, falcon: Motion.data.species.falcon.inputs });
+const motionExports = Object.freeze({
+  'motion-data.js': '744e92d6f4a41b651723e499025a25b05e1eaef2d77f02d89a81bca57072e1aa',
+  'motion.js': 'ce19dd0dd8eacfdb710ad6cb928735e70c296a8ae689b32ca224502c1e353351',
+  'starling-motion.json': 'd20c334027408e39f66486e80d772fe9d2ee7ba174bca0e1a5627079d507e6e7',
+  'falcon-motion.json': 'f93b76dc90e9b56e91a56b94c53e010a87f51a3f0f022f7247480f933bde139e',
+  'birds-motion.blend': 'da126a4d14e2b646d428941c320b3a771a43426ca2bb0beb183e6286a9d457f8',
+});
 const N = Math.min(3000, Math.max(20, +params.get('n') || 400));
 const K = 7;                                   // topological neighbours (Ballerini et al. 2008: 6–7, not a radius)
 const TAU = Math.PI * 2;
@@ -52,7 +66,8 @@ const rng = s => () => {                       // mulberry32
   t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
   return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
 };
-const rand = rng(params.has('seed') ? +params.get('seed') : (Math.random() * 4294967296) >>> 0);
+const seed = params.has('seed') ? +params.get('seed') : (Math.random() * 4294967296) >>> 0;
+const rand = rng(seed);
 let gSpare = NaN;
 const gauss = () => {                          // Box–Muller, N(0,1)
   if (!Number.isNaN(gSpare)) { const v = gSpare; gSpare = NaN; return v; }
@@ -231,7 +246,7 @@ const wrand = rng((params.has('seed') ? +params.get('seed') ^ 0x9E3779B9 : Math.
 const NOISE_K = params.has('noise') ? Math.max(0, +params.get('noise')) : 1;
 const NOISE = 9 * NOISE_K, NOISE_TAU = 4;
 
-const px = new Float32Array(N), py = new Float32Array(N), pz = new Float32Array(N);
+const px = new Float32Array(N), py = new Float32Array(N), pz = new Float32Array(N), pp = new Float32Array(3 * N);
 const vx = new Float32Array(N), vy = new Float32Array(N), vz = new Float32Array(N);
 const ax = new Float32Array(N), ay = new Float32Array(N), az = new Float32Array(N);
 const nzx = new Float32Array(N), nzy = new Float32Array(N), nzz = new Float32Array(N);   // OU noise state
@@ -281,6 +296,7 @@ const fal = {
   range: 1e9, pn: false, pnT: 0, pnPath: 0, peak: 0, nSum: 0, nCnt: 0, flash: false, fleeK: 0, waves: false, pulses: 0, pulseN: 0, pulseT: -1e9,
   minMiss: 1e9,
 };
+fal.motion = Motion.falconState(); fal.motionBank = 0;
 const CALM = params.has('calm');               // ?calm: no spontaneous attacks (clicks still work)
 let nextFalcon = CALM ? Infinity : 14 + rand() * 6;
 const FAL_CRUISE = 30;                         // u/s, 15 m/s: shadowing flight, 1.3× the flock as in StarEscape and Mills 2018
@@ -312,6 +328,7 @@ const stage = { x: 0, y: 0, z: 0 };
 function launchFalcon(clickX, clickY) {
   if (fal.on) return;
   fal.on = true; fal.age = 0; fal.phase = 0; fal.strikes = 0; fal.fan = 0; fal.flap = 1; fal.minMiss = 1e9;
+  fal.motion = Motion.falconState(); fal.motionBank = 0;
   const q = rand(); fal.quota = q < .1 ? 1 : q < .35 ? 2 : q < .7 ? 3 : 4;   // 1–4 strikes, mean 2.85
   fal.waves = rand() < P_WAVES;
   fal.side = clickX == null ? (rand() < .5 ? -1 : 1) : (clickX < cx ? 1 : -1);
@@ -453,6 +470,10 @@ function updateFalcon(dt, t) {
   fal.fleeK += ((fal.mode === 'stoop' && fal.flash ? 1 : FLEE_QUIET) - fal.fleeK) * Math.min(1, dt * 6);
   fal.vx += aX * dt; fal.vy += aY * dt; fal.vz += aZ * dt;
   fal.x += fal.vx * dt; fal.y += fal.vy * dt; fal.z += fal.vz * dt;
+  const horizontal = Math.hypot(fal.vx, fal.vz) + 1e-6;
+  const lateral = (aX * fal.vz - aZ * fal.vx) / horizontal;
+  fal.motionBank += (clamp(Math.atan(lateral / 9), -1.1, 1.1) - fal.motionBank) * (1 - Math.exp(-dt * 6));
+  Motion.updateFalcon(fal.motion, dt, fal.mode, Math.hypot(fal.vx, fal.vy, fal.vz) * M, turn / 55);
   P(fal.x, fal.y, fal.z);
   if (fal.age > 75 || (fal.mode === 'leave' && (_x < -W * .1 || _x > W * 1.1))) {
     if (fal.mode !== 'leave') logEvent({ type: 'hunt', t, strikes: fal.strikes, waves: fal.waves, minMiss: fal.minMiss, contact: fal.minMiss < CONTACT, cut: true });
@@ -513,19 +534,21 @@ function step(dt, t) {
     if (fm > FRAME_CAP) { frX *= FRAME_CAP / fm; frY *= FRAME_CAP / fm; frZ *= FRAME_CAP / fm; }
   }
 
+  for (let i = 0, q = 0; i < N; i++, q += 3) { pp[q] = px[i]; pp[q + 1] = py[i]; pp[q + 2] = pz[i]; }
   let pol = 0, pvx = 0, pvy = 0, pvz = 0, nn = 0, outside = 0;
   for (let i = 0; i < N; i++) {
     const x = px[i], y = py[i], z = pz[i], vxi = vx[i], vyi = vy[i], vzi = vz[i];
     const spd = Math.hypot(vxi, vyi, vzi) + 1e-4;
 
-    let nb = 0;                                // K nearest, insertion-sorted
-    for (let j = 0; j < N; j++) {
-      if (j === i) continue;
-      const dx = px[j] - x, dy = py[j] - y, dz = pz[j] - z, d2 = dx * dx + dy * dy + dz * dz;
-      if (nb === K && d2 >= nbD[K - 1]) continue;
+    let nb = 0, kth = Infinity;                // K nearest, insertion-sorted; kth is the stored Kth distance once K are held
+    for (let j = 0, q = 0; j < N; j++, q += 3) {
+      if (j === i) { j++; q += 3; if (j >= N) break; }
+      const dx = pp[q] - x, dy = pp[q + 1] - y, dz = pp[q + 2] - z, d2 = dx * dx + dy * dy + dz * dz;
+      if (d2 >= kth) continue;
       let k = nb < K ? nb++ : K - 1;
       while (k > 0 && nbD[k - 1] > d2) { nbD[k] = nbD[k - 1]; nbI[k] = nbI[k - 1]; k--; }
       nbD[k] = d2; nbI[k] = j;
+      if (nb === K) kth = nbD[K - 1];
     }
 
     let aX = 0, aY = 0, aZ = 0;
@@ -652,16 +675,18 @@ function step(dt, t) {
     const fx = vx[i] / s, fz = vz[i] / s, rl = Math.hypot(fx, fz) + 1e-6;
     const lat = (ax[i] * fz - az[i] * fx) / rl;                     // accel toward the bird's right
     bank[i] += (clamp(Math.atan(lat / 9), -1.1, 1.1) - bank[i]) * Math.min(1, dt * 6);
-    if (paused[i] && alarm[i] > ALARM_PAUSE) ptime[i] = 0;          // a fright ends a pause at once
-    if ((ptime[i] -= dt) <= 0) {
-      if (paused[i] || alarm[i] > ALARM_PAUSE) {
-        paused[i] = 0; ptime[i] = (BURST[0] + wrand() * (BURST[1] - BURST[0])) / freq[i];
-      } else {
-        paused[i] = 1; pkind[i] = wrand() < P_BOUND(s) ? 2 : 1; ptime[i] = PAUSE[0] + wrand() * (PAUSE[1] - PAUSE[0]);
+    if (legacyMotion) {
+      if (paused[i] && alarm[i] > ALARM_PAUSE) ptime[i] = 0;
+      if ((ptime[i] -= dt) <= 0) {
+        if (paused[i] || alarm[i] > ALARM_PAUSE) {
+          paused[i] = 0; ptime[i] = (BURST[0] + wrand() * (BURST[1] - BURST[0])) / freq[i];
+        } else {
+          paused[i] = 1; pkind[i] = wrand() < P_BOUND(s) ? 2 : 1; ptime[i] = PAUSE[0] + wrand() * (PAUSE[1] - PAUSE[0]);
+        }
       }
-    }
-    pw[i] += (paused[i] - pw[i]) * Math.min(1, dt * 12);             // about a wingbeat to settle into or out of the pause
-    phase[i] += freq[i] * dt * TAU * (1 + .25 * alarm[i]) * (1 - pw[i]);   // the stroke stops where it is during a pause
+      pw[i] += (paused[i] - pw[i]) * Math.min(1, dt * 12);
+      phase[i] += freq[i] * dt * TAU * (1 + .25 * alarm[i]) * (1 - pw[i]);
+    } else Motion.updateGait(gaits[i], dt, s * c * M, alarm[i]);
     alarm[i] = Math.max(0, alarm[i] - dt * .7);
     wT[i] += dt;
     pvx += vx[i] / s; pvy += vy[i] / s; pvz += vz[i] / s;
@@ -673,6 +698,7 @@ function step(dt, t) {
 const NBIN = 32;
 const ux = new Float32Array(N), uy = new Float32Array(N), uz = new Float32Array(N), phi = new Float32Array(N);
 const cNum = new Float64Array(NBIN), cNumSp = new Float64Array(NBIN), cCnt = new Float64Array(NBIN);
+const rad = new Float64Array(N), ord = new Int32Array(N);
 const corr = {
   t: -1e9, phi: 0, speed: 0, sigSpeed: 0, rmsU: 0, L: 0, dr: 0, xi: NaN, xiSp: NaN,
   C: new Float32Array(NBIN), Csp: new Float32Array(NBIN), cnt: cCnt,
@@ -702,12 +728,25 @@ function analyse(t) {
   }
   c0 /= N; c0s /= N;                                             // c0 = ⟨|u|²⟩ makes C(0) = 1
 
-  let L2 = 0;                                                    // flock size L: largest inter-bird distance
-  for (let i = 0; i < N; i++) {
-    const x = px[i], y = py[i], z = pz[i];
-    for (let j = i + 1; j < N; j++) {
+  // Flock size L: largest inter-bird distance. Birds are visited from the outside in (distance from
+  // the centroid, descending): a pair can only beat the largest distance so far if the sum of its two
+  // radii exceeds it, so each inner scan stops at the first bird whose radius is too small and the
+  // outer scan stops once twice the radius is. The maximum is the same value, since every skipped pair
+  // is provably shorter (triangle inequality, with a margin far above rounding).
+  let mx = 0, my = 0, mz = 0;
+  for (let i = 0; i < N; i++) { mx += px[i]; my += py[i]; mz += pz[i]; }
+  mx /= N; my /= N; mz /= N;
+  for (let i = 0; i < N; i++) { rad[i] = Math.hypot(px[i] - mx, py[i] - my, pz[i] - mz); ord[i] = i; }
+  ord.sort((a, b) => rad[b] - rad[a]);
+  let L2 = 0, Lsofar = 0;
+  for (let a = 0; a < N; a++) {
+    const i = ord[a], x = px[i], y = py[i], z = pz[i], ri = rad[i];
+    if (2 * ri * (1 + 1e-9) <= Lsofar) break;
+    for (let b = a + 1; b < N; b++) {
+      const j = ord[b];
+      if ((ri + rad[j]) * (1 + 1e-9) <= Lsofar) break;
       const d2 = (px[j] - x) ** 2 + (py[j] - y) ** 2 + (pz[j] - z) ** 2;
-      if (d2 > L2) L2 = d2;
+      if (d2 > L2) { L2 = d2; Lsofar = Math.sqrt(L2); }
     }
   }
   const L = Math.sqrt(L2), dr = L / NBIN, inv = 1 / (dr + 1e-9);
@@ -846,6 +885,167 @@ function pushFalcon(parts, x, y, z, fx, fy, fz, th, s, tuck, fan) {
   path.closePath();
 }
 
+// Project baked XYZ surfaces through the same bird frame as the comparison outlines.
+const motionVertices = new Float32Array(948), motionX = new Float64Array(316), motionY = new Float64Array(316);
+// Compile disconnected surface parts once. Far wings/tail use their mesh boundary;
+// convex body/bill hulls avoid drawing hidden facets at sub-26-pixel presentation sizes.
+// Unknown future topology retains the original triangle renderer.
+function farParts(model) {
+  const parent = Array.from({ length: 316 }, (_, i) => i);
+  const find = i => { while (parent[i] !== i) { parent[i] = parent[parent[i]]; i = parent[i]; } return i; };
+  for (const face of model.faces.far) for (let j = 1; j < 3; j++) parent[find(face[j])] = find(face[0]);
+  const groups = new Map();
+  for (const face of model.faces.far) {
+    const k = find(face[0]); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(face);
+  }
+  const parts = [];
+  for (const faces of groups.values()) {
+    const vertices = [...new Set(faces.flat())], hull = faces.length === 28 && vertices.length === 20 || faces.length === 4 && vertices.length === 5;
+    if (!hull && !(faces.length === 6 && vertices.length === 8 || faces.length === 4 && vertices.length === 6)) return null;
+    const edges = new Map();
+    for (const face of faces) for (let j = 0; j < 3; j++) {
+      const a = face[j], b = face[(j + 1) % 3], key = Math.min(a, b) * 316 + Math.max(a, b);
+      if (edges.has(key)) edges.delete(key); else edges.set(key, [a, b]);
+    }
+    const boundary = [];
+    if (!hull) {
+      const links = new Map();
+      for (const [a, b] of edges.values()) {
+        if (!links.has(a)) links.set(a, []); if (!links.has(b)) links.set(b, []);
+        links.get(a).push(b); links.get(b).push(a);
+      }
+      if ([...links.values()].some(v => v.length !== 2)) return null;
+      const start = links.keys().next().value; let previous = -1, current = start;
+      do {
+        boundary.push(current); const next = links.get(current).find(v => v !== previous);
+        previous = current; current = next;
+      } while (current !== start && boundary.length <= vertices.length);
+      if (current !== start || boundary.length !== links.size) return null;
+    }
+    parts.push({ faces, vertices, hull, boundary, sorted: vertices.slice(), chain: [] });
+  }
+  return parts.length === 5 ? parts : null;
+}
+const motionParts = Object.fromEntries(Object.entries(Motion.data.species).map(([name, model]) => [name, farParts(model)]));
+// Near meshes draw the outline of their triangles' union instead of every triangle. With each
+// triangle wound positive on screen (as appendFaces does), an edge shared by two triangles lying on
+// opposite sides of it on screen is crossed both ways and cancels; every other edge is kept and the
+// kept edges are chained into closed loops. The winding number is unchanged everywhere, so the
+// non-zero fill covers exactly the same area, folded or not.
+function nearEdges(model) {
+  const faces = model.faces.near, n = faces.length, twin = new Int32Array(n * 3).fill(-1), same = new Uint8Array(n * 3);
+  const sides = new Map();
+  for (let f = 0; f < n; f++) for (let j = 0; j < 3; j++) {
+    const a = faces[f][j], b = faces[f][(j + 1) % 3], key = Math.min(a, b) * 316 + Math.max(a, b);
+    if (!sides.has(key)) sides.set(key, []); sides.get(key).push(f * 3 + j);
+  }
+  for (const list of sides.values()) if (list.length === 2) {
+    const [p, q] = list;
+    twin[p] = q / 3 | 0; twin[q] = p / 3 | 0;
+    same[p] = same[q] = faces[p / 3 | 0][p % 3] === faces[q / 3 | 0][q % 3] ? 1 : 0;
+  }
+  return { faces, twin, same, sign: new Int8Array(n), from: new Int32Array(n * 3), to: new Int32Array(n * 3),
+    next: new Int32Array(n * 3), head: new Int32Array(316).fill(-1) };
+}
+const motionNear = Object.fromEntries(Object.entries(Motion.data.species).map(([name, model]) => [name, nearEdges(model)]));
+function appendNear(path, e) {
+  const { faces, twin, same, sign, from, to, next, head } = e, n = faces.length;
+  for (let f = 0; f < n; f++) sign[f] = faceArea(faces[f][0], faces[f][1], faces[f][2]) >= 0 ? 1 : -1;
+  let m = 0;
+  for (let f = 0; f < n; f++) for (let j = 0; j < 3; j++) {
+    const s = f * 3 + j, g = twin[s];
+    if (g >= 0 && (same[s] ? sign[g] !== sign[f] : sign[g] === sign[f])) continue;  // crossed both ways
+    const a = faces[f][j], b = faces[f][(j + 1) % 3];
+    if (sign[f] > 0) { from[m] = a; to[m] = b; } else { from[m] = b; to[m] = a; }
+    m++;
+  }
+  for (let k = m - 1; k >= 0; k--) { next[k] = head[from[k]]; head[from[k]] = k; }
+  for (let k = 0; k < m; k++) while (head[from[k]] >= 0) {
+    // Every vertex has as many kept edges in as out, so a walk can only end where it began.
+    const start = from[k]; let v = start;
+    path.moveTo(motionX[v], motionY[v]);
+    for (let x = head[v]; x >= 0; x = head[v]) {
+      head[v] = next[x]; v = to[x];
+      if (v === start) break;
+      path.lineTo(motionX[v], motionY[v]);
+    }
+  }
+}
+// XYZ paths are only filled, and a fill closes every subpath itself. They never call closePath:
+// in Chrome each Path2D.closePath costs time in proportion to the path so far, which made a
+// bin's path quadratic in its bird count (16k subpaths: 325 ms with it, 1 ms without).
+function faceArea(a, b, c) {
+  return (motionX[b] - motionX[a]) * (motionY[c] - motionY[a]) - (motionY[b] - motionY[a]) * (motionX[c] - motionX[a]);
+}
+function appendFaces(path, faces) {
+  for (const face of faces) {
+    const a = face[0], b = face[1], c = face[2], positive = faceArea(a, b, c) >= 0;
+    path.moveTo(motionX[a], motionY[a]);
+    path.lineTo(motionX[positive ? b : c], motionY[positive ? b : c]);
+    path.lineTo(motionX[positive ? c : b], motionY[positive ? c : b]);
+  }
+}
+function appendLoop(path, vertices) {
+  let area = 0;
+  for (let i = 0, j = vertices.length - 1; i < vertices.length; j = i++) area += motionX[vertices[j]] * motionY[vertices[i]] - motionX[vertices[i]] * motionY[vertices[j]];
+  const n = vertices.length;
+  for (let i = 0; i < n; i++) {
+    const v = vertices[area >= 0 ? i : n - 1 - i];
+    if (i) path.lineTo(motionX[v], motionY[v]); else path.moveTo(motionX[v], motionY[v]);
+  }
+}
+function appendFar(path, parts) {
+  for (const part of parts) {
+    if (part.hull) {
+      const sorted = part.sorted, chain = part.chain;
+      for (let i = 1; i < sorted.length; i++) {        // stable insertion sort by (x, y): same order as the comparator sort, no closure or call
+        const v = sorted[i], vx = motionX[v], vy = motionY[v];
+        let j = i - 1;
+        while (j >= 0 && (motionX[sorted[j]] > vx || motionX[sorted[j]] === vx && motionY[sorted[j]] > vy)) { sorted[j + 1] = sorted[j]; j--; }
+        sorted[j + 1] = v;
+      }
+      chain.length = 0;
+      for (const v of sorted) {
+        while (chain.length >= 2 && faceArea(chain[chain.length - 2], chain[chain.length - 1], v) <= 0) chain.pop();
+        chain.push(v);
+      }
+      const lower = chain.length;
+      for (let j = sorted.length - 2; j >= 0; j--) {
+        const v = sorted[j];
+        while (chain.length > lower && faceArea(chain[chain.length - 2], chain[chain.length - 1], v) <= 0) chain.pop();
+        chain.push(v);
+      }
+      chain.pop(); appendLoop(path, chain);
+    } else {
+      let positive = false, negative = false;
+      for (const face of part.faces) {
+        const area = faceArea(face[0], face[1], face[2]); positive ||= area > 1e-9; negative ||= area < -1e-9;
+      }
+      // A folded sheet can overlap itself in projection. Keep its triangles in that case.
+      if (positive && negative) appendFaces(path, part.faces); else appendLoop(path, part.boundary);
+    }
+  }
+}
+function pushMotion(path, species, state, x, y, z, fx, fy, fz, bk, scale, span) {
+  P(x, y, z);
+  const model = Motion.data.species[species], lod = f * span * scale / _z > 26 ? 'near' : 'far';
+  const indices = model.indices[lod];
+  if (species === 'starling') Motion.sampleGait(state, motionVertices, indices);
+  else Motion.sampleFalcon(state, motionVertices, indices);
+  birdFrame(x, y, z, fx, fy, fz, bk, 0, scale, span, span * .5);
+  const n = indices.length;
+  for (let q = 0; q < n; q++) {                 // P() inlined: the same expressions in the same order
+    const vi = indices[q], j = vi * 3, a = motionVertices[j] * bL, w = motionVertices[j + 1] * bH, h = motionVertices[j + 2] * bH;
+    const yr = (bY + bFy * a + bRy * w + bNy * h) - CAM_H, zz = bZ + bFz * a + bRz * w + bNz * h;
+    const dz = yr * st + zz * ct, k = f / dz;
+    motionX[vi] = cx + (bX + bFx * a + bRx * w + bNx * h) * k;
+    motionY[vi] = cy - (yr * ct - zz * st) * k;
+  }
+  if (lod === 'far' && motionParts[species]) appendFar(path, motionParts[species]);
+  else if (lod === 'near') appendNear(path, motionNear[species]);
+  else appendFaces(path, model.faces[lod]);
+}
+
 const fills = Array.from({ length: NB }, () => null), bodies = Array.from({ length: NB }, () => null);
 
 function draw() {
@@ -860,25 +1060,28 @@ function draw() {
     if (_z < 10) continue;
     const b = clamp(((_z - ZMIN) / (ZMAX - ZMIN) * NB) | 0, 0, NB - 1);
     const s = 1 / Math.hypot(vx[i], vy[i], vz[i]);
-    const p = pw[i], bound = pkind[i] === 2;
-    const th = (-.05 + .78 * Math.cos(phase[i])) * (1 - p) + (bound ? 0 : .1) * p;   // flapping: tip 42° above the shoulder at the top of the stroke, 48° below at the bottom; glide: 6° dihedral
-    const flex = Math.max(0, -Math.sin(phase[i]));                    // wings spread on the way down, flexed on the way up
-    pushBird(fills[b], bodies[b], px[i], py[i], pz[i], vx[i] * s, vy[i] * s, vz[i] * s, bank[i] + waveRoll(i), th, flex, size[i] * sizeK, SPAN, p, bound ? STARLING.bound : STARLING.glide);
+    if (legacyMotion) {
+      const p = pw[i], bound = pkind[i] === 2;
+      const th = (-.05 + .78 * Math.cos(phase[i])) * (1 - p) + (bound ? 0 : .1) * p;
+      const flex = Math.max(0, -Math.sin(phase[i]));
+      pushBird(fills[b], bodies[b], px[i], py[i], pz[i], vx[i] * s, vy[i] * s, vz[i] * s, bank[i] + waveRoll(i), th, flex, size[i] * sizeK, SPAN, p, bound ? STARLING.bound : STARLING.glide);
+    } else pushMotion(fills[b], 'starling', gaits[i], px[i], py[i], pz[i], vx[i] * s, vy[i] * s, vz[i] * s, bank[i] + waveRoll(i), size[i] * sizeK, SPAN);
   }
   ctx.lineCap = 'round';
   for (let b = NB - 1; b >= 0; b--) {
     ctx.fillStyle = ctx.strokeStyle = fillCol[b];
     ctx.lineWidth = lineW[b] * Math.max(.8, f / 1272);
-    ctx.fill(fills[b]); ctx.stroke(bodies[b]);
+    ctx.fill(fills[b]); if (legacyMotion) ctx.stroke(bodies[b]);   // XYZ birds leave bodies empty
   }
 
   if (fal.on) {
     const s = 1 / Math.hypot(fal.vx, fal.vy, fal.vz);
     const dive = clamp(-fal.vy * s * 2, 0, 1);
     const fp = [new Path2D(), new Path2D(), new Path2D()];           // right wing, left wing, body
-    pushFalcon(fp, fal.x, fal.y, fal.z, fal.vx * s, fal.vy * s, fal.vz * s, .2 + .5 * Math.sin(fal.phase) * fal.flap * (1 - dive), FALCON_SPAN * sizeK, dive, fal.fan * (1 - dive));
+    if (legacyMotion) pushFalcon(fp, fal.x, fal.y, fal.z, fal.vx * s, fal.vy * s, fal.vz * s, .2 + .5 * Math.sin(fal.phase) * fal.flap * (1 - dive), FALCON_SPAN * sizeK, dive, fal.fan * (1 - dive));
+    else pushMotion(fp[0], 'falcon', fal.motion, fal.x, fal.y, fal.z, fal.vx * s, fal.vy * s, fal.vz * s, fal.motionBank, sizeK, FALCON_SPAN);
     ctx.fillStyle = ctx.strokeStyle = '#170a10'; ctx.lineWidth = Math.max(.8, f / 1272); ctx.lineJoin = 'round';
-    for (const part of fp) { ctx.fill(part); ctx.stroke(part); }
+    for (const part of fp) { ctx.fill(part); if (legacyMotion) ctx.stroke(part); }
   }
 
   if (showPanel) drawPanel();
@@ -954,6 +1157,7 @@ addEventListener('pointermove', e => {
   ptr.x = e.clientX; ptr.y = e.clientY; lastMove = performance.now();
 }, { passive: true });
 addEventListener('pointerdown', e => {
+  if (e.target?.closest?.('a')) return;
   ptr.x = e.clientX; ptr.y = e.clientY; lastMove = performance.now();
   launchFalcon(e.clientX, e.clientY);
 });
@@ -964,6 +1168,7 @@ setTimeout(() => document.getElementById('hud').classList.add('dim'), 9000);
 
 layout();
 initFlock();
+for (let i = 0; i < N; i++) gaits.push(Motion.gait(i, phase[i] / TAU, (freq[i] - BEAT_HZ[0]) / (BEAT_HZ[1] - BEAT_HZ[0])));
 
 let simT = 0;
 const warm = +params.get('warm') || 0;
@@ -973,21 +1178,25 @@ if (params.has('falcon')) launchFalcon(null);
 let dbg = null;
 if (params.has('debug')) {
   dbg = document.createElement('pre'); dbg.id = 'dbg'; document.body.appendChild(dbg);
-  window.murm = { step, analyse, draw, stats, corr, px, py, pz, vx, vy, vz, N, M, fal, huntLog, alarm, wT, wL, wP, get gc() { return [gcx, gcy, gcz]; }, get simT() { return simT; },
+  window.murm = { step, analyse, draw, stats, corr, px, py, pz, vx, vy, vz, N, M, fal, huntLog, alarm, wT, wL, wP,
+    gaits, Motion, motionMode: legacyMotion ? 'legacy' : 'xyz', motionAssets, motionExports, revision, seed, launchFalcon, pushMotion, motionX, motionY,
+    get gc() { return [gcx, gcy, gcz]; }, get simT() { return simT; },
     cam: { get UM() { return UM; }, get VT() { return VT; }, get VB() { return VB; }, get ct() { return ct; }, get st() { return st; }, CAM_H, ZMIN, ZMAX } };
 }
 
 const ANALYSE_EVERY = N > 1500 ? 1 : .5;       // seconds of simulated time between O(N²) correlation passes
 let last = performance.now() / 1000, frames = 0, fpsT = 0, fps = 0;
 function loop(ms) {
-  const now = ms / 1000, dt = Math.min(now - last, 1 / 30); last = now;
+  const now = ms / 1000, elapsed = now - last, dt = Math.min(elapsed, 1 / 30); last = now;
   if (dt > 0) { simT += dt; step(dt, simT); }
   if (showPanel && simT - corr.t >= ANALYSE_EVERY) analyse(simT);
   draw();
   if (dbg) {
-    frames++; fpsT += dt;
+    frames++; fpsT += elapsed;
     if (fpsT > .5) { fps = frames / fpsT; frames = 0; fpsT = 0; }
-    dbg.textContent = `t ${simT.toFixed(1)}  fps ${fps.toFixed(0)}  pol ${stats.pol.toFixed(2)}  nn ${stats.nn.toFixed(1)}  out ${stats.out}  falcon ${fal.on}`;
+    const inputs = Object.entries(motionAssets).flatMap(([species, files]) => Object.entries(files).map(([file, hash]) => `${species}/${file}:${hash.slice(0, 12)}`));
+    const exports = Object.entries(motionExports).map(([file, hash]) => `${file}:${hash.slice(0, 12)}`);
+    dbg.textContent = `base ${revision.base.slice(0, 12)}  seed ${seed}  motion ${legacyMotion ? 'legacy' : 'xyz'}  worktree ${revision.worktree}\nexports ${exports.join('  ')}\ninputs ${inputs.join('  ')}\nt ${simT.toFixed(1)}  fps ${fps.toFixed(0)}  pol ${stats.pol.toFixed(2)}  nn ${stats.nn.toFixed(1)}  out ${stats.out}  falcon ${fal.on ? `${fal.mode}/${fal.motion.pose}` : 'off'}`;
   }
   requestAnimationFrame(loop);
 }

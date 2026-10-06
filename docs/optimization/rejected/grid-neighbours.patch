@@ -1,0 +1,232 @@
+diff --git a/murmuration.html b/murmuration.html
+index b30d8d6..72acc23 100644
+--- a/murmuration.html
++++ b/murmuration.html
+@@ -254,6 +254,92 @@ const bank = new Float32Array(N), alarm = new Float32Array(N);
+ const phase = new Float32Array(N), freq = new Float32Array(N), size = new Float32Array(N);
+ const paused = new Uint8Array(N), pkind = new Uint8Array(N), ptime = new Float32Array(N), pw = new Float32Array(N);   // pkind 1 glide, 2 bound; pw 0 flapping .. 1 in the pause pose
+ const nbD = new Float32Array(K), nbI = new Int32Array(K);
++
++// Neighbour search on a uniform grid, returning exactly what a scan of every bird in index order
++// returns. nbD holds float32 distances, so which birds win near a tie depends on that scan's order;
++// the grid therefore runs the same insertion scan, in index order, over the birds of the cells
++// around bird i only. Growing the search shell by shell, it stops once every unsearched cell lies
++// beyond the Kth distance found: a bird left out could neither have entered the list nor, while it
++// sat at the list's tail, have moved anyone ahead of it.
++const gCell = new Int32Array(N), gOrder = new Int32Array(N), gCand = new Int32Array(N);
++let gStart = new Int32Array(1), gNx = 1, gNy = 1, gNz = 1, gX = 0, gY = 0, gZ = 0, gH = 1, gSpan = 0;
++function buildGrid() {
++  let x0 = Infinity, y0 = Infinity, z0 = Infinity, x1 = -Infinity, y1 = -Infinity, z1 = -Infinity;
++  for (let i = 0; i < N; i++) {
++    x0 = Math.min(x0, px[i]); x1 = Math.max(x1, px[i]); y0 = Math.min(y0, py[i]); y1 = Math.max(y1, py[i]);
++    z0 = Math.min(z0, pz[i]); z1 = Math.max(z1, pz[i]);
++  }
++  // About two birds per cell where the flock is (gSpan is last step's mean Kth distance), capped
++  // at 4N cells for a straggler far from the rest. Cell size changes speed, never the result.
++  const ex = x1 - x0, ey = y1 - y0, ez = z1 - z0;
++  gH = Math.max(gSpan > 0 ? gSpan * .9 : Math.cbrt(ex * ey * ez / N + 1e-9) * 1.3, Math.cbrt(ex * ey * ez / (4 * N) + 1e-9), 1e-3);
++  for (;;) {                                   // every bird must lie inside its cell's box
++    gNx = Math.floor(ex / gH) + 1; gNy = Math.floor(ey / gH) + 1; gNz = Math.floor(ez / gH) + 1;
++    if (gNx * gNy * gNz <= 4 * N + 64) break;
++    gH *= 1.25;
++  }
++  gX = x0; gY = y0; gZ = z0;
++  const cells = gNx * gNy * gNz;
++  if (gStart.length < cells + 1) gStart = new Int32Array(cells + 1); else gStart.fill(0, 0, cells + 1);
++  for (let i = 0; i < N; i++) {
++    const cx = Math.floor((px[i] - gX) / gH), cy = Math.floor((py[i] - gY) / gH), cz = Math.floor((pz[i] - gZ) / gH);
++    gCell[i] = (cx * gNy + cy) * gNz + cz; gStart[gCell[i] + 1]++;
++  }
++  for (let c = 0; c < cells; c++) gStart[c + 1] += gStart[c];
++  for (let i = 0; i < N; i++) gOrder[gStart[gCell[i]]++] = i;     // ascending i within each cell
++  for (let c = cells; c > 0; c--) gStart[c] = gStart[c - 1];
++  gStart[0] = 0;
++}
++function scanNeighbours(i, list, n) {         // the original insertion scan over list[0..n), in index order
++  const x = px[i], y = py[i], z = pz[i];
++  let nb = 0;
++  for (let c = 0; c < n; c++) {
++    const j = list[c];
++    if (j === i) continue;
++    const dx = px[j] - x, dy = py[j] - y, dz = pz[j] - z, d2 = dx * dx + dy * dy + dz * dz;
++    if (nb === K && d2 >= nbD[K - 1]) continue;
++    let k = nb < K ? nb++ : K - 1;
++    while (k > 0 && nbD[k - 1] > d2) { nbD[k] = nbD[k - 1]; nbI[k] = nbI[k - 1]; k--; }
++    nbD[k] = d2; nbI[k] = j;
++  }
++  return nb;
++}
++function addCell(n, q) {
++  for (let k = gStart[q], e = gStart[q + 1]; k < e; k++) gCand[n++] = gOrder[k];
++  return n;
++}
++function neighbours(i) {
++  const x = px[i], y = py[i], z = pz[i], c = gCell[i];
++  const cx = c / (gNy * gNz) | 0, cy = (c / gNz | 0) % gNy, cz = c % gNz;
++  let n = 0;
++  for (let r = 0; ; r++) {
++    // add the cells at Chebyshev distance r from bird i's cell
++    for (let ix = Math.max(0, cx - r); ix <= Math.min(gNx - 1, cx + r); ix++)
++      for (let iy = Math.max(0, cy - r); iy <= Math.min(gNy - 1, cy + r); iy++) {
++        if (ix === cx - r || ix === cx + r || iy === cy - r || iy === cy + r)
++          for (let iz = Math.max(0, cz - r); iz <= Math.min(gNz - 1, cz + r); iz++) n = addCell(n, (ix * gNy + iy) * gNz + iz);
++        else {
++          if (cz - r >= 0) n = addCell(n, (ix * gNy + iy) * gNz + cz - r);
++          if (cz + r < gNz) n = addCell(n, (ix * gNy + iy) * gNz + cz + r);
++        }
++      }
++    const lo = x - (gX + (cx - r) * gH), hi = gX + (cx + r + 1) * gH - x;
++    const loy = y - (gY + (cy - r) * gH), hiy = gY + (cy + r + 1) * gH - y;
++    const loz = z - (gZ + (cz - r) * gH), hiz = gZ + (cz + r + 1) * gH - z;
++    // nearest point any unsearched cell could hold (a side with no cells left does not count)
++    const lb = Math.min(cx - r > 0 ? lo : Infinity, cx + r < gNx - 1 ? hi : Infinity,
++      cy - r > 0 ? loy : Infinity, cy + r < gNy - 1 ? hiy : Infinity, cz - r > 0 ? loz : Infinity, cz + r < gNz - 1 ? hiz : Infinity);
++    if (r === 0 && lb !== Infinity) continue;   // one cell rarely holds K neighbours: go on to the 27
++    for (let a = 1; a < n; a++) {               // into index order (cells arrive in ascending runs)
++      const v = gCand[a]; let b = a - 1;
++      while (b >= 0 && gCand[b] > v) { gCand[b + 1] = gCand[b]; b--; }
++      gCand[b + 1] = v;
++    }
++    const nb = scanNeighbours(i, gCand, n);
++    if (lb === Infinity) return nb;             // every cell searched
++    if (nb === K && lb > 0 && lb * lb > nbD[K - 1] * (1 + 1e-6) + 1e-9) return nb;
++  }
++}
+ const tgt = { x: 0, y: 0, z: 0 }, tmp = { x: 0, y: 0, z: 0 };
+ let gcx = 0, gcy = 0, gcz = 0, gvx = 0, gvy = 0, gvz = 0, lure = 0, lastMove = -1e9;
+ const ptr = { x: 0, y: 0 };
+@@ -534,20 +620,14 @@ function step(dt, t) {
+     if (fm > FRAME_CAP) { frX *= FRAME_CAP / fm; frY *= FRAME_CAP / fm; frZ *= FRAME_CAP / fm; }
+   }
+ 
+-  let pol = 0, pvx = 0, pvy = 0, pvz = 0, nn = 0, outside = 0;
++  let pol = 0, pvx = 0, pvy = 0, pvz = 0, nn = 0, outside = 0, spanSum = 0;
++  buildGrid();
+   for (let i = 0; i < N; i++) {
+     const x = px[i], y = py[i], z = pz[i], vxi = vx[i], vyi = vy[i], vzi = vz[i];
+     const spd = Math.hypot(vxi, vyi, vzi) + 1e-4;
+ 
+-    let nb = 0;                                // K nearest, insertion-sorted
+-    for (let j = 0; j < N; j++) {
+-      if (j === i) continue;
+-      const dx = px[j] - x, dy = py[j] - y, dz = pz[j] - z, d2 = dx * dx + dy * dy + dz * dz;
+-      if (nb === K && d2 >= nbD[K - 1]) continue;
+-      let k = nb < K ? nb++ : K - 1;
+-      while (k > 0 && nbD[k - 1] > d2) { nbD[k] = nbD[k - 1]; nbI[k] = nbI[k - 1]; k--; }
+-      nbD[k] = d2; nbI[k] = j;
+-    }
++    const nb = neighbours(i);                  // K nearest, insertion-sorted
++    if (nb) spanSum += Math.sqrt(nbD[nb - 1]);
+ 
+     let aX = 0, aY = 0, aZ = 0;
+     let m = 0, avx = 0, avy = 0, avz = 0, ccx = 0, ccy = 0, ccz = 0, spx = 0, spy = 0, spz = 0;
+@@ -690,6 +770,7 @@ function step(dt, t) {
+     pvx += vx[i] / s; pvy += vy[i] / s; pvz += vz[i] / s;
+   }
+   stats.pol = Math.hypot(pvx, pvy, pvz) / N; stats.nn = nn / N; stats.out = outside;   // Eq 1
++  gSpan = spanSum / N;
+ }
+ 
+ // ---------------------------------------------------------------- correlation analysis (Eqs 1–5, 14–16)
+@@ -1154,7 +1235,7 @@ let dbg = null;
+ if (params.has('debug')) {
+   dbg = document.createElement('pre'); dbg.id = 'dbg'; document.body.appendChild(dbg);
+   window.murm = { step, analyse, draw, stats, corr, px, py, pz, vx, vy, vz, N, M, fal, huntLog, alarm, wT, wL, wP,
+-    gaits, Motion, motionMode: legacyMotion ? 'legacy' : 'xyz', motionAssets, motionExports, revision, seed, launchFalcon, pushMotion, motionX, motionY,
++    gaits, Motion, motionMode: legacyMotion ? 'legacy' : 'xyz', motionAssets, motionExports, revision, seed, launchFalcon, pushMotion, motionX, motionY, buildGrid, neighbours, nbD, nbI,
+     get gc() { return [gcx, gcy, gcz]; }, get simT() { return simT; },
+     cam: { get UM() { return UM; }, get VT() { return VT; }, get VB() { return VB; }, get ct() { return ct; }, get st() { return st; }, CAM_H, ZMIN, ZMAX } };
+ }
+diff --git a/sim/check.js b/sim/check.js
+index 681ed55..76fcf4f 100644
+--- a/sim/check.js
++++ b/sim/check.js
+@@ -23,6 +23,8 @@ assert.equal(a.state.huntLog.length,400);
+ assert.equal(a.fullHunts.filter(e=>e.type==='synthetic-ring-probe').length,450);
+ const motion=cp.execFileSync(process.execPath,[path.resolve(__dirname,'../motion/check.js')],{encoding:'utf8'});
+ assert.equal(JSON.parse(motion).status,'passed');
++const neighbours=JSON.parse(cp.execFileSync(process.execPath,[path.resolve(__dirname,'neighbours-check.js')],{encoding:'utf8'}));
++assert.equal(neighbours.status,'passed');
+ for(const script of ['run.js','differential.js'])for(const timing of [['--seconds','banana'],['--seconds','0.001','--dt-ms','1000']]) {
+   const bad=cp.spawnSync(process.execPath,[path.resolve(__dirname,script),...timing],{encoding:'utf8'});
+   assert.notEqual(bad.status,0,`${script} accepted invalid timing ${timing.join(' ')}`);
+@@ -30,4 +32,4 @@ for(const script of ['run.js','differential.js'])for(const timing of [['--second
+   assert.doesNotMatch(bad.stdout,/"status":"equal"/,`${script} emitted a false equality result`);
+ }
+ console.log(JSON.stringify({status:'passed',replayFrames:120,velocityNegativeControl:true,ringEvents:450,
+-  canvasPathLines:a.canvasCalls['Path2D.lineTo'],motion:JSON.parse(motion).checked}));
++  canvasPathLines:a.canvasCalls['Path2D.lineTo'],motion:JSON.parse(motion).checked,neighbours}));
+diff --git a/sim/neighbours-check.js b/sim/neighbours-check.js
+new file mode 100644
+index 0000000..10425a0
+--- /dev/null
++++ b/sim/neighbours-check.js
+@@ -0,0 +1,68 @@
++#!/usr/bin/env node
++'use strict';
++// The grid neighbour search must return exactly what the original scan of every bird in index
++// order returns: the same birds, in the same order, with the same float32 distances.
++const assert=require('node:assert/strict'),path=require('node:path');
++const {host}=require('./page');
++const file=path.resolve(process.argv[2]||path.join(__dirname,'../murmuration.html'));
++const K=7;
++function brute(m,i){                        // the scan murmuration.html used before the grid
++  const {px,py,pz,N}=m,D=new Float32Array(K),I=new Int32Array(K),x=px[i],y=py[i],z=pz[i];let nb=0;
++  for(let j=0;j<N;j++){
++    if(j===i)continue;
++    const dx=px[j]-x,dy=py[j]-y,dz=pz[j]-z,d2=dx*dx+dy*dy+dz*dz;
++    if(nb===K&&d2>=D[K-1])continue;
++    let k=nb<K?nb++:K-1;
++    while(k>0&&D[k-1]>d2){D[k]=D[k-1];I[k]=I[k-1];k--;}
++    D[k]=d2;I[k]=j;
++  }
++  return {nb,D:[...D.slice(0,nb)],I:[...I.slice(0,nb)]};
++}
++function compareAll(m,label){
++  m.buildGrid();
++  for(let i=0;i<m.N;i++){
++    const nb=m.neighbours(i),want=brute(m,i);
++    assert.equal(nb,want.nb,`${label}: bird ${i} found ${nb} neighbours, scan ${want.nb}`);
++    assert.deepEqual([...m.nbI.slice(0,nb)],want.I,`${label}: bird ${i} neighbour ids differ`);
++    assert.deepEqual([...m.nbD.slice(0,nb)],want.D,`${label}: bird ${i} distances differ`);
++  }
++}
++let seed=99;const rnd=()=>(seed=Math.imul(seed^seed>>>15,2246822507)+1013904223>>>0)/4294967296;
++const counts={liveFrames:0,layouts:0,birds:0};
++// live flocks, calm and hunted, at several sizes
++for(const [n,q] of [[400,'calm'],[100,'falcon'],[1000,'calm'],[20,'calm'],[8,'calm']]){
++  const h=host(file,{query:`seed=3&n=${n}&${q}&painted&debug`}),m=h.state;
++  for(let f=0;f<240;f++){m.step(1/60,(f+1)/60);if(f%40===0){compareAll(m,`n${n} ${q} frame ${f}`);counts.liveFrames++;counts.birds+=n;}}
++}
++// adversarial layouts: exact ties on a lattice, duplicates, two far clouds, a lone straggler,
++// a flat sheet, everything at one point, and a float32 near-tie ladder
++const h=host(file,{query:'seed=1&n=400&calm&painted&debug'}),m=h.state,N=m.N,{px,py,pz}=m;
++const layouts={
++  lattice:i=>[i%8,(i>>3)%8,i>>6],
++  coarseLattice:i=>[(i%5)*3.7,((i/5|0)%5)*3.7,(i/25|0)*3.7],
++  duplicates:i=>{const k=i%37;return [k*.9,k*.4,-k];},
++  twoClouds:i=>i<200?[rnd()*10,rnd()*10,rnd()*10]:[5000+rnd()*10,rnd()*10,rnd()*10],
++  straggler:i=>i===0?[1e5,-3e4,2e4]:[rnd()*40,rnd()*20,rnd()*40],
++  sheet:i=>[rnd()*300,0,rnd()*300],
++  line:i=>[i*.25,0,0],
++  onePoint:()=>[7,7,7],
++  nearTies:i=>[1+(i%20)*1e-7,(i/20|0)*1e-7,0],
++  sparse:i=>[(rnd()-.5)*4000,(rnd()-.5)*4000,(rnd()-.5)*4000],
++};
++for(const [name,f] of Object.entries(layouts)){
++  for(let i=0;i<N;i++){const [x,y,z]=f(i);px[i]=x;py[i]=y;pz[i]=z;}
++  compareAll(m,name);counts.layouts++;counts.birds+=N;
++}
++// negative control: a search that stops one shell early must be caught
++{
++  for(let i=0;i<N;i++){px[i]=rnd()*60;py[i]=rnd()*60;pz[i]=rnd()*60;}
++  m.buildGrid();let caught=false;
++  for(let i=0;i<N&&!caught;i++){m.neighbours(i);const want=brute(m,i);
++    // the scan restricted to bird i's own cell neighbourhood would differ for some bird
++    const own=[...Array(N).keys()].filter(j=>Math.abs(px[j]-px[i])<3&&Math.abs(py[j]-py[i])<3&&Math.abs(pz[j]-pz[i])<3);
++    const D=new Float32Array(K),I=new Int32Array(K);let nb=0;
++    for(const j of own){if(j===i)continue;const dx=px[j]-px[i],dy=py[j]-py[i],dz=pz[j]-pz[i],d2=dx*dx+dy*dy+dz*dz;if(nb===K&&d2>=D[K-1])continue;let k=nb<K?nb++:K-1;while(k>0&&D[k-1]>d2){D[k]=D[k-1];I[k]=I[k-1];k--;}D[k]=d2;I[k]=j;}
++    if(nb!==want.nb||[...I.slice(0,nb)].join()!==want.I.join())caught=true;}
++  assert.ok(caught,'negative control: a truncated search was not distinguishable from the scan');
++}
++console.log(JSON.stringify({status:'passed',file,...counts}));

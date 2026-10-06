@@ -1,10 +1,11 @@
 // Headless hunt measurements for murmuration.html, scored against falcon/refs/hunting_notes.md.
 //   node murmuration-falcon.js [seconds=300] [query="seed=1&n=400"] [--json]
 //   node murmuration-falcon.js --merge run1.json run2.json ...   pool several --json runs (e.g. seeds run in parallel)
-// Runs the page under node (same stubs as murmuration-check.js) with spontaneous hunts and reports
+// Runs the actual page frame callbacks under the shared strict-canvas host with spontaneous hunts and reports
 // each observable next to its measured target. World units: 0.5 m.
 
-const fs = require('fs'), vm = require('vm'), path = require('path');
+const fs = require('fs'), path = require('path');
+const {host}=require('./sim/page');
 const args = process.argv.slice(2), json = args.includes('--json');
 const pos = args.filter(a => !a.startsWith('--'));
 const merge = args.includes('--merge');
@@ -22,23 +23,8 @@ function pool(runs) {
 function simulate() {
 
 const htmlArg = args.find(a => a.startsWith('--html='));   // --html=FILE: measure another copy of the page
-let src = fs.readFileSync(htmlArg ? htmlArg.slice(7) : path.join(__dirname, 'murmuration.html'), 'utf8');
-src = src.slice(src.indexOf('<script>') + 8, src.lastIndexOf('</script>'));
-const noop = () => {};
-const canvasProxy = () => new Proxy({}, { get: (t, p) => (p in t ? t[p] : (p === 'data' ? [] : (...a) => canvasProxy())), set: (t, p, v) => (t[p] = v, true) });
-const el = () => ({ textContent: '', classList: { add: noop, toggle: noop, remove: noop, contains: () => false }, getContext: () => canvasProxy(), width: 0, height: 0, style: {}, appendChild: noop });
-const win = {
-  document: { getElementById: el, createElement: el, body: { appendChild: noop }, addEventListener: noop },
-  innerWidth: 1440, innerHeight: 900, devicePixelRatio: 1,
-  location: { search: '?' + query + '&debug' }, URLSearchParams, performance, Math, console,
-  requestAnimationFrame: noop, addEventListener: noop, setTimeout: noop, clearTimeout: noop,
-  Float32Array, Float64Array, Int32Array, Int8Array, Uint32Array, Uint8Array, Array,
-  Path2D: class { moveTo() {} lineTo() {} closePath() {} },
-};
-win.window = win;
-vm.createContext(win);
-vm.runInContext(src, win);
-const m = win.murm, N = m.N;
+const page=host(htmlArg ? htmlArg.slice(7) : path.join(__dirname, 'murmuration.html'),{query});
+const m=page.state, N = m.N;
 
 function flockShape() {                          // radius of gyration, polarization, clusters (link 8 u = 4 m)
   let cx = 0, cy = 0, cz = 0, Px = 0, Py = 0, Pz = 0;
@@ -66,15 +52,14 @@ const shapeLog = [];                             // flock shape twice a second
 const trig = [];                                 // wave triggers: [t, pulse index, distance from the seed]
 const prevWT = new Float32Array(N).fill(1e3);
 for (let s = 0; s < secs * 60; s++) {
-  simT += dt; m.step(dt, simT);
-  const log = m.huntLog;
+  page.frame(dt*1000);simT=m.simT;
+  const log = page.fullHunts;
   for (; seen < log.length + 0 && log[seen]; seen++) {
     const e = log[seen];
     if (e.type === 'strike') { strikes.push(e); pending.push(e); }
     else if (e.type === 'hunt') hunts.push(e);
     else if (e.type === 'pulse') pulses.push(e);
   }
-  if (log.length >= 400) seen = log.length;      // the page keeps the last 400 events
   for (let i = 0; i < N; i++) {                  // a fresh roll: wT reset to 0 since the last frame
     if (m.wT[i] < prevWT[i]) {
       const k = pulses.findIndex(p => p.id === m.wP[i]), p = pulses[k];

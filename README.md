@@ -1,9 +1,9 @@
 # Murmuration
 
-A starling flock in a single HTML page, with the observables of Cavagna et al.,
+A starling flock rendered on Canvas, with the observables of Cavagna et al.,
 "Scale-free correlations in starling flocks", PNAS 107:11865 (2010) measured live.
 
-Open `murmuration.html` in a browser (keep `murmuration-sky.jpg` next to it).
+Open `murmuration.html` in a browser with `murmuration-sky.jpg` and `motion/` alongside it.
 Move the pointer to lure the flock, click to loose a falcon, press **C** for the
 correlation panel.
 
@@ -16,6 +16,14 @@ correlation panel.
 | `?stats` | open the correlation panel |
 | `?painted` | painted sky instead of the photograph |
 | `?warm=20` | simulate 20 s before the first frame |
+| `?motion=legacy` | compare the earlier 2D outlines |
+
+The default renderer uses the Blender-baked XYZ bird surfaces. Starlings have
+individual flap/glide/bound schedules; falcon shapes follow position, stoop,
+climb and leave events. Open `motion-lab.html` from the page's motion link to
+inspect either bird from four views. These animation changes preserve the
+merged hunting/escape controller. Gaits currently affect drawing rather than
+lift, thrust or glide deceleration; physical coupling is a later milestone.
 
 ## What it reproduces
 
@@ -41,11 +49,14 @@ The peregrine hunts as described in `falcon/refs/hunting_notes.md`:
   supply its 50 ms sensing delay and line-of-sight error. Turns are capped at 2.5 g.
 - **After the pass:** a zoom climb. About a third of strikes follow within 5 s.
 - **The flock:** flash expansions follow about a quarter of strikes. Starlings in the
-  falcon's path dodge at 3.4 g. In some hunts, orientation waves spread by each bird
+  falcon's path dodge with an estimated 3.4 g lateral acceleration. This is a
+  model parameter, not a measured starling limit; Mills' modeled load factor
+  3.4 is a different quantity. In some hunts, orientation waves spread by each bird
   copying its nearest neighbours' roll.
 
-`murmuration-falcon.js` measures hunts headless. Pooled over 16 seeds × 300 s, 400
-birds (179 strikes, 62 hunts), against the measured values:
+`murmuration-falcon.js` measures hunts headless. The earlier 16-seed × 300 s,
+400-bird benchmark (179 strikes, 62 hunts) is retained below as historical output.
+Simulation proxies and observed field classifications are not identical:
 
 | observable | page | measured |
 |---|---|---|
@@ -58,17 +69,36 @@ birds (179 strikes, 62 hunts), against the measured values:
 | flock split after a strike | 21 % | 22 % |
 | wave speed | 16 m/s (3.6–24) | 13 m/s (3.7–25) |
 | hunts with waves | 29 % | 36–42 % |
-| hunts with a catch (pass within 0.2 m) | 48 % | 23–24 % |
+| hunts with geometric contact (pass within 0.2 m) | 48 % | 23–24 % observed capture |
 
-**Catch rate.** The page never draws a catch. Its catch rate matches simulated attacks
-better than field hunts: Mills et al. reach 26–31 % per attack, and the page catches
-on 21 % of strikes. Field success is lower than either.
+**Contact and capture.** The page never draws a catch. Passing within 0.2 m is
+a geometric contact proxy, not an observed capture. The historical benchmark
+reports contact on 21 % of strikes. Comparisons with Mills' simulated attacks
+or field capture rates need matching definitions and experimental context.
 
 **Estimated parameters.** These are not measured: the dodge timing and width,
 the waiting position, and the bound share of starling pauses. Their values and
 reasons are in the comments in `murmuration.html`.
 
 ## Checking it
+
+Run the actual page headlessly, including its animation-frame callbacks and
+drawing calls, with no browser or package dependencies:
+
+```sh
+node sim/run.js --seconds 30 --query 'seed=1&n=100&calm&painted'
+node sim/run.js --seconds 60 --query 'seed=7&n=100&falcon&painted' --format csv
+node sim/check.js
+node sim/differential.js --seconds 40
+node motion/check.js
+```
+
+The runner records virtual time, seed/query, Node version, page/script hashes,
+trajectory digest and full hunt events. `--inputs FILE` replays timestamped
+pointer/key events. The differential checker compares each frame with merged
+revision `a5dedcc`, including positions, velocities, falcon behavior and hunt
+history. See [sim/README.md](sim/README.md) for input format, optional native
+Canvas PNGs, and the distinction between simulation, drawing and browser tests.
 
 ```
 node murmuration-check.js murmuration.html 40 "seed=1&calm&n=800"
@@ -91,18 +121,33 @@ node murmuration-assets.js
 ```
 
 After rebuilding either model's outline, run `node murmuration-assets.js --write`
-to refresh the page. The starling rebuild does this automatically. The page uses
-the starling's 15-point `flap_mid`, `upstroke`, `glide` and `bound` shapes and the
-peregrine's four dive keys; the Blender scenes are build assets and are not loaded by the browser.
+to refresh the comparison renderer. The starling rebuild does this automatically.
+The default XYZ renderer consumes `motion/motion-data.js`; see
+[motion/README.md](motion/README.md) for rebuilding and evidence limits. Blender
+scenes are authoring assets and are not loaded by the browser.
 
 The headless checker reports distances and speeds in world units. The panel uses
 0.5 metres per world unit. Headless checks exercise simulation and drawing code
 with canvas stubs; check the page in a browser to validate appearance and controls.
 
+Nothing published may contain a home-directory path or a personal name:
+
+```
+git config core.hooksPath .githooks
+```
+
+turns on the pre-commit and pre-push hooks, which run `node murmuration-privacy.js`.
+It searches text, compressed `.blend` files and PNG metadata, and refuses any
+`/Users/<name>` or `/home/<name>` path, the login name, and the names listed one per
+line in `.private-words` (git-ignored). `--history` checks every commit.
+
 ## Layout
 
 - `murmuration.html`, `murmuration-sky.jpg`: the page. `murmuration-check.js`,
   `murmuration-falcon.js`, `murmuration-assets.js`: headless checks.
+- `sim/`: reusable actual-page simulator, regression checks and input replay.
+- `motion/`, `motion-lab.html`: baked XYZ models, gait/pose controller and viewer.
+- `docs/REALISM_IMPLEMENTATION_PLAN.md`: research-based stages beyond this milestone.
 - `blender/`: an earlier rigged falcon; the page no longer uses it.
 - `starling/`: the measured starling model the page's starling outline comes from.
 - `falcon/`: a peregrine model with measured proportions, its build scripts,

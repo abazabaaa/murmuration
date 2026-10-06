@@ -1,0 +1,5 @@
+[
+  {"atMs": 1000, "type": "pointermove", "clientX": 650, "clientY": 300},
+  {"atMs": 2000, "type": "pointerdown", "clientX": 650, "clientY": 300},
+  {"atMs": 4000, "type": "keydown", "key": "c"}
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "file": "murmuration.html",
+    "httpBytes": 69711,
+    "sha256": "d24849dffb2feb6882cece1fa00f56852a5d22f3ddd840559ecd4e05aacf8646",
+    "matchesDisk": true
+  },
+  {
+    "file": "motion/motion.js",
+    "httpBytes": 6769,
+    "sha256": "ce19dd0dd8eacfdb710ad6cb928735e70c296a8ae689b32ca224502c1e353351",
+    "matchesDisk": true
+  },
+  {
+    "file": "motion/motion-data.js",
+    "httpBytes": 1363930,
+    "sha256": "744e92d6f4a41b651723e499025a25b05e1eaef2d77f02d89a81bca57072e1aa",
+    "matchesDisk": true
+  }
+]
