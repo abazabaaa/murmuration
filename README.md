@@ -40,6 +40,21 @@ node murmuration-check.js murmuration.html 40 "seed=1&calm&n=800"
 runs the page headless and measures the same observables with an independent
 implementation.
 
+Check that both embedded bird tables match the latest model exports:
+
+```
+node murmuration-assets.js
+```
+
+After rebuilding either model's outline, run `node murmuration-assets.js --write`
+to refresh the page. The starling rebuild does this automatically. The page uses
+the starling's 15-point `flap_mid` and `upstroke` shapes and the peregrine's four
+dive keys; the Blender scenes are build assets and are not loaded by the browser.
+
+The headless checker reports distances and speeds in world units. The panel uses
+0.5 metres per world unit. Headless checks exercise simulation and drawing code
+with canvas stubs; check the page in a browser to validate appearance and controls.
+
 ## Layout
 
 - `murmuration.html`, `murmuration-check.js`, `murmuration-sky.jpg`: the page.

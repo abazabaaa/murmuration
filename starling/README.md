@@ -99,6 +99,12 @@ This runs Blender 5.2 headless (`--background --factory-startup`) through `blend
 3. `starling.blend`.
 4. The 15- and 13-point outlines and the contact sheets.
 5. With `--refs` pointing at the normalised photo masks, the validation.
+6. The page's embedded bird tables, via `node murmuration-assets.js --write`.
+
+Run `node murmuration-assets.js` from the repository root to check that the page
+uses the current `flap_mid` and `upstroke` shapes from `outline/starling-low15.json`
+and the current peregrine dive keys. Other starling poses remain model and
+validation assets; the page's wingbeat blends those two compact shapes.
 
 The Blender scripts are species-neutral copies of the falcon's: `bird_build.py`, `bird_render.py`, `bird_measure.py`, `bird_sheet.py`, `bird_beauty.py` and `bird_outline.py`. Their falcon-scale constants became parameters with the falcon's values as defaults, and the builder reproduces every falcon metric. `starling_look.py` holds the plumage, and `bird_tune.py` measures a batch of candidate poses in one run.
 
