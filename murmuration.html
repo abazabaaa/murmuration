@@ -246,7 +246,7 @@ const wrand = rng((params.has('seed') ? +params.get('seed') ^ 0x9E3779B9 : Math.
 const NOISE_K = params.has('noise') ? Math.max(0, +params.get('noise')) : 1;
 const NOISE = 9 * NOISE_K, NOISE_TAU = 4;
 
-const px = new Float32Array(N), py = new Float32Array(N), pz = new Float32Array(N);
+const px = new Float32Array(N), py = new Float32Array(N), pz = new Float32Array(N), pp = new Float32Array(3 * N);
 const vx = new Float32Array(N), vy = new Float32Array(N), vz = new Float32Array(N);
 const ax = new Float32Array(N), ay = new Float32Array(N), az = new Float32Array(N);
 const nzx = new Float32Array(N), nzy = new Float32Array(N), nzz = new Float32Array(N);   // OU noise state
@@ -534,19 +534,21 @@ function step(dt, t) {
     if (fm > FRAME_CAP) { frX *= FRAME_CAP / fm; frY *= FRAME_CAP / fm; frZ *= FRAME_CAP / fm; }
   }
 
+  for (let i = 0, q = 0; i < N; i++, q += 3) { pp[q] = px[i]; pp[q + 1] = py[i]; pp[q + 2] = pz[i]; }
   let pol = 0, pvx = 0, pvy = 0, pvz = 0, nn = 0, outside = 0;
   for (let i = 0; i < N; i++) {
     const x = px[i], y = py[i], z = pz[i], vxi = vx[i], vyi = vy[i], vzi = vz[i];
     const spd = Math.hypot(vxi, vyi, vzi) + 1e-4;
 
-    let nb = 0;                                // K nearest, insertion-sorted
-    for (let j = 0; j < N; j++) {
-      if (j === i) continue;
-      const dx = px[j] - x, dy = py[j] - y, dz = pz[j] - z, d2 = dx * dx + dy * dy + dz * dz;
-      if (nb === K && d2 >= nbD[K - 1]) continue;
+    let nb = 0, kth = Infinity;                // K nearest, insertion-sorted; kth is the stored Kth distance once K are held
+    for (let j = 0, q = 0; j < N; j++, q += 3) {
+      if (j === i) { j++; q += 3; if (j >= N) break; }
+      const dx = pp[q] - x, dy = pp[q + 1] - y, dz = pp[q + 2] - z, d2 = dx * dx + dy * dy + dz * dz;
+      if (d2 >= kth) continue;
       let k = nb < K ? nb++ : K - 1;
       while (k > 0 && nbD[k - 1] > d2) { nbD[k] = nbD[k - 1]; nbI[k] = nbI[k - 1]; k--; }
       nbD[k] = d2; nbI[k] = j;
+      if (nb === K) kth = nbD[K - 1];
     }
 
     let aX = 0, aY = 0, aZ = 0;
@@ -696,6 +698,7 @@ function step(dt, t) {
 const NBIN = 32;
 const ux = new Float32Array(N), uy = new Float32Array(N), uz = new Float32Array(N), phi = new Float32Array(N);
 const cNum = new Float64Array(NBIN), cNumSp = new Float64Array(NBIN), cCnt = new Float64Array(NBIN);
+const rad = new Float64Array(N), ord = new Int32Array(N);
 const corr = {
   t: -1e9, phi: 0, speed: 0, sigSpeed: 0, rmsU: 0, L: 0, dr: 0, xi: NaN, xiSp: NaN,
   C: new Float32Array(NBIN), Csp: new Float32Array(NBIN), cnt: cCnt,
@@ -725,12 +728,25 @@ function analyse(t) {
   }
   c0 /= N; c0s /= N;                                             // c0 = ⟨|u|²⟩ makes C(0) = 1
 
-  let L2 = 0;                                                    // flock size L: largest inter-bird distance
-  for (let i = 0; i < N; i++) {
-    const x = px[i], y = py[i], z = pz[i];
-    for (let j = i + 1; j < N; j++) {
+  // Flock size L: largest inter-bird distance. Birds are visited from the outside in (distance from
+  // the centroid, descending): a pair can only beat the largest distance so far if the sum of its two
+  // radii exceeds it, so each inner scan stops at the first bird whose radius is too small and the
+  // outer scan stops once twice the radius is. The maximum is the same value, since every skipped pair
+  // is provably shorter (triangle inequality, with a margin far above rounding).
+  let mx = 0, my = 0, mz = 0;
+  for (let i = 0; i < N; i++) { mx += px[i]; my += py[i]; mz += pz[i]; }
+  mx /= N; my /= N; mz /= N;
+  for (let i = 0; i < N; i++) { rad[i] = Math.hypot(px[i] - mx, py[i] - my, pz[i] - mz); ord[i] = i; }
+  ord.sort((a, b) => rad[b] - rad[a]);
+  let L2 = 0, Lsofar = 0;
+  for (let a = 0; a < N; a++) {
+    const i = ord[a], x = px[i], y = py[i], z = pz[i], ri = rad[i];
+    if (2 * ri * (1 + 1e-9) <= Lsofar) break;
+    for (let b = a + 1; b < N; b++) {
+      const j = ord[b];
+      if ((ri + rad[j]) * (1 + 1e-9) <= Lsofar) break;
       const d2 = (px[j] - x) ** 2 + (py[j] - y) ** 2 + (pz[j] - z) ** 2;
-      if (d2 > L2) L2 = d2;
+      if (d2 > L2) { L2 = d2; Lsofar = Math.sqrt(L2); }
     }
   }
   const L = Math.sqrt(L2), dr = L / NBIN, inv = 1 / (dr + 1e-9);
@@ -911,6 +927,53 @@ function farParts(model) {
   return parts.length === 5 ? parts : null;
 }
 const motionParts = Object.fromEntries(Object.entries(Motion.data.species).map(([name, model]) => [name, farParts(model)]));
+// Near meshes draw the outline of their triangles' union instead of every triangle. With each
+// triangle wound positive on screen (as appendFaces does), an edge shared by two triangles lying on
+// opposite sides of it on screen is crossed both ways and cancels; every other edge is kept and the
+// kept edges are chained into closed loops. The winding number is unchanged everywhere, so the
+// non-zero fill covers exactly the same area, folded or not.
+function nearEdges(model) {
+  const faces = model.faces.near, n = faces.length, twin = new Int32Array(n * 3).fill(-1), same = new Uint8Array(n * 3);
+  const sides = new Map();
+  for (let f = 0; f < n; f++) for (let j = 0; j < 3; j++) {
+    const a = faces[f][j], b = faces[f][(j + 1) % 3], key = Math.min(a, b) * 316 + Math.max(a, b);
+    if (!sides.has(key)) sides.set(key, []); sides.get(key).push(f * 3 + j);
+  }
+  for (const list of sides.values()) if (list.length === 2) {
+    const [p, q] = list;
+    twin[p] = q / 3 | 0; twin[q] = p / 3 | 0;
+    same[p] = same[q] = faces[p / 3 | 0][p % 3] === faces[q / 3 | 0][q % 3] ? 1 : 0;
+  }
+  return { faces, twin, same, sign: new Int8Array(n), from: new Int32Array(n * 3), to: new Int32Array(n * 3),
+    next: new Int32Array(n * 3), head: new Int32Array(316).fill(-1) };
+}
+const motionNear = Object.fromEntries(Object.entries(Motion.data.species).map(([name, model]) => [name, nearEdges(model)]));
+function appendNear(path, e) {
+  const { faces, twin, same, sign, from, to, next, head } = e, n = faces.length;
+  for (let f = 0; f < n; f++) sign[f] = faceArea(faces[f][0], faces[f][1], faces[f][2]) >= 0 ? 1 : -1;
+  let m = 0;
+  for (let f = 0; f < n; f++) for (let j = 0; j < 3; j++) {
+    const s = f * 3 + j, g = twin[s];
+    if (g >= 0 && (same[s] ? sign[g] !== sign[f] : sign[g] === sign[f])) continue;  // crossed both ways
+    const a = faces[f][j], b = faces[f][(j + 1) % 3];
+    if (sign[f] > 0) { from[m] = a; to[m] = b; } else { from[m] = b; to[m] = a; }
+    m++;
+  }
+  for (let k = m - 1; k >= 0; k--) { next[k] = head[from[k]]; head[from[k]] = k; }
+  for (let k = 0; k < m; k++) while (head[from[k]] >= 0) {
+    // Every vertex has as many kept edges in as out, so a walk can only end where it began.
+    const start = from[k]; let v = start;
+    path.moveTo(motionX[v], motionY[v]);
+    for (let x = head[v]; x >= 0; x = head[v]) {
+      head[v] = next[x]; v = to[x];
+      if (v === start) break;
+      path.lineTo(motionX[v], motionY[v]);
+    }
+  }
+}
+// XYZ paths are only filled, and a fill closes every subpath itself. They never call closePath:
+// in Chrome each Path2D.closePath costs time in proportion to the path so far, which made a
+// bin's path quadratic in its bird count (16k subpaths: 325 ms with it, 1 ms without).
 function faceArea(a, b, c) {
   return (motionX[b] - motionX[a]) * (motionY[c] - motionY[a]) - (motionY[b] - motionY[a]) * (motionX[c] - motionX[a]);
 }
@@ -919,7 +982,7 @@ function appendFaces(path, faces) {
     const a = face[0], b = face[1], c = face[2], positive = faceArea(a, b, c) >= 0;
     path.moveTo(motionX[a], motionY[a]);
     path.lineTo(motionX[positive ? b : c], motionY[positive ? b : c]);
-    path.lineTo(motionX[positive ? c : b], motionY[positive ? c : b]); path.closePath();
+    path.lineTo(motionX[positive ? c : b], motionY[positive ? c : b]);
   }
 }
 function appendLoop(path, vertices) {
@@ -930,13 +993,18 @@ function appendLoop(path, vertices) {
     const v = vertices[area >= 0 ? i : n - 1 - i];
     if (i) path.lineTo(motionX[v], motionY[v]); else path.moveTo(motionX[v], motionY[v]);
   }
-  path.closePath();
 }
 function appendFar(path, parts) {
   for (const part of parts) {
     if (part.hull) {
       const sorted = part.sorted, chain = part.chain;
-      sorted.sort((a, b) => motionX[a] - motionX[b] || motionY[a] - motionY[b]); chain.length = 0;
+      for (let i = 1; i < sorted.length; i++) {        // stable insertion sort by (x, y): same order as the comparator sort, no closure or call
+        const v = sorted[i], vx = motionX[v], vy = motionY[v];
+        let j = i - 1;
+        while (j >= 0 && (motionX[sorted[j]] > vx || motionX[sorted[j]] === vx && motionY[sorted[j]] > vy)) { sorted[j + 1] = sorted[j]; j--; }
+        sorted[j + 1] = v;
+      }
+      chain.length = 0;
       for (const v of sorted) {
         while (chain.length >= 2 && faceArea(chain[chain.length - 2], chain[chain.length - 1], v) <= 0) chain.pop();
         chain.push(v);
@@ -965,12 +1033,16 @@ function pushMotion(path, species, state, x, y, z, fx, fy, fz, bk, scale, span) 
   if (species === 'starling') Motion.sampleGait(state, motionVertices, indices);
   else Motion.sampleFalcon(state, motionVertices, indices);
   birdFrame(x, y, z, fx, fy, fz, bk, 0, scale, span, span * .5);
-  for (const vi of indices) {
-    const j = vi * 3, a = motionVertices[j] * bL, w = motionVertices[j + 1] * bH, h = motionVertices[j + 2] * bH;
-    P(bX + bFx * a + bRx * w + bNx * h, bY + bFy * a + bRy * w + bNy * h, bZ + bFz * a + bRz * w + bNz * h);
-    motionX[vi] = _x; motionY[vi] = _y;
+  const n = indices.length;
+  for (let q = 0; q < n; q++) {                 // P() inlined: the same expressions in the same order
+    const vi = indices[q], j = vi * 3, a = motionVertices[j] * bL, w = motionVertices[j + 1] * bH, h = motionVertices[j + 2] * bH;
+    const yr = (bY + bFy * a + bRy * w + bNy * h) - CAM_H, zz = bZ + bFz * a + bRz * w + bNz * h;
+    const dz = yr * st + zz * ct, k = f / dz;
+    motionX[vi] = cx + (bX + bFx * a + bRx * w + bNx * h) * k;
+    motionY[vi] = cy - (yr * ct - zz * st) * k;
   }
   if (lod === 'far' && motionParts[species]) appendFar(path, motionParts[species]);
+  else if (lod === 'near') appendNear(path, motionNear[species]);
   else appendFaces(path, model.faces[lod]);
 }
 
@@ -999,7 +1071,7 @@ function draw() {
   for (let b = NB - 1; b >= 0; b--) {
     ctx.fillStyle = ctx.strokeStyle = fillCol[b];
     ctx.lineWidth = lineW[b] * Math.max(.8, f / 1272);
-    ctx.fill(fills[b]); ctx.stroke(bodies[b]);
+    ctx.fill(fills[b]); if (legacyMotion) ctx.stroke(bodies[b]);   // XYZ birds leave bodies empty
   }
 
   if (fal.on) {
@@ -1107,7 +1179,7 @@ let dbg = null;
 if (params.has('debug')) {
   dbg = document.createElement('pre'); dbg.id = 'dbg'; document.body.appendChild(dbg);
   window.murm = { step, analyse, draw, stats, corr, px, py, pz, vx, vy, vz, N, M, fal, huntLog, alarm, wT, wL, wP,
-    gaits, Motion, motionMode: legacyMotion ? 'legacy' : 'xyz', motionAssets, motionExports, revision, seed, launchFalcon, pushMotion,
+    gaits, Motion, motionMode: legacyMotion ? 'legacy' : 'xyz', motionAssets, motionExports, revision, seed, launchFalcon, pushMotion, motionX, motionY,
     get gc() { return [gcx, gcy, gcz]; }, get simT() { return simT; },
     cam: { get UM() { return UM; }, get VT() { return VT; }, get VB() { return VB; }, get ct() { return ct; }, get st() { return st; }, CAM_H, ZMIN, ZMAX } };
 }
