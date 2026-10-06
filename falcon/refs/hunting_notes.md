@@ -32,7 +32,7 @@ Current page falcon (murmuration.html ~261-318, read only): speed 28-32 u/s (14-
 | Alerstam 1987 Ibis 129:267 | **Abstract only** (abstract text via ResearchGate page) | Only measured wild stoop speeds I found |
 | Zoratto et al. 2010 J Avian Biol 41:427 | **Abstract only** (paywalled) | See section 3. An academia.edu page carries AI-generated "key takeaways" (60.9% vs 18.8%, 2.4 min, 86.8 s vs 157.7 s). Unverified, one of its lines is plainly wrong, so I did not use them |
 | Procaccini et al. 2011 Anim Behav 82:759 | Full text (open Taverne PDF at Groningen) | Same Rome roost data as Zoratto and Storms |
-| Storms et al. 2019 Behav Ecol Sociobiol | Full text (PMC6404399) | Supplement not read; Fig. 2 pie counts not readable as text |
+| Storms et al. 2019 Behav Ecol Sociobiol | Full text and supplement (PMC6404399; PDF, figure crops and supplement text in `storms2019/`) | Figures read 2026-10-06, see section 3.5. Video Online Resources 1-2 not watched |
 | Storms et al. 2024 J R Soc Interface (RobotFalcon) | Full text (PMC11061643) | Robot predator |
 | Papadopoulou et al. 2022 PLoS CB (pigeons, HoPE) | Full text (PMC8782486) | Pigeons |
 | Papadopoulou et al. 2022 R Soc Open Sci (pigeons) | Full text, searched not read line by line | Pigeons |
@@ -208,10 +208,10 @@ Patterns as listed in Storms' Table 1 (the text counts seven types); 795 flock e
 
 | Pattern | Definition | Timing / trigger | Numbers |
 |---|---|---|---|
-| Flash expansion | starlings suddenly move radially outward | only ever after an attack, never before; 4-10x faster after an attack than the other patterns; more likely after high-speed attacks and attacks from above than from side or below | 25% of attacks followed by one; 83.3% of flash expansions directly preceded by an attack; 78.3% of them did not split the flock |
+| Flash expansion | starlings suddenly move radially outward | only ever after an attack, never before; 4-10x faster after an attack than the other patterns; more likely after high-speed attacks and attacks from above than from side or below | 25% of attacks directly followed by one (Fig. 3 transitions); 34% (59 of 175) within 5 s of an attack (Fig. 6, section 3.5); 83.3% of flash expansions directly preceded by an attack; 78.3% of them did not split the flock |
 | Split | one flock becomes several | usually follows flash expansion; more common at the big roost (EUR) | 119 events in the transition analysis |
 | Blackening | flock or part darkens | clusters from 4 s before to 2 s after an attack; independent of attack speed or position | most common |
-| Wave (agitation) | dark bands propagate across the flock | before and after attacks; most likely for medium-speed attacks | mean 3.5 +/- 0.23 s long, 2.88 +/- 0.19 pulses, inter-pulse 0.86 +/- 0.44 s (ImageJ); occurred ~12.6 s after one attack and ~13.9 s before the next (n=54) |
+| Wave (agitation) | dark bands propagate across the flock | before and after attacks; most likely for medium-speed attacks | mean 3.5 +/- 0.23 s (SEM; SD 3.25) long, 2.88 +/- 0.19 pulses, inter-pulse 0.86 +/- 0.44 s (ImageJ, one spot) or 1.33 +/- 0.67 s (counted by eye over the whole flock; supplement 3.2); occurred ~12.6 s after one attack and ~13.9 s before the next (n=54) |
 | Vacuole | hole in a polarised flock | rare, very large flocks | N=5 |
 | Cordon | two large parts joined by a thin string | follows column-shaped flocking (Papadopoulou 2026) | |
 | Flock dilution | flock spreads and lightens | 15.0 +/- 2.4 s after an attack | |
@@ -234,6 +234,91 @@ RobotFalcon on starlings (Papadopoulou 2026, 19 flocks of ~20-2000): flash expan
 - Most stoops at ground-level prey "levelled out well before the target was reached" and the falcon sailed the last stretch low; terminal stage marked by "an abrupt change of direction" (Ch. 3, synthesis).
 - Between swoops at a dodging shorebird, pursuer and pursued were often >50 m apart (100 u); the peregrine swoop was "over-powered" and often widely missed (Ch. 3, 11).
 - Persistent pursuits (>6 swoops) were 2.5% of peregrine hunts on small shorebirds and passerines (Ch. 11).
+
+### 3.5 Storms 2019 figures and supplement (read 2026-10-06)
+
+Source files: `storms2019/storms2019.pdf`, `storms2019/figs/fig1-7*.png` (pages rendered at 600 dpi and cropped), `storms2019/storms2019_supplement.txt` (text of the .docx; its figures S1-S4 were not extracted).
+
+**Flash expansion within 5 s of an attack, by attack class (Fig. 6).** Bar heights read at 3.2-3.8x zoom. Every bar equals a whole-number fraction of the class counts in section 3.2, so the counts below are recovered, not estimated [M, D].
+
+| Attack class | Followed by flash expansion | Count |
+|---|---|---|
+| From above | 42.1% | 51 / 121 |
+| From the side | 11.1% | 4 / 36 |
+| From below | 22.2% | 4 / 18 |
+| High speed | 46.7% | 7 / 15 |
+| Medium speed | 36.1% | 52 / 144 |
+| Low speed | 0% | 0 / 16 |
+| All classified attacks | 33.7% | 59 / 175 |
+
+The best model for this probability uses attack location + attack speed (Akaike weight 0.78). Location alone and speed alone each score ΔAIC ≈ 4, and their interaction ΔAIC 5.8 (Table S2) [M]. So the two effects add, and a slow attack is never followed by a flash expansion.
+
+**Two definitions of the flash-expansion share.**
+- 25%: an attack whose next event is a flash expansion (Fig. 3 transitions, 200 attacks).
+- 34%: a flash expansion within 5 s after an attack (Fig. 6, 175 classified attacks).
+
+The page's README compares against 25%.
+
+**Timing relative to attacks (Fig. 4, read at 1.7x; Table S1).**
+- Flash expansion: 52 of 57 fall in the first bin after the attack (about 0-2 s; the axis is compressed near 0). Mean 1.2 +/- 3.54 s after the attack (SD).
+- Blackening, waves and splits are spread over -30 to +30 s, with peaks near the attack. Many come 5-15 s *before* the attack, i.e. while the falcon is near or pursuing but not yet striking.
+- Discussion: falcon nearby or pursuing (medium threat) gives blackening and waves; an attack (high threat) gives flash expansion, then splits.
+
+**Transitions within 5 s (Fig. 3).** Arrow directions were checked at 1.8x zoom.
+- Blackening → attack: 40% of attacks are *preceded* by blackening; 30.4% of blackenings are followed by an attack.
+- Wave → attack: 28.1% of attacks are *preceded* by a wave; 29.5% of waves are followed by an attack.
+- Attack → flash expansion: 25% of attacks; 83.3% of flash expansions follow an attack.
+- Attack → merge: 29%.
+- Flash expansion → split: 21.7% of flash expansions are followed by a split; 10.7% of splits are preceded by a flash expansion (arrowhead checked at 2.4x).
+
+**Event table (Table S1, 67 sequences, 1067 events).** Times are mean +/- SD. Success columns count events in sequences that ended in a catch (n = 16 sequences) and that did not (n = 26).
+
+| Event | N | Duration (s) | Before attack (s) | After attack (s) | In successful / unsuccessful sequences |
+|---|---|---|---|---|---|
+| Attack | 210 | - | - | - | 63 / 98 |
+| Wave | 205 | 3.48 +/- 3.25 | 13.91 +/- 15.99 | 12.62 +/- 16.99 | 53 / 95 |
+| Mild blackening | 190 | 3.45 +/- 2.88 | 12.38 +/- 14.2 | 13.38 +/- 15.8 | 42 / 87 |
+| Split | 126 | - | 14.51 +/- 13.48 | 13.4 +/- 18.72 | 40 / 45 |
+| Extreme blackening | 99 | 3.71 +/- 2.77 | 10.15 +/- 13.93 | 10.97 +/- 15.73 | 28 / 42 |
+| Merge | 71 | - | 14.93 +/- 13.27 | 15.83 +/- 16.1 | 19 / 33 |
+| Flash expansion | 64 | - | 13.55 +/- 15.44 | 1.2 +/- 3.54 | 19 / 25 |
+| Flock dilution | 62 | - | 25.8 +/- 19.8 | 15.02 +/- 18.05 | 13 / 29 |
+| Cordon | 35 | 5.45 +/- 4.8 | 11.91 +/- 13.12 | 9.12 +/- 10.32 | 11 / 15 |
+| Vacuole | 5 | - | 4.09 +/- 2.88 | 6.86 +/- 9.41 | 2 / 2 |
+
+Mild + extreme blackening = 289, which matches the main text's N=289.
+
+The paper's event totals do not agree with each other: 795 (Results), 925 (Fig. 3 title), 1067 (Table S1). Its outcome counts disagree as well: 16 of 42 sequences with a known outcome were successful (38% [D]), against 23-24% in Zoratto and Procaccini. I cannot tell which subset each figure uses.
+
+**Share of each pattern (Fig. 2 pie, labels printed on the figure).**
+
+| Pattern | Share |
+|---|---|
+| Blackening | 36.4% |
+| Wave | 25.8% |
+| Split | 15.8% |
+| Merge | 8.9% |
+| Flash expansion | 8.1% |
+| Cordon | 4.4% |
+| Vacuole | 0.6% |
+
+**What best predicts each response within 5 s of an attack (GLMs, Tables S2-S5).**
+
+| Response | Best model (Akaike weight) |
+|---|---|
+| Flash expansion | location + speed (0.78) |
+| Wave | speed (0.43); location + speed is equivalent (0.39, ΔAIC 0.2) |
+| Blackening | none: the null model is best |
+| Split | roosting site (0.73) |
+
+**Time between wave pulses (Fig. 7; supplement 3.1-3.2).**
+- The Fig. 7 histogram (bars read at full frame, 197 intervals) peaks at 1.0-1.2 s and has a mean of ≈1.3 s [D].
+- The main text quotes 0.86 +/- 0.44 s "with ImageJ (Fig. 7)". The supplement gives that ImageJ value, measured at one spot as luminance dips, and separately 1.33 +/- 0.67 s from counting pulses by eye over the whole wave.
+- So Fig. 7 matches the by-eye method, and the main text's reference to it looks mismatched [D]. Two measured values remain: 0.86 s at a fixed spot, 1.33 s per whole wave. Procaccini's 1.27 pulses/s (0.79 s) is closer to the fixed-spot value.
+
+**Example sequences (supplement Fig. S2 and Online Resource 2).**
+- Fig. S2 sequence: attacks at 6, 17, 19 and 28 s.
+- Online Resource 2: repeated attacks at 7, 10, 14, 16, 18 and 20 s; the flock resists splitting.
 
 ## 4. Altitude, targeting, and who triggers escape
 
@@ -291,7 +376,9 @@ Topological and model values [S]:
 7. Wave-vs-success link: Procaccini 14% vs 30% (significant); Storms 2019 found no difference in a smaller sample.
 8. Zoratto 2010 full text not accessed; hunt duration and attacks-per-sequence figures beyond the abstract are unavailable. Its sequence count is 328 (abstract); Procaccini reports 329 for the same dataset.
 9. Procaccini's printed wave frequency per sequence (42%, 0.66, "210 of 329") does not reconcile with its own Table 2 (79 of 217 sequences with a wave).
-10. The Papadopoulou 2026 (StarEscape) parameter values (predator distance, bearing, attack duration, reaction frequencies) are in a supplement I did not read. Only the structure and the 1.3x attack-speed example are in the main text.
+10. Storms 2019's flash-expansion share depends on the definition: 25% (attack directly followed by one, Fig. 3) or 34% (within 5 s, Fig. 6). Its event totals (795 / 925 / 1067) and success counts (16 of 42 sequences) do not reconcile with each other or with Zoratto/Procaccini. Section 3.5.
+11. Wave inter-pulse interval: 0.86 s at a fixed spot (ImageJ) vs 1.33 s counted per whole wave (by eye). Storms' Fig. 7 shows the by-eye distribution, although the main text attributes it to ImageJ.
+12. The Papadopoulou 2026 (StarEscape) parameter values (predator distance, bearing, attack duration, reaction frequencies) are in a supplement I did not read. Only the structure and the 1.3x attack-speed example are in the main text.
 
 ## 6. Implications for murmuration.html
 
@@ -317,6 +404,16 @@ Applied on 2026-10-05, except rows 16 (slower relaxation) and 17 (drawn catches)
 | 16 | `alarm` decays at 0.7/s | Flock dilution 15 s after an attack; blackening from 4 s before to 2 s after a strike | Slow the relaxation of the cohesion boost to ~10-15 s so the flock stays compact between chained strikes; raise cohesion 4 s before a strike | M |
 | 17 | No catch | If a catch is ever shown: success per hunt 23-24% at the Rome roost; 14% with a wave vs 30% without | Probability of a take per hunt ~0.2; halve it if a wave fired | M |
 | 18 | Hunt interval 28-52 s | No measured inter-hunt gap in sources read | Keep; not constrained by the sources | gap |
+
+Added on 2026-10-06 from Storms 2019 (section 3.5) and a headless classifier of on-screen fly-throughs (`murmuration-falcon.js --flythrough`). Results pooled over 32 seeds are in the root README.
+
+| # | Page element before | Finding | Change | Evidence |
+|---|---|---|---|---|
+| 19 | Birds dodged only while the falcon was in `stoop` | The stoop ends 3 u past the closest approach, so the falcon climbed on through the flock at stoop speed with no bird reacting: 104 of 331 on-screen overlaps in 16 seeds; 50 were true depth illusions | Dodge in every falcon mode. Unreacted passes within 6 m fell from 36 % to 3 % of overlaps | D (page measurement) |
+| 20 | `P_FLASH` by direction only (35/15/15 %) | Flash expansion within 5 s: above 42 %, side 11 %, below 22 %; fast 47 %, medium 36 %, slow 0 %; effects additive (Table S2) | Speed class per stoop (9/82/9 %), stoop target speed x 0.8 / 1 / 1.12 (factor estimated, capped at 39 m/s); `P_FLASH[direction][speed]` from an additive logistic fit that reproduces all six shares | M, D; speed factors S |
+| 21 | Waves only during stoops, pulses 0.8 s apart | 28 % of attacks preceded by a wave within 5 s (Fig. 3); waves likeliest around medium-speed attacks (Table S3); pulse onsets 0.86 s apart at one spot | In wave hunts, 2-3 pulses while the falcon waits in position (70 % of waits, fitted to the 28 %); slow and fast stoops carry waves half as often (estimate); `PULSE_GAP` 0.86 s | M; fitted share and halving S |
+| 22 | No pre-attack response | Blackening is commonest and clusters before attacks | Tried: mild alarm (0.18) within 70 m of a non-stooping falcon. Optical density before attacks did not rise beyond its level without it, so not adopted | M; tried and rejected |
+| 23 | Split compared per strike with Storms' 22 % | Storms' 21.7 % is per flash expansion | Report splits after a flash expansion: the page gives about 50 %, against 22 %. Open | M |
 
 Unit cheat sheet: 10 m = 20 u; 50 m = 100 u; 100 m = 200 u; 15 m/s = 30 u/s; 25 m/s = 50 u/s; 39 m/s = 78 u/s; 2.5 g = 24.5 m/s^2 = 49 u/s^2; 0.05 s delay = 3 frames at 60 fps.
 
