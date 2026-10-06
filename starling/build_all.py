@@ -12,6 +12,7 @@ Steps (Blender runs headless, `--background --factory-startup`, through blender/
   7. contact sheets                           -> renders/sheet_*.png
   8. with --refs (the photo masks, kept outside the repository): photo validation
      -> analysis/validation_scores.json, overlays in analysis/validation/ (ignored)
+  9. refresh the page's embedded bird tables from the model exports
 """
 import argparse, json, os, pathlib, subprocess, sys, tempfile
 
@@ -103,4 +104,5 @@ if a.refs:
                       'glides (05 dropped: tilted axis), 08 is the top of a downstroke. Overlays: analysis/validation/ (ignored).')
     json.dump(scores, open(AN / 'validation_scores.json', 'w'), indent=1)
     print(json.dumps(scores['means'], indent=1))
-print('done; scratch in', TMP)
+run(['node', HERE.parent / 'murmuration-assets.js', '--write'])
+print('done; page tables updated; scratch in', TMP)

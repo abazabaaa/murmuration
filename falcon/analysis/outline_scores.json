@@ -1,13 +1,30 @@
 {
- "method": "score_outline.py: outline filled as pushFalcon() does (nonzero), normalised by silhouette.py, whole-bird IoU after best vertical shift within +-40 px of a 400 px raster (compare.py)",
+ "method": "score_outline.py: outline filled as pushFalcon() does (nonzero), normalised by silhouette.py, whole-bird IoU after best vertical shift within +-40 px of a 400 px raster (compare.py); outline inputs are named explicitly and the current four-key outline is kept separate from the legacy two-pose outline",
+ "reference_masks": "out_sd: silhouette.py --skydist normalised masks; photo-derived pixels are not written here",
+ "page_outline_source": "falcon/outline/peregrine-outline.json",
+ "input_sha256": {
+  "page_outline": "2932d9dd5d92f49e199999464b210e92a1b4bca7de221231c00d82d15252d71f",
+  "legacy_outline": "85030b7547d9a7bc399b225c15b7ad982ce9ad374852e67f47298961dae2887b",
+  "model_glide_render": "a7fba1ab024267707a7d6133075cde3ee9a889b6086228609217d6d063d722a4",
+  "model_soar_render": "9b1d76256362c639bd9a5a9705365efae3f33004a2c0f8fb7bab0bc0fa2e2280",
+  "photo_masks": {
+   "03_glide_ventral_q4_cape-henlopen-dsc1804__norm.png": "c85f97ce4837de5ee45f4388b24d54359d97a65ea5548d23f677dcb728518e43",
+   "04_glide_ventral_q4_goleta-slough__norm.png": "dd99948de14bd772141fb230bc4d3564fd63fdb5b027dd876a6d3dde4c8ba765",
+   "06_glide_ventral_q3_riverlands__norm.png": "41e5ef9d7ac18d9bd30420f6cb6f578483928db6f9ec953e36cb09d28cb85a7b",
+   "flight_ventral_B_juanlacruz_CC-BY-SA-3.0__norm.png": "d0c44b3351a817ad8465545dfb37b7045bc493eb8326772e852f1612bed51cca",
+   "02_soar_ventral_q4_my-first-falcon__norm.png": "a70226804976acb4c4729aa940f0704555234c337be15da2ea7b2492a3752a8d",
+   "flight_ventral_A_england_CC-BY-2.0__norm.png": "08ef18424b3cd3235fde92495aeedfd1a89577b74c3c32d6a871382a2a824e50",
+   "05_glide_ventral_q3_terminator-female__norm.png": "3015befa63cfbe0fecd40d89546f738a734edb5ac7b49602b9138097cd6dc4f3"
+  }
+ },
  "page_outline_glide_vs_glide_photos": {
-  "source": "falcon-outline.json",
+  "source": "peregrine-outline.json",
   "pose": "glide",
   "tail_fan": 0.0,
   "raster_px_per_unit": 1000,
   "raster_size": [
-   2290,
-   1206
+   2190,
+   1208
   ],
   "winding_values": [
    0,
@@ -15,51 +32,51 @@
    2
   ],
   "raster": {
-   "width_halfspans": 1.988,
-   "length_halfspans": 0.906,
-   "width_over_length": 2.1943,
-   "half_span_units": 0.994
+   "width_halfspans": 1.89,
+   "length_halfspans": 0.908,
+   "width_over_length": 2.0815,
+   "half_span_units": 0.945
   },
   "silhouette": {
-   "half_span_units": 0.9825,
-   "span_over_length": 2.1712,
-   "symmetry_iou": 0.9902,
-   "axis_deg": -89.93,
+   "half_span_units": 0.9445,
+   "span_over_length": 2.0827,
+   "symmetry_iou": 0.9934,
+   "axis_deg": -90.0,
    "needed_flip": false,
-   "iou_vs_direct_normalisation": 0.972
+   "iou_vs_direct_normalisation": 0.9901
   },
   "photos": [
    {
     "photo": "03_glide_ventral_q4_cape-henlopen-dsc1804",
-    "iou": 0.7239,
-    "shift": 0
+    "iou": 0.7985,
+    "shift": 1
    },
    {
     "photo": "04_glide_ventral_q4_goleta-slough",
-    "iou": 0.7157,
-    "shift": 2
+    "iou": 0.8027,
+    "shift": 3
    },
    {
     "photo": "06_glide_ventral_q3_riverlands",
-    "iou": 0.7471,
-    "shift": -3
+    "iou": 0.8037,
+    "shift": 1
    },
    {
     "photo": "flight_ventral_B_juanlacruz_CC-BY-SA-3.0",
-    "iou": 0.6516,
-    "shift": 4
+    "iou": 0.7085,
+    "shift": 7
    }
   ],
-  "mean_iou": 0.7096
+  "mean_iou": 0.7783
  },
  "page_outline_glide_vs_soar_photos": {
-  "source": "falcon-outline.json",
+  "source": "peregrine-outline.json",
   "pose": "glide",
   "tail_fan": 0.0,
   "raster_px_per_unit": 1000,
   "raster_size": [
-   2290,
-   1206
+   2190,
+   1208
   ],
   "winding_values": [
    0,
@@ -67,37 +84,37 @@
    2
   ],
   "raster": {
-   "width_halfspans": 1.988,
-   "length_halfspans": 0.906,
-   "width_over_length": 2.1943,
-   "half_span_units": 0.994
+   "width_halfspans": 1.89,
+   "length_halfspans": 0.908,
+   "width_over_length": 2.0815,
+   "half_span_units": 0.945
   },
   "silhouette": {
-   "half_span_units": 0.9825,
-   "span_over_length": 2.1712,
-   "symmetry_iou": 0.9902,
-   "axis_deg": -89.93,
+   "half_span_units": 0.9445,
+   "span_over_length": 2.0827,
+   "symmetry_iou": 0.9934,
+   "axis_deg": -90.0,
    "needed_flip": false,
-   "iou_vs_direct_normalisation": 0.972
+   "iou_vs_direct_normalisation": 0.9901
   },
   "photos": [
    {
     "photo": "02_soar_ventral_q4_my-first-falcon",
-    "iou": 0.7178,
-    "shift": 6
-   },
-   {
-    "photo": "flight_ventral_A_england_CC-BY-2.0",
-    "iou": 0.6961,
+    "iou": 0.7323,
     "shift": 9
    },
    {
+    "photo": "flight_ventral_A_england_CC-BY-2.0",
+    "iou": 0.7551,
+    "shift": 11
+   },
+   {
     "photo": "05_glide_ventral_q3_terminator-female",
-    "iou": 0.7254,
-    "shift": 1
+    "iou": 0.6795,
+    "shift": 4
    }
   ],
-  "mean_iou": 0.7131
+  "mean_iou": 0.7223
  },
  "model_glide_render_vs_glide_photos": {
   "source": "glide__top.png",
@@ -158,7 +175,144 @@
   ],
   "mean_iou": 0.8007
  },
- "page_outline_stoop": {
+ "page_outline_stoop_tuck": {
+  "source": "peregrine-outline.json",
+  "pose": "stoop_tuck",
+  "tail_fan": 0.0,
+  "raster_px_per_unit": 1000,
+  "raster_size": [
+   584,
+   1208
+  ],
+  "winding_values": [
+   0,
+   1,
+   2,
+   3,
+   4
+  ],
+  "raster": {
+   "width_halfspans": 0.284,
+   "length_halfspans": 0.908,
+   "width_over_length": 0.3128,
+   "half_span_units": 0.142
+  },
+  "silhouette": {
+   "half_span_units": 0.1415,
+   "span_over_length": 0.312,
+   "symmetry_iou": 1.0,
+   "axis_deg": 89.99,
+   "needed_flip": true,
+   "iou_vs_direct_normalisation": 0.9718
+  },
+  "ponitz_2014_tucked_width_over_length": [
+   0.26,
+   0.36
+  ],
+  "within_ponitz_range": true,
+  "ratio_over_range_top": 0.87
+ },
+ "legacy_outline_source": "blender/falcon-outline.json",
+ "legacy_outline_glide_vs_glide_photos": {
+  "source": "falcon-outline.json",
+  "pose": "glide",
+  "tail_fan": 0.0,
+  "raster_px_per_unit": 1000,
+  "raster_size": [
+   2290,
+   1206
+  ],
+  "winding_values": [
+   0,
+   1,
+   2
+  ],
+  "raster": {
+   "width_halfspans": 1.988,
+   "length_halfspans": 0.906,
+   "width_over_length": 2.1943,
+   "half_span_units": 0.994
+  },
+  "silhouette": {
+   "half_span_units": 0.9825,
+   "span_over_length": 2.1712,
+   "symmetry_iou": 0.9902,
+   "axis_deg": -89.93,
+   "needed_flip": false,
+   "iou_vs_direct_normalisation": 0.972
+  },
+  "photos": [
+   {
+    "photo": "03_glide_ventral_q4_cape-henlopen-dsc1804",
+    "iou": 0.7239,
+    "shift": 0
+   },
+   {
+    "photo": "04_glide_ventral_q4_goleta-slough",
+    "iou": 0.7157,
+    "shift": 2
+   },
+   {
+    "photo": "06_glide_ventral_q3_riverlands",
+    "iou": 0.7471,
+    "shift": -3
+   },
+   {
+    "photo": "flight_ventral_B_juanlacruz_CC-BY-SA-3.0",
+    "iou": 0.6516,
+    "shift": 4
+   }
+  ],
+  "mean_iou": 0.7096
+ },
+ "legacy_outline_glide_vs_soar_photos": {
+  "source": "falcon-outline.json",
+  "pose": "glide",
+  "tail_fan": 0.0,
+  "raster_px_per_unit": 1000,
+  "raster_size": [
+   2290,
+   1206
+  ],
+  "winding_values": [
+   0,
+   1,
+   2
+  ],
+  "raster": {
+   "width_halfspans": 1.988,
+   "length_halfspans": 0.906,
+   "width_over_length": 2.1943,
+   "half_span_units": 0.994
+  },
+  "silhouette": {
+   "half_span_units": 0.9825,
+   "span_over_length": 2.1712,
+   "symmetry_iou": 0.9902,
+   "axis_deg": -89.93,
+   "needed_flip": false,
+   "iou_vs_direct_normalisation": 0.972
+  },
+  "photos": [
+   {
+    "photo": "02_soar_ventral_q4_my-first-falcon",
+    "iou": 0.7178,
+    "shift": 6
+   },
+   {
+    "photo": "flight_ventral_A_england_CC-BY-2.0",
+    "iou": 0.6961,
+    "shift": 9
+   },
+   {
+    "photo": "05_glide_ventral_q3_terminator-female",
+    "iou": 0.7254,
+    "shift": 1
+   }
+  ],
+  "mean_iou": 0.7131
+ },
+ "legacy_outline_stoop": {
   "source": "falcon-outline.json",
   "pose": "stoop",
   "tail_fan": 0.0,
