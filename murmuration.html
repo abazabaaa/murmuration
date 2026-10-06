@@ -904,7 +904,8 @@ function draw() {
     ctx.fill(fills[b]); ctx.stroke(bodies[b]);
   }
 
-  if (fal.on) {
+  P(fal.x, fal.y, fal.z);
+  if (fal.on && _z > 10) {                     // as for the birds: a falcon beside or behind the camera is not drawn (it would project huge)
     const s = 1 / Math.hypot(fal.vx, fal.vy, fal.vz);
     const dive = clamp(-fal.vy * s * 2, 0, 1);
     const fp = [new Path2D(), new Path2D(), new Path2D()];           // right wing, left wing, body
@@ -970,8 +971,10 @@ function drawInset() {
     const zf = (fal.y - CAM_H) * st + fal.z * ct, zg = (gcy - CAM_H) * st + gcz * ct;
     ctx.fillText(`${fal.mode}  ·  nearest bird ${fmt(d3 * M, 1)} m  ·  ${fmt(Math.abs(zf - zg) * M, 0)} m ${zf < zg ? 'in front of' : 'behind'} the flock centre`, x0, ty);
     P(fal.x, fal.y, fal.z);                    // ring on the main view: red within 2 m of a bird, amber within 6 m
-    ctx.strokeStyle = d3 < 4 ? '#ff4040' : d3 < 12 ? '#ffb040' : 'rgba(255,255,255,.7)'; ctx.lineWidth = 1.5;
-    ctx.beginPath(); ctx.arc(_x, _y, FALCON_SPAN * sizeK * f / _z * .6 + 6, 0, TAU); ctx.stroke();
+    if (_z > 10) {
+      ctx.strokeStyle = d3 < 4 ? '#ff4040' : d3 < 12 ? '#ffb040' : 'rgba(255,255,255,.7)'; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(_x, _y, FALCON_SPAN * sizeK * f / _z * .6 + 6, 0, TAU); ctx.stroke();
+    } else ctx.fillText('the falcon is beside or behind you', x0, ty + 32);
   } else ctx.fillText('no falcon  ·  red dodging · yellow alarmed · blue rolling', x0, ty);
   if (halted) { ctx.textAlign = 'left'; ctx.fillText(`PAUSED t ${fmt(simT, 2)} s  ·  P resume  ·  . step`, x0, ty + 16); }
   ctx.restore();
