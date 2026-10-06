@@ -43,6 +43,7 @@ def render_to(path, cam, res=(1600, 1600)):
     scene.camera = cam
     scene.render.resolution_x, scene.render.resolution_y = res
     scene.render.filepath = path
+    scene.render.use_stamp_filename = False  # else the PNG metadata records the .blend path
     bpy.ops.render.render(write_still=True)
     return path
 

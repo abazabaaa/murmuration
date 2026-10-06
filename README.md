@@ -96,7 +96,7 @@ node motion/check.js
 The runner records virtual time, seed/query, Node version, page/script hashes,
 trajectory digest and full hunt events. `--inputs FILE` replays timestamped
 pointer/key events. The differential checker compares each frame with merged
-revision `0d3078f`, including positions, velocities, falcon behavior and hunt
+revision `a5dedcc`, including positions, velocities, falcon behavior and hunt
 history. See [sim/README.md](sim/README.md) for input format, optional native
 Canvas PNGs, and the distinction between simulation, drawing and browser tests.
 
@@ -129,6 +129,17 @@ scenes are authoring assets and are not loaded by the browser.
 The headless checker reports distances and speeds in world units. The panel uses
 0.5 metres per world unit. Headless checks exercise simulation and drawing code
 with canvas stubs; check the page in a browser to validate appearance and controls.
+
+Nothing published may contain a home-directory path or a personal name:
+
+```
+git config core.hooksPath .githooks
+```
+
+turns on the pre-commit and pre-push hooks, which run `node murmuration-privacy.js`.
+It searches text, compressed `.blend` files and PNG metadata, and refuses any
+`/Users/<name>` or `/home/<name>` path, the login name, and the names listed one per
+line in `.private-words` (git-ignored). `--history` checks every commit.
 
 ## Layout
 

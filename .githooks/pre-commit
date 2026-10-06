@@ -1,0 +1,3 @@
+#!/bin/sh
+# Refuse commits that contain a personal name or a home-directory path (see murmuration-privacy.js).
+exec node "$(git rev-parse --show-toplevel)/murmuration-privacy.js" --staged

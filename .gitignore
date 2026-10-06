@@ -16,3 +16,5 @@ falcon/analysis/validation/
 starling/HANDOVER.md
 starling/analysis/photo_fits/*.png
 starling/analysis/validation/
+# names checked by murmuration-privacy.js; never commit
+.private-words
