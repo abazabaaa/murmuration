@@ -27,6 +27,74 @@ Correlation length ξ/L is 0.35 at 5,000 (`murmuration-check.js`), as in Cavagna
 ball that gets rounder and denser as it grows, densest in the core: the pull of every bird toward the flock's centre
 (`W_GLOBAL`, a fixed spring) builds that. Neighbours show no anisotropy.
 
+## A candidate from local rules: `?local` (experimental)
+
+`?local` sets a bundle of experimental options (each can still be overridden in the URL):
+
+| option | default page | `?local` | why |
+|---|---|---|---|
+| `balanced` | the 7 nearest birds | the nearest bird in each octant (up to 8) | groups of mutual nearest neighbours cannot close off (Camperi et al. 2012, Interface Focus 2:715, on starling data) |
+| `geom=2&gh=0.1&gv=0&gx=0` | centre pull 0.12/s² in all directions | 0.012/s², horizontal only | the flock is held together locally; a weak pull only bounds its horizontal extent |
+| `rj` | rejoin beyond 23 m at 5,000 | off (`rj=100`) | |
+| `kappa` | 1 | 2: cohesion twice as strong vertically | flattens the flock by a local, scale-free rule |
+| `rs` | separation within 2.5 m | 1.5 m | so separation is not a gas pressure on every neighbour |
+| `noise`, `tau` | 9 units/s², memory 4 s | 22.5 units/s², memory 0.25 s | long-memory noise drives slow whole-flock deformations; fast noise moves birds among their neighbours |
+| `tlag` | turn reaches the back 2.4 s after the front | all birds turn together | the delayed turn shears large flocks; wild turns cross the flock in 0.3-1.3 s |
+| `backstop` | per-bird push back into a box around the view | off | it otherwise caps the length of the 5,000-bird flock |
+
+Measured with the corrected tool, calm, 60 s after 20 s, with no screen backstop (seeds in brackets):
+
+| | 400 (1, 2) | 1,600 (1, 2) | 5,000 (1, 2, 3) | default page, 400 / 5,000 | wild flocks |
+|---|---|---|---|---|---|
+| one flock | yes | yes | yes | yes | |
+| polarization Φ | 0.995-0.996 | 0.981-0.992 | 0.988-0.994 | 0.993 / 0.985 | 0.96 ± 0.03 |
+| I2/I1, I3/I1 | 2.2-2.3, 3.1-3.2 | 2.4-2.7, 3.6-4.7 | 2.2-2.6, 3.4-6.0 | 1.4, 2.2 / 1.3, 1.7 | 2.8 ± 0.4, 5.6 ± 1.0, flat in N |
+| thickness / spacing | 6.4-6.5 | 9.7-10.3 | 14.2-15.4 | 8.7 / 20.9 | 5.7-13 (N 448-2,631), ∝ N^⅓ |
+| nearest-neighbour r1, m | 0.86 | 0.87-0.88 | 0.87-0.88 | 1.44 / 1.23 | 0.68-1.51, independent of N |
+| edge / centre (uniform null) | 1.17-1.18 (1.32) | 1.09-1.12 (1.18-1.20) | 1.07-1.10 (1.14-1.15) | 1.09 (1.29) / 1.33 (1.12) | 0.65-0.82 |
+| γ(1) | 0.48 | | 0.41 | 0.41 / 0.24 | ≈0.85 |
+| CM-frame MSD at 1 s, m² | 0.78-0.83 | 1.15-3.39 | 1.34-2.53 | 1.55-1.82 / 3.05-4.70 | ≈1.9, no N trend |
+| mutual MSD at 1 s, m² | 0.21-0.22 | 0.21-0.24 | 0.23-0.24 | 0.06 / 0.07-0.09 | ≈0.42 |
+| Q10 after 3.5 s | 0.42 | 0.37-0.38 | 0.36 | 0.60 / 0.48 | ≈0.5 |
+| bird speed SD / mean | 0.07 | 0.07-0.10 | 0.08-0.09 | 0.06 / 0.09 | ≈0.13-0.2 |
+| ξ/L (`murmuration-check.js`, 40 s, seed 1) | 0.29 | 0.28 (800: 0.29) | | 0.35 / — | 0.35 |
+
+Right: one flock at every size with no spring or container; density independent of N; the flattened shape with
+I2/I1 near the field value at every N; thickness growing as N^⅓; internal motion at the field value in large flocks;
+neighbour-distance fluctuations three times the default's. Still wrong: the edge is no denser than a uniform cloud;
+no neighbour anisotropy; polarization and the 400-bird flock's stillness are too high; neighbour distances fluctuate
+half as much as in wild flocks; ξ/L is lower than the default's; I3/I1 varies from seed to seed and is low at 400.
+Several values are fits rather than mechanisms: the noise memory and strength, κ = 2, the 1.5 m separation range, and
+the weak horizontal pull (with none the 5,000-bird flock stretches to 140 m). The octants are fixed to the world axes,
+and rebuilding the octant neighbours every 0.1 s costs O(N²): about 3 ms per step at 5,000 birds headless.
+
+How this was found: GPT-6-Astra (`codex exec`, xhigh) reviewed the code, this file and the papers, ran 74 headless
+experiments, and proposed the octant neighbours. I reproduced its runs, found that the screen backstop was holding
+its 5,000-bird flock (6 % of birds), and added fast noise, κ and the weak horizontal pull to the reproduced version.
+
+## Correction (2026-10-07): two internal-motion measures were wrong
+
+An outside review (GPT-6-Astra via `codex exec`) found, and I confirmed in the paper's PDF, that
+`murmuration-flock.js` did not measure what Cavagna et al. 2013 measured:
+
+- **Centre-of-mass MSD** (their Eq 2.3) removes only the flock's translation. The tool also removed its rotation, which
+  can only lower the value. Fixed; the rotation-removed value is still printed as a diagnostic.
+- **Mutual MSD** (their Eq 2.5) is the squared change in the *distance* to the bird's nearest neighbour at t0,
+  [|s_ij(t0+t)| − |s_ij(t0)|]². The tool used the change in the neighbour *vector*. Fixed.
+
+Corrected values for the default page (seed 1 / seed 2, calm, 60 s after 20 s):
+
+| | 400 | 5,000 | wild flocks |
+|---|---|---|---|
+| centre-of-mass MSD at 1 s, m² | 1.82 / 1.55 | 4.70 / 3.05 | ≈1.9, no N trend (N 239-1,246) |
+| exponent | 1.88 / 1.97 | 2.06 / 2.07 | 1.73 ± 0.07 |
+| mutual MSD at 1 s, m² | 0.06 / 0.06 | 0.09 / 0.07 | ≈0.42 |
+| mutual exponent | 1.95 / 1.98 | 2.10 / 2.04 | 1.58 ± 0.2 |
+
+So the page's birds keep almost fixed distances to their neighbours, about 5-7× too still in the field's
+measure, while the 5,000-bird flock as a whole deforms 2× too much. The MSD column in the tables above and below
+used the old, rotation-removed definition: compare its values only with each other.
+
 ## Experiments behind `?geom` (the default is bit-identical without them)
 
 Parameters, all experimental: `geom=1` scales the centre pull by (400/N)^gx (`gx`, default 2/3); `geom=2` also makes it
@@ -60,6 +128,9 @@ radius (5 units = 2.5 m) and the local cohesion weight (6). Seed 1, calm, 60 s m
 | default + `tlag=0` + `kappa=2` (vertical gain on local cohesion) | 400 / 1,600 / 5,000 | yes | 0.997 / 0.996 / 0.992 | **2.8, 4.0** / 2.2, 2.7 / 1.7, 2.0 | 5.8 / 10.3 / 17.4 | 1.32 / 1.26 / 1.15 | 1.06 (1.32) / 1.13 (1.17) / 1.30 (1.14) | 1.01 / 1.32 / 2.07 |
 | default + `tlag=0` + `kappa=3` | 400 / 5,000 | yes | 0.997 / 0.994 | 5.2, 6.6 / 2.4, 2.9 | 3.8 / 14.2 | 1.17 / 1.05 | 1.06 (1.34) / 1.25 (1.15) | 0.89 / 1.82 |
 | `geom=4` (edge-only pull, `gf` 3 or 6) | 400-5,000 | no (21-42 %) | 0.62-0.91 | | | 1.41-1.47 | | 18-65 |
+| `geom=4&gh=1&gv=1&tlag=0&gf=24&c0=.35` | 400 / 1,600 / 5,000 | yes / yes / 92 % | 0.997 / 0.991 / 0.939 | 1.4, 2.2 / 1.4, 2.2 / 1.7, 2.4 | 8.3 / 13.5 / 21.0 | **1.37 / 1.35 / 1.31** | 1.03 (1.32) / 1.07 (1.16) / **1.13 (1.15)** | 0.96 / 2.19 / 10.0 |
+| `geom=4&gh=1&gv=1&tlag=0&gf=12&c0=.2` | 400 / 1,600 / 5,000 | yes / yes / 95 % | 0.997 / 0.996 / 0.969 | 1.6, 2.4 / 1.4, 2.0 / 1.4, 2.1 | 7.9 / 13.8 / 20.3 | 1.39 / 1.35 / 1.30 | 1.08 (1.32) / 1.11 (1.15) / 1.19 (1.15) | 0.97 / 1.14 / 7.27 |
+| same as `gf=24`, `gv=3` | 400 / 5,000 | yes / 97 % | 0.997 / 0.901 | 2.3, 3.3 / 1.8, 4.0 | 6.1 / 17.9 | 1.31 / 1.26 | 1.04 (1.32) / 1.15 (1.16) | 0.81 / 17.4 |
 | no global force, `rs` 2.5-5, `coh` 6-12 | 400 | no (6-17 %) | 0.84-0.92 | | | 0.75-1.47 | | 21-33 |
 | full spring, vertical ×4, `rs` 3-3.5 or `coh` 12 | 400 | no (14-56 %) | 0.81-0.94 | | | 0.84-1.20 | | 13-36 |
 
@@ -91,6 +162,26 @@ What the runs say:
   grows, densest in the core, with the edge pushed outward. Shortening the separation range or strengthening cohesion
   toward the seven nearest neighbours splits the flock into small groups (the largest held 6-56 % of 400 birds), with
   or without the spring. Pulling only edge birds toward the centre (`geom=4`) does not hold the flock either.
+
+- **A strong pull on edge birds only** (`geom=4`, `gf` 12-24, about the outward push separation puts on an edge
+  bird) holds the flock with no spring. Density is then almost independent of N (r1 1.37 → 1.31 m over 12.5× the
+  birds) and the sparse edge is gone (uniform at 5,000), but the 5,000-bird flock is floppy: internal motion 7-10 m²
+  at 1 s and Φ 0.94-0.97. In the field internal motion does not depend on N (D = 3.5-4.1 × 10⁻², N 239-1,246; Cavagna
+  2013 Table 1); here it is 1.0 m² at 400 and 7-10 at 5,000. A surface force leaves a large flock's slow, long
+  deformations unchecked; a body force (the spring) checks them but compresses the core.
+- **Outline (projection) cohesion** (Pearce et al. 2014) moves each bird toward the average direction of the
+  light-dark boundaries in its view. At the page's density and life-size birds the flock is mostly transparent
+  (optical depth ≈ 0.004 per metre, about 0.3 along the 5,000-bird flock's length), so each other bird's silhouette
+  contributes boundary on all sides of it, weighted by its angular size, 1/d. The pull is then toward a 1/d-weighted
+  centre with a strength that grows as r/R: a spring whose stiffness falls as 1/R ∝ N^-⅓, the `gx=0.333` row above.
+  When opaque it acts on edge birds only, the `geom=4` rows. Both limits are measured above; neither holds 5,000 birds
+  as still as wild ones. [derived here, not run]
+  **Wrong, per the outside review:** with clustered birds, silhouettes that overlap within a cluster cancel
+  boundary even at low overall opacity. In its two-lobed test configuration the centre of mass sits at the
+  observer, so both centre-directed forms give zero, yet the outline response is not zero. The equivalence holds
+  only for a smooth, uniform flock. Separately, the `geom=4` edge threshold c0 = 0.35 is below 1/√7 ≈ 0.38, the RMS
+  imbalance of seven isotropic directions. The review counted 15-16 % of interior birds in 400-bird snapshots above
+  it, so `geom=4` was not a surface-only force, and its rows do not show that surface confinement must be floppy.
 
 Correlation length with `tlag=0` (`murmuration-check.js`, 40 s, seed 1, calm): ξ/L 0.321 / 0.313 / 0.334 at
 400 / 800 / 1,600 birds, against 0.351 / 0.350 / 0.333 for the default.

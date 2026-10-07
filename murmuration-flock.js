@@ -166,10 +166,10 @@ vm.runInContext(src, win);
 const m = win.murm, N = m.N, U = 0.5;          // metres per world unit
 const DT = 1 / 60, REC = 6, LAGS = 35;         // positions every 0.1 s, as the field data; lags up to 3.5 s
 const QP = new URLSearchParams(query), GEOMQ = +QP.get('geom') || 0;   // the rejoin radius the page uses (murmuration.html)
-const RJQ = (GEOMQ ? +(QP.get('rj') ?? (GEOMQ >= 2 ? 2 : 1)) : 1) * 20 * Math.cbrt(N / 400) * U;
+const RJQ = (QP.has('rj') ? +QP.get('rj') : QP.has('local') ? 100 : GEOMQ >= 2 ? 2 : 1) * 20 * Math.cbrt(N / 400) * U;
 
 const snaps = [], origins = [];
-const msd = new Float64Array(LAGS + 1), msdNN = new Float64Array(LAGS + 1), msdN = new Float64Array(LAGS + 1);
+const msd = new Float64Array(LAGS + 1), msdRot = new Float64Array(LAGS + 1), msdNN = new Float64Array(LAGS + 1), msdN = new Float64Array(LAGS + 1);
 const q10 = { 10: [], 35: [] };
 let step = 0, kFrame = -1;
 const t0 = performance.now();
@@ -185,17 +185,18 @@ for (let t = DT; t <= secs + 1e-9; t += DT) {
   for (const o of origins) {                   // displacement since each origin
     const lag = kFrame - o.k;
     if (lag < 1 || lag > LAGS) continue;
-    // flock frame: centre of mass removed, and the flock's rigid rotation since the origin removed (Horn/Kabsch)
+    // Cavagna 2013 Eq 2.3: displacement in the centre-of-mass frame (translation removed, not rotation). Also kept,
+    // as a diagnostic, the same with the flock's rigid rotation since the origin removed (Horn).
     const R = rotationOnto([o.X, o.Y, o.Z], [X, Y, Z]);
-    let s = 0, sn = 0;
+    let s = 0, sr = 0, sn = 0;
     for (let i = 0; i < N; i++) {
+      s += (X[i] - o.X[i]) ** 2 + (Y[i] - o.Y[i]) ** 2 + (Z[i] - o.Z[i]) ** 2;
       const rx = R[0][0] * X[i] + R[0][1] * Y[i] + R[0][2] * Z[i], ry = R[1][0] * X[i] + R[1][1] * Y[i] + R[1][2] * Z[i], rz = R[2][0] * X[i] + R[2][1] * Y[i] + R[2][2] * Z[i];
-      s += (rx - o.X[i]) ** 2 + (ry - o.Y[i]) ** 2 + (rz - o.Z[i]) ** 2;
-      const j = o.nn1[i];                      // relative to the nearest neighbour at the origin (Cavagna 2013 Eq 2.7)
-      const ex = (X[i] - X[j]) - (o.X[i] - o.X[j]), ey = (Y[i] - Y[j]) - (o.Y[i] - o.Y[j]), ez = (Z[i] - Z[j]) - (o.Z[i] - o.Z[j]);
-      sn += ex * ex + ey * ey + ez * ez;
+      sr += (rx - o.X[i]) ** 2 + (ry - o.Y[i]) ** 2 + (rz - o.Z[i]) ** 2;
+      const j = o.nn1[i];                      // Eq 2.5: change in the distance to the nearest neighbour at the origin
+      sn += (Math.hypot(X[i] - X[j], Y[i] - Y[j], Z[i] - Z[j]) - Math.hypot(o.X[i] - o.X[j], o.Y[i] - o.Y[j], o.Z[i] - o.Z[j])) ** 2;
     }
-    msd[lag] += s / N; msdNN[lag] += sn / N; msdN[lag]++;
+    msd[lag] += s / N; msdRot[lag] += sr / N; msdNN[lag] += sn / N; msdN[lag]++;
     if (lag === 10 || lag === 35) {
       const now = knn(X, Y, Z, KQ).nb;
       let keep = 0;
@@ -224,6 +225,7 @@ for (let t = DT; t <= secs + 1e-9; t += DT) {
     L: nbr.L, ext: mo.ext, diam: mo.diam, thick: Math.sqrt(lam[0] / lam[2]),
     thinUp: Math.abs(vec[0][1]), longAlongV: Math.abs(vec[2][0] * vh[0] + vec[2][1] * vh[1] + vec[2][2] * vh[2]), climb: vh[1],
     nn: q(nn, .5), nnP: [q(nn, .1), q(nn, .9)], edge: st.edge, gamma: st.gamma, big: largestCluster(X, Y, Z, nbr),
+    held: m.stats.out / N,
     beyond: (() => { let c = 0; for (let i = 0; i < N; i++) if (X[i] * X[i] + Y[i] * Y[i] + Z[i] * Z[i] > RJQ * RJQ) c++; return c / N; })(),
   });
   if (kFrame % 50 === 0) {
@@ -251,7 +253,7 @@ const res = {
   nn: mean(col('nn')), nnP: [mean(snaps.map(s => s.nnP[0])), mean(snaps.map(s => s.nnP[1]))],
   edge: [mean(col('edge')), sd(col('edge'))],
   gamma: [...Array(KQ).keys()].map(n => [mean(snaps.map(s => s.gamma[n])), sd(snaps.map(s => s.gamma[n])) / Math.sqrt(snaps.length)]),
-  msd1: msdN[10] ? msd[10] / msdN[10] : null, msdNN1: msdN[10] ? msdNN[10] / msdN[10] : null,
+  msd1: msdN[10] ? msd[10] / msdN[10] : null, msdRot1: msdN[10] ? msdRot[10] / msdN[10] : null, msdNN1: msdN[10] ? msdNN[10] / msdN[10] : null,
   alpha: fit(msd), alphaNN: fit(msdNN), q10_1: q10[10].length ? mean(q10[10]) : null, q10_35: q10[35].length ? mean(q10[35]) : null,
 };
 res.big = q(col('big'), .1);                  // the worst decile of the largest group's share
@@ -277,14 +279,16 @@ const rows = [
   ['edge / centre r1 (this flock | uniform null)', `${f(res.edge[0])} ± ${f(res.edge[1])} | ${f(res.null.edge[0])}`, '0.65–0.82: the edge is denser (AB Fig 6a); outer 10 % vs inner 50 % by ellipsoid depth'],
   ['anisotropy γ(n), n = 1…6 (± SE)', g.map(([v, e]) => `${f(v)}±${f(e)}`).join(' '), 'γ(1) ≈ 0.85, falling to 1/3 by n ≈ 4–7 (Ballerini 2008 PNAS Fig 3a)'],
   ['  same, uniform null (± SD of one draw)', gn.map(([v, e]) => `${f(v)}±${f(e)}`).join(' '), '1/3 if isotropic'],
-  ['MSD at 1 s, flock frame (no rotation), m²', f(res.msd1), '≈1.9 (Cavagna 2013 Eq 2.4, Table 1, derived)'],
-  ['MSD exponent 0.4–1.5 s, flock frame', f(res.alpha), '1.73 ± 0.07 (Cavagna 2013 Table 1)'],
-  ['MSD at 1 s, from nearest neighbour, m²', f(res.msdNN1), '≈0.42 (Cavagna 2013 Eq 2.7, derived)'],
-  ['MSD exponent, from nearest neighbour', f(res.alphaNN), '1.58 ± 0.2 (Cavagna 2013)'],
+  ['MSD at 1 s, centre-of-mass frame, m²', f(res.msd1), '≈1.9 (Cavagna 2013 Eq 2.3-2.4, Table 1, derived); N 239-1,246, no N trend'],
+  ['  same, flock rotation also removed', f(res.msdRot1), 'diagnostic only (not a field measure)'],
+  ['MSD exponent 0.4–1.5 s, CM frame', f(res.alpha), '1.73 ± 0.07 (Cavagna 2013 Table 1)'],
+  ['mutual MSD at 1 s (neighbour distance), m²', f(res.msdNN1), '≈0.42 (Cavagna 2013 Eq 2.5, 2.7, derived)'],
+  ['mutual MSD exponent', f(res.alphaNN), '1.58 ± 0.2 (Cavagna 2013 Eq 2.7)'],
   ['neighbours kept, Q10 after 1 s', f(res.q10_1), '≈0.77 (Cavagna 2013 Fig 3, read from figure)'],
   ['neighbours kept, Q10 after 3.5 s', f(res.q10_35), '≈0.5 (Cavagna 2013 Fig 3, read from figure)'],
 ];
 console.log(`${query}: N ${N}, ${secs} s (measured after ${WARM} s, ${snaps.length} samples), ${res.run.wall_s} s wall`);
+console.log(`${'birds pushed back by the screen backstop'.padEnd(44)} ${(f(100 * mean(col('held')), 1) + ' %').padEnd(44)} a per-bird box around the view; holds stragglers, not a flock rule`);
 console.log(`${'birds beyond the rejoin radius'.padEnd(44)} ${(f(100 * mean(col('beyond')), 1) + ` % (radius ${f(RJQ, 0)} m)`).padEnd(44)} rejoin is for stragglers; a steady share is an artefact`);
 console.log(`${'largest group (worst 10 % of samples)'.padEnd(44)} ${(f(100 * res.big, 0) + ' % of birds').padEnd(44)} ${res.fragmented ? 'FRAGMENTED: shape, edge and anisotropy rows are not reported' : 'one flock'}`);
 const SHAPE = /diameters|aspect|thickness|thin axis|long axis|edge|anisotropy|uniform null|extent/;
