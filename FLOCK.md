@@ -68,6 +68,19 @@ Several values are fits rather than mechanisms: the noise memory and strength, �
 the weak horizontal pull (with none the 5,000-bird flock stretches to 140 m). The octants are fixed to the world axes,
 and rebuilding the octant neighbours every 0.1 s costs O(N²): about 3 ms per step at 5,000 birds headless.
 
+Other checks of `?local`:
+
+- **Hunts** (`murmuration-falcon.js 300 "seed=1&n=400&local&classic"`, against the same without `local`): no flock
+  split after a flash expansion (default 50 %, Storms 2019 22 %), fewer flash expansions (18 % of strikes, default
+  36 %, field 25-34 %), 2.5 strikes per hunt. At 5,000 birds with hunts (150 s, seed 1) it stays one flock (Φ 0.948)
+  but spreads: internal motion 9.7 m², 20 % of birds outside the backstop box.
+- **Framing** (seeds 1-3, 5,000 birds, the 16:9 crop of a 1200×793 window, 20-24 s): at worst 5-15 % of birds out of
+  frame, against 9-25 % for the default.
+- **Speed.** Most steps are faster than the default (13 against 29 ms at 5,000 birds, headless), but every sixth step
+  rebuilds the octant neighbours of all pairs and takes about 116 ms: a visible stutter at 5,000 birds. It is 14-17 ms
+  at 1,600 and 32-41 ms at 2,500. View `?local` at `n=1600` until the rebuild uses the spatial grid or is spread
+  over frames.
+
 How this was found: GPT-6-Astra (`codex exec`, xhigh) reviewed the code, this file and the papers, ran 74 headless
 experiments, and proposed the octant neighbours. I reproduced its runs, found that the screen backstop was holding
 its 5,000-bird flock (6 % of birds), and added fast noise, κ and the weak horizontal pull to the reproduced version.

@@ -288,7 +288,7 @@ const rows = [
   ['neighbours kept, Q10 after 3.5 s', f(res.q10_35), '≈0.5 (Cavagna 2013 Fig 3, read from figure)'],
 ];
 console.log(`${query}: N ${N}, ${secs} s (measured after ${WARM} s, ${snaps.length} samples), ${res.run.wall_s} s wall`);
-console.log(`${'birds pushed back by the screen backstop'.padEnd(44)} ${(f(100 * mean(col('held')), 1) + ' %').padEnd(44)} a per-bird box around the view; holds stragglers, not a flock rule`);
+console.log(`${'birds outside the backstop box'.padEnd(44)} ${(f(100 * mean(col('held')), 1) + ' %').padEnd(44)} a box 1.25x the view; pushed back unless backstop=0`);
 console.log(`${'birds beyond the rejoin radius'.padEnd(44)} ${(f(100 * mean(col('beyond')), 1) + ` % (radius ${f(RJQ, 0)} m)`).padEnd(44)} rejoin is for stragglers; a steady share is an artefact`);
 console.log(`${'largest group (worst 10 % of samples)'.padEnd(44)} ${(f(100 * res.big, 0) + ' % of birds').padEnd(44)} ${res.fragmented ? 'FRAGMENTED: shape, edge and anisotropy rows are not reported' : 'one flock'}`);
 const SHAPE = /diameters|aspect|thickness|thin axis|long axis|edge|anisotropy|uniform null|extent/;
