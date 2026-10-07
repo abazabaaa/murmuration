@@ -853,7 +853,7 @@ function step(dt, t) {
       if (EDGE_G) {                            // peripherality: length of the mean unit vector to the neighbours (0 inside, 1 at an edge)
         const wg = wc * (1 + EDGE_G * Math.hypot(pux, puy, puz) * inv);
         aX += wa * (avx * inv - vxi) + wg * (ccx * inv - x) + W_SEP * spx;
-        aY += wa * (avy * inv - vyi) + wg * (ccy * inv - y) + W_SEP * spy;
+        aY += wa * (avy * inv - vyi) + wg * KAPPA * (ccy * inv - y) + W_SEP * spy;
         aZ += wa * (avz * inv - vzi) + wg * (ccz * inv - z) + W_SEP * spz;
       } else {
         aX += wa * (avx * inv - vxi) + wc * (ccx * inv - x) + W_SEP * spx;

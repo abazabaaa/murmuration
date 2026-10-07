@@ -74,15 +74,17 @@ fixed to the world axes.
 
 Dense edges are an open problem in the literature too: the shape-model papers reproduce sharp borders but call
 high-density borders "not well understood" (Hemelrijk & Hildenbrandt 2011 p.3; notes_shape_models.md). Two attempts
-here fail: cohesion up to 5 times stronger for edge birds (`edge=1-4` with `?local`, 400 birds, 2 seeds) leaves the
-edge/centre ratio at 1.12-1.20 against a null of 1.30 while packing the flock (r1 0.69-0.84 m) and rounding it
-(I2/I1 1.2-1.4); and the edge-only pull of `geom=4` above.
+here fall short. Cohesion up to 5 times stronger for edge birds (`edge=1-4` with `?local`, 400 birds, 2 seeds)
+moves the edge/centre ratio from 1.18-1.21 to 1.10-1.14 against a null of 1.31-1.33, far from the field's
+0.65-0.82, while packing the whole flock (r1 from 0.86 to 0.58-0.77 m); the shape is kept (2.2-2.5, 4.3-5.5). The
+edge-only pull of `geom=4` above does no better.
 
 Other checks of `?local`:
 
 - **Hunts** (`murmuration-falcon.js 300 "seed=1&n=400&local&classic"`): no flock split after a flash expansion
   (default 50 %, Storms 2019 22 %), flash expansions flagged on 21 % of strikes but strong ones (>20 % in 3 s) on only
-  8 % (field 25 %), 2.5 strikes per hunt. At 5,000 birds with hunts (150 s, seed 1) it stays one flock (Φ 0.984).
+  8 % (field 25 %), 2.5 strikes per hunt: the flock no longer splits, but it scatters too little. At 5,000 birds with
+  hunts (150 s, seed 1: falcon active 88 s, 6 stoops) it stays one flock (Φ 0.984).
 - **Framing** (seeds 1-3, 5,000 birds, the 16:9 crop of a 1200×793 window, 20-24 s): at worst 10-12 % of birds out
   of frame, against 9-25 % for the default.
 - **Speed.** The octant table is an all-pairs pass over a snapshot of positions taken every 0.1 s, spread over the
