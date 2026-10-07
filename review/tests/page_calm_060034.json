@@ -1,0 +1,197 @@
+{
+ "source": "runs/20261007-060034-82eb81f5-3.8-agentic (page_calm, agentic Flash, brief 0c8f59bd15db): its extraction, the stills served and the clip key entry",
+ "extraction": {
+  "birds_resolved": true,
+  "bird_span_px_median": 6.8,
+  "birds_visible_estimate": 250,
+  "predator_visible": false,
+  "wingbeat_hz": 0.0,
+  "wingbeat_timestamps": [
+   "00:03.2",
+   "00:03.8"
+  ],
+  "s1_silhouette": {
+   "holds": true,
+   "timestamps": [
+    "00:03.5",
+    "00:03.8"
+   ],
+   "still_ids": [
+    "s9",
+    "s10",
+    "s11"
+   ],
+   "evidence": "Resolved birds show triangular, pointed, slightly swept-back wings, a compact body, and a short square tail consistent with the European starling flight silhouette, though fine beak details cannot be resolved.",
+   "confidence": "high"
+  },
+  "s2_flight_mode": {
+   "holds": false,
+   "timestamps": [
+    "00:00.50",
+    "00:00.57",
+    "00:03.2",
+    "00:03.50",
+    "00:03.53",
+    "00:03.8"
+   ],
+   "still_ids": [
+    "s1",
+    "s2",
+    "s3",
+    "s8",
+    "s9",
+    "s10",
+    "s11"
+   ],
+   "evidence": "Across consecutive frames and extended intervals up to 0.6 s, the birds' wings remain completely rigid with zero displacement or flapping cycles, yielding a 0 Hz wingbeat rate instead of starling flapping bursts.",
+   "confidence": "high"
+  },
+  "s3_flock_motion": {
+   "holds": true,
+   "timestamps": [
+    "00:00.5",
+    "00:01.5",
+    "00:02.5",
+    "00:03.5"
+   ],
+   "still_ids": [
+    "s1",
+    "s4",
+    "s6",
+    "s9"
+   ],
+   "evidence": "The flock moves cohesively across the sky with relatively even spacing, smoothly varying density, and fluid frame-to-frame translation without jitter or sudden jumps.",
+   "confidence": "high"
+  },
+  "s4_attitude_variety": {
+   "holds": false,
+   "timestamps": [
+    "00:03.5"
+   ],
+   "still_ids": [
+    "s9"
+   ],
+   "evidence": "While birds exhibit varied bank angles and headings, they completely lack wing-stroke phase diversity because all wings remain outstretched, and several neighboring individuals share very similar silhouette templates rotated to different angles.",
+   "confidence": "high"
+  },
+  "s5_predator": null,
+  "waves_seen": false,
+  "wave_pulses": 0,
+  "r1_scale": {
+   "holds": true,
+   "timestamps": [
+    "00:00.5",
+    "00:03.5"
+   ],
+   "still_ids": [
+    "s1",
+    "s9"
+   ],
+   "evidence": "Silhouettes are appropriately sized for a flock in the middle-distance sky over an expansive rural landscape, increasing in apparent wingspan from ~3-5 px to ~7-10 px as the flock approaches.",
+   "confidence": "high"
+  },
+  "r2_tone": {
+   "holds": true,
+   "timestamps": [
+    "00:00.5",
+    "00:03.5"
+   ],
+   "still_ids": [
+    "s1",
+    "s9"
+   ],
+   "evidence": "Birds appear as fully opaque dark grey to near-black silhouettes matching the strong backlighting of the bright evening sky, with no unnatural color casts or translucency.",
+   "confidence": "high"
+  },
+  "r3_numbers": {
+   "holds": false,
+   "timestamps": [
+    "00:00.5",
+    "00:03.5"
+   ],
+   "still_ids": [
+    "s1",
+    "s9"
+   ],
+   "evidence": "Direct counting indicates roughly 200 to 300 birds in a relatively loose formation, which is small and lacks the density and scale of thousands to tens of thousands typical of a starling murmuration.",
+   "confidence": "medium"
+  },
+  "r4_artefacts": {
+   "holds": true,
+   "timestamps": [
+    "00:00.50",
+    "00:00.57",
+    "00:03.50",
+    "00:03.53"
+   ],
+   "still_ids": [
+    "s1",
+    "s2",
+    "s3",
+    "s9",
+    "s10"
+   ],
+   "evidence": "Birds do not exhibit ghosting trails, persistence copies, frame popping, flicker, or stair-stepped aliasing, and remain consistently positioned against the open sky.",
+   "confidence": "high"
+  },
+  "artefacts": null,
+  "r5_camera": {
+   "holds": true,
+   "timestamps": [
+    "00:01.5",
+    "00:03.5"
+   ],
+   "still_ids": [
+    "s4",
+    "s9"
+   ],
+   "evidence": "Camera exposure is balanced for the bright sky and sunset cloud layers, leaving the foreground in silhouette; minor block-level video compression is present around edges, and silhouette contours show minimal motion blur.",
+   "confidence": "high"
+  },
+  "r6_scene": {
+   "holds": true,
+   "timestamps": [
+    "00:00.0",
+    "00:04.0"
+   ],
+   "still_ids": [
+    "s1",
+    "s9"
+   ],
+   "evidence": "The low setting sun near the horizon, cloud illumination gradients, distant tree line haze, and backlit bird silhouettes are mutually consistent in lighting, perspective, and atmospheric depth.",
+   "confidence": "high"
+  },
+  "notes": "The clip shows a small flock of approximately 200\u2013300 birds drifting across an evening sky. While individual silhouettes match the general morphology of European starlings in gliding flight and the flock moves cohesively, the birds have completely rigid wings with 0 Hz wingbeat rate and lack wing-stroke phase diversity. No raptor or murmuration agitation waves are present."
+ },
+ "stills_served": [
+  "s1",
+  "s10",
+  "s11",
+  "s12",
+  "s2",
+  "s3",
+  "s4",
+  "s5",
+  "s6",
+  "s7",
+  "s8",
+  "s9"
+ ],
+ "clip": {
+  "name": "page_calm",
+  "kind": "page",
+  "source": "murmuration.html?debug&halt&warm=10&seed=7&calm, t 10-14 s, window 1200x793 dpr 2, page d6761c4 + ?halt",
+  "real_seconds": 4.0,
+  "video_seconds": 4.0,
+  "slow": 1.0,
+  "out_fps": 30,
+  "src_fps": 60,
+  "sample_hz": 30.0,
+  "nyquist_hz": 15.0,
+  "size": [
+   2400,
+   1586
+  ],
+  "frames": 240
+ }
+}

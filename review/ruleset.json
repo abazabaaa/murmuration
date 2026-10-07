@@ -1,0 +1,200 @@
+{
+ "ruleset_version": "0.4",
+ "compiled_from": "policy.md v0.4 (hand-compiled; every rule cites its clause; gates live in engine.py)",
+ "notes": "Fields are the flattened Extraction (engine.flatten): each Obs becomes its 'holds' value; render_artefacts counts reported artefacts of rendering kinds. Kleene logic: a null field makes a comparison unknown, which routes to needs_review, never to approve. approve_needs_scope (v0.4): when such a rule is out of scope, its axis cannot approve; it goes to needs_review with the reason on the card (policy S0, U2).",
+ "rules": [
+  {
+   "id": "S1-silhouette",
+   "axis": "S",
+   "policy_ref": "S1",
+   "action": "flag",
+   "description": "Resolved birds do not have the starling outline.",
+   "scope": {
+    "field": "birds_resolved",
+    "op": "eq",
+    "value": true
+   },
+   "when": {
+    "field": "s1_silhouette",
+    "op": "eq",
+    "value": false
+   },
+   "approve_needs_scope": true
+  },
+  {
+   "id": "S2-flight-mode",
+   "axis": "S",
+   "policy_ref": "S2",
+   "action": "flag",
+   "description": "Wings are rigid, beat in unison, or beat slowly and deeply (under 6 per second).",
+   "scope": {
+    "field": "birds_resolved",
+    "op": "eq",
+    "value": true
+   },
+   "when": {
+    "any": [
+     {
+      "field": "s2_flight_mode",
+      "op": "eq",
+      "value": false
+     },
+     {
+      "all": [
+       {
+        "field": "wingbeat_hz",
+        "op": "exists"
+       },
+       {
+        "field": "wingbeat_hz",
+        "op": "lt",
+        "value": 6
+       }
+      ]
+     }
+    ]
+   },
+   "approve_needs_scope": true
+  },
+  {
+   "id": "S3-flock-motion",
+   "axis": "S",
+   "policy_ref": "S3",
+   "action": "flag",
+   "description": "The flock does not move coherently and fluidly.",
+   "when": {
+    "field": "s3_flock_motion",
+    "op": "eq",
+    "value": false
+   }
+  },
+  {
+   "id": "S4-attitude-variety",
+   "axis": "S",
+   "policy_ref": "S4",
+   "action": "flag",
+   "description": "Many birds are identical copies in pose and angle.",
+   "scope": {
+    "field": "birds_resolved",
+    "op": "eq",
+    "value": true
+   },
+   "when": {
+    "field": "s4_attitude_variety",
+    "op": "eq",
+    "value": false
+   },
+   "approve_needs_scope": true
+  },
+  {
+   "id": "S5-predator",
+   "axis": "S",
+   "policy_ref": "S5",
+   "action": "flag",
+   "description": "The predator's shape, size or flight is wrong, or the flock ignores it.",
+   "scope": {
+    "field": "predator_visible",
+    "op": "eq",
+    "value": true
+   },
+   "when": {
+    "field": "s5_predator",
+    "op": "eq",
+    "value": false
+   }
+  },
+  {
+   "id": "R1-scale",
+   "axis": "R",
+   "policy_ref": "R1",
+   "action": "flag",
+   "description": "Bird size is inconsistent with distance or the scene.",
+   "when": {
+    "field": "r1_scale",
+    "op": "eq",
+    "value": false
+   }
+  },
+  {
+   "id": "R2-tone",
+   "axis": "R",
+   "policy_ref": "R2",
+   "action": "flag",
+   "description": "Bird tone or colour does not fit the light, or birds are see-through.",
+   "when": {
+    "field": "r2_tone",
+    "op": "eq",
+    "value": false
+   }
+  },
+  {
+   "id": "R3-numbers",
+   "axis": "R",
+   "policy_ref": "R3",
+   "action": "flag",
+   "description": "Too few or too sparse for a murmuration.",
+   "when": {
+    "field": "r3_numbers",
+    "op": "eq",
+    "value": false
+   }
+  },
+  {
+   "id": "R4-artefacts",
+   "axis": "R",
+   "policy_ref": "R4",
+   "action": "flag",
+   "description": "Rendering artefacts are present.",
+   "when": {
+    "any": [
+     {
+      "field": "r4_artefacts",
+      "op": "eq",
+      "value": false
+     },
+     {
+      "field": "render_artefacts",
+      "op": "gt",
+      "value": 0
+     }
+    ]
+   }
+  },
+  {
+   "id": "R5-camera",
+   "axis": "R",
+   "policy_ref": "R5",
+   "action": "flag",
+   "description": "No camera signature: the image is too clean to be footage.",
+   "when": {
+    "field": "r5_camera",
+    "op": "eq",
+    "value": false
+   }
+  },
+  {
+   "id": "R6-scene",
+   "axis": "R",
+   "policy_ref": "R6",
+   "action": "flag",
+   "description": "Sky, light and flock do not agree; the flock looks pasted in.",
+   "when": {
+    "field": "r6_scene",
+    "op": "eq",
+    "value": false
+   }
+  }
+ ],
+ "uncompilable": [
+  {
+   "policy_ref": "U1",
+   "clause": "Looks like the real thing overall.",
+   "reason": "A single impression would override the clauses."
+  },
+  {
+   "policy_ref": "U2",
+   "clause": "Species identity of distant specks.",
+   "reason": "Nothing in a 1-3 px speck distinguishes species; S1 is out of scope."
+  }
+ ]
+}

@@ -1,0 +1,16 @@
+{
+ "registered": "2026-10-07, after the agentic runs on real_calm (3), page_calm (3), page_trail (3) and page_calm_n5000_life_shutter_grain (3) had been read, and after both Codex reviews. These criteria are added beside controls.json, which is unchanged; they are prospective only for clips not yet reviewed (real_hunt, page_hunt, page_painted, page_roll0, page_noise8).",
+ "why": "controls.json can pass vacuously: an unknown satisfies must_not_fire, unexpected findings do not fail, its card expectations are never checked, and a page variant is never compared with the page it varies (Codex reviews astra section 6, sol section 6).",
+ "real": {
+  "clips": ["real_calm", "real_hunt"],
+  "R": "approve in a majority of runs (all R rules decided and clear, not merely none fired)",
+  "S": "approve in a majority of runs, or needs_review where every undecided S rule is one that needs resolved birds (S1, S2, S4): specks cannot be told from other flocking birds (policy U2)"
+ },
+ "variants": {
+  "base": "page_calm",
+  "targets": {"page_trail": "R4-artefacts", "page_painted": "R2-tone", "page_roll0": "S4-attitude-variety", "page_noise8": "S3-flock-motion"},
+  "min_lift": 0.5,
+  "how": "lift = the target rule's firing rate on the variant minus its rate on the base. A variant discriminates when lift >= min_lift. Rules firing in a majority of the variant's runs but not of the base's are listed as collateral (not failed: some follow from the change, such as see-through ghosts and R2)."
+ },
+ "card": "The card expectations in controls.json are checked against what the reviewer reported (before gates): the expected value in a majority of runs."
+}

@@ -1,0 +1,116 @@
+{
+ "registered": "2026-10-06, before any clip was reviewed",
+ "policy": "policy.md v0.1, ruleset 0.1",
+ "applies_to": "These expectations were registered before the first run and are not changed by later policy, ruleset or brief versions; each run records its brief (brief_sha) and ruleset, and results are reported per brief.",
+ "how_to_read": "must_not_fire: rules that firing would make the policy (or the reviewer) wrong. must_fire: rules a working policy has to fire. may_fire: plausible but not required; recorded so a result can't be reinterpreted afterwards. card: expectations about reported, unjudged facts.",
+ "clips": {
+  "real_calm": {
+   "source": "Strumpshaw Fen murmuration (Wikimedia Commons, CC BY 2.0), 20-24 s",
+   "must_not_fire": [
+    "S1-silhouette",
+    "S2-flight-mode",
+    "S3-flock-motion",
+    "S4-attitude-variety",
+    "S5-predator",
+    "R1-scale",
+    "R2-tone",
+    "R3-numbers",
+    "R4-artefacts",
+    "R5-camera",
+    "R6-scene"
+   ],
+   "card": {
+    "predator_visible": false
+   }
+  },
+  "real_hunt": {
+   "source": "Storms et al. 2019 ESM 1 (Rome, CC BY 4.0), 20-24 s, inside a wave event (16.4-34.4 s), timecode cropped off",
+   "must_not_fire": [
+    "S1-silhouette",
+    "S2-flight-mode",
+    "S3-flock-motion",
+    "S4-attitude-variety",
+    "S5-predator",
+    "R1-scale",
+    "R2-tone",
+    "R3-numbers",
+    "R4-artefacts",
+    "R5-camera",
+    "R6-scene"
+   ],
+   "card": {
+    "birds_resolved": false,
+    "waves_seen": true
+   }
+  },
+  "page_calm": {
+   "source": "murmuration.html?seed=7&calm, t 10-14 s, defaults (roll scatter 15 deg, clean frames)",
+   "may_fire": [
+    "R5-camera",
+    "R3-numbers",
+    "R1-scale"
+   ],
+   "card": {
+    "predator_visible": false,
+    "birds_resolved": true
+   }
+  },
+  "page_hunt": {
+   "source": "murmuration.html?seed=8, t 86.53-90.53 s: a hunt, captured from the first wave pulse with the whole flock in frame; pulses at 86.53, 87.40 and 90.02 s",
+   "may_fire": [
+    "R5-camera",
+    "R3-numbers",
+    "R1-scale",
+    "S5-predator"
+   ],
+   "card": {
+    "waves_seen": true
+   }
+  },
+  "page_trail": {
+   "source": "page_calm with ?trail (TRAIL 0.5 ghosts, as drawn at 60 fps)",
+   "must_fire": [
+    "R4-artefacts"
+   ],
+   "may_fire": [
+    "R5-camera",
+    "R3-numbers",
+    "R1-scale"
+   ]
+  },
+  "page_painted": {
+   "source": "page_calm with ?painted (the old dark purple-blue fills, 77-97 % opaque)",
+   "may_fire": [
+    "R2-tone",
+    "R5-camera",
+    "R3-numbers",
+    "R1-scale"
+   ]
+  },
+  "page_roll0": {
+   "source": "page_calm with ?roll=0 (every bird wings-level outside turns and waves)",
+   "may_fire": [
+    "S4-attitude-variety",
+    "R5-camera",
+    "R3-numbers",
+    "R1-scale"
+   ]
+  },
+  "page_noise8": {
+   "source": "murmuration.html?seed=7&calm&noise=8, t 10-14 s: eight times the measured heading noise; polarisation 0.64-0.89 headless (real flocks about 0.96; the default page 0.97-1.00)",
+   "must_fire": [
+    "S3-flock-motion"
+   ],
+   "may_fire": [
+    "R5-camera",
+    "R3-numbers",
+    "R1-scale"
+   ]
+  }
+ },
+ "untested_rules": {
+  "S1-silhouette": "no control has wrong bird shapes",
+  "S2-flight-mode": "no control has rigid, synchronised or slow wings",
+  "R6-scene": "no control pastes the flock into a mismatched scene"
+ }
+}
