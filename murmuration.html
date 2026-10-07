@@ -235,10 +235,37 @@ function paintSky() {
 // ---------------------------------------------------------------- flock
 const M = 0.5;                                 // metres per world unit (used for the readout only)
 const CRUISE = 23, VMIN = 12, VMAX = 30, MAX_ACC = 16;
-const RS = 5, RN = 38;                         // separation radius / sanity cutoff on the topological neighbours
-const W_SEP = 20, W_ALI = 18, W_COH = 6, W_TGT = 8, W_GLOBAL = .12, W_SPD = 1.5, W_SPD4 = .002, W_LEVEL = .9, W_FLEE = 70;
+const RS = params.has('rs') ? +params.get('rs') : 5, RN = 38;   // separation radius (?rs: experimental) / sanity cutoff on the topological neighbours
+const W_SEP = 20, W_ALI = 18, W_COH = params.has('coh') ? +params.get('coh') : 6, W_TGT = 8, W_GLOBAL = .12, W_SPD = 1.5, W_SPD4 = .002, W_LEVEL = .9, W_FLEE = 70;
 const R_FLEE = 65;
 const R_FLOCK = 20 * Math.cbrt(N / 400), W_REJOIN = 2;   // beyond R_FLOCK (∝ N^⅓ at fixed density) birds head back, 1/s
+// ?geom (experimental, off by default): flock geometry to match wild flocks (Ballerini 2008: a 1 : 2.8 : 5.6 slab at
+// every size, uniform inside with a denser edge, density independent of N). The pull toward the flock's centre stands
+// in for StarDisplay's roost attraction and preferred height (Hemelrijk & Hildenbrandt 2011), both global too.
+//   1: its strength falls as (400/N)^(2/3), so the pressure it puts on the core (∝ k R²) no longer grows with N;
+//   2: and it is GV times stiffer vertically, GH times horizontally: a trap whose equipotentials are ellipsoids of
+//      aspect √(GV/GH) at every N, if the flock fills it at even density;
+//   3: and cohesion is (1 + EDGE_G·c) times stronger for a bird whose neighbours lie to one side (c, 0 inside to 1 at
+//      an edge; Hemelrijk & Hildenbrandt 2011), for a denser edge.
+// Detached birds rejoin beyond RJ·R_FLOCK, a fixed radius.
+const GEOM = +params.get('geom') || 0, G_SCALE = GEOM ? Math.pow(400 / N, +(params.get('gx') ?? 2 / 3)) : 1;
+const GV = GEOM >= 2 ? +(params.get('gv') ?? 4) : 1, GH = GEOM >= 2 ? +(params.get('gh') ?? .5) : 1;
+const EDGE_G = GEOM === 3 ? +(params.get('edge') ?? 1.5) : 0, RJ = GEOM ? +(params.get('rj') ?? (GEOM >= 2 ? 2 : 1)) : 1;
+// 4: no spring. Only birds on the flock's edge (peripherality c above C0, full strength by C1) are pulled toward its
+//    centre, with a fixed strength GF (GV times that vertically): a surface pressure that does not grow with N, no
+//    force inside, and a flatness set by GV/GH alone.
+// ge: the spring (levels 1-2) is (1 + GE·ramp(c)) times stronger for edge birds: edge weighting toward the flock's
+// centre, not toward the local centroid (which clumps). kappa: vertical gain on local cohesion.
+const GE = GEOM ? +(params.get('ge') ?? 0) : 0, KAPPA = GEOM ? +(params.get('kappa') ?? 1) : 1;
+const GF = +(params.get('gf') ?? 3), C0 = +(params.get('c0') ?? .35), C1 = +(params.get('c1') ?? .7), PERI = EDGE_G || GEOM >= 4 || GE > 0;
+const T_LAG = params.has('tlag') ? +params.get('tlag') : 1;   // experiment: scale the delay of the turn from front to back
+// ?pturn=1 (experimental): equal-impulse turns. The flock-level push toward the waypoint is computed once per step and
+// replayed to each bird after its delay, so every bird receives the same push and turns through the same angle on a
+// parallel path (Attanasi et al. 2014). Otherwise birds share one stopping time, so the front turns up to ~2.4 s x
+// 0.35 rad/s further than the back, and the flock is sheared on every turn by a velocity gradient alignment cannot undo.
+const PTURN = params.get('pturn') === '1';
+const drvX = new Float64Array(256), drvY = new Float64Array(256), drvZ = new Float64Array(256);   // pushes in 1/60 s bins
+let drvFirst = -1, drvLast = -1;
 const FRAME_CAP = 20;                          // largest framing acceleration, u/s²
 // Birds and the falcon are drawn at life size, with no extra enlargement in small windows (sizeK 1). At the
 // flock's 37-100 m a starling is then about 4-8 px across, as in real footage. ?life=0 (or ?classic) draws them
@@ -719,6 +746,18 @@ function step(dt, t) {
     if (fm > FRAME_CAP) { frX *= FRAME_CAP / fm; frY *= FRAME_CAP / fm; frZ *= FRAME_CAP / fm; }
   }
 
+  if (PTURN) {                                 // the flock's push this step, as each bird would compute it with no delay
+    let e = clamp((t - way.t) / 1.2, 0, 1); e = e * e * (3 - 2 * e);
+    let tx = way.ox + (way.x - way.ox) * e, ty = way.oy + (way.y - way.oy) * e, tz = way.oz + (way.z - way.oz) * e;
+    if (lure > .01) { tx += (tgt.x - tx) * lure; ty += (tgt.y - ty) * lure; tz += (tgt.z - tz) * lure; }
+    const dx = tx - gcx, dy = ty - gcy, dz = tz - gcz, d = Math.hypot(dx, dy, dz) + 1e-4;
+    const k = W_TGT * (1 + .8 * lure) * clamp(d / 30, .4, 1) / d, al = dx * hx + dy * hy + dz * hz;
+    const b = Math.floor(t * 60);
+    if (drvFirst < 0) drvFirst = b;
+    for (let c = Math.max(Math.min(drvLast + 1, b), b - 255); c <= b; c++) { const o = c & 255; drvX[o] = (dx - al * hx) * k; drvY[o] = (dy - al * hy) * k; drvZ[o] = (dz - al * hz) * k; }
+    drvLast = b;
+  }
+
   if (N >= GRID_N) buildGrid();
   let pol = 0, pvx = 0, pvy = 0, pvz = 0, nn = 0, outside = 0;
   for (let i = 0; i < N; i++) {
@@ -728,12 +767,13 @@ function step(dt, t) {
     const nb = nearest(i, x, y, z);           // K nearest, insertion-sorted, into nbD / nbI
 
     let aX = 0, aY = 0, aZ = 0;
-    let m = 0, avx = 0, avy = 0, avz = 0, ccx = 0, ccy = 0, ccz = 0, spx = 0, spy = 0, spz = 0;
+    let m = 0, avx = 0, avy = 0, avz = 0, ccx = 0, ccy = 0, ccz = 0, spx = 0, spy = 0, spz = 0, pux = 0, puy = 0, puz = 0;
     for (let n = 0; n < nb; n++) {
       const d2 = nbD[n];
       if (d2 > RN * RN) continue;
       const j = nbI[n], d = Math.sqrt(d2) + 1e-4;
       m++; avx += vx[j]; avy += vy[j]; avz += vz[j]; ccx += px[j]; ccy += py[j]; ccz += pz[j];
+      if (PERI) { pux += (px[j] - x) / d; puy += (py[j] - y) / d; puz += (pz[j] - z) / d; }
       if (d < RS) {
         const w = (RS - d) / (RS * d);
         spx += (x - px[j]) * w; spy += (y - py[j]) * w; spz += (z - pz[j]) * w;
@@ -748,19 +788,35 @@ function step(dt, t) {
     if (m) {
       const inv = 1 / m;
       const wa = W_ALI * (1 + alarm[i]), wc = W_COH * (1 + 2 * alarm[i]);
-      aX += wa * (avx * inv - vxi) + wc * (ccx * inv - x) + W_SEP * spx;
-      aY += wa * (avy * inv - vyi) + wc * (ccy * inv - y) + W_SEP * spy;
-      aZ += wa * (avz * inv - vzi) + wc * (ccz * inv - z) + W_SEP * spz;
+      if (EDGE_G) {                            // peripherality: length of the mean unit vector to the neighbours (0 inside, 1 at an edge)
+        const wg = wc * (1 + EDGE_G * Math.hypot(pux, puy, puz) * inv);
+        aX += wa * (avx * inv - vxi) + wg * (ccx * inv - x) + W_SEP * spx;
+        aY += wa * (avy * inv - vyi) + wg * (ccy * inv - y) + W_SEP * spy;
+        aZ += wa * (avz * inv - vzi) + wg * (ccz * inv - z) + W_SEP * spz;
+      } else {
+        aX += wa * (avx * inv - vxi) + wc * (ccx * inv - x) + W_SEP * spx;
+        aY += wa * (avy * inv - vyi) + wc * KAPPA * (ccy * inv - y) + W_SEP * spy;
+        aZ += wa * (avz * inv - vzi) + wc * (ccz * inv - z) + W_SEP * spz;
+      }
     }
 
     {                                          // stay with the group: weak centering, and detached birds steer to
       const dx = gcx - x, dy = gcy - y, dz = gcz - z, d = Math.hypot(dx, dy, dz) + 1e-4;   // rejoin
-      aX += W_GLOBAL * dx; aY += W_GLOBAL * dy; aZ += W_GLOBAL * dz;
-      if (d > R_FLOCK) {
+      if (!GEOM) { aX += W_GLOBAL * dx; aY += W_GLOBAL * dy; aZ += W_GLOBAL * dz; }
+      else if (GEOM < 4) {
+        const ge = GE && m ? 1 + GE * clamp((Math.hypot(pux, puy, puz) / m - C0) / (C1 - C0), 0, 1) : 1;
+        const wh = W_GLOBAL * G_SCALE * GH * ge, wv = W_GLOBAL * G_SCALE * GV * ge; aX += wh * dx; aY += wv * dy; aZ += wh * dz;
+      }
+      else if (m) {
+        const w = clamp((Math.hypot(pux, puy, puz) / m - C0) / (C1 - C0), 0, 1) * GF / d;
+        aX += w * GH * dx; aY += w * GV * dy; aZ += w * GH * dz;
+      }
+      const RJR = RJ * R_FLOCK;
+      if (d > RJR) {
         // Velocity matching, not a central pull: a split-off group under a central force at the
         // acceleration cap just orbits the flock (radius v²/a_max ≈ 56 u at top speed). Matching the
         // flock's velocity plus a component toward its centre removes the tangential motion instead.
-        const w = Math.min(1, (d - R_FLOCK) / R_FLOCK), s = .8 * CRUISE * w / d;
+        const w = Math.min(1, (d - RJR) / RJR), s = .8 * CRUISE * w / d;
         aX += W_REJOIN * w * (gvx + dx * s - vxi);
         aY += W_REJOIN * w * (gvy + dy * s - vyi);
         aZ += W_REJOIN * w * (gvz + dz * s - vzi);
@@ -771,7 +827,8 @@ function step(dt, t) {
       // The drive direction is measured from the flock centre, not from each bird, so a wide flock
       // is not fanned out by the geometry of a shared target: that fan was the largest source of
       // disorder and pushed Φ far below the observed 0.96.
-      const lag = clamp(1.2 - ((x - gcx) * way.hx + (y - gcy) * way.hy + (z - gcz) * way.hz) / 25, 0, 2.4);
+      const lag = clamp(1.2 - ((x - gcx) * way.hx + (y - gcy) * way.hy + (z - gcz) * way.hz) / 25, 0, 2.4) * T_LAG;
+      if (PTURN) { const o = Math.max(drvFirst, Math.floor((t - lag) * 60)) & 255; aX += drvX[o]; aY += drvY[o]; aZ += drvZ[o]; } else {
       let e = clamp((t - way.t - lag) / 1.2, 0, 1); e = e * e * (3 - 2 * e);
       let tx = way.ox + (way.x - way.ox) * e, ty = way.oy + (way.y - way.oy) * e, tz = way.oz + (way.z - way.oz) * e;
       if (lure > .01) { tx += (tgt.x - tx) * lure; ty += (tgt.y - ty) * lure; tz += (tgt.z - tz) * lure; }
@@ -782,6 +839,7 @@ function step(dt, t) {
       const dx = tx - gcx, dy = ty - gcy, dz = tz - gcz, d = Math.hypot(dx, dy, dz) + 1e-4;
       const k = W_TGT * (1 + .8 * lure) * clamp(d / 30, .4, 1) / d, al = dx * hx + dy * hy + dz * hz;
       aX += (dx - al * hx) * k; aY += (dy - al * hy) * k; aZ += (dz - al * hz) * k;
+      }
     }
 
     {                                          // hold cruise speed, fly mostly level, behavioural noise

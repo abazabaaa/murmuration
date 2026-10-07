@@ -155,6 +155,14 @@ measures hunts against the field data above (the flight does not depend on the v
 overlap counts in the fixed, twice-life-size view they were measured in) (`--json` per run, `--merge a.json b.json …`
 pools runs; `--flythrough`, `--view` and `--export` as in *Where was the falcon?*).
 
+```
+node murmuration-flock.js 80 "seed=1&calm&n=5000"
+```
+
+measures a large flock's shape, density, edge, neighbour anisotropy and internal motion against field data on wild
+starling flocks, beside the same statistics on featureless clouds of the same size and shape. `FLOCK.md` has the
+results and the experimental `?geom` options tried so far (none of them changes the default page).
+
 Check that both embedded bird tables match the latest model exports:
 
 ```
@@ -173,7 +181,7 @@ with canvas stubs; check the page in a browser to validate appearance and contro
 ## Layout
 
 - `murmuration.html`, `murmuration-sky.jpg`: the page. `murmuration-check.js`,
-  `murmuration-falcon.js`, `murmuration-assets.js`: headless checks. `bootstrap.sh`, `murmuration-serve.js`: local server.
+  `murmuration-falcon.js`, `murmuration-flock.js`, `murmuration-assets.js`: headless checks. `FLOCK.md`: large-flock geometry. `bootstrap.sh`, `murmuration-serve.js`: local server.
 - `replay/replay_build.py`: Blender replay of an exported stretch of a run (output in `replay/out/`, not tracked).
 - `sky/`: bird colours over the photographed sky, measured from the HDRI, Cycles renders of the starling model and the treelines' haze (`sky/README.md`).
 - `blender/`: an earlier rigged falcon; the page no longer uses it.
