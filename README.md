@@ -17,7 +17,7 @@ correlation panel and **I** for the view from above (see *Where was the falcon?*
 | `?painted` | painted sky instead of the photograph |
 | `?warm=20` | simulate 20 s before the first frame |
 | `?inset` | open the views from above and from the side |
-| `?roll=30` | give each bird a wandering roll with this SD in degrees (off by default: it fits photographs at 30 but hides the orientation waves; see the note at `ATT_SD`) |
+| `?roll=15` | SD in degrees of each bird's smoothly wandering roll (default 15, set by the wave stripes in real footage; 0 for wings-level birds) |
 | `?trail` | leave fading ghosts behind moving birds (the old default; `?trail=.3` for longer ones) |
 | `?batch=40` | birds per drawing path (default 40; 0 draws each depth bin as one path, the old and much slower way) |
 
@@ -89,8 +89,11 @@ attacks, so it was left out.
 **Estimated parameters.** These are not measured: the dodge timing and width,
 the waiting position, the stoop-speed factors of the three speed classes, how often
 waves start before an attack (fitted to the 28 %) and their halving for slow and fast
-stoops, and the bound share of starling pauses. Their values and reasons are in the
-comments in `murmuration.html`.
+stoops, and the bound share of starling pauses. Two more are fitted indirectly: the
+roll of a bird in a wave (63°) and the spread of each bird's roll (15°) were never
+measured on birds, so they are set together so that the page's wave stripes, measured
+the same way, match the Rome hunting video of Storms et al. 2019. Their values and
+reasons are in the comments in `murmuration.html`.
 
 ### Where was the falcon?
 
