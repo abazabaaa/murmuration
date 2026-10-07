@@ -3,7 +3,8 @@
 A starling flock in a single HTML page, with the observables of Cavagna et al.,
 "Scale-free correlations in starling flocks", PNAS 107:11865 (2010) measured live.
 
-Open `murmuration.html` in a browser (keep `murmuration-sky.jpg` next to it).
+Open `murmuration.html` in a browser (keep `murmuration-sky.jpg` next to it), or run
+`./bootstrap.sh` to serve this checkout on 127.0.0.1 and print its URL (`--open`, `--status`, `--stop`).
 Move the pointer to lure the flock, click to loose a falcon, press **C** for the
 correlation panel and **I** for the view from above (see *Where was the falcon?* below).
 
@@ -160,7 +161,7 @@ with canvas stubs; check the page in a browser to validate appearance and contro
 ## Layout
 
 - `murmuration.html`, `murmuration-sky.jpg`: the page. `murmuration-check.js`,
-  `murmuration-falcon.js`, `murmuration-assets.js`: headless checks.
+  `murmuration-falcon.js`, `murmuration-assets.js`: headless checks. `bootstrap.sh`, `murmuration-serve.js`: local server.
 - `replay/replay_build.py`: Blender replay of an exported stretch of a run (output in `replay/out/`, not tracked).
 - `sky/`: bird colours over the photographed sky, measured from the HDRI, Cycles renders of the starling model and the treelines' haze (`sky/README.md`).
 - `blender/`: an earlier rigged falcon; the page no longer uses it.

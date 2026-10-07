@@ -17,3 +17,5 @@ starling/analysis/photo_fits/*.png
 starling/analysis/validation/
 # replay exports and renders (murmuration-falcon.js --export, replay/replay_build.py)
 replay/out/
+# local static server pid, port and log (bootstrap.sh)
+.serve/
