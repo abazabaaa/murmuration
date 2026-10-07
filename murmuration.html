@@ -714,20 +714,31 @@ function nearest(i, x, y, z) {                 // fills nbD / nbI, returns how m
 // Experimental spatially balanced neighbourhood: nearest bird in each Cartesian octant.
 // Camperi et al. (2012), sections 3 and 4.3, motivates angular coverage, not this
 // particular octant discretisation. No imposed flock dimensions or N-dependent gains.
-// Rebuild every 0.1 s; cached identities use current distances at each physics step.
-const balI = BALANCED ? new Int32Array(8 * N) : null;
-const balD = BALANCED ? new Float64Array(8 * N) : null;
-let balNext = -Infinity;
-function buildBalanced(t) {
-  if (t + 1e-9 < balNext) return;
-  balNext = t + .1; balI.fill(-1); balD.fill(Infinity);
-  for (let i = 0; i < N; i++) for (let j = i + 1; j < N; j++) {
-    const dx = px[j] - px[i], dy = py[j] - py[i], dz = pz[j] - pz[i];
-    const d2 = dx * dx + dy * dy + dz * dz;
-    const c = (dx >= 0 ? 1 : 0) | (dy >= 0 ? 2 : 0) | (dz >= 0 ? 4 : 0);
-    const a = 8 * i + c, b = 8 * j + (c ^ 7);
-    if (d2 < balD[a]) { balD[a] = d2; balI[a] = j; }
-    if (d2 < balD[b]) { balD[b] = d2; balI[b] = i; }
+// The octant table is an all-pairs pass, O(N²), over a snapshot of positions taken every 0.1 s. The pass is spread
+// over the next 0.1 s of steps, row by row in the same order as one whole pass (so the table is exactly what one pass
+// over the snapshot gives), and swapped in when complete: no single frame pays for all of it (at 5,000 birds a whole
+// pass takes ~100 ms). Neighbour identities are therefore 0.1-0.2 s old; distances are always current.
+let balI = BALANCED ? new Int32Array(8 * N) : null, balD = BALANCED ? new Float64Array(8 * N) : null;
+let bldI = BALANCED ? new Int32Array(8 * N) : null, bldD = BALANCED ? new Float64Array(8 * N) : null;
+const balX = BALANCED ? new Float64Array(N) : null, balY = BALANCED ? new Float64Array(N) : null, balZ = BALANCED ? new Float64Array(N) : null;
+let balRow = N, balStarted = false;
+function balancedRow(i) {
+  const xi = balX[i], yi = balY[i], zi = balZ[i], oi = 8 * i;
+  for (let j = i + 1; j < N; j++) {
+    const dx = balX[j] - xi, dy = balY[j] - yi, dz = balZ[j] - zi, d2 = dx * dx + dy * dy + dz * dz;
+    const c = (dx >= 0 ? 1 : 0) | (dy >= 0 ? 2 : 0) | (dz >= 0 ? 4 : 0), a = oi + c, b = 8 * j + (c ^ 7);
+    if (d2 < bldD[a]) { bldD[a] = d2; bldI[a] = j; }
+    if (d2 < bldD[b]) { bldD[b] = d2; bldI[b] = i; }
+  }
+}
+function buildBalanced(dt) {
+  if (balRow >= N) {                           // start a pass: snapshot the positions
+    balX.set(px); balY.set(py); balZ.set(pz); bldI.fill(-1); bldD.fill(Infinity); balRow = 0;
+  }
+  let budget = balStarted ? N * (N - 1) / 2 * dt / .1 : Infinity;   // the first pass is done at once
+  while (balRow < N && budget > 0) { budget -= N - 1 - balRow; balancedRow(balRow++); }
+  if (balRow >= N) {                           // complete: swap it in
+    let t = balI; balI = bldI; bldI = t; t = balD; balD = bldD; bldD = t; balStarted = true;
   }
 }
 function nearestBalanced(i, x, y, z) {
@@ -795,7 +806,7 @@ function step(dt, t) {
     drvLast = b;
   }
 
-  if (BALANCED) buildBalanced(t);
+  if (BALANCED) buildBalanced(dt);
   else if (N >= GRID_N) buildGrid();
   let pol = 0, pvx = 0, pvy = 0, pvz = 0, nn = 0, outside = 0;
   for (let i = 0; i < N; i++) {

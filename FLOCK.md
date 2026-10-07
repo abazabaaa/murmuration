@@ -76,10 +76,13 @@ Other checks of `?local`:
   but spreads: internal motion 9.7 m², 20 % of birds outside the backstop box.
 - **Framing** (seeds 1-3, 5,000 birds, the 16:9 crop of a 1200×793 window, 20-24 s): at worst 5-15 % of birds out of
   frame, against 9-25 % for the default.
-- **Speed.** Most steps are faster than the default (13 against 29 ms at 5,000 birds, headless), but every sixth step
-  rebuilds the octant neighbours of all pairs and takes about 116 ms: a visible stutter at 5,000 birds. It is 14-17 ms
-  at 1,600 and 32-41 ms at 2,500. View `?local` at `n=1600` until the rebuild uses the spatial grid or is spread
-  over frames.
+- **Speed.** The octant table is an all-pairs pass over a snapshot of positions taken every 0.1 s, spread over the
+  following 0.1 s of steps and swapped in when complete (first version: the whole pass in one step, about 116 ms
+  every sixth step at 5,000 birds, a visible stutter). Headless at 5,000 birds: 26.6 ms per step on average, 32.5 ms
+  at worst, against the default's 29.4 / 31.9. Re-measured after this change (neighbour identities 0.1 s older), seeds
+  as above: one flock at every size; I2/I1 2.0-2.4, I3/I1 3.0-4.3; thickness 5.9-6.2 / 10.2-10.4 / 15.1-16.4 spacings;
+  r1 0.84-0.87 m; CM MSD 0.9 / 1.6-2.3 / 1.1-2.5 m²; mutual MSD 0.21-0.24 m²; ξ/L 0.27 / 0.29 / 0.29 (400 / 800 /
+  1,600).
 
 How this was found: GPT-6-Astra (`codex exec`, xhigh) reviewed the code, this file and the papers, ran 74 headless
 experiments, and proposed the octant neighbours. I reproduced its runs, found that the screen backstop was holding
