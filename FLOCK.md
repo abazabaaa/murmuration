@@ -34,59 +34,66 @@ ball that gets rounder and denser as it grows, densest in the core: the pull of 
 | option | default page | `?local` | why |
 |---|---|---|---|
 | `balanced` | the 7 nearest birds | the nearest bird in each octant (up to 8) | groups of mutual nearest neighbours cannot close off (Camperi et al. 2012, Interface Focus 2:715, on starling data) |
-| `geom=2&gh=0.1&gv=0&gx=0` | centre pull 0.12/s² in all directions | 0.012/s², horizontal only | the flock is held together locally; a weak pull only bounds its horizontal extent |
+| `geom=2&gh=0.1&gv=0&gx=0` | centre pull 0.12/s² in all directions | 0.012/s², horizontal only | the flock is held together locally; a weak pull only bounds its horizontal extent (with none the 5,000-bird flock stretches to 140 m) |
 | `rj` | rejoin beyond 23 m at 5,000 | off (`rj=100`) | |
-| `kappa` | 1 | 2: cohesion twice as strong vertically | flattens the flock by a local, scale-free rule |
+| `kappa` | 1 | 2.5: cohesion 2.5 times as strong vertically | flattens the flock by a local, scale-free rule |
 | `rs` | separation within 2.5 m | 1.5 m | so separation is not a gas pressure on every neighbour |
+| `sepa` | 1 | 2: separation reaches twice as far ahead and behind (3 m) as to the sides | nearest neighbours sit to the side, as in wild flocks (γ) |
 | `noise`, `tau` | 9 units/s², memory 4 s | 22.5 units/s², memory 0.25 s | long-memory noise drives slow whole-flock deformations; fast noise moves birds among their neighbours |
 | `tlag` | turn reaches the back 2.4 s after the front | all birds turn together | the delayed turn shears large flocks; wild turns cross the flock in 0.3-1.3 s |
 | `backstop` | per-bird push back into a box around the view | off | it otherwise caps the length of the 5,000-bird flock |
 
-Measured with the corrected tool, calm, 60 s after 20 s, with no screen backstop (seeds in brackets):
+Measured with the corrected tool, calm, 60 s after 20 s, no screen backstop, seeds 1 and 2:
 
-| | 400 (1, 2) | 1,600 (1, 2) | 5,000 (1, 2, 3) | default page, 400 / 5,000 | wild flocks |
+| | 400 | 1,600 | 5,000 | default page, 400 / 5,000 | wild flocks |
 |---|---|---|---|---|---|
 | one flock | yes | yes | yes | yes | |
-| polarization Φ | 0.995-0.996 | 0.981-0.992 | 0.988-0.994 | 0.993 / 0.985 | 0.96 ± 0.03 |
-| I2/I1, I3/I1 | 2.2-2.3, 3.1-3.2 | 2.4-2.7, 3.6-4.7 | 2.2-2.6, 3.4-6.0 | 1.4, 2.2 / 1.3, 1.7 | 2.8 ± 0.4, 5.6 ± 1.0, flat in N |
-| thickness / spacing | 6.4-6.5 | 9.7-10.3 | 14.2-15.4 | 8.7 / 20.9 | 5.7-13 (N 448-2,631), ∝ N^⅓ |
-| nearest-neighbour r1, m | 0.86 | 0.87-0.88 | 0.87-0.88 | 1.44 / 1.23 | 0.68-1.51, independent of N |
-| edge / centre (uniform null) | 1.17-1.18 (1.32) | 1.09-1.12 (1.18-1.20) | 1.07-1.10 (1.14-1.15) | 1.09 (1.29) / 1.33 (1.12) | 0.65-0.82 |
-| γ(1) | 0.48 | | 0.41 | 0.41 / 0.24 | ≈0.85 |
-| CM-frame MSD at 1 s, m² | 0.78-0.83 | 1.15-3.39 | 1.34-2.53 | 1.55-1.82 / 3.05-4.70 | ≈1.9, no N trend |
-| mutual MSD at 1 s, m² | 0.21-0.22 | 0.21-0.24 | 0.23-0.24 | 0.06 / 0.07-0.09 | ≈0.42 |
-| Q10 after 3.5 s | 0.42 | 0.37-0.38 | 0.36 | 0.60 / 0.48 | ≈0.5 |
-| bird speed SD / mean | 0.07 | 0.07-0.10 | 0.08-0.09 | 0.06 / 0.09 | ≈0.13-0.2 |
-| ξ/L (`murmuration-check.js`, 40 s, seed 1) | 0.29 | 0.28 (800: 0.29) | | 0.35 / — | 0.35 |
+| polarization Φ | 0.995 | 0.946-0.989 | 0.981-0.991 | 0.993 / 0.985 | 0.96 ± 0.03 |
+| I2/I1, I3/I1 | 2.4-2.5, 3.4-3.7 | 2.1-2.3, 4.4-5.5 | 2.2, 4.8-4.9 | 1.4, 2.2 / 1.3, 1.7 | 2.8 ± 0.4, 5.6 ± 1.0, flat in N |
+| thickness / spacing | 6.3-6.4 | 10.3-10.9 | 15.9-16.1 | 8.7 / 20.9 | 5.7-13 (N 448-2,631), ∝ N^⅓ |
+| thin axis along gravity \|I1·G\| | 0.98 | 0.69-0.98 | 0.71-0.79 | 0.91 / 0.90 | 0.93 ± 0.04 |
+| nearest-neighbour r1, m | 0.86 | 0.86-0.91 | 0.87-0.88 | 1.44 / 1.23 | 0.68-1.51, independent of N |
+| edge / centre (uniform null) | 1.18-1.21 (1.32) | 1.10-1.15 (1.17-1.20) | 1.09-1.10 (1.15) | 1.09 (1.29) / 1.33 (1.12) | 0.65-0.82 |
+| γ(1) / γ(5) | 0.75-0.82 / 0.34-0.40 | 0.84-0.90 / 0.51-0.55 | 0.88-0.90 / 0.66-0.74 | 0.41 / 0.24 at γ(1) | ≈0.85 / ≈1/3 |
+| CM-frame MSD at 1 s, m² (exponent) | 0.87-0.91 (1.53-1.60) | 1.62-6.55 (1.97-2.00) | 2.19-4.32 (1.85-1.99) | 1.55-1.82 / 3.05-4.70 | ≈1.9, no N trend (1.73) |
+| mutual MSD at 1 s, m² (exponent) | 0.21-0.23 (1.65-1.67) | 0.23-0.26 (1.72-1.77) | 0.24-0.25 (1.71-1.73) | 0.06 / 0.07-0.09 (≈2.0) | ≈0.42 (1.58 ± 0.2) |
+| Q10 after 1 s / 3.5 s | 0.68 / 0.41-0.42 | 0.67 / 0.34-0.37 | 0.65 / 0.34-0.36 | 0.85 / 0.60 at 400 | ≈0.77 / ≈0.5 |
+| bird speed SD / mean | 0.07 | 0.08-0.10 | 0.08-0.10 | 0.06 / 0.09 | ≈0.13-0.2 |
+| ξ/L (`murmuration-check.js`, 40 s, seed 1) | 0.31 | 0.26 (800: 0.30) | | 0.35 / — | 0.35 |
 
 Right: one flock at every size with no spring or container; density independent of N; the flattened shape with
-I2/I1 near the field value at every N; thickness growing as N^⅓; internal motion at the field value in large flocks;
-neighbour-distance fluctuations three times the default's. Still wrong: the edge is no denser than a uniform cloud;
-no neighbour anisotropy; polarization and the 400-bird flock's stillness are too high; neighbour distances fluctuate
-half as much as in wild flocks; ξ/L is lower than the default's; I3/I1 varies from seed to seed and is low at 400.
-Several values are fits rather than mechanisms: the noise memory and strength, κ = 2, the 1.5 m separation range, and
-the weak horizontal pull (with none the 5,000-bird flock stretches to 140 m). The octants are fixed to the world axes,
-and rebuilding the octant neighbours every 0.1 s costs O(N²): about 3 ms per step at 5,000 birds headless.
+aspect ratios close to the field's at every N; thickness growing as N^⅓; nearest neighbours to the side (γ(1) at the
+field value); internal motion near the field value in large flocks, with the field's mutual-diffusion exponent; and
+neighbour-distance fluctuations three to four times the default's. Still wrong: the edge is no denser than a uniform
+cloud; anisotropy persists to farther neighbours than in the field in large flocks (γ(5) 0.7 at 5,000); the thin axis
+tilts from vertical at 1,600-5,000 in some runs; polarization and the 400-bird flock's stillness are too high;
+neighbour distances fluctuate half as much as in wild flocks and neighbours are exchanged faster; speed spread is too
+small; ξ/L is lower than the default's. Several values are fits rather than mechanisms: the noise memory and
+strength, κ = 2.5, the separation ranges (1.5 m, 3 m ahead and behind) and the weak horizontal pull. The octants are
+fixed to the world axes.
+
+Dense edges are an open problem in the literature too: the shape-model papers reproduce sharp borders but call
+high-density borders "not well understood" (Hemelrijk & Hildenbrandt 2011 p.3; notes_shape_models.md). Two attempts
+here fail: cohesion up to 5 times stronger for edge birds (`edge=1-4` with `?local`, 400 birds, 2 seeds) leaves the
+edge/centre ratio at 1.12-1.20 against a null of 1.30 while packing the flock (r1 0.69-0.84 m) and rounding it
+(I2/I1 1.2-1.4); and the edge-only pull of `geom=4` above.
 
 Other checks of `?local`:
 
-- **Hunts** (`murmuration-falcon.js 300 "seed=1&n=400&local&classic"`, against the same without `local`): no flock
-  split after a flash expansion (default 50 %, Storms 2019 22 %), fewer flash expansions (18 % of strikes, default
-  36 %, field 25-34 %), 2.5 strikes per hunt. At 5,000 birds with hunts (150 s, seed 1) it stays one flock (Φ 0.948)
-  but spreads: internal motion 9.7 m², 20 % of birds outside the backstop box.
-- **Framing** (seeds 1-3, 5,000 birds, the 16:9 crop of a 1200×793 window, 20-24 s): at worst 5-15 % of birds out of
-  frame, against 9-25 % for the default.
+- **Hunts** (`murmuration-falcon.js 300 "seed=1&n=400&local&classic"`): no flock split after a flash expansion
+  (default 50 %, Storms 2019 22 %), flash expansions flagged on 21 % of strikes but strong ones (>20 % in 3 s) on only
+  8 % (field 25 %), 2.5 strikes per hunt. At 5,000 birds with hunts (150 s, seed 1) it stays one flock (Φ 0.984).
+- **Framing** (seeds 1-3, 5,000 birds, the 16:9 crop of a 1200×793 window, 20-24 s): at worst 10-12 % of birds out
+  of frame, against 9-25 % for the default.
 - **Speed.** The octant table is an all-pairs pass over a snapshot of positions taken every 0.1 s, spread over the
   following 0.1 s of steps and swapped in when complete (first version: the whole pass in one step, about 116 ms
-  every sixth step at 5,000 birds, a visible stutter). Headless at 5,000 birds: 26.6 ms per step on average, 32.5 ms
-  at worst, against the default's 29.4 / 31.9. Re-measured after this change (neighbour identities 0.1 s older), seeds
-  as above: one flock at every size; I2/I1 2.0-2.4, I3/I1 3.0-4.3; thickness 5.9-6.2 / 10.2-10.4 / 15.1-16.4 spacings;
-  r1 0.84-0.87 m; CM MSD 0.9 / 1.6-2.3 / 1.1-2.5 m²; mutual MSD 0.21-0.24 m²; ξ/L 0.27 / 0.29 / 0.29 (400 / 800 /
-  1,600).
+  every sixth step at 5,000 birds, a visible stutter). Headless at 5,000 birds: 31.9 ms per step on average, 35.9 at
+  worst, against the default's 29.4 / 31.9.
 
 How this was found: GPT-6-Astra (`codex exec`, xhigh) reviewed the code, this file and the papers, ran 74 headless
 experiments, and proposed the octant neighbours. I reproduced its runs, found that the screen backstop was holding
-its 5,000-bird flock (6 % of birds), and added fast noise, κ and the weak horizontal pull to the reproduced version.
+its 5,000-bird flock (6 % of birds), and added fast noise, κ, the weak horizontal pull and the anisotropic separation
+to the reproduced version.
 
 ## Correction (2026-10-07): two internal-motion measures were wrong
 

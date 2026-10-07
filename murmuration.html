@@ -44,12 +44,13 @@
 const params = new URLSearchParams(location.search);
 // ?local (experimental): a flock held together by local rules, measured against wild starling flocks in FLOCK.md.
 // Each bird's neighbours are the nearest in each octant (spatially balanced, after Camperi et al. 2012, so groups
-// cannot close off), cohesion is twice as strong vertically, separation reaches 1.5 m, the pull toward the flock's
+// cannot close off), cohesion is 2.5 times as strong vertically, separation reaches 1.5 m to the sides and 3 m ahead
+// and behind (so nearest neighbours sit to the side, as in wild flocks), the pull toward the flock's
 // centre is horizontal only and 10 times weaker, the rejoin rule is off, all birds turn together, the behavioural
 // noise is faster and stronger (memory 0.25 s), and the per-bird screen backstop is off. Any of these can still be
 // overridden in the URL.
 if (params.has('local')) for (const [k, v] of Object.entries({ balanced: 1, geom: 2, gh: .1, gv: 0, gx: 0, rj: 100, tlag: 0,
-  rs: 3, noise: 2.5, tau: .25, kappa: 2, backstop: 0 })) if (!params.has(k)) params.set(k, v);
+  rs: 3, noise: 2.5, tau: .25, kappa: 2.5, sepa: 2, backstop: 0 })) if (!params.has(k)) params.set(k, v);
 // The default view is a camera on the ground: 5,000 birds at life size, a 1/60 s exposure, sensor grain and a camera
 // that pans to follow the flock. ?classic restores the earlier defaults (400 birds drawn twice life size, clean frames,
 // fixed camera); ?life=0, ?shutter=0, ?grain=0 and ?follow=0 turn single parts off.
@@ -259,13 +260,16 @@ const R_FLOCK = 20 * Math.cbrt(N / 400), W_REJOIN = 2;   // beyond R_FLOCK (∝ 
 // Detached birds rejoin beyond RJ·R_FLOCK, a fixed radius.
 const GEOM = +params.get('geom') || 0, G_SCALE = GEOM ? Math.pow(400 / N, +(params.get('gx') ?? 2 / 3)) : 1;
 const GV = GEOM >= 2 ? +(params.get('gv') ?? 4) : 1, GH = GEOM >= 2 ? +(params.get('gh') ?? .5) : 1;
-const EDGE_G = GEOM === 3 ? +(params.get('edge') ?? 1.5) : 0, RJ = GEOM ? +(params.get('rj') ?? (GEOM >= 2 ? 2 : 1)) : 1;
+const EDGE_G = GEOM === 3 ? +(params.get('edge') ?? 1.5) : GEOM ? +(params.get('edge') ?? 0) : 0, RJ = GEOM ? +(params.get('rj') ?? (GEOM >= 2 ? 2 : 1)) : 1;
 // 4: no spring. Only birds on the flock's edge (peripherality c above C0, full strength by C1) are pulled toward its
 //    centre, with a fixed strength GF (GV times that vertically): a surface pressure that does not grow with N, no
 //    force inside, and a flatness set by GV/GH alone.
 // ge: the spring (levels 1-2) is (1 + GE·ramp(c)) times stronger for edge birds: edge weighting toward the flock's
 // centre, not toward the local centroid (which clumps). kappa: vertical gain on local cohesion.
 const GE = GEOM ? +(params.get('ge') ?? 0) : 0, KAPPA = GEOM ? +(params.get('kappa') ?? 1) : 1;
+// sepa: separation reaches sepa times farther ahead of and behind a bird (along its own heading) than to its sides,
+// an ellipsoidal exclusion zone; the direction in which nearest neighbours are rarest becomes the heading (γ).
+const SEPA = GEOM ? +(params.get('sepa') ?? 1) : 1, SEPA_K = 1 / (SEPA * SEPA) - 1;
 const GF = +(params.get('gf') ?? 3), C0 = +(params.get('c0') ?? .35), C1 = +(params.get('c1') ?? .7), PERI = EDGE_G || GEOM >= 4 || GE > 0;
 const T_LAG = params.has('tlag') ? +params.get('tlag') : 1;   // experiment: scale the delay of the turn from front to back
 // ?pturn=1 (experimental): equal-impulse turns. The flock-level push toward the waypoint is computed once per step and
@@ -823,9 +827,18 @@ function step(dt, t) {
       const j = nbI[n], d = Math.sqrt(d2) + 1e-4;
       m++; avx += vx[j]; avy += vy[j]; avz += vz[j]; ccx += px[j]; ccy += py[j]; ccz += pz[j];
       if (PERI) { pux += (px[j] - x) / d; puy += (py[j] - y) / d; puz += (pz[j] - z) / d; }
-      if (d < RS) {
-        const w = (RS - d) / (RS * d);
-        spx += (x - px[j]) * w; spy += (y - py[j]) * w; spz += (z - pz[j]) * w;
+      if (SEPA === 1) {
+        if (d < RS) {
+          const w = (RS - d) / (RS * d);
+          spx += (x - px[j]) * w; spy += (y - py[j]) * w; spz += (z - pz[j]) * w;
+        }
+      } else {                                 // distance with the part along the heading divided by SEPA
+        const ex = x - px[j], ey = y - py[j], ez = z - pz[j], al = (ex * vxi + ey * vyi + ez * vzi) / spd;
+        const de = Math.sqrt(Math.max(0, d2 + SEPA_K * al * al)) + 1e-4;
+        if (de < RS) {
+          const w = (RS - de) / (RS * de), k = SEPA_K * al / spd;
+          spx += (ex + k * vxi) * w; spy += (ey + k * vyi) * w; spz += (ez + k * vzi) * w;
+        }
       }
     }
     if (nb) nn += Math.sqrt(nbD[0]);

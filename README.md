@@ -29,7 +29,7 @@ correlation panel and **I** for the view from above (see *Where was the falcon?*
 | `?shutter=8` | exposure in ms for the motion blur (default 1/60 s; birds are averaged over several instants); `?shutter=0` for none |
 | `?grain=2` | camera noise over the frame, so the photographed sky flickers like filmed sky (default 1; `?grain=0` for none) |
 | `?follow=0` | fixed camera (by default it pans left and right to follow the flock, as a person filming would; the flight is unchanged, but flocks over 3,000 birds then roam the full width) |
-| `?local` | experimental: a flock held together by local rules (octant neighbours, vertical cohesion, fast noise), which matches wild flocks' shape, density and internal motion better at every size; see `FLOCK.md` |
+| `?local` | experimental: a flock held together by local rules (octant neighbours, vertical cohesion, separation longer ahead and behind, fast noise), which matches wild flocks' shape, density, neighbour anisotropy and internal motion better at every size; see `FLOCK.md` |
 
 ## What it reproduces
 
