@@ -42,7 +42,12 @@
 // Press C to toggle the correlation panel (?stats opens it; ?debug adds the frame counter).
 
 const params = new URLSearchParams(location.search);
-const N = Math.min(3000, Math.max(20, +params.get('n') || 400));
+// The default view is a camera on the ground: 5,000 birds at life size, a 1/60 s exposure, sensor grain and a camera
+// that pans to follow the flock. ?classic restores the earlier defaults (400 birds drawn twice life size, clean frames,
+// fixed camera); ?life=0, ?shutter=0, ?grain=0 and ?follow=0 turn single parts off.
+const CLASSIC = params.has('classic');
+const opt = k => params.has(k) ? params.get(k) !== '0' : !CLASSIC;   // on by default, off under ?classic or ?k=0
+const N = Math.min(10000, Math.max(20, +params.get('n') || (CLASSIC ? 400 : 5000)));
 const K = 7;                                   // topological neighbours (Ballerini et al. 2008: 6–7, not a radius)
 const TAU = Math.PI * 2;
 
@@ -70,7 +75,7 @@ const sctx = sky.getContext('2d');
 // CC0) reprojected for this camera, with the horizon at 80 % of its height and a 46° vertical field
 // of view. Until it loads, if it is missing, or with ?painted, the painted sky below is used.
 const skyImg = document.createElement('img');
-let skyReady = false;
+let skyReady = false, vig = null;              // vig: the vignette, apart from the sky only under ?follow
 if (!params.has('painted')) {
   skyImg.onload = () => { skyReady = true; paintSky(); fresh = true; };
   skyImg.src = 'murmuration-sky.jpg';
@@ -82,6 +87,14 @@ if (!params.has('painted')) {
 const CAM_H = 2;
 const ZMIN = 75, ZMAX = 200;
 let W, H, dpr, f, cx, cy, HORIZON, ct, st, UM, VT, VB, sizeK;
+// ?follow: the camera pans to follow the flock, as whoever films a murmuration does (real_calm: about 1.9 px a frame).
+// Only the view turns: the physics keeps its fixed frame, so framing, waypoints and the falcon's entries are computed
+// as without it (except that big flocks may then roam the full width, WAY_X). The pan is a yaw alone: the sky
+// photograph is wider than the window (about 350 px each side at 1200x793) but no taller, so it can slide sideways but
+// not tilt. Sliding it stands in for a rectilinear yaw; rows stay straight and the far edges are off by a few per cent
+// at 10 degrees. The camera eases toward the flock centre's bearing, critically damped (FOLLOW_W, rad/s).
+const FOLLOW = opt('follow') && !params.has('painted'), FOLLOW_W = 1.2, SKY_PX = [3840, 1600];   // murmuration-sky.jpg
+let yaw = 0, yawV = 0, yawMax = 0, yawC = 1, yawS = 0, skySpare = 0;
 
 function layout() {
   W = innerWidth; H = innerHeight;
@@ -96,13 +109,15 @@ function layout() {
   UM = 0.8 * (W / 2) / f;                      // flock stays inside these view tangents
   VT = (cy - 0.13 * H) / f;
   VB = (cy - 0.62 * H) / f;
-  sizeK = clamp(1150 / f, 1, 1.7);
+  sizeK = LIFE ? 1 : clamp(1150 / f, 1, 1.7);
+  if (FOLLOW) fitSky(SKY_PX[0], SKY_PX[1]);   // the pan limit from the photograph's size, before it has loaded
   paintSky();
   fresh = true;
 }
 
 let _x = 0, _y = 0, _z = 0;
 function P(x, y, z) {                          // world -> screen, result in _x _y (px) and _z (depth)
+  if (yawS !== 0) { const xr = x * yawC - z * yawS; z = x * yawS + z * yawC; x = xr; }   // ?follow: the view's pan
   const yr = y - CAM_H;
   _z = yr * st + z * ct;
   const k = f / _z;
@@ -117,6 +132,11 @@ function screenToWorld(sx, sy, depth, out) {
 }
 
 // ---------------------------------------------------------------- scenery
+function fitSky(iw, ih) {                      // ?follow: spare photograph each side of the window, and the pan it allows
+  const k = Math.max(f / ((ih / 2) / Math.tan(23 * Math.PI / 180)), W / iw, H / ih);
+  skySpare = Math.max(0, Math.floor((iw * k - W) / 2));
+  yawMax = Math.atan(skySpare / f);
+}
 function paintSky() {
   const g = sctx, r = rng(7);
   g.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -125,10 +145,19 @@ function paintSky() {
   if (skyReady) {                              // same focal length and horizon as the camera, scaled up only to cover
     const iw = skyImg.naturalWidth, ih = skyImg.naturalHeight, fi = (ih / 2) / Math.tan(23 * Math.PI / 180);
     const k = Math.max(f / fi, W / iw, H / ih);
-    g.drawImage(skyImg, cx - iw * k / 2, hz - .8 * ih * k, iw * k, ih * k);
-    const vg = g.createRadialGradient(cx, cy * .95, Math.min(W, H) * .35, cx, cy, Math.hypot(W, H) * .62);
+    let vgx = g;
+    if (FOLLOW) {                              // the whole width of the photograph, slid under a fixed vignette
+      fitSky(iw, ih);
+      sky.width = Math.round((W + 2 * skySpare) * dpr);
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      g.drawImage(skyImg, skySpare + cx - iw * k / 2, hz - .8 * ih * k, iw * k, ih * k);
+      if (!vig) vig = document.createElement('canvas');
+      vig.width = canvas.width; vig.height = canvas.height;
+      vgx = vig.getContext('2d'); vgx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    } else g.drawImage(skyImg, cx - iw * k / 2, hz - .8 * ih * k, iw * k, ih * k);
+    const vg = vgx.createRadialGradient(cx, cy * .95, Math.min(W, H) * .35, cx, cy, Math.hypot(W, H) * .62);
     vg.addColorStop(0, 'rgba(6,3,14,0)'); vg.addColorStop(1, 'rgba(6,3,14,.35)');
-    g.fillStyle = vg; g.fillRect(0, 0, W, H);
+    vgx.fillStyle = vg; vgx.fillRect(0, 0, W, H);
     return;
   }
 
@@ -211,7 +240,11 @@ const W_SEP = 20, W_ALI = 18, W_COH = 6, W_TGT = 8, W_GLOBAL = .12, W_SPD = 1.5,
 const R_FLEE = 65;
 const R_FLOCK = 20 * Math.cbrt(N / 400), W_REJOIN = 2;   // beyond R_FLOCK (∝ N^⅓ at fixed density) birds head back, 1/s
 const FRAME_CAP = 20;                          // largest framing acceleration, u/s²
-const SPAN = 1.63;                             // u, full-spread span: about twice life size (0.382 m), like the falcon
+// Birds and the falcon are drawn at life size, with no extra enlargement in small windows (sizeK 1). At the
+// flock's 37-100 m a starling is then about 4-8 px across, as in real footage. ?life=0 (or ?classic) draws them
+// twice life size, larger still in small windows (10-17 px), as the page used to. Drawing only.
+const LIFE = opt('life');
+const SPAN = LIFE ? .764 : 1.63;               // u, full-spread span: life size (0.382 m); about twice that under ?life=0
 // Wingbeat and intermittent flight (starling/refs/pose_spec.md): 10–14 Hz (BG13, RA01). At 10–12 m/s a
 // starling flaps in bursts of about 12–15 beats, then pauses 0.6–1 s (RA01 Table 1); most pauses are
 // glides, and bounds with the wings folded get commoner with speed (TO95). P_BOUND is an estimate
@@ -262,6 +295,11 @@ let gcx = 0, gcy = 0, gcz = 0, gvx = 0, gvy = 0, gvz = 0, lure = 0, lastMove = -
 const ptr = { x: 0, y: 0 };
 let stats = { pol: 0, nn: 0, out: 0 };
 
+// Above the old cap of 3,000 birds the flock spans half the frame or more, and waypoints up to 30 % of the width off
+// centre carried it out of the picture (10-36 % of 5,000 birds out at once, seeds 1-12); looping toward the camera, it
+// also came in to the near limit, where its birds drew 1.4x too large. Big flocks aim nearer the middle and farther
+// off (ZNEAR, WAY_Z); every flock size possible before flies exactly as it did.
+const BIG = N > 3000, WAY_X = BIG && !FOLLOW ? .35 : 1, WAY_Z = BIG ? [160, 35] : [125, 70], ZNEAR = BIG ? 130 : ZMIN;
 const way = { x: 0, y: 0, z: 0, ox: 0, oy: 0, oz: 0, hx: 1, hy: 0, hz: 0, t: -1e9 };
 function nextWaypoint(t) {                     // usually the far side of the sky, sometimes a loop back
   const hl = Math.hypot(gvx, gvy, gvz) + 1e-6; // heading at the moment of the switch (drives the ripple lag)
@@ -269,7 +307,7 @@ function nextWaypoint(t) {                     // usually the far side of the sk
   way.ox = way.x; way.oy = way.y; way.oz = way.z;
   P(gcx, gcy, gcz);
   const side = (_x > cx) === (rand() < .75) ? -1 : 1;
-  screenToWorld(cx + side * W * (.1 + .2 * rand()), H * (.27 + .2 * rand()), 125 + 70 * rand(), way);
+  screenToWorld(cx + side * W * (.1 + .2 * rand()) * WAY_X, H * (.27 + .2 * rand()), WAY_Z[0] + WAY_Z[1] * rand(), way);
   if (way.t < -1e8) { way.ox = way.x; way.oy = way.y; way.oz = way.z; }
   way.t = t;
 }
@@ -361,11 +399,13 @@ function launchFalcon(clickX, clickY) {
   fal.clickPrey = -1;
   if (clickX != null) {                        // a click sends the falcon straight at the bird nearest the click
     let best = 1e9;
+    if (FOLLOW && skyReady) { yawC = Math.cos(yaw); yawS = Math.sin(yaw); }   // the bird under the pointer in the panned view
     for (let i = 0; i < N; i++) {
       P(px[i], py[i], pz[i]);
       const d2 = (_x - clickX) ** 2 + (_y - clickY) ** 2;
       if (d2 < best) { best = d2; fal.clickPrey = i; }
     }
+    yawC = 1; yawS = 0;
     fal.kind = fal.y > gcy + 15 ? 0 : fal.y < gcy - 15 ? 2 : 1;
     startStoop(0);
   } else startPosition();
@@ -533,6 +573,107 @@ function waveRoll(i) {                         // radians, drawing only
   return e > 0 ? wS[i] * WAVE_ROLL * wL[i] * e * e * (3 - 2 * e) : 0;
 }
 
+// ---------------------------------------------------------------- neighbours
+// The K nearest birds, exactly as an all-pairs search finds them, in O(N) per step instead of O(N²). Birds are binned
+// into a grid (counting sort, rebuilt each step: positions only change after all forces are found) whose cell is the
+// previous step's mean distance to the K-th neighbour. Shells of cells are searched outward from the bird's own until
+// the K-th nearest found is closer than any unsearched cell. Only candidates within a hair of that K-th distance can
+// end up among the neighbours; they go through the original insertion in index order, so the neighbours, their order
+// and every sum over them are bit for bit what the all-pairs loop gives (distances are stored as float32, so for two
+// near-equal candidates the visiting order matters). A bird more than GRID_SHELLS cells from K others falls back to
+// the all-pairs loop. The result does not depend on the cell size, only the speed does. Below GRID_N birds the
+// all-pairs loop is faster (400 birds: 1.5 against 2.2 ms a step in node; 3,000: 25 against 16.5) and is used instead.
+const GRID_N = 1000, GRID_MAX_CELLS = 1 << 20, GRID_SHELLS = 6;
+let gx0 = 0, gy0 = 0, gz0 = 0, gc = 5, gnx = 1, gny = 1, gnz = 1, gKth = 5, gKthSum = 0;
+let gStart = new Int32Array(2), gCur = new Int32Array(1);
+const gItem = new Int32Array(N), gKey = new Int32Array(N), cand = new Int32Array(N), candD = new Float64Array(N);
+const kd = new Float64Array(K), sel = new Int32Array(4 * K);
+function buildGrid() {
+  let x0 = Infinity, y0 = Infinity, z0 = Infinity, x1 = -Infinity, y1 = -Infinity, z1 = -Infinity;
+  for (let i = 0; i < N; i++) {
+    const x = px[i], y = py[i], z = pz[i];
+    if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; if (z < z0) z0 = z; if (z > z1) z1 = z;
+  }
+  if (gKthSum > 0) gKth = gKthSum / N;
+  gKthSum = 0;
+  let c = clamp(gKth, 1, 40);
+  while ((Math.floor((x1 - x0) / c) + 1) * (Math.floor((y1 - y0) / c) + 1) * (Math.floor((z1 - z0) / c) + 1) > GRID_MAX_CELLS) c *= 2;
+  gx0 = x0; gy0 = y0; gz0 = z0; gc = c;
+  gnx = Math.floor((x1 - x0) / c) + 1; gny = Math.floor((y1 - y0) / c) + 1; gnz = Math.floor((z1 - z0) / c) + 1;
+  const nc = gnx * gny * gnz;
+  if (gStart.length < nc + 1) { gStart = new Int32Array(nc + 1); gCur = new Int32Array(nc); }
+  gStart.fill(0, 0, nc + 1);
+  for (let i = 0; i < N; i++) {
+    const k = (Math.floor((px[i] - x0) / c) * gny + Math.floor((py[i] - y0) / c)) * gnz + Math.floor((pz[i] - z0) / c);
+    gKey[i] = k; gStart[k + 1]++;
+  }
+  for (let k = 0; k < nc; k++) { gStart[k + 1] += gStart[k]; gCur[k] = gStart[k]; }
+  for (let i = 0; i < N; i++) gItem[gCur[gKey[i]]++] = i;
+}
+function insertNb(nb, j, x, y, z) {            // the all-pairs loop's step for one candidate
+  const dx = px[j] - x, dy = py[j] - y, dz = pz[j] - z, d2 = dx * dx + dy * dy + dz * dz;
+  if (nb === K && d2 >= nbD[K - 1]) return nb;
+  let k = nb < K ? nb++ : K - 1;
+  while (k > 0 && nbD[k - 1] > d2) { nbD[k] = nbD[k - 1]; nbI[k] = nbI[k - 1]; k--; }
+  nbD[k] = d2; nbI[k] = j;
+  return nb;
+}
+function nearest(i, x, y, z) {                 // fills nbD / nbI, returns how many (K)
+  if (N < GRID_N) { let nb = 0; for (let j = 0; j < N; j++) if (j !== i) nb = insertNb(nb, j, x, y, z); return nb; }
+  const cx = Math.floor((x - gx0) / gc), cy = Math.floor((y - gy0) / gc), cz = Math.floor((z - gz0) / gc);
+  let n = 0, nb = 0;
+  kd.fill(Infinity);
+  for (let r = 0; ; r++) {
+    if (r > GRID_SHELLS) {                     // a straggler: all pairs, as before
+      for (let j = 0; j < N; j++) if (j !== i) nb = insertNb(nb, j, x, y, z);
+      gKthSum += Math.sqrt(nbD[K - 1]);
+      return nb;
+    }
+    const xa = Math.max(cx - r, 0), xb = Math.min(cx + r, gnx - 1), ya = Math.max(cy - r, 0), yb = Math.min(cy + r, gny - 1);
+    const za = Math.max(cz - r, 0), zb = Math.min(cz + r, gnz - 1);
+    for (let X = xa; X <= xb; X++) {
+      const ex = X === cx - r || X === cx + r;
+      for (let Y = ya; Y <= yb; Y++) {
+        const exy = ex || Y === cy - r || Y === cy + r;
+        const zs = exy || r === 0 ? 1 : 2 * r;  // inside the shell only its two z faces are new
+        for (let Z = exy ? za : cz - r; Z <= zb; Z += zs) {
+          if (Z < za) continue;
+          const k = (X * gny + Y) * gnz + Z;
+          for (let s = gStart[k], e = gStart[k + 1]; s < e; s++) {
+            const j = gItem[s];
+            if (j === i) continue;
+            const dx = px[j] - x, dy = py[j] - y, dz = pz[j] - z, d2 = dx * dx + dy * dy + dz * dz;
+            cand[n] = j; candD[n++] = d2;
+            if (d2 < kd[K - 1]) { let q = K - 1; while (q > 0 && kd[q - 1] > d2) { kd[q] = kd[q - 1]; q--; } kd[q] = d2; }
+          }
+        }
+      }
+    }
+    let bound = Infinity;                      // distance to the nearest unsearched cell
+    if (cx - r > 0) bound = Math.min(bound, x - (gx0 + (cx - r) * gc));
+    if (cx + r < gnx - 1) bound = Math.min(bound, gx0 + (cx + r + 1) * gc - x);
+    if (cy - r > 0) bound = Math.min(bound, y - (gy0 + (cy - r) * gc));
+    if (cy + r < gny - 1) bound = Math.min(bound, gy0 + (cy + r + 1) * gc - y);
+    if (cz - r > 0) bound = Math.min(bound, z - (gz0 + (cz - r) * gc));
+    if (cz + r < gnz - 1) bound = Math.min(bound, gz0 + (cz + r + 1) * gc - z);
+    if (bound === Infinity || kd[K - 1] < bound * bound * (1 - 1e-9)) break;
+  }
+  // Only these can be neighbours: a float32 rounding (relative 6e-8) cannot carry anything farther past the K-th.
+  const lim = kd[K - 1] * (1 + 1e-6);
+  let m = 0;
+  for (let s = 0; s < n && m < sel.length; s++) if (candD[s] <= lim) {
+    const j = cand[s];
+    let q = m++;
+    while (q > 0 && sel[q - 1] > j) { sel[q] = sel[q - 1]; q--; }   // index order, as the all-pairs loop visits them
+    sel[q] = j;
+  }
+  if (m === sel.length) {                      // a pile of exact ties: all pairs, as before
+    for (let j = 0; j < N; j++) if (j !== i) nb = insertNb(nb, j, x, y, z);
+  } else for (let s = 0; s < m; s++) nb = insertNb(nb, sel[s], x, y, z);
+  gKthSum += Math.sqrt(nbD[K - 1]);
+  return nb;
+}
+
 // ---------------------------------------------------------------- simulation
 function step(dt, t) {
   let sx = 0, sy = 0, sz = 0, svx = 0, svy = 0, svz = 0, ssp = 0;
@@ -542,7 +683,16 @@ function step(dt, t) {
 
   lure += ((performance.now() - lastMove < 2600 ? 1 : 0) - lure) * Math.min(1, dt * 1.4);
   if (t - way.t > 16 || Math.hypot(gcx - way.x, gcy - way.y, gcz - way.z) < 100) nextWaypoint(t);
-  if (lure > .01) screenToWorld(ptr.x, ptr.y, clamp(gcz, 100, 180), tgt);
+  if (lure > .01) {
+    screenToWorld(ptr.x, ptr.y, clamp(gcz, 100, 180), tgt);
+    if (FOLLOW && skyReady) { const x = tgt.x * Math.cos(yaw) + tgt.z * Math.sin(yaw); tgt.z = -tgt.x * Math.sin(yaw) + tgt.z * Math.cos(yaw); tgt.x = x; }
+  }
+  if (FOLLOW) {                                // the camera eases toward the flock's bearing (drawing only)
+    const aim = clamp(Math.atan2(gcx, gcz), -yawMax, yawMax);
+    yawV += (FOLLOW_W * FOLLOW_W * (aim - yaw) - 2 * FOLLOW_W * yawV) * dt;
+    yaw += yawV * dt;
+    if (Math.abs(yaw) > yawMax) { yaw = clamp(yaw, -yawMax, yawMax); yawV = 0; }
+  }
   updateFalcon(dt, t);
 
   // Exact one-step update of the OU noise: x' = x e^{-dt/τ} + σ sqrt(1 − e^{-2dt/τ}) N(0,1).
@@ -559,7 +709,7 @@ function step(dt, t) {
     const Rg = flockRg = Math.sqrt(r2 / N);
     const yr = gcy - CAM_H, zc = yr * st + gcz * ct, yc = yr * ct - gcz * st, u = gcx / zc, v = yc / zc;
     const mu = Math.min(1.1 * Rg / zc, .4 * UM, .4 * (VT - VB)), mz = Math.min(1.1 * Rg, .4 * (ZMAX - ZMIN) / 2);
-    const um = UM - mu, vt = VT - mu, vb = VB + mu, zmax = ZMAX - mz, zmin = ZMIN + mz;
+    const um = UM - mu, vt = VT - mu, vb = VB + mu, zmax = ZMAX - mz, zmin = ZNEAR + mz;
     let fx = 0, fy = 0, fz = 0;
     if (u > um) fx = -(u - um) * zc; else if (u < -um) fx = -(u + um) * zc;
     if (v > vt) fy = -(v - vt) * zc; else if (v < vb) fy = -(v - vb) * zc;
@@ -569,20 +719,13 @@ function step(dt, t) {
     if (fm > FRAME_CAP) { frX *= FRAME_CAP / fm; frY *= FRAME_CAP / fm; frZ *= FRAME_CAP / fm; }
   }
 
+  if (N >= GRID_N) buildGrid();
   let pol = 0, pvx = 0, pvy = 0, pvz = 0, nn = 0, outside = 0;
   for (let i = 0; i < N; i++) {
     const x = px[i], y = py[i], z = pz[i], vxi = vx[i], vyi = vy[i], vzi = vz[i];
     const spd = Math.hypot(vxi, vyi, vzi) + 1e-4;
 
-    let nb = 0;                                // K nearest, insertion-sorted
-    for (let j = 0; j < N; j++) {
-      if (j === i) continue;
-      const dx = px[j] - x, dy = py[j] - y, dz = pz[j] - z, d2 = dx * dx + dy * dy + dz * dz;
-      if (nb === K && d2 >= nbD[K - 1]) continue;
-      let k = nb < K ? nb++ : K - 1;
-      while (k > 0 && nbD[k - 1] > d2) { nbD[k] = nbD[k - 1]; nbI[k] = nbI[k - 1]; k--; }
-      nbD[k] = d2; nbI[k] = j;
-    }
+    const nb = nearest(i, x, y, z);           // K nearest, insertion-sorted, into nbD / nbI
 
     let aX = 0, aY = 0, aZ = 0;
     let m = 0, avx = 0, avy = 0, avz = 0, ccx = 0, ccy = 0, ccz = 0, spx = 0, spy = 0, spz = 0;
@@ -886,7 +1029,8 @@ const FALCON = {
   tail: [-.177,.07,-.495,.054,-.498,.047,-.5,.039,-.502,.031,-.503,.023,-.504,.016,-.505,.008,-.505,0],
   tailFan: [-.177,.07,-.435,.202,-.453,.176,-.469,.149,-.482,.121,-.492,.092,-.499,.062,-.503,.031,-.505,0],
 };
-const FALCON_SPAN = 4.4;                       // u, full-spread span (the glide is .945 of it); about twice life size, like the starlings, to stay visible
+const FALCON_SPAN = LIFE ? 2.2 : 4.4;          // u, full-spread span (the glide is .945 of it): life size; twice that, like the starlings, under ?life=0
+const STROKE_K = LIFE ? .764 / 1.63 : 1;       // body and outline strokes shrink with the birds at life size
 // parts: three Path2Ds (right wing, left wing, body and tail), each to be filled on its own with the
 // non-zero rule. A folded wing laps over itself and over the body; within one part every loop winds the
 // same way, so the laps add up, but seen side-on with the wings raised the two wings wind opposite ways
@@ -923,6 +1067,90 @@ function pushFalcon(parts, x, y, z, fx, fy, fz, th, s, tuck, fan) {
 let BATCH = params.has('batch') ? +params.get('batch') : 40;
 const fills = Array.from({ length: NB }, () => []), bodies = Array.from({ length: NB }, () => []), binN = new Int32Array(NB);
 
+// ?shutter=MS: a camera exposure of MS milliseconds (default 1000/60, as a 30 fps video camera with a 180 deg shutter),
+// so a moving bird and a beating wing smear the way they do in footage instead of being one sharp instant. Birds and
+// falcon are drawn at SUBS instants over the exposure, extrapolated back from the current state (positions along the
+// velocity, wing phase at its current rate), each into a clear layer; the layers are averaged (additive at 1/SUBS),
+// so a pixel covered for part of the exposure gets that fraction of a bird's opacity. Drawing only.
+const SHUTTER = opt('shutter') ? Math.max(0, +params.get('shutter') || 1000 / 60) / 1000 : 0;   // s (?shutter=8: 8 ms)
+const SUBS = SHUTTER > 0 ? clamp(Math.round(SHUTTER * 240) + 1, 2, 8) : 1;
+let lay = null, acc = null;
+function ensureLayers() {
+  for (const k of ['lay', 'acc']) {
+    let c = k === 'lay' ? lay : acc;
+    if (!c) { c = document.createElement('canvas'); c.ctx = c.getContext('2d'); if (k === 'lay') lay = c; else acc = c; }
+    if (c.width !== canvas.width || c.height !== canvas.height) { c.width = canvas.width; c.height = canvas.height; }
+  }
+}
+
+// ?grain[=K]: camera noise. The photographed sky is otherwise the same in every frame, where filmed sky flickers by about
+// a grey level from frame to frame (review/pixel_metrics.py: mean |change| 0.68 over clear sky in real_calm, with the
+// camera's pan removed). A 128-centred noise tile is overlaid at a fresh offset each frame, from its own random stream
+// (the flight is unchanged). GRAIN_SD is set so K = 1 gives that after the 1280x720 review encode (3.4 gave 0.74).
+const GRAIN = opt('grain') ? Math.max(0, +params.get('grain') || 1) : 0, GRAIN_SD = 3.1, GRAIN_PX = 512;   // ?grain=2: twice
+const grand = rng((params.has('seed') ? +params.get('seed') ^ 0x6A41 : Math.random() * 4294967296) >>> 0);
+let grainPat = null;
+function drawGrain() {
+  if (!grainPat) {
+    grainPat = [];
+    for (let k = 0; k < 4; k++) {
+      const c = document.createElement('canvas'); c.width = c.height = GRAIN_PX;
+      const gx = c.getContext('2d'), id = gx.createImageData(GRAIN_PX, GRAIN_PX);
+      for (let i = 0; i < id.data.length; i += 4) {
+        const v = 128 + GRAIN * GRAIN_SD * Math.sqrt(-2 * Math.log(1 - grand())) * Math.cos(TAU * grand());
+        id.data[i] = id.data[i + 1] = id.data[i + 2] = clamp(Math.round(v), 0, 255); id.data[i + 3] = 255;
+      }
+      gx.putImageData(id, 0, 0);
+      grainPat.push(ctx.createPattern(c, 'repeat'));
+    }
+  }
+  ctx.save();
+  ctx.setTransform(1, 0, 0, 1, -GRAIN_PX * grand(), -GRAIN_PX * grand());
+  ctx.globalCompositeOperation = 'overlay';
+  ctx.fillStyle = grainPat[(grand() * 4) | 0];
+  ctx.fillRect(0, 0, canvas.width + GRAIN_PX, canvas.height + GRAIN_PX);
+  ctx.restore();
+}
+
+function drawBirds(g, back) {                  // birds and falcon as they were `back` seconds ago (0: now)
+  if (FOLLOW && skyReady) { const a = yaw - yawV * back; yawC = Math.cos(a); yawS = Math.sin(a); }
+  for (let b = 0; b < NB; b++) { fills[b].length = 0; bodies[b].length = 0; binN[b] = 0; }
+  for (let i = 0; i < N; i++) {
+    const x = px[i] - vx[i] * back, y = py[i] - vy[i] * back, z = pz[i] - vz[i] * back;
+    P(x, y, z);
+    if (_z < 10) continue;
+    const b = clamp(((_z - ZMIN) / (ZMAX - ZMIN) * NB) | 0, 0, NB - 1);
+    if (binN[b]++ % (BATCH || Infinity) === 0) { fills[b].push(new Path2D()); bodies[b].push(new Path2D()); }
+    const s = 1 / Math.hypot(vx[i], vy[i], vz[i]);
+    const p = pw[i], bound = pkind[i] === 2;
+    const ph = phase[i] - (back && freq[i] * back * TAU * (1 + .25 * alarm[i]) * (1 - p));   // as step() advances it
+    const th = (-.05 + .78 * Math.cos(ph)) * (1 - p) + (bound ? 0 : .1) * p;   // flapping: tip 42° above the shoulder at the top of the stroke, 48° below at the bottom; glide: 6° dihedral
+    const flex = Math.max(0, -Math.sin(ph));                    // wings spread on the way down, flexed on the way up
+    pushBird(fills[b][fills[b].length - 1], bodies[b][bodies[b].length - 1], x, y, z, vx[i] * s, vy[i] * s, vz[i] * s, bank[i] + ATT_SD * att[i] + waveRoll(i), th, flex, size[i] * sizeK, SPAN, p, bound ? STARLING.bound : STARLING.glide);
+  }
+  g.lineCap = 'round';
+  for (let b = NB - 1; b >= 0; b--) {
+    g.fillStyle = g.strokeStyle = (skyReady ? PHOTO_COL : fillCol)[b];
+    g.lineWidth = lineW[b] * Math.max(.8, f / 1272) * STROKE_K;
+    for (const q of fills[b]) g.fill(q);
+    for (const q of bodies[b]) g.stroke(q);
+  }
+
+  const fx = fal.x - fal.vx * back, fy = fal.y - fal.vy * back, fzw = fal.z - fal.vz * back;
+  P(fx, fy, fzw);
+  const fz = _z;
+  if (fal.on && fz > 10) {                     // as for the birds: a falcon beside or behind the camera is not drawn (it would project huge)
+    const s = 1 / Math.hypot(fal.vx, fal.vy, fal.vz);
+    const dive = clamp(-fal.vy * s * 2, 0, 1);
+    const fp = [new Path2D(), new Path2D(), new Path2D()];           // right wing, left wing, body
+    pushFalcon(fp, fx, fy, fzw, fal.vx * s, fal.vy * s, fal.vz * s, .2 + .5 * Math.sin(fal.phase - back * TAU * 5.1) * fal.flap * (1 - dive), FALCON_SPAN * sizeK, dive, fal.fan * (1 - dive));
+    g.fillStyle = g.strokeStyle = '#170a10'; g.lineWidth = Math.max(.8, f / 1272) * STROKE_K; g.lineJoin = 'round';
+    g.globalAlpha = clamp((fz - 10) / 20, 0, 1);   // fades out over its last 5 m toward the camera instead of popping
+    for (const part of fp) { g.fill(part); g.stroke(part); }
+    g.globalAlpha = 1;
+  }
+}
+
 function draw(dt = 1 / 60) {
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   // The sky is laid over the last frame at TRAIL opacity per 1/60 s. At the default 1 every frame starts clean; with
@@ -930,44 +1158,31 @@ function draw(dt = 1 / 60) {
   // on screen and stepped copies were the commonest tell against real photographs, where a moving bird is one
   // continuous smear. Scaled by the frame's duration so ghosts last as long at any frame rate.
   ctx.globalAlpha = fresh ? 1 : 1 - (1 - TRAIL) ** (dt * 60); fresh = false;
-  ctx.drawImage(sky, 0, 0, W, H);
+  if (FOLLOW && skyReady) {
+    ctx.drawImage(sky, -skySpare - f * Math.tan(yaw), 0, W + 2 * skySpare, H);
+    ctx.drawImage(vig, 0, 0, W, H);
+  } else ctx.drawImage(sky, 0, 0, W, H);
   ctx.globalAlpha = 1;
+  if (FOLLOW && skyReady) { yawC = Math.cos(yaw); yawS = Math.sin(yaw); }   // the view's pan, for drawing only (reset below)
 
-  for (let b = 0; b < NB; b++) { fills[b].length = 0; bodies[b].length = 0; binN[b] = 0; }
-  for (let i = 0; i < N; i++) {
-    P(px[i], py[i], pz[i]);
-    if (_z < 10) continue;
-    const b = clamp(((_z - ZMIN) / (ZMAX - ZMIN) * NB) | 0, 0, NB - 1);
-    if (binN[b]++ % (BATCH || Infinity) === 0) { fills[b].push(new Path2D()); bodies[b].push(new Path2D()); }
-    const s = 1 / Math.hypot(vx[i], vy[i], vz[i]);
-    const p = pw[i], bound = pkind[i] === 2;
-    const th = (-.05 + .78 * Math.cos(phase[i])) * (1 - p) + (bound ? 0 : .1) * p;   // flapping: tip 42° above the shoulder at the top of the stroke, 48° below at the bottom; glide: 6° dihedral
-    const flex = Math.max(0, -Math.sin(phase[i]));                    // wings spread on the way down, flexed on the way up
-    pushBird(fills[b][fills[b].length - 1], bodies[b][bodies[b].length - 1], px[i], py[i], pz[i], vx[i] * s, vy[i] * s, vz[i] * s, bank[i] + ATT_SD * att[i] + waveRoll(i), th, flex, size[i] * sizeK, SPAN, p, bound ? STARLING.bound : STARLING.glide);
-  }
-  ctx.lineCap = 'round';
-  for (let b = NB - 1; b >= 0; b--) {
-    ctx.fillStyle = ctx.strokeStyle = (skyReady ? PHOTO_COL : fillCol)[b];
-    ctx.lineWidth = lineW[b] * Math.max(.8, f / 1272);
-    for (const q of fills[b]) ctx.fill(q);
-    for (const q of bodies[b]) ctx.stroke(q);
+  if (SUBS === 1) drawBirds(ctx, 0);
+  else {                                       // ?shutter: average SUBS instants over the exposure, ending now
+    ensureLayers();
+    acc.ctx.setTransform(1, 0, 0, 1, 0, 0); acc.ctx.clearRect(0, 0, acc.width, acc.height);
+    acc.ctx.globalCompositeOperation = 'lighter'; acc.ctx.globalAlpha = 1 / SUBS;
+    for (let j = 0; j < SUBS; j++) {
+      lay.ctx.setTransform(1, 0, 0, 1, 0, 0); lay.ctx.clearRect(0, 0, lay.width, lay.height);
+      lay.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      drawBirds(lay.ctx, SHUTTER * j / (SUBS - 1));
+      acc.ctx.drawImage(lay, 0, 0);
+    }
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(acc, 0, 0); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
-  P(fal.x, fal.y, fal.z);
-  const fz = _z;
-  if (fal.on && fz > 10) {                     // as for the birds: a falcon beside or behind the camera is not drawn (it would project huge)
-    const s = 1 / Math.hypot(fal.vx, fal.vy, fal.vz);
-    const dive = clamp(-fal.vy * s * 2, 0, 1);
-    const fp = [new Path2D(), new Path2D(), new Path2D()];           // right wing, left wing, body
-    pushFalcon(fp, fal.x, fal.y, fal.z, fal.vx * s, fal.vy * s, fal.vz * s, .2 + .5 * Math.sin(fal.phase) * fal.flap * (1 - dive), FALCON_SPAN * sizeK, dive, fal.fan * (1 - dive));
-    ctx.fillStyle = ctx.strokeStyle = '#170a10'; ctx.lineWidth = Math.max(.8, f / 1272); ctx.lineJoin = 'round';
-    ctx.globalAlpha = clamp((fz - 10) / 20, 0, 1);   // fades out over its last 5 m toward the camera instead of popping
-    for (const part of fp) { ctx.fill(part); ctx.stroke(part); }
-    ctx.globalAlpha = 1;
-  }
-
+  if (GRAIN) drawGrain();
   if (showPanel) drawPanel();
   if (showInset) drawInset();
+  yawC = 1; yawS = 0;
 }
 
 // Study inset (?inset; I toggles it, P pauses, . steps one frame). The picture is a single perspective view,
@@ -1105,7 +1320,7 @@ addEventListener('pointerdown', e => {
   ptr.x = e.clientX; ptr.y = e.clientY; lastMove = performance.now();
   launchFalcon(e.clientX, e.clientY);
 });
-let halted = false, stepOnce = false;
+let halted = params.has('halt'), stepOnce = false;   // ?halt: start paused (frame-exact captures step with "." from here)
 addEventListener('keydown', e => {
   const k = e.key.toLowerCase();
   if (k === 'c') showPanel = !showPanel;
@@ -1130,7 +1345,7 @@ if (params.has('debug')) {
   dbg = document.createElement('pre'); dbg.id = 'dbg'; document.body.appendChild(dbg);
   window.murm = { step, analyse, draw, stats, corr, px, py, pz, vx, vy, vz, N, M, fal, huntLog, alarm, wT, wL, wP, wS, bank, size, dodge,
     get batch() { return BATCH; }, set batch(v) { BATCH = v; }, get attSD() { return ATT_SD; }, set attSD(v) { ATT_SD = v; }, att, attV,
-    get gc() { return [gcx, gcy, gcz]; }, get gv() { return [gvx, gvy, gvz]; }, get simT() { return simT; },
+    get gc() { return [gcx, gcy, gcz]; }, get gv() { return [gvx, gvy, gvz]; }, get simT() { return simT; }, get yaw() { return yaw; }, get yawMax() { return yawMax; }, follow: FOLLOW, life: LIFE,
     consts: { SPAN, FALCON_SPAN, DODGE_W, DODGE_T, R_FLEE, CONTACT, WAVE_ROLL },
     cam: { get UM() { return UM; }, get VT() { return VT; }, get VB() { return VB; }, get ct() { return ct; }, get st() { return st; },
       get f() { return f; }, get cx() { return cx; }, get cy() { return cy; }, get W() { return W; }, get H() { return H; }, get sizeK() { return sizeK; },

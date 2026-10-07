@@ -5,12 +5,15 @@ A starling flock in a single HTML page, with the observables of Cavagna et al.,
 
 Open `murmuration.html` in a browser (keep `murmuration-sky.jpg` next to it), or run
 `./bootstrap.sh` to serve this checkout on 127.0.0.1 and print its URL (`--open`, `--status`, `--stop`).
-Move the pointer to lure the flock, click to loose a falcon, press **C** for the
+By default it shows what a camera on the ground would: 5,000 birds at life size, a 1/60 s exposure, sensor grain
+and a camera that pans to follow the flock (`?classic` for the earlier look: 400 birds drawn twice life size on clean
+frames, fixed camera). Move the pointer to lure the flock, click to loose a falcon, press **C** for the
 correlation panel and **I** for the view from above (see *Where was the falcon?* below).
 
 | URL option | effect |
 |---|---|
-| `?n=800` | number of birds (20–3000, default 400) |
+| `?n=800` | number of birds (20–10000, default 5000, 400 under `?classic`; above 1,000 an exact grid search finds the neighbours) |
+| `?classic` | the earlier defaults: 400 birds, twice life size, no motion blur or grain, fixed camera (the flight is the same) |
 | `?seed=1` | fixed random seed |
 | `?noise=1.5` | scale the behavioural noise |
 | `?calm` | no spontaneous falcon attacks |
@@ -20,7 +23,12 @@ correlation panel and **I** for the view from above (see *Where was the falcon?*
 | `?inset` | open the views from above and from the side |
 | `?roll=15` | SD in degrees of each bird's smoothly wandering roll (default 15, set by the wave stripes in real footage; 0 for wings-level birds) |
 | `?trail` | leave fading ghosts behind moving birds (the old default; `?trail=.3` for longer ones) |
+| `?halt` | start paused; press **.** to step one 1/60 s frame (with `?warm=T`, frame-exact captures) |
 | `?batch=40` | birds per drawing path (default 40; 0 draws each depth bin as one path, the old and much slower way) |
+| `?life=0` | draw birds and falcon twice life size, larger still in small windows (by default they are life size) |
+| `?shutter=8` | exposure in ms for the motion blur (default 1/60 s; birds are averaged over several instants); `?shutter=0` for none |
+| `?grain=2` | camera noise over the frame, so the photographed sky flickers like filmed sky (default 1; `?grain=0` for none) |
+| `?follow=0` | fixed camera (by default it pans left and right to follow the flock, as a person filming would; the flight is unchanged, but flocks over 3,000 birds then roam the full width) |
 
 ## What it reproduces
 
@@ -112,15 +120,16 @@ that dodged, fled or expanded. Before the falcon was dodged in every phase, 36 %
 with no reaction, almost all of them the climb back out through the flock after a stoop.
 
 ```
-node murmuration-falcon.js 300 "seed=1&n=400" --flythrough --view=1728x820
+node murmuration-falcon.js 300 "seed=1&n=400&classic" --flythrough --view=1728x820
 ```
 
 lists each episode with a URL that replays it; the run depends on the window size, so
-pass your browser's (`innerWidth`×`innerHeight`). For a 3D replay in Blender:
+pass your browser's (`innerWidth`×`innerHeight`). The counts above are for the classic view (fixed camera, birds
+twice life size); at life size fewer passes overlap on screen. For a 3D replay in Blender:
 
 ```
-node murmuration-falcon.js 80 "seed=1&n=400" --export=75.5:80
-blender --background --factory-startup --python replay/replay_build.py -- "replay/out/replay_seed=1_n=400_75.5-80.json" --at=77.6
+node murmuration-falcon.js 80 "seed=1&n=400&classic" --export=75.5:80
+blender --background --factory-startup --python replay/replay_build.py -- "replay/out/replay_seed=1_n=400_classic_75.5-80.json" --at=77.6
 ```
 
 writes a `.blend` to scrub and orbit, and stills from the page's camera, from above,
@@ -133,14 +142,17 @@ video). The script checks that its page camera reproduces the page's projection.
 node murmuration-check.js murmuration.html 40 "seed=1&calm&n=800"
 ```
 
+(Its default query is `seed=1&n=400`; the page's own default of 5,000 birds is slow to analyse headless.)
+
 runs the page headless and measures the same observables with an independent
 implementation.
 
 ```
-node murmuration-falcon.js 300 "seed=1&n=400"
+node murmuration-falcon.js 300 "seed=1&n=400&classic"
 ```
 
-measures hunts against the field data above (`--json` per run, `--merge a.json b.json …`
+measures hunts against the field data above (the flight does not depend on the view; `classic` keeps the on-screen
+overlap counts in the fixed, twice-life-size view they were measured in) (`--json` per run, `--merge a.json b.json …`
 pools runs; `--flythrough`, `--view` and `--export` as in *Where was the falcon?*).
 
 Check that both embedded bird tables match the latest model exports:

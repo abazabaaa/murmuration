@@ -1,13 +1,13 @@
 // Headless check for murmuration.html: runs the page script under node with DOM stubs, then
 // measures the Cavagna et al. (2010) observables with an independent implementation and
 // cross-checks the in-page analysis against it.
-//   node murmuration-check.js murmuration.html [seconds=40] [query="seed=1"]
+//   node murmuration-check.js murmuration.html [seconds=40] [query="seed=1&n=400"]   (the page itself defaults to 5,000 birds)
 //   SERIES=1 ...              per-second time series (Φ, L, nn, |u|, clusters, out-of-frame)
 //   DETAIL=30,40 ...          per-cluster breakdown at those simulated seconds
 // Query is the page URL query, e.g. "seed=2&n=1000&calm&noise=1.5".
 
 const fs = require('fs'), vm = require('vm');
-const file = process.argv[2], secs = +(process.argv[3] || 40), query = process.argv[4] || 'seed=1';
+const file = process.argv[2], secs = +(process.argv[3] || 40), query = process.argv[4] || 'seed=1&n=400';
 
 let src = fs.readFileSync(file, 'utf8');
 src = src.slice(src.indexOf('<script>') + 8, src.lastIndexOf('</script>'));

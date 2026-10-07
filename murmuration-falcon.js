@@ -1,5 +1,7 @@
 // Headless hunt measurements for murmuration.html, scored against falcon/refs/hunting_notes.md.
-//   node murmuration-falcon.js [seconds=300] [query="seed=1&n=400"] [--json]
+//   node murmuration-falcon.js [seconds=300] [query="seed=1&n=400&classic"] [--json]
+//   The default query runs the classic view (fixed camera, birds and falcon twice life size), which the on-screen
+//   overlap counts (--flythrough) assume and in which the README's numbers were measured; the flight is the same.
 //   node murmuration-falcon.js --merge run1.json run2.json ...   pool several --json runs (e.g. seeds run in parallel)
 //   --flythrough   list every time the falcon overlaps the flock on screen, with what really happened and a URL to replay it
 //   --view=WxH     browser window size (default 1440x900); a replay URL only reproduces the run in a window of this size
@@ -11,7 +13,7 @@ const fs = require('fs'), vm = require('vm'), path = require('path');
 const args = process.argv.slice(2), json = args.includes('--json');
 const pos = args.filter(a => !a.startsWith('--'));
 const merge = args.includes('--merge');
-const secs = merge ? 0 : +(pos[0] || 300), query = merge ? '' : pos[1] || 'seed=1&n=400';
+const secs = merge ? 0 : +(pos[0] || 300), query = merge ? '' : pos[1] || 'seed=1&n=400&classic';
 const LISTS = ['strikes', 'stoops', 'hunts', 'gaps', 'waveSpeeds', 'waveReach', 'control', 'flythrough', 'posNear', 'density', 'camDepth'];
 const raw = merge ? pool(pos.map(f => JSON.parse(fs.readFileSync(f, 'utf8')))) : simulate();
 report(raw);
@@ -46,6 +48,7 @@ win.window = win;
 vm.createContext(win);
 vm.runInContext(src, win);
 const m = win.murm, N = m.N, C = m.cam, K = m.consts;
+if (m.follow) console.error('note: this query pans the camera (the page default); on-screen overlaps are counted for a fixed camera, so add &follow=0 or &classic');
 
 // ---- screen-space overlap of the falcon with the flock ("fly-throughs")
 // A frame counts when at least 3 drawn birds overlap the drawn falcon on screen. Each such frame records how
